@@ -1,5 +1,7 @@
-import express from 'express';
-import route from './route';
+const express = require('express')
+const rout = require('./route')
+// import express from 'express'; //es6
+// import route from './route'; //es6
 
 const app = express();
 const port = 8080;
@@ -17,6 +19,6 @@ app.use( (req, res, next) => {
   next();
 });
 
-app.use('/proptit', route);
+// app.use('/proptit', route);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
