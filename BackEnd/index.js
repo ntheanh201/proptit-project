@@ -1,7 +1,5 @@
-const express = require('express')
-const rout = require('./route')
-// import express from 'express'; //es6
-// import route from './route'; //es6
+import express from 'express';
+import route from './route';
 
 const app = express();
 const port = 8080;
