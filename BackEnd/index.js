@@ -1,5 +1,5 @@
 import express from 'express';
-import route from './route';
+import {accountRoute, newsRoute} from './routes';
 
 const app = express();
 const port = 8080;
@@ -17,6 +17,7 @@ app.use( (req, res, next) => {
   next();
 });
 
-// app.use('/proptit', route);
+app.use('/proptit/account', accountRoute);
+app.use('./proptit/news', newsRoute);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
