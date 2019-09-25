@@ -1,2 +1,2 @@
-export * from './account'
-export * from './news'
+export * from './accountRoutes'
+export * from './newsRoutes'

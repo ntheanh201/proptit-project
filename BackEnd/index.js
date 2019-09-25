@@ -1,10 +1,12 @@
 import express from 'express';
-import {accountRoute, newsRoute} from './routes';
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import {accountRoute} from './routes';
+// var bodyParser = require('body-parser')
 
 const app = express();
 const port = 8080;
 
-var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -17,7 +19,6 @@ app.use( (req, res, next) => {
   next();
 });
 
-app.use('/proptit/account', accountRoute);
-app.use('./proptit/news', newsRoute);
+app.use('/proptit', accountRoute);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
