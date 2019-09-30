@@ -1,9 +1,12 @@
+import accountsData from './accounts';
+
 class Account {
   constructor() {
-    (this.accounts = []), (this.table = "users");
+    (this.accounts = accountsData), (this.table = 'users');
   }
 
   getAllUsers() {
+    this.accounts = accountsData;
     return this.accounts;
   }
 
@@ -11,8 +14,14 @@ class Account {
     return this.accounts.find(({ id }) => id === userId);
   }
 
-  editUser(id, ...infor) {
+  editUser(user) {
     //check session
+    this.accounts = this.accounts.map(account => {
+      if (account.id === user.id) {
+        return user;
+      } else return account;
+    });
+    return this.accounts;
   }
 }
 

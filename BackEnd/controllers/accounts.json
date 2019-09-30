@@ -1,0 +1,18 @@
+[
+  {
+    "id": "0001",
+    "username": "proptit_username",
+    "password": "proptit_password",
+    "displayname": "Proptit",
+    "classname": "B17DCCN046",
+    "dateOfBirth": "01/12/1999",
+    "phoneNumber": "123456789",
+    "email": "abcde12345@gmail.com",
+    "facebook": "fb.com/users",
+    "description": "Some text here"
+  },
+  {
+    "id": "0002",
+    "username": "proptit_username2"
+  }
+]

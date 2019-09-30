@@ -1,16 +1,17 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import { newsRoute } from "./routes";
-import { errorHandle } from "./helpers";
-import { requiresLogin } from "./middleware";
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { newsRoute } from './routes';
+import { errorHandle } from './helpers';
+import { requiresLogin } from './middleware';
+import accountRoute from './routes/accountRoutes';
 
 const app = express();
 
 app.use(
   bodyParser.urlencoded({
-    extended: true
-  })
+    extended: true,
+  }),
 );
 app.use(bodyParser.json());
 app.use(cors());
@@ -23,8 +24,8 @@ app.use(errorHandle);
 //   next();
 // });
 
-// app.use('/proptit', accountRoute);
+app.use('/proptit', accountRoute);
 // app.use("/proptit", newsRoute);
 
-const port = process.env.NODE_ENV === "production" ? 80 : 8080;
+const port = process.env.NODE_ENV === 'production' ? 80 : 8080;
 app.listen(port, () => console.log(`App listening on port ${port}!`));
