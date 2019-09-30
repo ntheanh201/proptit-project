@@ -5,6 +5,7 @@ const accountRoute = express.Router();
 // accountRoute.route("/account");
 
 accountRoute.route('/').get((req, res, next) => {
+  // res.json({message: 'get all users'})
   res.status(200).send(accountController.getAllUsers());
   next();
 });
