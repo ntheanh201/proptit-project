@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -5,6 +6,18 @@ import { newsRoute } from './routes';
 import { errorHandle } from './helpers';
 import { requiresLogin } from './middleware';
 import accountRoute from './routes/accountRoutes';
+=======
+import express from "express";
+import cors from "cors";
+import session from 'express-session';
+import bodyParser from "body-parser";
+import { newsRoute } from "./routes";
+import { errorHandle } from "./helpers";
+import { requiresLogin } from "./middleware";
+>>>>>>> Stashed changes
+
+import accountRoute from "./routes/accountRoutes";
+// import {accountRoute} from './routes'
 
 const app = express();
 
