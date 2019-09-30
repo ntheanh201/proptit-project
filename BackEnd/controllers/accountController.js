@@ -1,4 +1,5 @@
 import accountsData from './accounts';
+import uuid from 'uuid';
 
 class Account {
   constructor() {
@@ -6,7 +7,6 @@ class Account {
   }
 
   getAllUsers() {
-    this.accounts = accountsData;
     return this.accounts;
   }
 
@@ -22,6 +22,12 @@ class Account {
       } else return account;
     });
     return this.accounts;
+  }
+
+  addNewUser({username, passsword}) {
+    // console.log(username)
+    this.accounts = [...this.accounts, {id: uuid(), username, passsword }];
+    return 'Add new user successfully';
   }
 }
 
