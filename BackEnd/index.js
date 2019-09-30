@@ -17,7 +17,7 @@ app.use(
   }),
 );
 app.use(bodyParser.json());
-app.use(cors());
+// app.use(cors());
 app.use(errorHandle);
 
 // app.use( (req, res, next) => {
