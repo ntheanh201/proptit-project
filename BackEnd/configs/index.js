@@ -1,1 +1,1 @@
-export * from './passport'
+export * from './config'

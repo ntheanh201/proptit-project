@@ -3,7 +3,7 @@ import uuid from 'uuid';
 
 class Account {
   constructor() {
-    (this.accounts = accountsData), (this.table = 'users');
+    this.accounts = accountsData;
   }
 
   getAllUsers() {
@@ -49,7 +49,6 @@ class Account {
         description,
       },
     ];
-    return 'Add new user successfully';
   }
 }
 

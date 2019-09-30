@@ -1,1 +1,1 @@
-export * from './requiresLogin'
+export * from './authentication'
