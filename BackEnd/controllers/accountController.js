@@ -15,7 +15,6 @@ class Account {
   }
 
   editUser(user) {
-    //check session
     this.accounts = this.accounts.map(account => {
       if (account.id === user.id) {
         return user;
@@ -24,9 +23,32 @@ class Account {
     return this.accounts;
   }
 
-  addNewUser({username, passsword}) {
-    // console.log(username)
-    this.accounts = [...this.accounts, {id: uuid(), username, passsword }];
+  addNewUser({
+    username,
+    passsword,
+    displayName,
+    className,
+    dateOfBirth,
+    phoneNumber,
+    email,
+    facebook,
+    description,
+  }) {
+    this.accounts = [
+      ...this.accounts,
+      {
+        id: uuid(),
+        username,
+        passsword,
+        displayName,
+        className,
+        dateOfBirth,
+        phoneNumber,
+        email,
+        facebook,
+        description,
+      },
+    ];
     return 'Add new user successfully';
   }
 }
