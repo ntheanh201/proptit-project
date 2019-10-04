@@ -1,1 +1,1 @@
-#ProPTIT React Native App
+ProPTIT React Native App
