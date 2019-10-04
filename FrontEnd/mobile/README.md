@@ -6,6 +6,9 @@ Cài đặt các pakages:
 Chạy trên ios:
   B1. cd ios & pod install
   B2. react-native run-ios --simulator="<tên thiết bị (vd: iPhone 6)>"
+  
 Chạy trên android: 
   react-native run-android
+  
+account test:     khanh     1
  
