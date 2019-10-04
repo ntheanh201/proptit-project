@@ -40,6 +40,8 @@ target 'ProPTIT' do
 
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
+
+
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'ProPTITTests' do

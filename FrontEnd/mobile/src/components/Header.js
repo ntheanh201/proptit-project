@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableNativeFeedback} from 'react-native';
+import {Text, View, TouchableWithoutFeedback} from 'react-native';
 import {Header, Left, Body, Right, Button} from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { colors } from '../utils';
 
 export default class kHeader extends Component {
   render() {
     const {title, navigation} = this.props;
     return (
-      <Header>
+      <Header style={{backgroundColor: colors.blue01}} >
         <Left>
-          <TouchableNativeFeedback
+          <TouchableWithoutFeedback
             style={{borderRadius: 100}}
-            onPress={() => navigation.openDrawer()}
-            background={TouchableNativeFeedback.SelectableBackground()}>
+            onPress={() => navigation.openDrawer()} >
             <View
               style={{
                 height: 30,
@@ -22,7 +22,7 @@ export default class kHeader extends Component {
               }}>
               <Icon name="bars" size={20} color="#ffffff" />
             </View>
-          </TouchableNativeFeedback>
+          </TouchableWithoutFeedback>
         </Left>
         <Body>
           <Text></Text>

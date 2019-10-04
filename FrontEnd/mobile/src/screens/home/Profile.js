@@ -5,7 +5,7 @@ import {Header} from '../../components';
 export default class Profile extends Component {
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Header {...this.props}/>
         <Text>Profile</Text>
       </View>
