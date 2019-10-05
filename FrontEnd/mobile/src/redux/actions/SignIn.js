@@ -18,6 +18,7 @@ export const signIn = (username, password) => {
 };
 
 export const signOut = () => {
+  console.log('Sign out!');
   return (action = dispatch => {
     dispatch({type: SIGN_OUT});
   });

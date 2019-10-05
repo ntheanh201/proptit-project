@@ -3,8 +3,12 @@ import {Text, View, TouchableWithoutFeedback} from 'react-native';
 import {Header, Left, Body, Right, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { colors } from '../utils';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as action from '../redux/actions/Drawer';
 
-export default class kHeader extends Component {
+class kHeader extends Component {
+
   render() {
     const {title, navigation} = this.props;
     return (
@@ -12,7 +16,7 @@ export default class kHeader extends Component {
         <Left>
           <TouchableWithoutFeedback
             style={{borderRadius: 100}}
-            onPress={() => navigation.openDrawer()} >
+            onPress={() => this.props.openDrawer()} >
             <View
               style={{
                 height: 30,
@@ -32,3 +36,7 @@ export default class kHeader extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators(action, dispatch);
+
+export default connect(null, mapDispatchToProps) (kHeader)

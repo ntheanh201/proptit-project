@@ -11,36 +11,42 @@ import {Avatar} from 'react-native-elements';
 import {Button} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as action from '../redux/actions/SignIn';
+import * as signInAction from '../redux/actions/SignIn';
+import * as drawerAction from '../redux/actions/Drawer';
+import {colors} from '../utils';
 
 class MenuSide extends Component {
+
   render() {
-    const {uri, navigation} = this.props;
+    console.log('AppLog-MenuSide', this.props)
+    const {uri, onPressItem} = this.props;
     return (
       <SafeAreaView style={styles.wrapper}>
-        <ScrollView style={styles.wrapperMenu}>
-          <View style={styles.wrapperProfile}>
-            <Avatar
-              source={
-                uri === null || uri === undefined
-                  ? require('../assets/images/ic_app.png')
-                  : {uri: uri}
-              }
-              size={30}
-              rounded
-            />
-            <Text style={{margin: 10}}>Tran Duy Cong Khanh</Text>
-          </View>
-          <Button transparent onPress={() => navigation.navigate('Feed')}>
-            <Text>Feed</Text>
-          </Button>
-          <Button transparent onPress={() => navigation.navigate('Setting')}>
-            <Text>Setting</Text>
-          </Button>
-          <Button transparent onPress={() => this.props.signOut()}>
-            <Text>Sign out</Text>
-          </Button>
-        </ScrollView>
+        <View style={{flex: 1, margin: 10}}>
+          <ScrollView style={styles.wrapperMenu}>
+            <View style={styles.wrapperProfile}>
+              <Avatar
+                source={
+                  uri === null || uri === undefined
+                    ? require('../assets/images/ic_app.png')
+                    : {uri: uri}
+                }
+                size={30}
+                rounded
+              />
+              <Text style={{margin: 10}}>Tran Duy Cong Khanh</Text>
+            </View>
+            <Button transparent onPress={() => onPressItem(0)}>
+              <Text>Feed</Text>
+            </Button>
+            <Button transparent onPress={() => onPressItem(1)}>
+              <Text>Setting</Text>
+            </Button>
+            <Button transparent onPress={() => onPressItem(2)}>
+              <Text>Sign out</Text>
+            </Button>
+          </ScrollView>
+        </View>
       </SafeAreaView>
     );
   }
@@ -48,7 +54,8 @@ class MenuSide extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    margin: 10,
+    flex: 1,
+    backgroundColor: colors.white,
   },
   wrapperMenu: {},
   wrapperProfile: {
@@ -57,7 +64,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(action, dispatch);
+const mapDispatchToProps = dispatch => ({
+  action: {
+    signIn: signInAction,
+    drawer: drawerAction,
+  }
+});
 
 export default connect(
   null,
