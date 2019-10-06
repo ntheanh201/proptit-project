@@ -25,7 +25,7 @@ class Account {
 
   addNewUser({
     username,
-    passsword,
+    password,
     displayName,
     className,
     dateOfBirth,
@@ -39,7 +39,7 @@ class Account {
       {
         id: uuid(),
         username,
-        passsword,
+        password,
         displayName,
         className,
         dateOfBirth,

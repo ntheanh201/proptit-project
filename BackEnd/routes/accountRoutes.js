@@ -6,20 +6,20 @@ const accountRoute = express.Router();
 
 accountRoute
   .route('/')
-  .get((req, res) => {
+  .get(authMiddleware, (req, res) => {
     res.send(accountController.getAllUsers());
   })
-  .post((req, res) => {
+  .post(authMiddleware, (req, res) => {
     res.sendStatus(201).send(accountController.addNewUser(req.body));
   })
-  .patch((req, res) => {
+  .patch(authMiddleware, (req, res) => {
     res.sendStatus(200).send(accountController.editUser(req.body));
   });
 // .delete((req, res) => {
 //   res.sendStatus(200).send()
 // })
 
-accountRoute.get('/userid=:id', (req, res) => {
+accountRoute.get('/userid=:id', authMiddleware, (req, res) => {
   res.send(accountController.getUser(req.params.id));
 });
 
