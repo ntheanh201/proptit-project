@@ -16,9 +16,8 @@ import * as drawerAction from '../redux/actions/Drawer';
 import {colors} from '../utils';
 
 class MenuSide extends Component {
-
   render() {
-    console.log('AppLog-MenuSide', this.props)
+    // console.log('AppLog-MenuSide', this.props);
     const {uri, onPressItem} = this.props;
     return (
       <SafeAreaView style={styles.wrapper}>
@@ -68,7 +67,7 @@ const mapDispatchToProps = dispatch => ({
   action: {
     signIn: signInAction,
     drawer: drawerAction,
-  }
+  },
 });
 
 export default connect(

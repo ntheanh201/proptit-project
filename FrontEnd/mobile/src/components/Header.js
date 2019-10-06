@@ -1,22 +1,21 @@
 import React, {Component} from 'react';
 import {Text, View, TouchableWithoutFeedback} from 'react-native';
 import {Header, Left, Body, Right, Button} from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { colors } from '../utils';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {colors} from '../utils';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as action from '../redux/actions/Drawer';
 
 class kHeader extends Component {
-
   render() {
     const {title, navigation} = this.props;
     return (
-      <Header style={{backgroundColor: colors.blue01}} >
+      <Header style={{backgroundColor: colors.blue01}}>
         <Left>
           <TouchableWithoutFeedback
             style={{borderRadius: 100}}
-            onPress={() => this.props.openDrawer()} >
+            onPress={() => this.props.openDrawer()}>
             <View
               style={{
                 height: 30,
@@ -39,4 +38,7 @@ class kHeader extends Component {
 
 const mapDispatchToProps = dispatch => bindActionCreators(action, dispatch);
 
-export default connect(null, mapDispatchToProps) (kHeader)
+export default connect(
+  null,
+  mapDispatchToProps,
+)(kHeader);

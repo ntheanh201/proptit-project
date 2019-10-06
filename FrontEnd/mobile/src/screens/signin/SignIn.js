@@ -6,9 +6,10 @@ import {
   View,
   KeyboardAvoidingView,
   Platform,
+  AsyncStorage,
 } from 'react-native';
 import {Input, Button} from 'react-native-elements';
-import Loader from 'react-native-loading-spinner-overlay'
+import Loader from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as action from '../../redux/actions/SignIn';
@@ -20,11 +21,25 @@ class SignIn extends Component {
     this.password = undefined;
   }
 
+  checkSignIn = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        this.props.signInWithToken(value);
+      }
+    } catch (error) {
+      console.log('AppLog-err', error);
+    }
+  };
+
+  componentDidMount() {
+    this.checkSignIn();
+  }
+
   handlePressSignIn = () => {
-    const {signIn} = this.props;
     const username = this.username;
     const password = this.password;
-    signIn(username, password);
+    this.props.signInWithEmailAndPassword(username, password);
   };
 
   componentDidUpdate() {
@@ -62,7 +77,7 @@ class SignIn extends Component {
             containerStyle={styles.button}
             onPress={this.handlePressSignIn.bind(this)}
           />
-          <Loader visible={isLoading? true : false}/>
+          <Loader visible={isLoading ? true : false} />
         </SafeAreaView>
       </KeyboardAvoidingView>
     );
@@ -96,4 +111,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators(action, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps) (SignIn);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SignIn);

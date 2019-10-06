@@ -60,7 +60,7 @@ class Home extends Component {
 
     //check drawer
     const {isOpen} = this.props.drawer;
-    console.log('AppLog-Home', isOpen);
+    // console.log('AppLog-Home', isOpen);
     if (isOpen) this.openControlPanel();
     else this.closeControlPanel();
   }
