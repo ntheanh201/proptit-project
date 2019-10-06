@@ -5,3 +5,11 @@ const connection = mysql.createConnection({
   user: 'root',
   database: 'proptit',
 });
+
+connection.query(
+  'SELECT * FROM `users` WHERE `name` = "proptit"',
+  function(err, results, fields) {
+    console.log(results);
+    console.log(fields);
+  }
+);
