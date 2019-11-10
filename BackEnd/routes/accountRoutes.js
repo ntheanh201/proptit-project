@@ -9,18 +9,18 @@ accountRoute
   .get((req, res) => {
     accountController.getAllUsers(req, res);
   })
-  .post(authMiddleware, (req, res) => {
-    res.sendStatus(201).send(accountController.addNewUser(req.body));
+  .post((req, res) => {
+    accountController.addNewUser(req.body, res);
   })
   .patch(authMiddleware, (req, res) => {
-    res.sendStatus(200).send(accountController.editUser(req.body));
+    accountController.editUser(req.body, res);
   });
 // .delete((req, res) => {
 //   res.sendStatus(200).send()
 // })
 
 accountRoute.get('/userid=:id', authMiddleware, (req, res) => {
-  res.send(accountController.getUser(req.params.id));
+  accountController.getUser(req.params.id, res);
 });
 
 export default accountRoute;

@@ -1,5 +1,5 @@
 import uuid from 'uuid';
-import { getUsers } from '../database';
+import { getUsers, addUser } from '../models/accountModel';
 
 class Account {
   constructor() {
@@ -8,39 +8,42 @@ class Account {
   }
 
   getAllUsers(req, res) {
-    getUsers((err, user) => {
+    getUsers((err, users) => {
       if (err) res.send(err);
-      console.log('res', user);
-      res.send(user);
+      console.log('res', users);
+      this.accounts = users;
+      res.send(this.accounts);
     });
   }
 
-  getUser(userId) {
+  getUserById(useId, res) {
     return this.accounts.find(({ id }) => id === userId);
   }
 
-  editUser(user) {
-    this.accounts = this.accounts.map(account => {
-      if (account.id === user.id) {
-        return user;
-      } else return account;
-    });
-    return this.accounts;
-  }
+  // editUser(user) {
+  //   this.accounts = this.accounts.map(account => {
+  //     if (account.id === user.id) {
+  //       return user;
+  //     } else return account;
+  //   });
+  //   return this.accounts;
+  // }
 
-  addNewUser({
-    username,
-    password,
-    displayName,
-    className,
-    dateOfBirth,
-    phoneNumber,
-    email,
-    facebook,
-    description,
-  }) {
-    this.accounts = [
-      ...this.accounts,
+  addNewUser(
+    {
+      username,
+      password,
+      displayName,
+      className,
+      dateOfBirth,
+      phoneNumber,
+      email,
+      facebook,
+      description,
+    },
+    res,
+  ) {
+    addUser(
       {
         id: uuid(),
         username,
@@ -53,7 +56,10 @@ class Account {
         facebook,
         description,
       },
-    ];
+      (err, user) => {
+        res.send(user);
+      },
+    );
   }
 }
 

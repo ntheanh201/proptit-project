@@ -3,9 +3,6 @@ module.exports = {
   parser: 'babel-eslint',
   parserOptions: {
     allowImportExportEverywhere: true,
-    codeFrame: false
+    codeFrame: false,
   },
-  extends: [
-    'airbnb-standard',
-  ],
 };
