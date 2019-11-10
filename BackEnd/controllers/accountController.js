@@ -1,9 +1,10 @@
-import accountsData from './accounts';
 import uuid from 'uuid';
+import { connection } from '../database';
 
 class Account {
   constructor() {
-    this.accounts = accountsData;
+    this.accounts = [];
+    this.table = 'users';
   }
 
   getAllUsers() {

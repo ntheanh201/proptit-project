@@ -5,13 +5,15 @@ import { secret } from '../configs';
 class HandlerGenerator {
   login(req, res) {
     let { username, password } = req.body;
+    // console.log(req.body)
     // For the given username fetch user from DB
     let mockedUsername = 'admin';
     let mockedPassword = 'password';
 
+
     if (username && password) {
       if (username === mockedUsername && password === mockedPassword) {
-        let token = jwt.sign({ username: username }, secret, {
+        let token = jwt.sign({ username }, secret, {
           expiresIn: '24h',
         });
 
@@ -37,6 +39,7 @@ class HandlerGenerator {
     return res.json({
       success: true,
       message: 'Index page',
+      id: '',
     });
   }
 }

@@ -3,11 +3,11 @@ import { secret } from '../configs';
 
 export const checkToken = (req, res, next) => {
   let token =
-    req.headers['x-access-token'] || req.headers['authorization'];
+    req.headers['x-access-token'] || req.headers['authorization'] || "";
   if (token.startsWith('ProProject ')) {
     token = token.slice(11, token.length);
   }
-  console.log(token)
+  // console.log(token)
   if (token) {
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
