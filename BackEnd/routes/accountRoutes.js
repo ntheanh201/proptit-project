@@ -1,12 +1,12 @@
 import express from 'express';
 import { accountController } from '../controllers';
-import {checkToken as authMiddleware} from '../middleware'
+import { checkToken as authMiddleware } from '../middleware';
 
 const accountRoute = express.Router();
 
 accountRoute
   .route('/')
-  .get(authMiddleware, (req, res) => {
+  .get((req, res) => {
     res.send(accountController.getAllUsers());
   })
   .post(authMiddleware, (req, res) => {

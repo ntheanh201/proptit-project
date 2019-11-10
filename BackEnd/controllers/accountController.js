@@ -1,14 +1,14 @@
 import uuid from 'uuid';
-import { connection } from '../database';
+import { getUsers } from '../database';
 
 class Account {
   constructor() {
-    this.accounts = [];
     this.table = 'users';
+    this.accounts = getUsers(this.table);
   }
 
   getAllUsers() {
-    return this.accounts;
+    return this.accounts || [];
   }
 
   getUser(userId) {

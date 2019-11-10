@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use(errorHandle);
 
-app.use('/proptit', authRoute)
+app.use('/proptit', authRoute);
 app.use('/proptit/accounts', accountRoute);
 // app.use('/proptit/news', newsRoute);
 
