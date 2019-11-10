@@ -17,8 +17,8 @@ export const addUser = (
     username,
     password,
     displayName,
-    className,
     dateOfBirth,
+    className,
     phoneNumber,
     email,
     facebook,
@@ -27,13 +27,15 @@ export const addUser = (
   result,
 ) => {
   connection.query(
-    `INSERT INTO users(id, username, password, displayName, className, dateOfBirth, phoneNumber, email, facebook, description) VALUES ('${id}','${username}','${password}', '${displayName}', '${className}', '${dateOfBirth}', '${phoneNumber}', '${email}', '${facebook}', '${description}')`,
+    `INSERT INTO users(id, username, password, displayName, dateOfBirth, className, phoneNumber, email, facebook, description) VALUES ('${id}','${username}','${password}', '${displayName}', '${dateOfBirth}', '${className}', '${phoneNumber}', '${email}', '${facebook}', '${description}')`,
     (error, res) => {
       if (error) {
+        console.log(error);
         return;
       }
-      let user = JSON.parse(JSON.stringify(res[0]));
-      result(null, user);
+      //   let user = JSON.parse(JSON.stringify(res[0]));
+      console.log(res);
+      result(null, res);
     },
   );
 };
