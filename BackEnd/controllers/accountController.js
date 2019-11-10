@@ -4,11 +4,15 @@ import { getUsers } from '../database';
 class Account {
   constructor() {
     this.table = 'users';
-    this.accounts = getUsers(this.table);
+    this.accounts = [];
   }
 
-  getAllUsers() {
-    return this.accounts || [];
+  getAllUsers(req, res) {
+    getUsers((err, user) => {
+      if (err) res.send(err);
+      console.log('res', user);
+      res.send(user);
+    });
   }
 
   getUser(userId) {

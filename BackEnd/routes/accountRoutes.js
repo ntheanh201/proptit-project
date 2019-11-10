@@ -7,7 +7,7 @@ const accountRoute = express.Router();
 accountRoute
   .route('/')
   .get((req, res) => {
-    res.send(accountController.getAllUsers());
+    accountController.getAllUsers(req, res);
   })
   .post(authMiddleware, (req, res) => {
     res.sendStatus(201).send(accountController.addNewUser(req.body));

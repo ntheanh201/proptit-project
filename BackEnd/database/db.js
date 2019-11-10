@@ -6,11 +6,17 @@ import mysql from 'mysql2';
 //   port: '',
 //   database: 'proptit',
 
+// host: 'localhost',
+//   user: 'root',
+//   password: 'root',
+//   port: '8889',
+//   database: 'proptit',
+
 export const connection = mysql.createConnection({
-  host: 'localhost',
+  host: '35.240.232.224',
   user: 'root',
-  password: 'root',
-  port: '8889',
+  password: '',
+  port: '',
   database: 'proptit',
 });
 
@@ -23,15 +29,14 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-export const getUsers = table => {
-  connection.query(`SELECT * FROM ${table}`, (error, results) => {
+export const getUsers = result => {
+  connection.query(`SELECT * FROM users`, (error, res) => {
     if (error) {
       console.log(error);
       return;
     }
-    let rows = JSON.parse(JSON.stringify(results));
-    console.log(rows);
-    return rows;
+    console.log('Users Data', res);
+    result(null, res);
   });
 };
 
