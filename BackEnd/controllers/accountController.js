@@ -1,5 +1,10 @@
 import uuid from 'uuid';
-import { getUsers, addUser } from '../models/accountModel';
+import {
+  patch_user_method,
+  get_users_method,
+  post_user_method,
+  delete_user_method,
+} from '../models/accountModel';
 
 class Account {
   constructor() {
@@ -8,26 +13,34 @@ class Account {
   }
 
   getAllUsers(req, res) {
-    getUsers((err, users) => {
+    get_users_method(null, (err, users) => {
       if (err) res.send(err);
-      console.log('res', users);
-      this.accounts = users;
-      res.send(this.accounts);
+      else {
+        this.accounts = users;
+        res.send(this.accounts);
+      }
     });
   }
 
-  getUserById(useId, res) {
-    return this.accounts.find(({ id }) => id === userId);
+  getUserById(userId, res) {
+    get_users_method(userId, (err, users) => {
+      if (err) res.send(err);
+      else res.send(users[0]);
+    });
   }
 
-  // editUser(user) {
-  //   this.accounts = this.accounts.map(account => {
-  //     if (account.id === user.id) {
-  //       return user;
-  //     } else return account;
-  //   });
-  //   return this.accounts;
-  // }
+  editUser(user, res) {
+    patch_user_method(user, (err, responseSV) => {
+      if (err) console.log(err);
+      else res.send('Patch successful');
+    });
+    // this.accounts = this.accounts.map(account => {
+    //   if (account.id === user.id) {
+    //     return user;
+    //   } else return account;
+    // });
+    // return this.accounts;
+  }
 
   addNewUser(
     {
@@ -43,7 +56,7 @@ class Account {
     },
     res,
   ) {
-    addUser(
+    post_user_method(
       {
         id: uuid(),
         username,
@@ -56,10 +69,18 @@ class Account {
         facebook,
         description,
       },
-      (err, user) => {
-        res.send(user);
+      (err, responseSV) => {
+        if (err) console.log(err);
+        else res.send('Registration Successful');
       },
     );
+  }
+
+  deleteUser(user, res) {
+    delete_user_method(user, (err, responseSV) => {
+      if (err) console.log(err);
+      else res.send('Delete Account Succesful');
+    });
   }
 }
 

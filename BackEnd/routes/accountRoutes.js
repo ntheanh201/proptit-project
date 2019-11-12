@@ -12,15 +12,15 @@ accountRoute
   .post((req, res) => {
     accountController.addNewUser(req.body, res);
   })
-  .patch(authMiddleware, (req, res) => {
+  .patch((req, res) => {
     accountController.editUser(req.body, res);
+  })
+  .delete((req, res) => {
+    accountController.deleteUser(req.body, res);
   });
-// .delete((req, res) => {
-//   res.sendStatus(200).send()
-// })
 
-accountRoute.get('/userid=:id', authMiddleware, (req, res) => {
-  accountController.getUser(req.params.id, res);
+accountRoute.get('/:id', (req, res) => {
+  accountController.getUserById(req.params.id, res);
 });
 
 export default accountRoute;
