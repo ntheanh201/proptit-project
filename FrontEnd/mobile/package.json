@@ -22,7 +22,8 @@
     "react-native-screens": "^1.0.0-alpha.23",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "core": "file:../core"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

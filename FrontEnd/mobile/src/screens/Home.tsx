@@ -3,8 +3,6 @@ import React from "react";
 import { Container, Header, Body, Title, Button, Left, Icon, Right, Row, Col, Grid } from "native-base";
 import colors from "../values/colors";
 
-var Loader = require('react-native-spinkit');
-
 export default class Home extends BaseScreen {
 
     render() {

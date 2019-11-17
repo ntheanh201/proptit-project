@@ -1,7 +1,5 @@
 import React, { Props } from "react";
 import { Item, Label, Input} from "native-base";
-import { TextInput } from "react-native";
-import { string } from "prop-types";
 
 export default class EditText extends React.Component<EditTextProps, any> {
 
