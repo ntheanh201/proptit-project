@@ -1,9 +1,10 @@
 import { BaseScreen } from "./BaseScreen";
-import React, { RefObject } from "react";
+import React from "react";
 import { Form, Container, Content, Row, Col, Button, Text } from 'native-base';
 import EditText from "../components/EditText";
 import colors from "../values/colors"
-import {Image, KeyboardAvoidingView, Platform} from 'react-native';
+import { Image } from 'react-native';
+import { ButtonText } from '../components'
 
 export default class SignIn extends BaseScreen {
 
@@ -21,15 +22,11 @@ export default class SignIn extends BaseScreen {
                             <Image source={require('../data/images/ic_app.png')} style={{width: 100, height: 100}}/>
                         </Row>  
                         <Form style={{ width: "100%", marginVertical: 10 }}>
-                                <EditText title="Username" />
-                                <EditText title="Password" inputStyle="password" />
+                                <EditText title="Tên đăng nhập" />
+                                <EditText title="Mật khẩu" inputStyle="password" />
                         </Form>
                         <Row style={{justifyContent: 'center'}}>
-                            <Button color={colors.blue01} style={{flex: 1, justifyContent: 'center', marginTop: 20}}>
-                                <Text>
-                                    Sign In
-                                </Text>
-                            </Button>
+                            <ButtonText color={colors.blue01} text="Đăng nhập"/>
                         </Row>
                         <Row />
                     </Container>
