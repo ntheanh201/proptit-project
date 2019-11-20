@@ -4,9 +4,9 @@ import { Button, Text } from 'native-base';
 export default class ButtonText extends React.Component<ButtonTextProps> {
 
     render() {
-        const { text, color } = this.props;
+        const { text, color, onPress } = this.props;
         return (
-            <Button color={color} style={{flex: 1, justifyContent: 'center'}}>
+            <Button color={color} style={{flex: 1, justifyContent: 'center'}} onPress={onPress}>
                 <Text>{text}</Text>
             </Button>
         );
@@ -15,5 +15,6 @@ export default class ButtonText extends React.Component<ButtonTextProps> {
 
 interface ButtonTextProps {
     text?: string,
-    color?: string
+    color?: string,
+    onPress: () => void
 }

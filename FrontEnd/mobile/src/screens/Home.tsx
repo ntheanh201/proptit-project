@@ -1,9 +1,13 @@
-import { BaseScreen } from "./BaseScreen";
+import { BaseScreen, BaseScreenProps } from "./BaseScreen";
 import React from "react";
 import { Container, Header, Body, Title, Button, Left, Icon, Right, Row, Col, Grid } from "native-base";
 import colors from "../values/colors";
 
-export default class Home extends BaseScreen {
+interface HomeScreenProps extends BaseScreenProps{
+
+}
+
+export default class Home extends BaseScreen<HomeScreenProps> {
 
     render() {
         return (

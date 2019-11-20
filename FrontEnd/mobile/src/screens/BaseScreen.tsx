@@ -1,8 +1,11 @@
 import React from "react";
 import { NavigationAction, NavigationDispatch } from "react-navigation";
 import { NavigationStackProp } from "react-navigation-stack";
+import { AppState } from "../core"
+import { types } from "@babel/core";
 
-export class BaseScreen extends React.Component<BaseScreenProps> {
+
+export class BaseScreen<P extends BaseScreenProps> extends React.Component<P> {
 
     navigate(routeID: string) {
         this.props.navigation.navigate(routeID);
@@ -21,6 +24,6 @@ export class BaseScreen extends React.Component<BaseScreenProps> {
     }
 }
 
-interface BaseScreenProps {
+export interface BaseScreenProps {
     navigation: NavigationStackProp,
 }
