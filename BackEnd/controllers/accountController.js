@@ -1,4 +1,5 @@
 import uuid from 'uuid';
+
 import {
   patch_user_method,
   get_users_method,
@@ -42,32 +43,11 @@ class Account {
     // return this.accounts;
   }
 
-  addNewUser(
-    {
-      username,
-      password,
-      displayName,
-      className,
-      dateOfBirth,
-      phoneNumber,
-      email,
-      facebook,
-      description,
-    },
-    res,
-  ) {
+  addNewUser(user, res) {
     post_user_method(
       {
         id: uuid(),
-        username,
-        password,
-        displayName,
-        className,
-        dateOfBirth,
-        phoneNumber,
-        email,
-        facebook,
-        description,
+        ...user,
       },
       (err, responseSV) => {
         if (err) console.log(err);
