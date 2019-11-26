@@ -24,24 +24,24 @@ export const signIn = (username: string, password: string) => {
         let _username =  "admin"
 
         dispatch({ type: SIGN_IN_PROGRESS })
-        if (username === _username && password === _password) {
-            dispatch({
-                type: SIGN_IN_SUCCESS, 
-                user: {
-                    id: id,
-                    username: _username,
-                    password: _password,
-                    displayName: displayName,
-                    dateOfBirth: dateOfBirth,
-                    description: description,
-                    className: className,
-                    email: email,
-                    facebook: facebook,
-                    phoneNumber: phoneNumber,
-                    regDate: reg_date
-                }
-            })
-        }
-        else dispatch({type: SIGN_IN_ERROR})
+        // if (username === _username && password === _password) {
+        //     dispatch({
+        //         type: SIGN_IN_SUCCESS, 
+        //         user: {
+        //             id: id,
+        //             username: _username,
+        //             password: _password,
+        //             displayName: displayName,
+        //             dateOfBirth: dateOfBirth,
+        //             description: description,
+        //             className: className,
+        //             email: email,
+        //             facebook: facebook,
+        //             phoneNumber: phoneNumber,
+        //             regDate: reg_date
+        //         }
+        //     })
+        // }
+        // else dispatch({type: SIGN_IN_ERROR})
     }
 }

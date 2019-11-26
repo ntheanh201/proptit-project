@@ -3,16 +3,16 @@ import React, { Dispatch, Reducer } from "react";
 import { Form, Container, Content, Row, Col, Button, Text } from 'native-base';
 import EditText from "../components/EditText";
 import colors from "../values/colors"
-import { Image } from 'react-native';
+import { Image, ActivityIndicator, Dimensions } from 'react-native';
 import { ButtonText } from '../components'
-import { signIn, UserState, UserAction, AppState } from "../core"
+import { signIn, UserState, UserAction, AppState, ProUser } from "../core"
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { userAction } from "../core/actions";
 
 interface SignInProps extends BaseScreenProps {
     signIn: typeof signIn;
-    user: UserState;
+    userState: UserState;
 }
 
 class SignIn extends BaseScreen<SignInProps> {
@@ -22,7 +22,8 @@ class SignIn extends BaseScreen<SignInProps> {
     }
 
     render() {
-        console.log("AppLog", this.props);
+        const { user, isLoading } = this.props.userState;
+        if (user !== undefined && user !== null) this.navigate("Home");
         return (
             <Container style={{margin: 10}}>
                 <Content>
@@ -41,14 +42,15 @@ class SignIn extends BaseScreen<SignInProps> {
                         <Row />
                     </Container>
                 </Content>
+                <ActivityIndicator size="large" color="#0000ff" animating={true} hidesWhenStopped 
+                    style={{position: "absolute", right: Dimensions.get('window').width / 2, top: Dimensions.get('window').height / 2}}/>
             </Container>
         )
     }
 }
 
-const mapStateToProps = ({user}: AppState) => ({
-    loading: user.isLoading,
-    user: user.user
+const mapStateToProps = (state: AppState) => ({
+    userState: state.user
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<UserAction>) => bindActionCreators(userAction, dispatch)
