@@ -45,7 +45,7 @@ export const delete_user_method = (user, result) => {
 };
 
 export const auth_user_method = ({ username, password }, res) => {
-  const passExist = password ? `AND password = "${password}"` : null;
+  const passExist = password ? `AND password = "${password}"` : '';
   connection.query(
     `SELECT * FROM users WHERE username = "${username}" ${passExist}`,
     (err, result) => {
