@@ -1,4 +1,15 @@
-import mysql from 'mysql2';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.connection = undefined;
+
+var _mysql = require('mysql2');
+
+var _mysql2 = _interopRequireDefault(_mysql);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // export const connection = mysql.createConnection({
 //   host: '35.240.232.224',
@@ -8,12 +19,12 @@ import mysql from 'mysql2';
 //   database: 'proptit',
 // });
 
-export const connection = mysql.createConnection({
+var connection = exports.connection = _mysql2.default.createConnection({
   host: '35.240.232.224',
   user: 'root',
   password: '',
   port: '3306',
-  database: 'proptit',
+  database: 'proptit'
 });
 
 // const pool = mysql.createPool({

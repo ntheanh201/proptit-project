@@ -1,3 +1,3 @@
-export * from "./accountController";
-export * from "./newsController";
-export * from "./authController";
+export * from './accountController';
+export * from './postController';
+export * from './authController';
