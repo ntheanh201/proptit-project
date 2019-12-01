@@ -1,3 +1,4 @@
-export * from './accountRoutes'
-export * from './newsRoutes'
-export * from './authRoutes'
+export * from './accountRoutes';
+export * from './postRoutes';
+export * from './authRoutes';
+export * from './groupRoutes';

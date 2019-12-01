@@ -1,3 +1,4 @@
 export * from './accountController';
-export * from './postController';
 export * from './authController';
+export * from './groupController';
+export * from './postController';

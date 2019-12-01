@@ -2,8 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { errorHandle } from './helpers';
 
-import authRoute from './routes/authRoutes';
-import accountRoute from './routes/accountRoutes';
+import { authRoute, groupRoute, accountRoute } from './routes';
 import postRoute from './routes/postRoutes';
 
 const app = express();
@@ -13,6 +12,7 @@ app.use(errorHandle);
 
 app.use('/proptit', authRoute);
 app.use('/proptit/accounts', accountRoute);
+app.use('/proptit/groups', groupRoute);
 app.use('/proptit/posts', postRoute);
 
 const port = process.env.NODE_ENV === 'production' ? 80 : 8080;

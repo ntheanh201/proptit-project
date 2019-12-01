@@ -2,7 +2,7 @@ import express from 'express';
 import { accountController } from '../controllers';
 import { checkToken as authMiddleware } from '../middleware';
 
-const accountRoute = express.Router();
+export const accountRoute = express.Router();
 
 accountRoute
   .route('/')
@@ -22,5 +22,3 @@ accountRoute
 accountRoute.get('/:id', (req, res) => {
   accountController.getUserById(req.params.id, res);
 });
-
-export default accountRoute;
