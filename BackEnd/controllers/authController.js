@@ -7,7 +7,7 @@ import { auth_user_method } from '../models/accountModel';
 class HandlerGenerator {
   login(req, res) {
     let { username, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     auth_user_method({ username, password }, (error, responseCallback) => {
       if (error) {
         return res.sendStatus(400).json({
@@ -15,7 +15,7 @@ class HandlerGenerator {
           message: 'Authentication failed! Please check the request',
         });
       }
-      console.log(responseCallback);
+      // console.log(responseCallback);
       if (responseCallback.length > 0) {
         let token = jwt.sign({ username }, secret, {
           expiresIn: '24h',
