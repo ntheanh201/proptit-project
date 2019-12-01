@@ -44,14 +44,13 @@ export const delete_user_method = (user, result) => {
   });
 };
 
-export const auth_user_method = ({ username, password }, result) => {
-  const passExist = password ? `AND password = ${password}` : null;
+export const auth_user_method = ({ username, password }, res) => {
+  const passExist = password ? `AND password = "${password}"` : null;
   connection.query(
-    `SELECT FROM users WHERE username = "${username}" ${passExist}`,
-    (err, res) => {
-      if (err) result(err, null);
-      console.log(res);
-      result(null, res);
+    `SELECT * FROM users WHERE username = "${username}" ${passExist}`,
+    (err, result) => {
+      if (err) res(err, null);
+      res(null, result);
     },
   );
 };

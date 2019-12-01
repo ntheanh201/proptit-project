@@ -31,7 +31,7 @@ class Account {
   }
 
   editUser(user, res) {
-    patch_user_method(user, (err, responseSV) => {
+    patch_user_method(user, err => {
       if (err) console.log(err);
       else res.send('Patch successfully');
     });
@@ -49,7 +49,7 @@ class Account {
         id: uuid(),
         user,
       },
-      (err, responseSV) => {
+      (err, response) => {
         if (err) console.log(err);
         else res.send('Registration Successful');
       },
@@ -57,9 +57,9 @@ class Account {
   }
 
   deleteUser(user, res) {
-    delete_user_method(user, (err, responseSV) => {
+    delete_user_method(user, err => {
       if (err) console.log(err);
-      else res.send('Delete Account Succesful');
+      else res.send('Delete Account Successful');
     });
   }
 }
