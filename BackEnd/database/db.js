@@ -1,20 +1,20 @@
 import mysql from 'mysql2';
 
-// export const connection = mysql.createConnection({
-//   host: '35.240.232.224',
-//   user: 'root',
-//   password: '',
-//   port: '',
-//   database: 'proptit',
-// });
-
 export const connection = mysql.createConnection({
-  host: 'localhost',
+  host: '35.240.232.224',
   user: 'root',
-  password: 'root',
-  port: '8889',
+  password: '',
+  port: '',
   database: 'proptit',
 });
+
+// export const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'root',
+//   port: '8889',
+//   database: 'proptit',
+// });
 
 // const pool = mysql.createPool({
 //   host: 'localhost',
