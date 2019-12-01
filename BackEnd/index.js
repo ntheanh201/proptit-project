@@ -4,14 +4,12 @@ import { errorHandle } from './helpers';
 
 import authRoute from './routes/authRoutes';
 import accountRoute from './routes/accountRoutes';
-// import { connection } from './database';
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(errorHandle);
 
-// connection.connect();
 app.use('/proptit', authRoute);
 app.use('/proptit/accounts', accountRoute);
 // app.use('/proptit/news', newsRoute);

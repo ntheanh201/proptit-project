@@ -1,4 +1,5 @@
 import { connection } from '../database';
+import bcrypt from 'bcrypt';
 
 export const get_users_method = (filterID, result) => {
   let query = `SELECT * FROM users`;
@@ -12,23 +13,9 @@ export const get_users_method = (filterID, result) => {
   });
 };
 
-export const post_user_method = (
-  {
-    id,
-    username,
-    password,
-    displayName,
-    dateOfBirth,
-    className,
-    phoneNumber,
-    email,
-    facebook,
-    description,
-  },
-  result,
-) => {
+export const post_user_method = ({ id, user }, result) => {
   connection.query(
-    `INSERT INTO users(id, username, password, displayName, dateOfBirth, className, phoneNumber, email, facebook, description) VALUES ('${id}','${username}','${password}', '${displayName}', '${dateOfBirth}', '${className}', '${phoneNumber}', '${email}', '${facebook}', '${description}')`,
+    `INSERT INTO users(id, username, password, displayName, dateOfBirth, className, phoneNumber, email, facebook, description) VALUES ('${id}','${user.username}','${user.password}', '${user.displayName}', '${user.dateOfBirth}', '${user.className}', '${user.phoneNumber}', '${user.email}', '${user.facebook}', '${user.description}')`,
     (error, res) => {
       if (error) {
         console.log(error);
@@ -55,4 +42,16 @@ export const delete_user_method = (user, result) => {
     if (err) result(err, null);
     result(null, res);
   });
+};
+
+export const auth_user_method = ({ username, password }, result) => {
+  const passExist = password ? `AND password = ${password}` : null;
+  connection.query(
+    `SELECT FROM users WHERE username = "${username}" ${passExist}`,
+    (err, res) => {
+      if (err) result(err, null);
+      console.log(res);
+      result(null, res);
+    },
+  );
 };

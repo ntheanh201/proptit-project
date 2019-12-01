@@ -1,15 +1,19 @@
 import jwt from 'jsonwebtoken';
+
 import { secret } from '../configs';
+import { auth_user_method } from '../models/accountModel';
 // import {} from '../database'
 
 class HandlerGenerator {
   login(req, res) {
     let { username, password } = req.body;
-    // console.log(req.body)
     // For the given username fetch user from DB
     let mockedUsername = 'admin';
     let mockedPassword = 'password';
 
+    // auth_user_method({ username, password }, (error, response) => {
+    //   // mockedUsername = result;
+    // });
 
     if (username && password) {
       if (username === mockedUsername && password === mockedPassword) {

@@ -33,7 +33,7 @@ class Account {
   editUser(user, res) {
     patch_user_method(user, (err, responseSV) => {
       if (err) console.log(err);
-      else res.send('Patch successful');
+      else res.send('Patch successfully');
     });
     // this.accounts = this.accounts.map(account => {
     //   if (account.id === user.id) {
@@ -47,7 +47,7 @@ class Account {
     post_user_method(
       {
         id: uuid(),
-        ...user,
+        user,
       },
       (err, responseSV) => {
         if (err) console.log(err);
