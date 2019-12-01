@@ -1,1 +1,2 @@
-export * from './errorHandle'
+export * from './errorHandle';
+export * from './constant';

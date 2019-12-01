@@ -7,7 +7,8 @@
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start": "npm run build && node dist/index.js",
-    "development": "nodemon --exec babel-node index.js"
+    "development": "nodemon --exec babel-node index.js",
+    "production": "babel-node index.js"
   },
   "keywords": [
     "proptit"
@@ -21,7 +22,7 @@
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.5.1",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
@@ -31,6 +32,7 @@
     "mongoose": "^5.7.1",
     "mysql2": "^1.7.0",
     "passport": "^0.4.0",
+    "pm2": "^4.2.0",
     "rimraf": "^3.0.0",
     "uuid": "^3.3.2"
   },
