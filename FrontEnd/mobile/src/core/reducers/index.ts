@@ -1,11 +1,11 @@
-import  userReducer from "./user.reducer";
-import { combineReducers } from "redux";
-import { UserState } from "../types/user.types";
+import userReducer from './user.reducer';
+import {combineReducers} from 'redux';
+import {UserState} from '../types/user.types';
 
 export interface AppState {
-    user: UserState
+  user: UserState;
 }
 
-export const rootReducer = combineReducers({
-    user: userReducer
-})
+export const rootReducer = combineReducers<AppState>({
+  user: userReducer,
+});
