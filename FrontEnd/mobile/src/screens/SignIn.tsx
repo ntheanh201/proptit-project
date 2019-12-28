@@ -27,11 +27,11 @@ interface SignInProps extends BaseScreenProps {
 
 class SignIn extends BaseScreen<SignInProps> {
 
-  componentWillUpdate() {
+  componentDidUpdate() {
     const { user, isSuccess } = this.props.signInState
     logD("AppLog", user)
     logD("AppLog", isSuccess)
-    isSuccess ? this.navigate("Home") : null
+    if (isSuccess === true) this.navigate("Home")
   }
 
   handleSignIn() {
@@ -40,7 +40,6 @@ class SignIn extends BaseScreen<SignInProps> {
 
   render() {
     const { user, isLoading } = this.props.signInState;
-    if (user !== undefined && user !== null) this.navigate('Home');
     return (
       <Container style={{ margin: 10 }}>
         <Content>

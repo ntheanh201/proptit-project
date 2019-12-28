@@ -1,6 +1,7 @@
+const NODE_ENV : string = 'development'
 
 function logD(tag: string, message: any) {
-    if (process.env.NODE_ENV === 'development') {
+    if (NODE_ENV === 'development') {
         console.log(tag, message)
     }
 }
