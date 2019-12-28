@@ -1,11 +1,11 @@
-import userReducer from './user.reducer';
+import signinReducer from './signin.reducer';
 import {combineReducers} from 'redux';
-import {UserState} from '../types/user.types';
+import {SignInState} from '../types/signin.types';
 
 export interface AppState {
-  user: UserState;
+  signin: SignInState;
 }
 
 export const rootReducer = combineReducers<AppState>({
-  user: userReducer,
+  signin: signinReducer,
 });

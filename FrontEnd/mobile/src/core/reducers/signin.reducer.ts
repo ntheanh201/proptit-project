@@ -1,32 +1,34 @@
-import { UserAction } from "../actions/user.action";
-import { SIGN_IN_PROGRESS, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_OUT } from "../types/user.types";
-import { UserState } from "../types/user.types";
+// import { UserAction } from "../actions/user.action";
+import { SIGN_IN_PROGRESS, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_OUT, SignInState } from "../types/signin.types";
+import { SignInAction } from "../actions/signin.action";
 
-let initialState: UserState = {
+let initialState: SignInState = {
     isLoading: false,
+    isSuccess: false,
 }
 
-export default (state: UserState = initialState, action: UserAction): UserState => {
+export default (state: SignInState = initialState, action: SignInAction): SignInState => {
     switch (action.type) {
         case SIGN_IN_PROGRESS:
             console.log("AppLog", "Progress!")
             return ({
-                isLoading: true
+                ...state,
+                isLoading: true,
             });
         case SIGN_IN_SUCCESS:
             console.log("AppLog", "Success!")
             return ({
+                ...state,
                 isLoading: false,
+                isSuccess: true,
                 user: action.user
             });
         case SIGN_IN_ERROR:
             console.log("AppLog", "Error!")
             return ({
+                ...state,
                 isLoading: false,
             });
-        case SIGN_OUT:
-            console.log("AppLog", "Out!")
-            return ({});
         default:
             console.log("AppLog", "Default!")
             return state;

@@ -1,9 +1,10 @@
-import {UserAction, signIn} from './actions/user.action';
 import store from './store';
 import {AppState} from './reducers';
-import {UserState, ProUser} from './types/user.types';
+import { ProUser } from './types/user.types';
+import { SignInState, SignInAction } from './types/signin.types';
+import { signIn } from './actions/signin.action';
 
-export {signIn, store, UserAction, AppState, UserState, ProUser};
+export {signIn, store, SignInAction, AppState, SignInState, ProUser};
 // export type UserAction = UserAction;
 // export type AppState = AppState;
 // export type UserState = UserState;
