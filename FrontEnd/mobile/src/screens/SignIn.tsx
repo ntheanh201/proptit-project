@@ -14,7 +14,7 @@ import EditText from '../components/EditText';
 import colors from '../values/colors';
 import { Image, ActivityIndicator, Dimensions } from 'react-native';
 import { ButtonText, LoadingView } from '../components';
-import { signIn, SignInState, SignInAction, AppState, ProUser } from '../core';
+import { signIn, SignInState, SignInAction, AppState } from '../core';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { signInAction } from '../core/actions';
@@ -28,10 +28,9 @@ interface SignInProps extends BaseScreenProps {
 class SignIn extends BaseScreen<SignInProps> {
 
   componentDidUpdate() {
-    const { user, isSuccess } = this.props.signInState
-    logD("AppLog", user)
-    logD("AppLog", isSuccess)
-    if (isSuccess === true) this.navigate("Home")
+    const { isSuccess } = this.props.signInState;
+    logD("AppLog", isSuccess);
+    if (isSuccess === true) this.replace("Home");
   }
 
   handleSignIn() {
@@ -39,7 +38,7 @@ class SignIn extends BaseScreen<SignInProps> {
   }
 
   render() {
-    const { user, isLoading } = this.props.signInState;
+    const { isLoading } = this.props.signInState;
     return (
       <Container style={{ margin: 10 }}>
         <Content>

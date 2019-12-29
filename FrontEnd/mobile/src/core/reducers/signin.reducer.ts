@@ -1,6 +1,5 @@
 // import { UserAction } from "../actions/user.action";
-import { SIGN_IN_PROGRESS, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_OUT, SignInState } from "../types/signin.types";
-import { SignInAction } from "../actions/signin.action";
+import { SIGN_IN_PROGRESS, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SignInState, SignInAction } from "../types/signin.types";
 import { logD } from "../../common/LogTool";
 
 let initialState: SignInState = {
@@ -21,7 +20,7 @@ export default (state: SignInState = initialState, action: SignInAction): SignIn
                 ...state,
                 isLoading: false,
                 isSuccess: true,
-                user: action.user
+                currentUserID: action.currentUserID
             });
         case SIGN_IN_ERROR:
             return ({

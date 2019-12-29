@@ -1,11 +1,20 @@
 import store from './store';
-import {AppState} from './reducers';
-import { ProUser } from './types/user.types';
+import { AppState } from './reducers';
+import { ProUser } from './types/user';
 import { SignInState, SignInAction } from './types/signin.types';
+import { HomeState, HomeAction } from './types/home.types'
 import { signIn } from './actions/signin.action';
+import { getNewFeeds, getAllGroup } from './actions/home.action';
 
-export {signIn, store, SignInAction, AppState, SignInState, ProUser};
-// export type UserAction = UserAction;
-// export type AppState = AppState;
-// export type UserState = UserState;
-// export type ProUser = ProUser;
+export {
+    signIn, 
+    store,
+    SignInAction, 
+    AppState, 
+    SignInState, 
+    ProUser, 
+    getNewFeeds, 
+    getAllGroup, 
+    HomeAction, 
+    HomeState 
+}

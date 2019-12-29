@@ -13,6 +13,9 @@ const AppNavigator = createStackNavigator({
     },
     Home: {
         screen: Home,
+        navigationOptions: {
+            header: null,
+        }
     }
 }, {
     initialRouteName: 'SignIn',
