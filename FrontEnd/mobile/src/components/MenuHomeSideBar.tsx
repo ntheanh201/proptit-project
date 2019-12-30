@@ -3,8 +3,8 @@ import { SafeAreaView, View, Text, Image } from "react-native";
 import { Container, Col, Content } from "native-base";
 import ButtonWithIcon from "./ButtonWithIcon";
 import { GroupState, AppState, GroupAction } from "../core";
-import { bindActionCreators, Dispatch} from "redux";
-import { groupAction } from "../core/actions";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
+import { groupAction, signInAction } from "../core/actions";
 import { connect } from "react-redux";
 import { logD } from "../common/LogTool";
 import { DrawerContentComponentProps } from "react-navigation-drawer";
@@ -15,12 +15,16 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
         super(props);
     }
 
-    componentDidMount() {
-        this.props.getGroups("admin");
-        logD("AppLog", this.props.groupState?.groups);
+    hideDrawer() {
+        this.props.navigation.closeDrawer();
+    }
+
+    handlePressSignOut() {
+        this.props.signOut();
     }
 
     render() {
+        logD("AppLog", this.props.groupState?.groups);
         return (
             <Container>
                 <Content>
@@ -30,9 +34,12 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
                         <Text>Thành viên</Text>
                     </View>
                     <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', marginTop: 20 }} />
-                    <ButtonWithIcon name="users" text="Nhóm" />
+                    <ButtonWithIcon name="users" text="Nhóm" onPress={() => {
+                        this.props.getGroups("admin");
+                        
+                    }} />
                     <ButtonWithIcon name="cog" text="Cài đặt" />
-                    <ButtonWithIcon name="sign-out" colorIcon="red" text="Đăng xuất" />
+                    <ButtonWithIcon name="sign-out" colorIcon="red" text="Đăng xuất" onPress={() => this.handlePressSignOut()}/>
                 </Content>
             </Container>
         );
@@ -40,15 +47,16 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
     }
 }
 
-interface MenuHomeSideBarProps extends DrawerContentComponentProps{
-    groupState?: GroupState,
-    getGroups?: typeof groupAction.getGroups
+interface MenuHomeSideBarProps extends DrawerContentComponentProps {
+    groupState: GroupState,
+    getGroups: typeof groupAction.getGroups,
+    signOut: typeof signInAction.signOut
 }
 
 const mapStateToProps = (state: AppState) => ({
     groupState: state.group
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<GroupAction>) => bindActionCreators(groupAction, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => bindActionCreators(Object.assign(groupAction, signInAction), dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps) (MenuHomeSideBar)
+export default connect(mapStateToProps, mapDispatchToProps)(MenuHomeSideBar)

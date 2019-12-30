@@ -6,14 +6,14 @@ import { View } from "react-native";
 
 export default class ButtonWithIcon extends React.Component<ButtonWithIconProps> {
     render() {
-        const { name, text } = this.props
+        const { name, text, onPress } = this.props
         var { colorIcon } = this.props
 
         colorIcon == null || colorIcon == undefined ? colorIcon = colors.blue01 : null
 
         return (
             <View style={{ flex: 1 }}>
-                <Button iconLeft transparent style={{alignSelf: 'baseline'}}>
+                <Button iconLeft transparent style={{alignSelf: 'baseline'}} onPress={onPress}>
                     <Icon name={name} type="FontAwesome" style={{ color: colorIcon }} />
                     {text ? <Text style={{ color: 'black' }}>{text}</Text> : null}
                 </Button>
@@ -26,4 +26,5 @@ interface ButtonWithIconProps {
     name: string,
     text?: string,
     colorIcon?: string
+    onPress?: () => void
 }

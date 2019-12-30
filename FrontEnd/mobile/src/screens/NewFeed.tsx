@@ -8,17 +8,13 @@ interface NewFeedsProps extends BaseScreenProps {
 
 export default class NewFeeds extends BaseScreen<NewFeedsProps> {
 
-    handlePressMenu() {
-        this.props.navigation.openDrawer()
-    }
-
 
     render() {
         return (
             <Container>
                 <Header>
                     <Left>
-                        <Button transparent onPress={() => this.handlePressMenu()}>
+                        <Button transparent onPress={() => this.showDrawer()}>
                             <Icon name='menu' />
                         </Button>
                     </Left>

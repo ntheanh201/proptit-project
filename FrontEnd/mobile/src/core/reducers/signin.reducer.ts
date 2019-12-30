@@ -1,10 +1,11 @@
 // import { UserAction } from "../actions/user.action";
-import { SIGN_IN_PROGRESS, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SignInState, SignInAction } from "../types/signin.types";
+import { SIGN_IN_PROGRESS, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SignInState, SignInAction, SIGN_OUT } from "../types/signin.types";
 import { logD } from "../../common/LogTool";
 
 let initialState: SignInState = {
     isLoading: false,
-    isSuccess: false,
+    isSignIn: false,
+    isSignOut: true,
 }
 
 export default (state: SignInState = initialState, action: SignInAction): SignInState => {
@@ -19,7 +20,7 @@ export default (state: SignInState = initialState, action: SignInAction): SignIn
             return ({
                 ...state,
                 isLoading: false,
-                isSuccess: true,
+                isSignIn: true,
                 currentUserID: action.currentUserID
             });
         case SIGN_IN_ERROR:
@@ -27,6 +28,12 @@ export default (state: SignInState = initialState, action: SignInAction): SignIn
                 ...state,
                 isLoading: false,
             });
+            case SIGN_OUT:
+                return ({
+                    ...state,
+                    isSignIn: false,
+                    isSignOut: true,
+                })
         default:
             return state;
     }

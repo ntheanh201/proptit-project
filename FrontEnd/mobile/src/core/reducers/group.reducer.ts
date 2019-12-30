@@ -1,7 +1,8 @@
 import { GroupState, GroupAction, LOAD_GROUP_PROGRESS, LOAD_GROUP_FAIL, LOAD_GROUP_SUCCESS } from "../types/group.types";
+import { logD } from "../../common/LogTool";
 
 const initialState: GroupState = {
-    groups: [{name: "Chung"}],
+    groups: [],
 }
 
 export default (state: GroupState = initialState, action: GroupAction): GroupState => {
@@ -15,8 +16,8 @@ export default (state: GroupState = initialState, action: GroupAction): GroupSta
                 ...state,
             });
         case LOAD_GROUP_SUCCESS:
+            logD("App", "loading group success")
             return ({
-                ...state,
                 groups: action.groups
             });
         default:

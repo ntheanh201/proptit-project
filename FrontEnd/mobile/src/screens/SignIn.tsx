@@ -15,7 +15,7 @@ import colors from '../values/colors';
 import { Image, ActivityIndicator, Dimensions } from 'react-native';
 import { ButtonText, LoadingView } from '../components';
 import { signIn, SignInState, SignInAction, AppState } from '../core';
-import { bindActionCreators, Dispatch } from 'redux';
+import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { connect } from 'react-redux';
 import { signInAction } from '../core/actions';
 import { logD } from '../common/LogTool';
@@ -28,9 +28,9 @@ interface SignInProps extends BaseScreenProps {
 class SignIn extends BaseScreen<SignInProps> {
 
   componentDidUpdate() {
-    const { isSuccess } = this.props.signInState;
-    logD("AppLog", isSuccess);
-    if (isSuccess === true) this.navigate("Home");
+    const { isSignIn } = this.props.signInState;
+    // logD("AppLog", isSignIn);
+    if (isSignIn === true) this.navigate("Home");
   }
 
   handleSignIn() {
@@ -74,7 +74,7 @@ const mapStateToProps = (state: AppState) => ({
   signInState: state.signin,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<SignInAction>) =>
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
   bindActionCreators(signInAction, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

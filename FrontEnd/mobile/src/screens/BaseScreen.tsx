@@ -5,10 +5,18 @@ import { AppState } from "../core"
 import { types } from "@babel/core";
 
 
-export class BaseScreen<P extends BaseScreenProps> extends React.Component<P> {
+export class BaseScreen<P extends BaseScreenProps = BaseScreenProps> extends React.Component<P> {
 
     navigate(routeID: string) {
         this.props.navigation.navigate(routeID);
+    }
+
+    showDrawer() {
+        this.props.navigation.openDrawer();
+    }
+
+    hideDrawer() {
+        this.props.navigation.closeDrawer();
     }
 
     pop() {
