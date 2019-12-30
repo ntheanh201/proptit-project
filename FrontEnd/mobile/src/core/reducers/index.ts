@@ -1,15 +1,19 @@
 import signinReducer from './signin.reducer';
-import homeReducer from './home.reducer';
+import homeReducer from './newfeed.reducer';
+import groupReducer from './group.reducer';
 import {combineReducers} from 'redux';
 import {SignInState} from '../types/signin.types';
-import { HomeState } from '../types/home.types';
+import { NewFeedState } from '../types/newfeed.types';
+import { GroupState } from '../types/group.types';
 
 export interface AppState {
   signin: SignInState;
-  home: HomeState;
+  newfeed: NewFeedState;
+  group: GroupState;
 }
 
 export const rootReducer = combineReducers<AppState>({
   signin: signinReducer,
-  home: homeReducer
+  newfeed: homeReducer,
+  group: groupReducer
 });

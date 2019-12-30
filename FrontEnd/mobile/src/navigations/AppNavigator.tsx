@@ -1,10 +1,10 @@
 import { createStackNavigator } from 'react-navigation-stack'
 import SignIn from '../screens/SignIn'
-import Home from '../screens/Home'
-import { createAppContainer } from 'react-navigation'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { Button } from 'native-base'
+import HomeNavigator from './HomeNavigator'
 
-const AppNavigator = createStackNavigator({
+const AppNavigator = createSwitchNavigator({
     SignIn: {
         screen: SignIn,
         navigationOptions: {
@@ -12,7 +12,7 @@ const AppNavigator = createStackNavigator({
         }
     },
     Home: {
-        screen: Home,
+        screen: HomeNavigator,
         navigationOptions: {
             header: null,
         }

@@ -2,9 +2,10 @@ import store from './store';
 import { AppState } from './reducers';
 import { ProUser } from './types/user';
 import { SignInState, SignInAction } from './types/signin.types';
-import { HomeState, HomeAction } from './types/home.types'
+import { NewFeedState, NewFeedAction } from './types/newfeed.types'
 import { signIn } from './actions/signin.action';
-import { getNewFeeds, getAllGroup } from './actions/home.action';
+import { getNewFeeds } from './actions/newfeed.action';
+import { Group, GroupState, GroupAction } from "./types/group.types"
 
 export {
     signIn, 
@@ -14,7 +15,9 @@ export {
     SignInState, 
     ProUser, 
     getNewFeeds, 
-    getAllGroup, 
-    HomeAction, 
-    HomeState 
+    NewFeedAction, 
+    NewFeedState,
+    GroupState,
+    Group,
+    GroupAction
 }

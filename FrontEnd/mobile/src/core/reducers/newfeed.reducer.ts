@@ -1,12 +1,12 @@
-import { HomeState, HomeAction, LOAD_NEWFEED_SUCCESS, LOAD_NEWFEED_PROGRESS, LOAD_GROUP_FAIL } from "../types/home.types";
+import { NewFeedState, NewFeedAction, LOAD_NEWFEED_SUCCESS, LOAD_NEWFEED_PROGRESS, LOAD_NEWFEED_FAIL } from "../types/newfeed.types";
 import { logD } from "../../common/LogTool";
 
-let initialState: HomeState = {
+let initialState: NewFeedState = {
     isLoadingNewFeed: false,
 
 }
 
-export default (state: HomeState = initialState, action: HomeAction): HomeState => {
+export default (state: NewFeedState = initialState, action: NewFeedAction): NewFeedState => {
     switch (action.type) {
         case LOAD_NEWFEED_PROGRESS:
             return ({
@@ -20,7 +20,7 @@ export default (state: HomeState = initialState, action: HomeAction): HomeState 
                 isLoadingNewFeed: false,
                 currentNewFeed: action.newfeeds
             });
-        case LOAD_GROUP_FAIL:
+        case LOAD_NEWFEED_FAIL:
             return ({
                 ...state,
                 isLoadingNewFeed: false,

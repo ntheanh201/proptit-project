@@ -1,4 +1,5 @@
 import * as signInAction from "./signin.action"
-import * as homeAction from "./home.action"
+import * as newfeedAction from "./newfeed.action"
+import * as groupAction from "./group.action"
 
-export { signInAction, homeAction }
+export { signInAction, newfeedAction, groupAction}
