@@ -20,7 +20,13 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
     }
 
     handlePressSignOut() {
+        this.hideDrawer()
         this.props.signOut();
+    }
+
+    handlePressSetting() {
+        this.hideDrawer()
+        this.props.navigation.navigate("Setting");
     }
 
     render() {
@@ -38,7 +44,7 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
                         this.props.getGroups("admin");
                         
                     }} />
-                    <ButtonWithIcon name="cog" text="Cài đặt" />
+                    <ButtonWithIcon name="cog" text="Cài đặt" onPress={() => this.handlePressSetting()}/>
                     <ButtonWithIcon name="sign-out" colorIcon="red" text="Đăng xuất" onPress={() => this.handlePressSignOut()}/>
                 </Content>
             </Container>

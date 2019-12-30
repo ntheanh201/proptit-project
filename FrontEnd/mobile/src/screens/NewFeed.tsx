@@ -8,7 +8,6 @@ interface NewFeedsProps extends BaseScreenProps {
 
 export default class NewFeeds extends BaseScreen<NewFeedsProps> {
 
-
     render() {
         return (
             <Container>
