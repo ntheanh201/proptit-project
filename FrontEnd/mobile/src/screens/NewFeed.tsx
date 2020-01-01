@@ -1,5 +1,5 @@
 import { BaseScreenProps, BaseScreen } from "./BaseScreen";
-import { Container, Header, Left, Button, Icon, Title, Body, Right } from "native-base";
+import { Container, Header, Left, Button, Icon, Title, Body, Right, Text } from "native-base";
 import React from "react";
 
 interface NewFeedsProps extends BaseScreenProps {

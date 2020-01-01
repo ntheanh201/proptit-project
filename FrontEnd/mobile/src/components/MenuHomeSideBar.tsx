@@ -8,6 +8,7 @@ import { groupAction, signInAction } from "../core/actions";
 import { connect } from "react-redux";
 import { logD } from "../common/LogTool";
 import { DrawerContentComponentProps } from "react-navigation-drawer";
+import { NavigationActions } from "react-navigation";
 
 class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
 
@@ -21,12 +22,12 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
 
     handlePressSignOut() {
         this.hideDrawer()
-        this.props.signOut();
+        console.log("AppLog", this.props.navigation.navigate("AuthStack"));
     }
 
     handlePressSetting() {
-        this.hideDrawer()
-        this.props.navigation.navigate("Setting");
+        this.hideDrawer();
+        console.log("AppLog", this.props.navigation.navigate("Setting"));
     }
 
     render() {
@@ -42,10 +43,10 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
                     <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', marginTop: 20 }} />
                     <ButtonWithIcon name="users" text="Nhóm" onPress={() => {
                         this.props.getGroups("admin");
-                        
+
                     }} />
-                    <ButtonWithIcon name="cog" text="Cài đặt" onPress={() => this.handlePressSetting()}/>
-                    <ButtonWithIcon name="sign-out" colorIcon="red" text="Đăng xuất" onPress={() => this.handlePressSignOut()}/>
+                    <ButtonWithIcon name="cog" text="Cài đặt" onPress={() => this.handlePressSetting()} />
+                    <ButtonWithIcon name="sign-out" colorIcon="red" text="Đăng xuất" onPress={() => this.handlePressSignOut()} />
                 </Content>
             </Container>
         );

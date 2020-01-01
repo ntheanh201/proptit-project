@@ -30,7 +30,7 @@ class SignIn extends BaseScreen<SignInProps> {
   componentDidUpdate() {
     const { isSignIn } = this.props.signInState;
     // logD("AppLog", isSignIn);
-    if (isSignIn === true) this.navigate("Home");
+    if (isSignIn === true) this.navigate("HomeStack");
   }
 
   handleSignIn() {

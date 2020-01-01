@@ -11,7 +11,7 @@ const MainNavigator = createBottomTabNavigator({
         screen: NewFeed,
         navigationOptions: {
             tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                return <Icon name="home" type="FontAwesome" style={{color: tintColor}}/>
+                return <Icon name="home" type="FontAwesome" style={{ color: tintColor }} />
             }
         }
     },
@@ -19,12 +19,12 @@ const MainNavigator = createBottomTabNavigator({
         screen: Notification,
         navigationOptions: {
             tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                return <Icon name="bell" type="FontAwesome" style={{color: tintColor}}/>
+                return <Icon name="bell" type="FontAwesome" style={{ color: tintColor }} />
             },
         }
-    } 
+    }
 }, {
-    initialRouteName: "Notification"
+    initialRouteName: "NewFeed"
 })
 
 export default createAppContainer(MainNavigator)

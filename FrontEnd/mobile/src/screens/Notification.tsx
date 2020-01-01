@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Left, Icon, Title, Body, Right, Button, Text, Content, Header } from "native-base";
 import { BaseScreen, BaseScreenProps } from "./BaseScreen";
+import { NavigationActions } from "react-navigation";
 
 interface NotificationProps extends BaseScreenProps {
 
