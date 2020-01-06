@@ -59,7 +59,7 @@ class TickPoll extends React.Component<TickPollProps, TickPollState> {
 }
 
 interface TickPollProps {
-
+    onPressClose: () => void
 }
 
 interface TickPollState {

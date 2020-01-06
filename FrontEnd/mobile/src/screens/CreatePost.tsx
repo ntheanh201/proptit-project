@@ -6,8 +6,18 @@ import { Text, TextInput, View, KeyboardAvoidingView, Platform } from "react-nat
 import TickPoll from "../components/TickPoll";
 
 class CreatePost extends BaseScreen<CreatePostProps, CreatePostState> {
+
+    constructor(props: CreatePostProps) {
+        super(props);
+
+        this.state = {
+            hasTickPoll: false,
+        }
+    }
+
     render() {
         const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+        const { hasTickPoll } = this.state
         return (
             <Container>
                 <Header style={{ backgroundColor: "white", elevation: 0, borderWidth: 0 }}>
@@ -25,18 +35,23 @@ class CreatePost extends BaseScreen<CreatePostProps, CreatePostState> {
                 </Header>
                 <TextInput placeholder="Viết gì đó đi :)" style={{ fontSize: 25 }} multiline />
                 {
-
+                    hasTickPoll ? <TickPoll /> : null
                 }
                 <View style={{ position: 'absolute', bottom: 0, left: 0, flexDirection: 'row', height: 50, width: '100%', alignItems: 'center' }}>
                     <Button transparent>
                         <Icon name="picture" type="AntDesign" style={{ color: colors.blue01, marginHorizontal: 10 }} />
                     </Button>
-                    <Button transparent>
+                    <Button transparent onPress={() => this.handleOnPressTickPoll()}>
                         <Icon name="barschart" type="AntDesign" style={{ color: colors.blue01, marginHorizontal: 10 }} />
                     </Button>
                 </View>
             </Container>
         )
+    }
+    handleOnPressTickPoll(): void {
+        this.setState({
+            hasTickPoll: true
+        })
     }
     handleOnPressPoste(): void {
         this.props.navigation.goBack()
