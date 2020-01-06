@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 export const get_users_method = (filterID, result) => {
   let query = `SELECT * FROM users`;
-  if (filterID) query += `WHERE id = "${filterID}"`;
+  if (filterID) query += ` WHERE id = "${filterID}"`;
   connection.query(query, (error, res) => {
     if (error) {
       console.log(error);
