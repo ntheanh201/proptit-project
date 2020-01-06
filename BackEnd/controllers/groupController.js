@@ -23,7 +23,7 @@ class Group {
   }
 
   getGroupById(groupId, res) {
-    get_groups_method(groupId, (err, groups) => {
+    get_group_method(groupId, (err, groups) => {
       if (err) res.send(err);
       else res.send(groups[0]);
     });
