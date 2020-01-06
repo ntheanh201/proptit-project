@@ -37,8 +37,8 @@ export const patch_user_method = (user, result) => {
   );
 };
 
-export const delete_user_method = (user, result) => {
-  connection.query(`DELETE FROM users WHERE id = "${user.id}"`, (err, res) => {
+export const delete_user_method = (id, result) => {
+  connection.query(`DELETE FROM users WHERE id = "${id}"`, (err, res) => {
     if (err) result(err, null);
     result(null, res);
   });
