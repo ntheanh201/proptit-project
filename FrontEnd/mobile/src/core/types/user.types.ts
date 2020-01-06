@@ -14,7 +14,7 @@ export interface User {
   id: string;
   password: string;
   phoneNumber?: string;
-  regDate?: string;
+  regDate?: Date;
   username: string;
 }
 
