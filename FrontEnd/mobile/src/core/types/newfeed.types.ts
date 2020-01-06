@@ -15,5 +15,6 @@ export interface NewFeedAction extends Action<String> {
 }
 
 export interface NewFeed {
+    id: string,
     content: string
 }

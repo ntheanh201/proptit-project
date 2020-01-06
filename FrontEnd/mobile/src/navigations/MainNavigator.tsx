@@ -5,13 +5,14 @@ import { createBottomTabNavigator } from "react-navigation-tabs"
 import { Icon } from "native-base";
 import React from "react";
 import { createAppContainer } from "react-navigation";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 const MainNavigator = createBottomTabNavigator({
     NewFeed: {
         screen: NewFeed,
         navigationOptions: {
             tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                return <Icon name="home" type="FontAwesome" style={{ color: tintColor }} />
+                return <Icon name="home" type="AntDesign" style={{ color: tintColor }} />
             }
         }
     },
@@ -19,12 +20,26 @@ const MainNavigator = createBottomTabNavigator({
         screen: Notification,
         navigationOptions: {
             tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                return <Icon name="bell" type="FontAwesome" style={{ color: tintColor }} />
+                return (
+                    <Icon name="notification" type="AntDesign" style={{ color: tintColor }} />
+
+                )
+            },
+        }
+    },
+    Search: {
+        screen: Notification,
+        navigationOptions: {
+            tabBarIcon: ({ focused, horizontal, tintColor }) => {
+                return <Icon name="search1" type="AntDesign" style={{ color: tintColor }} />
             },
         }
     }
 }, {
-    initialRouteName: "NewFeed"
+    initialRouteName: "NewFeed",
+    tabBarOptions: {
+        showLabel: false,
+    }
 })
 
 export default createAppContainer(MainNavigator)

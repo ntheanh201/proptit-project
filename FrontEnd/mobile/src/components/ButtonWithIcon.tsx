@@ -6,15 +6,11 @@ import { View } from "react-native";
 
 export default class ButtonWithIcon extends React.Component<ButtonWithIconProps> {
     render() {
-        const { name, text, onPress } = this.props
-        var { colorIcon } = this.props
-
-        colorIcon == null || colorIcon == undefined ? colorIcon = colors.blue01 : null
-
+        const { name, text, onPress, colorIcon } = this.props
         return (
             <View style={{ flex: 1 }}>
-                <Button iconLeft transparent style={{alignSelf: 'baseline'}} onPress={onPress}>
-                    <Icon name={name} type="FontAwesome" style={{ color: colorIcon }} />
+                <Button iconLeft transparent style={{ alignSelf: 'baseline' }} onPress={onPress}>
+                    <Icon name={name} type="AntDesign" style={{ color: colorIcon ? colorIcon : 'gray' }} />
                     {text ? <Text style={{ color: 'black' }}>{text}</Text> : null}
                 </Button>
             </View>

@@ -2,13 +2,15 @@ import { createDrawerNavigator } from 'react-navigation-drawer'
 import React from 'react'
 import { MenuHomeSideBar } from '../components'
 import { createAppContainer } from 'react-navigation';
-import Setting from '../screens/Setting' 
+import Setting from '../screens/Setting'
 import MainNavigator from './MainNavigator';
+import CreatePost from '../screens/CreatePost';
 
-const HomeNavigator = createDrawerNavigator (
+const HomeNavigator = createDrawerNavigator(
     {
-       Main: MainNavigator,
-       Setting: Setting,
+        Main: MainNavigator,
+        CreatePost: CreatePost,
+        Setting: Setting,
     },
     {
         initialRouteName: "Main",

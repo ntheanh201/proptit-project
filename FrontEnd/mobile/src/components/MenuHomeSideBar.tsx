@@ -27,7 +27,7 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
 
     handlePressSetting() {
         this.hideDrawer();
-        console.log("AppLog", this.props.navigation.navigate("Setting"));
+        // console.log("AppLog", this.props.navigation.navigate("Setting"));
     }
 
     render() {
@@ -41,12 +41,13 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
                         <Text>Thành viên</Text>
                     </View>
                     <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', marginTop: 20 }} />
-                    <ButtonWithIcon name="users" text="Nhóm" onPress={() => {
+                    <ButtonWithIcon name="user" text="Hồ sơ" onPress={() => this.handlePressSetting()} />
+                    <ButtonWithIcon name="team" text="Nhóm" onPress={() => {
                         this.props.getGroups("admin");
 
                     }} />
-                    <ButtonWithIcon name="cog" text="Cài đặt" onPress={() => this.handlePressSetting()} />
-                    <ButtonWithIcon name="sign-out" colorIcon="red" text="Đăng xuất" onPress={() => this.handlePressSignOut()} />
+                    <ButtonWithIcon name="setting" text="Cài đặt" onPress={() => this.handlePressSetting()} />
+                    <ButtonWithIcon name="logout" colorIcon="red" text="Đăng xuất" onPress={() => this.handlePressSignOut()} />
                 </Content>
             </Container>
         );
