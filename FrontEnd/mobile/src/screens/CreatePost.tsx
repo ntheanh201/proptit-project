@@ -35,7 +35,7 @@ class CreatePost extends BaseScreen<CreatePostProps, CreatePostState> {
                 </Header>
                 <TextInput placeholder="Viết gì đó đi :)" style={{ fontSize: 25 }} multiline />
                 {
-                    hasTickPoll ? <TickPoll /> : null
+                    hasTickPoll ? <TickPoll onPressClose={() => { }} /> : null
                 }
                 <View style={{ position: 'absolute', bottom: 0, left: 0, flexDirection: 'row', height: 50, width: '100%', alignItems: 'center' }}>
                     <Button transparent>
