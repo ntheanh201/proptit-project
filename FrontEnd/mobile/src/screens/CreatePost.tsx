@@ -5,7 +5,7 @@ import { BaseScreen, BaseScreenProps } from "./BaseScreen";
 import { Text, TextInput, View, KeyboardAvoidingView, Platform } from "react-native";
 import TickPoll from "../components/TickPoll";
 
-class CreatePost extends BaseScreen {
+class CreatePost extends BaseScreen<CreatePostProps, CreatePostState> {
     render() {
         const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
         return (
@@ -24,7 +24,9 @@ class CreatePost extends BaseScreen {
                     </Right>
                 </Header>
                 <TextInput placeholder="Viết gì đó đi :)" style={{ fontSize: 25 }} multiline />
-                <TickPoll />
+                {
+
+                }
                 <View style={{ position: 'absolute', bottom: 0, left: 0, flexDirection: 'row', height: 50, width: '100%', alignItems: 'center' }}>
                     <Button transparent>
                         <Icon name="picture" type="AntDesign" style={{ color: colors.blue01, marginHorizontal: 10 }} />
@@ -46,6 +48,10 @@ class CreatePost extends BaseScreen {
 
 interface CreatePostProps extends BaseScreenProps {
 
+}
+
+interface CreatePostState {
+    hasTickPoll: boolean
 }
 
 export default CreatePost

@@ -6,12 +6,19 @@ interface Poll {
     content: string;
 }
 
-const ItemPoll = (poll: Poll) => {
+interface ItemPollProp {
+    poll: Poll;
+    onPressClose: () => void
+}
+
+const ItemPoll = (props: ItemPollProp) => {
 
     return (
         <View style={{ alignSelf: 'baseline', flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 5 }}>
-            <Input placeholder={poll.content} style={{ borderWidth: 0.5, borderColor: 'gray', borderRadius: 10 }} />
-            <Icon name="close" type="AntDesign" style={{ marginLeft: 10 }} />
+            <Input placeholder={props.poll.content} style={{ borderWidth: 0.5, borderColor: 'gray', borderRadius: 10 }} />
+            <Button transparent onPressIn={() => props.onPressClose()}>
+                <Icon name="close" type="AntDesign" style={{ marginLeft: 10 }} />
+            </Button>
         </View>
     )
 }
@@ -29,7 +36,7 @@ class TickPoll extends React.Component<TickPollProps, TickPollState> {
         return (
             <View style={{ alignSelf: 'baseline', flexDirection: 'column', alignItems: 'center', padding: 20, width: '100%' }}>
                 {
-                    this.state.listPoll.map(poll => (<ItemPoll poll={poll} />))
+                    this.state.listPoll.map(poll => (<ItemPoll poll={poll} onPressClose={() => this.handleOnPressClose()} />))
                 }
                 <Button onPressIn={() => this.handleOnPressAdd()} transparent>
                     <Icon name="pluscircle" type="AntDesign" style={{ fontSize: 40, marginTop: 10 }} />
@@ -37,9 +44,16 @@ class TickPoll extends React.Component<TickPollProps, TickPollState> {
             </View>
         )
     }
+    handleOnPressClose() {
+        if (this.state.listPoll.length === 1) return
+        this.state.listPoll.pop()
+        this.setState({
+            listPoll: this.state.listPoll
+        })
+    }
     handleOnPressAdd() {
         this.setState({
-            listPoll: [...this.state.listPoll, { content: "Lua chon" }]
+            listPoll: [...this.state.listPoll, { content: "Lựa chọn" }]
         })
     }
 }
