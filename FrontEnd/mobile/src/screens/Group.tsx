@@ -1,46 +1,14 @@
-import { Body, Button, Container, Header, Icon, Left, Right, Title } from "native-base";
-import React from "react";
-import { NativeScrollEvent, RefreshControl, ScrollView, TouchableOpacity, View } from "react-native";
-import ItemNewFeed from "../components/ItemNewFeed";
-import colors from "../values/colors";
 import { BaseScreen, BaseScreenProps } from "./BaseScreen";
+import NewFeeds from "./NewFeed";
+import { View, Container, Left, Button, Icon, Title, Body, Right } from "native-base";
+import React from "react";
+import ItemNewFeed from "../components/ItemNewFeed";
+import { Header } from "react-native/Libraries/NewAppScreen";
+import colors from "../values/colors";
+import { ScrollView, RefreshControl } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-interface NewFeedsProps extends BaseScreenProps {
-
-}
-
-interface NewFeedsState {
-    isRefresh: boolean;
-}
-
-export default class NewFeeds extends BaseScreen<NewFeedsProps, NewFeedsState> {
-
-    constructor(props: NewFeedsProps) {
-        super(props);
-        this.state = {
-            isRefresh: false
-        }
-    }
-
-    isEndNewFeedsList({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) {
-        const paddingToBottom = 20;
-        return layoutMeasurement.height + contentOffset.y >=
-            contentSize.height - paddingToBottom;
-    }
-
-    handleScrollEndOfNewFeeds() {
-        //TODO load page 2 when user scroll end of list new fist
-    }
-
-    handleOnScroll(e: NativeScrollEvent) {
-        if (this.isEndNewFeedsList(e)) {
-            this.handleScrollEndOfNewFeeds()
-        }
-    }
-
-    handleOnPressCreatePost() {
-        console.log(this.props.navigation.navigate("CreatePost"))
-    }
+class Group extends NewFeeds {
 
     render() {
         return (
@@ -49,7 +17,7 @@ export default class NewFeeds extends BaseScreen<NewFeedsProps, NewFeedsState> {
                     <Header style={{ backgroundColor: "white", borderBottomColor: "gray", borderBottomWidth: 0.3 }}>
                         <Left>
                             <Button transparent onPress={() => this.showDrawer()}>
-                                <Icon name='menu' style={{ color: colors.blue01 }} />
+                                <Icon name="arrow-back" type="MaterialIcons" style={{ color: colors.blue01 }} />
                             </Button>
                         </Left>
                         <Body>
@@ -98,8 +66,5 @@ export default class NewFeeds extends BaseScreen<NewFeedsProps, NewFeedsState> {
                 </TouchableOpacity>
             </View>
         )
-    }
-    handleOnPressItemNewFeed(): void {
-        this.navigate("DetailPost")
     }
 }

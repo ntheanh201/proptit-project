@@ -15,14 +15,20 @@ class Search extends BaseScreen<SearchProps> {
         return (
             <Container>
                 <Header style={{ backgroundColor: "white" }}>
-                    <Left>
-                        <Button transparent onPress={() => this.showDrawer()}>
+                    <Left style={{ flex: 0 }}>
+                        <Button transparent onPress={() => this.showDrawer()} >
                             <Icon name='menu' style={{ color: colors.blue01 }} />
                         </Button>
                     </Left>
-                    <Body>
+                    <Body style={{ marginHorizontal: 10 }}>
                         <TextInput placeholder="Tìm kiếm" style={{ height: 40, backgroundColor: 'rgb(233, 236, 241)', borderRadius: 10, width: '100%' }} />
                     </Body>
+                    <Right style={{ flex: 0 }}>
+                        <Button rounded style={{ backgroundColor: colors.blue02, justifyContent: 'center' }}
+                            onPressIn={() => { }}>
+                            <Text style={{ color: 'white' }}>Tìm kiếm</Text>
+                        </Button>
+                    </Right>
                 </Header>
                 <Content>
                     <Text>SearchScreen</Text>

@@ -15,7 +15,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { Post } from '../core';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 
-class Itempost extends React.Component<ItempostProps, ItempostState> {
+class ItemNewFeed extends React.Component<ItempostProps, ItemNewFeedState> {
     constructor(props: ItempostProps) {
         super(props);
 
@@ -29,8 +29,8 @@ class Itempost extends React.Component<ItempostProps, ItempostState> {
         const { isLiked } = this.state;
 
         return (
-            <TouchableOpacity style={{ backgroundColor: 'gray', paddingBottom: 0.5 }} onPress={() => onPressItem("")}>
-                <Row style={{ alignSelf: 'baseline', padding: 10, backgroundColor: 'white', width: '100%' }}>
+            <TouchableOpacity onPress={() => onPressItem("")}>
+                <Row style={{ alignSelf: 'baseline', padding: 10, backgroundColor: 'white', width: '100%', borderBottomColor: 'gray', borderBottomWidth: 0.3 }}>
                     <RoundImage source={require('../data/images/ic_app.png')} />
                     <Col style={{ marginLeft: 10 }}>
                         <View>
@@ -91,8 +91,8 @@ interface ItempostProps {
     onPressItem: (id: String) => void
 }
 
-interface ItempostState {
+interface ItemNewFeedState {
     isLiked?: boolean;
 }
 
-export default Itempost;
+export default ItemNewFeed;

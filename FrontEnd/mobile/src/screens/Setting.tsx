@@ -1,4 +1,4 @@
-import { BaseScreen, BaseScreenProps} from "./BaseScreen";
+import { BaseScreen, BaseScreenProps } from "./BaseScreen";
 import { Container, Left, Icon, Title, Body, Right, Button, Text, Content, Header } from "native-base";
 import React from "react";
 
@@ -19,7 +19,7 @@ class Setting extends BaseScreen {
                     <Right />
                 </Header>
                 <Content>
-                    <Text>NotificationScreen</Text>
+                    <Text>coming soon...</Text>
                 </Content>
             </Container>
         )

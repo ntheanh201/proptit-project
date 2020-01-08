@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, View, Text, Image } from "react-native";
-import { Container, Col, Content } from "native-base";
+import { Container, Col, Content, Button, Row, Icon } from "native-base";
 import ButtonWithIcon from "./ButtonWithIcon";
 import { GroupState, AppState, GroupAction } from "../core";
 import { bindActionCreators, Dispatch, AnyAction } from "redux";
@@ -9,11 +9,22 @@ import { connect } from "react-redux";
 import { logD } from "../common/LogTool";
 import { DrawerContentComponentProps } from "react-navigation-drawer";
 import { NavigationActions } from "react-navigation";
+import styles from "../values/styles";
 
-class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
+class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps, MenuHomeSideBarState> {
 
     constructor(props: MenuHomeSideBarProps) {
         super(props);
+
+        this.state = {
+            isShowGroup: false
+        }
+    }
+
+    toggleShowGroup() {
+        this.setState({
+            isShowGroup: !this.state.isShowGroup
+        })
     }
 
     hideDrawer() {
@@ -22,12 +33,12 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
 
     handlePressSignOut() {
         this.hideDrawer()
-        console.log("AppLog", this.props.navigation.navigate("AuthStack"));
+        this.props.navigation.navigate("AuthStack")
     }
 
     handlePressSetting() {
         this.hideDrawer();
-        // console.log("AppLog", this.props.navigation.navigate("Setting"));
+        this.props.navigation.navigate("Setting")
     }
 
     render() {
@@ -42,10 +53,32 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
                     </View>
                     <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', marginTop: 20 }} />
                     <ButtonWithIcon name="user" text="Hồ sơ" onPress={() => this.handlePressSetting()} />
-                    <ButtonWithIcon name="team" text="Nhóm" onPress={() => {
-                        this.props.getGroups("admin");
-
-                    }} />
+                    <Button transparent onPressIn={() => this.handleOnPressGroup()}>
+                        <Row>
+                            <ButtonWithIcon name="team" text="Nhóm" />
+                            <Button transparent>
+                                {
+                                    this.state.isShowGroup ? (<Icon name="upcircleo" type="AntDesign" style={{ color: 'gray' }} />) : (<Icon name="downcircleo" type="AntDesign" style={{ color: 'gray' }} />)
+                                }
+                            </Button>
+                        </Row>
+                    </Button>
+                    {
+                        this.state.isShowGroup ? (
+                            <View style={{ flexDirection: 'row', marginLeft: 25 }}>
+                                <View style={{ height: '100%', width: 10, backgroundColor: 'gray' }} />
+                                <View style={{ marginLeft: 30 }}>
+                                    {
+                                        this.props.groupState.groups.map(it => (
+                                            <Button transparent>
+                                                <Text>{it.name}</Text>
+                                            </Button>
+                                        ))
+                                    }
+                                </View>
+                            </View>
+                        ) : null
+                    }
                     <ButtonWithIcon name="setting" text="Cài đặt" onPress={() => this.handlePressSetting()} />
                     <ButtonWithIcon name="logout" colorIcon="red" text="Đăng xuất" onPress={() => this.handlePressSignOut()} />
                 </Content>
@@ -53,12 +86,21 @@ class MenuHomeSideBar extends React.Component<MenuHomeSideBarProps> {
         );
 
     }
+    handleOnPressGroup(): void {
+        logD("MenuHomeSideBar", this.state.isShowGroup)
+        this.props.getGroups("")
+        this.toggleShowGroup()
+    }
 }
 
 interface MenuHomeSideBarProps extends DrawerContentComponentProps {
     groupState: GroupState,
     getGroups: typeof groupAction.getGroups,
     signOut: typeof signInAction.signOut
+}
+
+interface MenuHomeSideBarState {
+    isShowGroup: boolean,
 }
 
 const mapStateToProps = (state: AppState) => ({
