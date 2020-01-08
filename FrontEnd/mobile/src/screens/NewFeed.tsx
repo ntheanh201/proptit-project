@@ -68,7 +68,7 @@ export default class NewFeeds extends BaseScreen<NewFeedsProps, NewFeedsState> {
                             <RefreshControl refreshing={this.state.isRefresh} onRefresh={() => { this.setState({ isRefresh: true }) }} />
                         }>
                         <ItemNewFeed isLiked={true}
-                            newfeed={{ id: "", content: "Hello" }}
+                            post={{ id: "", content: "Hello", groupId: "", time: new Date(), type: 1, userId: "" }}
                             onPressComment={id => { }}
                             onPressHeart={id => { }}
                             onPressSave={id => { }}

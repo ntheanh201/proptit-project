@@ -5,7 +5,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { TickPoll } from "../components";
 import ItemNewFeed from "../components/ItemNewFeed";
 import RoundImage from "../components/RoundImage";
-import { NewFeed } from "../core/types/newfeed.types";
+import { Post } from "../core";
 import colors from '../values/colors';
 import styles from "../values/styles";
 import { BaseScreen, BaseScreenProps } from "./BaseScreen";
@@ -13,11 +13,11 @@ import { BaseScreen, BaseScreenProps } from "./BaseScreen";
 
 interface DetailPostProps extends BaseScreenProps {
     isLiked?: boolean
-    newfeed: NewFeed
-    onPressComment: (id: string) => void
-    onPressHeart: (id: string) => void
-    onPressSave: (id: string) => void
-    onPressItem: (id: string) => void
+    post: Post
+    onPressComment: (id: String) => void
+    onPressHeart: (id: String) => void
+    onPressSave: (id: String) => void
+    onPressItem: (id: String) => void
 }
 
 interface DetailPostState {
@@ -34,7 +34,7 @@ class DetailPost extends BaseScreen<DetailPostProps, DetailPostState> {
     }
 
     render() {
-        const { newfeed, onPressSave, onPressHeart, onPressComment, onPressItem } = this.props;
+        const { post, onPressSave, onPressHeart, onPressComment, onPressItem } = this.props;
         const { isLiked } = this.state;
         return (
             <Container>
@@ -71,7 +71,7 @@ class DetailPost extends BaseScreen<DetailPostProps, DetailPostState> {
                         <Col style={{ alignItems: 'center' }}>
                             <Button style={{ backgroundColor: 'transparent', width: '100%', elevation: 0, justifyContent: 'center' }}
                                 iconRight
-                                onPressIn={() => onPressComment(newfeed.id)}>
+                                onPressIn={() => onPressComment(post.id)}>
                                 <Icon name="message1" type="AntDesign" style={{ color: 'gray', fontSize: 20 }} />
                             </Button>
                         </Col>
@@ -82,7 +82,7 @@ class DetailPost extends BaseScreen<DetailPostProps, DetailPostState> {
                                     this.setState({
                                         isLiked: !isLiked
                                     })
-                                    onPressHeart(newfeed.id)
+                                    onPressHeart(post.id)
                                 }}>
                                 <Icon name="heart" type="AntDesign" style={{ color: isLiked ? 'red' : 'gray', fontSize: 20 }} />
                             </Button>
@@ -90,64 +90,54 @@ class DetailPost extends BaseScreen<DetailPostProps, DetailPostState> {
                         <Col style={{ alignItems: 'center' }}>
                             <Button style={{ backgroundColor: 'transparent', width: '100%', elevation: 0, justifyContent: 'center' }}
                                 iconRight
-                                onPressIn={() => onPressSave(newfeed.id)}>
+                                onPressIn={() => onPressSave(post.id)}>
                                 <Icon name="retweet" type="AntDesign" style={{ color: 'gray', fontSize: 20, backgroundColor: 'transparent' }} />
                             </Button>
                         </Col>
                         <Col style={{ alignItems: 'center' }}>
                             <Button style={{ backgroundColor: 'transparent', width: '100%', elevation: 0, justifyContent: 'center' }}
                                 iconRight
-                                onPressIn={() => onPressSave(newfeed.id)}>
+                                onPressIn={() => onPressSave(post.id)}>
                                 <Icon name="sharealt" type="AntDesign" style={{ color: 'gray', fontSize: 20, backgroundColor: 'transparent' }} />
                             </Button>
                         </Col>
                     </Row>
-                    <ItemNewFeed
-                        isLiked={true}
-                        newfeed={{ id: "", content: "Hello" }}
-                        onPressItem={id => { }}
+                    <ItemNewFeed isLiked={true}
+                        post={{ id: "", content: "Hello", groupId: "", time: new Date(), type: 1, userId: "" }}
                         onPressComment={id => { }}
                         onPressHeart={id => { }}
-                        onPressSave={id => { }} />
-                    <ItemNewFeed
-                        isLiked={true}
-                        newfeed={{ id: "", content: "Hello" }}
-                        onPressItem={id => { }}
+                        onPressSave={id => { }}
+                        onPressItem={id => { }} />
+                    <ItemNewFeed isLiked={true}
+                        post={{ id: "", content: "Hello", groupId: "", time: new Date(), type: 1, userId: "" }}
                         onPressComment={id => { }}
                         onPressHeart={id => { }}
-                        onPressSave={id => { }} />
-                    <ItemNewFeed
-                        isLiked={true}
-                        newfeed={{ id: "", content: "Hello" }}
-                        onPressItem={id => { }}
+                        onPressSave={id => { }}
+                        onPressItem={id => { }} />
+                    <ItemNewFeed isLiked={true}
+                        post={{ id: "", content: "Hello", groupId: "", time: new Date(), type: 1, userId: "" }}
                         onPressComment={id => { }}
                         onPressHeart={id => { }}
-                        onPressSave={id => { }} />
-                    <ItemNewFeed
-                        isLiked={true}
-                        newfeed={{ id: "", content: "Hello" }}
-                        onPressItem={id => { }}
+                        onPressSave={id => { }}
+                        onPressItem={id => { }} />
+                    <ItemNewFeed isLiked={true}
+                        post={{ id: "", content: "Hello", groupId: "", time: new Date(), type: 1, userId: "" }}
                         onPressComment={id => { }}
                         onPressHeart={id => { }}
-                        onPressSave={id => { }} />
-                    <ItemNewFeed
-                        isLiked={true}
-                        newfeed={{ id: "", content: "Hello" }}
-                        onPressItem={id => { }}
+                        onPressSave={id => { }}
+                        onPressItem={id => { }} />
+                    <ItemNewFeed isLiked={true}
+                        post={{ id: "", content: "Hello", groupId: "", time: new Date(), type: 1, userId: "" }}
                         onPressComment={id => { }}
                         onPressHeart={id => { }}
-                        onPressSave={id => { }} />
-                    <ItemNewFeed
-                        isLiked={true}
-                        newfeed={{ id: "", content: "Hello" }}
-                        onPressItem={id => { }}
-                        onPressComment={id => { }}
-                        onPressHeart={id => { }}
-                        onPressSave={id => { }} />
+                        onPressSave={id => { }}
+                        onPressItem={id => { }} />
+
                 </Content>
             </Container >
         )
     }
+
     handleOnPressClose(): void {
 
     }

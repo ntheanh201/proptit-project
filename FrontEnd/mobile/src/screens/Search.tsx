@@ -11,7 +11,6 @@ interface SearchProps extends BaseScreenProps {
 
 class Search extends BaseScreen<SearchProps> {
 
-
     render() {
         return (
             <Container>

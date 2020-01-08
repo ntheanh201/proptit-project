@@ -1,20 +1,23 @@
-import { Action } from "redux";
+import {Action} from 'redux';
 
-export const LOAD_NEWFEED_SUCCESS = 'LOAD_NEWFEED_SUCCESS'
-export const LOAD_NEWFEED_PROGRESS = 'LOAD_NEWFEED_PROGRESS'
-export const LOAD_NEWFEED_FAIL = 'LOAD_NEWFEED_FAIL'
-
+export const LOAD_NEWFEED_SUCCESS = 'LOAD_NEWFEED_SUCCESS';
+export const LOAD_NEWFEED_PROGRESS = 'LOAD_NEWFEED_PROGRESS';
+export const LOAD_NEWFEED_FAIL = 'LOAD_NEWFEED_FAIL';
 
 export interface NewFeedState {
-    isLoadingNewFeed: boolean,
-    currentNewFeed?: NewFeed[]
+  isLoadingNewFeed: boolean;
+  currentNewFeed?: Post[];
 }
 
 export interface NewFeedAction extends Action<String> {
-    newfeeds?: NewFeed[],
+  newfeeds?: Post[];
 }
 
-export interface NewFeed {
-    id: string,
-    content: string
+export interface Post {
+  id: String;
+  userId: String;
+  groupId: String;
+  content: String;
+  time: Date;
+  type: Number;
 }
