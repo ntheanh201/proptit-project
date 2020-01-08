@@ -5,7 +5,7 @@ import {
   Post,
 } from '../types/newfeed.types';
 
-export const getNewFeeds = (groupID: String) => {
+export const getNewFeeds = (groupID: string) => {
   return (dispatch: Dispatch<NewFeedAction>) => {
     var list: Post[] = [];
     list.push({content: 'Hello World'});

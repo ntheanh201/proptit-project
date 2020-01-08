@@ -14,7 +14,7 @@ export default class BaseService<T> {
       .catch(err => console.log(err));
   }
 
-  getById(id: String): Promise<T> {
+  getById(id: string): Promise<T> {
     return axios
       .get(this.baseURL + `/${id}`)
       .then(res => {
@@ -43,7 +43,7 @@ export default class BaseService<T> {
       .catch(err => console.log(err));
   }
 
-  delete(id: String): Promise<void> {
+  delete(id: string): Promise<void> {
     return axios
       .delete(this.baseURL + `/${id}`)
       .then(res => {

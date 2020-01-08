@@ -7,7 +7,7 @@ import {
 import {GroupAction, LOAD_GROUP_SUCCESS} from '../types/group.types';
 import {logD} from '../../common/LogTool';
 
-export const getGroups = (userID: String) => {
+export const getGroups = (userID: string) => {
   return (dispatch: Dispatch<GroupAction>) => {
     logD('AppLog', 'get group');
     dispatch({

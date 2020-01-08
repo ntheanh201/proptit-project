@@ -8,7 +8,7 @@ class PostService extends BaseService<Post> {
     this.baseURL += '/posts';
   }
 
-  getByGroup(groupId: String): Promise<Post[]> {
+  getByGroup(groupId: string): Promise<Post[]> {
     this.baseURL += `/${groupId}`;
     return axios
       .get(this.baseURL)

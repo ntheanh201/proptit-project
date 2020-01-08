@@ -19,6 +19,7 @@ import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { connect } from 'react-redux';
 import { signInAction } from '../core/actions';
 import { logD } from '../common/LogTool';
+import { signInService } from '../service';
 
 interface SignInProps extends BaseScreenProps {
   signIn: typeof signIn;
@@ -26,15 +27,14 @@ interface SignInProps extends BaseScreenProps {
 }
 
 class SignIn extends BaseScreen<SignInProps> {
-
   componentDidUpdate() {
     const { isSignIn } = this.props.signInState;
     // logD("AppLog", isSignIn);
-    if (isSignIn === true) this.navigate("HomeStack");
+    if (isSignIn === true) this.navigate('HomeStack');
   }
 
   handleSignIn() {
-    this.props.signIn("admin", "admin")
+    this.props.signIn('admin', 'admin');
   }
 
   render() {

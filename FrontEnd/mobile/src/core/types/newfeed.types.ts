@@ -9,15 +9,15 @@ export interface NewFeedState {
   currentNewFeed?: Post[];
 }
 
-export interface NewFeedAction extends Action<String> {
+export interface NewFeedAction extends Action<string> {
   newfeeds?: Post[];
 }
 
 export interface Post {
-  id: String;
-  userId: String;
-  groupId: String;
-  content: String;
+  id: string;
+  userId: string;
+  groupId: string;
+  content: string;
   time: Date;
   type: Number;
 }
