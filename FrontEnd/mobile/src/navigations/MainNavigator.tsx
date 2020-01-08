@@ -6,6 +6,7 @@ import { Icon } from "native-base";
 import React from "react";
 import { createAppContainer } from "react-navigation";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import Search from "../screens/Search";
 
 const MainNavigator = createBottomTabNavigator({
     NewFeed: {
@@ -28,7 +29,7 @@ const MainNavigator = createBottomTabNavigator({
         }
     },
     Search: {
-        screen: Notification,
+        screen: Search,
         navigationOptions: {
             tabBarIcon: ({ focused, horizontal, tintColor }) => {
                 return <Icon name="search1" type="AntDesign" style={{ color: tintColor }} />

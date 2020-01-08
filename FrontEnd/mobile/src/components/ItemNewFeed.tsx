@@ -17,11 +17,11 @@ class ItemNewFeed extends React.Component<ItemNewFeedProps, ItemNewFeedState>{
     }
 
     render() {
-        const { newfeed, onPressSave, onPressHeart, onPressComment } = this.props;
+        const { newfeed, onPressSave, onPressHeart, onPressComment, onPressItem } = this.props;
         const { isLiked } = this.state;
 
         return (
-            <TouchableOpacity style={{ backgroundColor: 'gray', paddingBottom: 0.5 }}>
+            <TouchableOpacity style={{ backgroundColor: 'gray', paddingBottom: 0.5 }} onPress={() => onPressItem("")}>
                 <Row style={{ alignSelf: 'baseline', padding: 10, backgroundColor: 'white', width: '100%' }}>
                     <RoundImage source={require('../data/images/ic_app.png')} />
                     <Col style={{ marginLeft: 10 }}>
@@ -32,16 +32,16 @@ class ItemNewFeed extends React.Component<ItemNewFeedProps, ItemNewFeedState>{
                         <View style={{ marginTop: 5 }}>
                             <Text>{newfeed.content}</Text>
                         </View>
-                        <Row>
+                        <Row style={{ backgroundColor: 'transparent' }}>
                             <Col style={{ alignItems: 'center' }}>
-                                <Button style={{ backgroundColor: 'white', width: '100%', elevation: 0 }}
+                                <Button style={{ backgroundColor: 'transparent', width: '100%', elevation: 0 }}
                                     iconRight
                                     onPressIn={() => onPressComment(newfeed.id)}>
                                     <Icon name="message1" type="AntDesign" style={{ color: 'gray', fontSize: 20 }} />
                                 </Button>
                             </Col>
                             <Col style={{ alignItems: 'center' }}>
-                                <Button style={{ backgroundColor: 'white', width: '100%', elevation: 0 }}
+                                <Button style={{ backgroundColor: 'transparent', width: '100%', elevation: 0 }}
                                     iconRight
                                     onPressIn={() => {
                                         this.setState({
@@ -53,14 +53,14 @@ class ItemNewFeed extends React.Component<ItemNewFeedProps, ItemNewFeedState>{
                                 </Button>
                             </Col>
                             <Col style={{ alignItems: 'center' }}>
-                                <Button style={{ backgroundColor: 'white', width: '100%', elevation: 0 }}
+                                <Button style={{ backgroundColor: 'transparent', width: '100%', elevation: 0 }}
                                     iconRight
                                     onPressIn={() => onPressSave(newfeed.id)}>
                                     <Icon name="retweet" type="AntDesign" style={{ color: 'gray', fontSize: 20, backgroundColor: 'transparent' }} />
                                 </Button>
                             </Col>
                             <Col style={{ alignItems: 'center' }}>
-                                <Button style={{ backgroundColor: 'white', width: '100%', elevation: 0 }}
+                                <Button style={{ backgroundColor: 'transparent', width: '100%', elevation: 0 }}
                                     iconRight
                                     onPressIn={() => onPressSave(newfeed.id)}>
                                     <Icon name="sharealt" type="AntDesign" style={{ color: 'gray', fontSize: 20, backgroundColor: 'transparent' }} />
@@ -80,6 +80,7 @@ interface ItemNewFeedProps {
     onPressComment: (id: string) => void
     onPressHeart: (id: string) => void
     onPressSave: (id: string) => void
+    onPressItem: (id: string) => void
 }
 
 interface ItemNewFeedState {

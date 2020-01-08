@@ -3,7 +3,7 @@ import React from "react";
 import colors from "../values/colors";
 import { BaseScreen, BaseScreenProps } from "./BaseScreen";
 import { Text, TextInput, View, KeyboardAvoidingView, Platform } from "react-native";
-import TickPoll from "../components/TickPoll";
+import TickPoll from "../components/TickPollEditor";
 
 class CreatePost extends BaseScreen<CreatePostProps, CreatePostState> {
 
@@ -35,7 +35,7 @@ class CreatePost extends BaseScreen<CreatePostProps, CreatePostState> {
                 </Header>
                 <TextInput placeholder="Viết gì đó đi :)" style={{ fontSize: 25 }} multiline />
                 {
-                    hasTickPoll ? <TickPoll onPressClose={() => { }} /> : null
+                    hasTickPoll ? <TickPoll onPressClose={() => this.handleOnPressCloseTickPoll()} /> : null
                 }
                 <View style={{ position: 'absolute', bottom: 0, left: 0, flexDirection: 'row', height: 50, width: '100%', alignItems: 'center' }}>
                     <Button transparent>
@@ -47,6 +47,11 @@ class CreatePost extends BaseScreen<CreatePostProps, CreatePostState> {
                 </View>
             </Container>
         )
+    }
+    handleOnPressCloseTickPoll(): void {
+        this.setState({
+            hasTickPoll: false
+        })
     }
     handleOnPressTickPoll(): void {
         this.setState({

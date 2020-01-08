@@ -19,6 +19,10 @@ export class BaseScreen<P extends BaseScreenProps = BaseScreenProps, S = {}> ext
         this.props.navigation.closeDrawer();
     }
 
+    goBack() {
+        this.props.navigation.goBack()
+    }
+
     pop() {
         this.props.navigation.pop();
     }

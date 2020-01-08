@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@kcodev/react-native-progress-bar": "^1.0.1",
     "@types/jest": "^24.0.22",
     "@types/react": "^16.9.11",
     "@types/react-native": "^0.60.22",
@@ -21,6 +22,8 @@
     "react": "16.9.0",
     "react-native": "0.61.4",
     "react-native-gesture-handler": "^1.5.0",
+    "react-native-progress-bar-animated": "^1.0.6",
+    "react-native-progress-bar-classic": "^1.2.1",
     "react-native-reanimated": "^1.4.0",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-navigation": "^4.0.10",

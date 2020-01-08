@@ -67,12 +67,12 @@ export default class NewFeeds extends BaseScreen<NewFeedsProps, NewFeedsState> {
                         refreshControl={
                             <RefreshControl refreshing={this.state.isRefresh} onRefresh={() => { this.setState({ isRefresh: true }) }} />
                         }>
-                        <ItemNewFeed isLiked={true} newfeed={{ id: "", content: "Hello" }} onPressComment={id => { }} onPressHeart={id => { }} onPressSave={id => { }} />
-                        <ItemNewFeed isLiked={true} newfeed={{ id: "", content: "Hello" }} onPressComment={id => { }} onPressHeart={id => { }} onPressSave={id => { }} />
-                        <ItemNewFeed isLiked={true} newfeed={{ id: "", content: "Hello" }} onPressComment={id => { }} onPressHeart={id => { }} onPressSave={id => { }} />
-                        <ItemNewFeed isLiked={true} newfeed={{ id: "", content: "Hello" }} onPressComment={id => { }} onPressHeart={id => { }} onPressSave={id => { }} />
-                        <ItemNewFeed isLiked={true} newfeed={{ id: "", content: "Hello" }} onPressComment={id => { }} onPressHeart={id => { }} onPressSave={id => { }} />
-                        <ItemNewFeed isLiked={true} newfeed={{ id: "", content: "Hello" }} onPressComment={id => { }} onPressHeart={id => { }} onPressSave={id => { }} />
+                        <ItemNewFeed isLiked={true}
+                            newfeed={{ id: "", content: "Hello" }}
+                            onPressComment={id => { }}
+                            onPressHeart={id => { }}
+                            onPressSave={id => { }}
+                            onPressItem={id => this.handleOnPressItemNewFeed()} />
                     </ScrollView>
                 </Container>
                 <TouchableOpacity
@@ -101,5 +101,8 @@ export default class NewFeeds extends BaseScreen<NewFeedsProps, NewFeedsState> {
                 </TouchableOpacity>
             </View>
         )
+    }
+    handleOnPressItemNewFeed(): void {
+        this.navigate("DetailPost")
     }
 }
