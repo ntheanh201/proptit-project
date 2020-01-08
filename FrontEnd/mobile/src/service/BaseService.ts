@@ -1,30 +1,26 @@
 import axios from 'axios';
 
 export default class BaseService<T> {
-  protected baseURL = 'http://35.240.160.10:8080/proptit';
+  protected baseURL = 'http://34.87.37.63:8080/proptit';
 
   constructor() {}
 
   getAll(): Promise<T[]> {
-    const data = axios
+    return axios
       .get(this.baseURL)
       .then(res => {
         return res.data;
       })
       .catch(err => console.log(err));
-
-    return data;
   }
 
   getById(id: String): Promise<T> {
-    const data = axios
+    return axios
       .get(this.baseURL + `/${id}`)
       .then(res => {
         return res.data;
       })
       .catch(err => console.log(err));
-
-    return data;
   }
 
   add(item: T): Promise<void> {

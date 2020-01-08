@@ -2,7 +2,7 @@ import {Dispatch} from 'redux';
 import {
   LOAD_NEWFEED_SUCCESS,
   NewFeedAction,
-  NewFeed,
+  Post,
 } from '../types/newfeed.types';
 import {GroupAction, LOAD_GROUP_SUCCESS} from '../types/group.types';
 import {logD} from '../../common/LogTool';
