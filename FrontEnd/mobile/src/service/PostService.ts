@@ -1,5 +1,5 @@
 import BaseService from './BaseService';
-import {Post} from '../core';
+import { Post } from '../core';
 import axios from 'axios';
 
 class PostService extends BaseService<Post> {
@@ -9,9 +9,8 @@ class PostService extends BaseService<Post> {
   }
 
   getByGroup(groupId: string): Promise<Post[]> {
-    this.baseURL += `/${groupId}`;
     return axios
-      .get(this.baseURL)
+      .get(this.baseURL + `/${groupId}`)
       .then(res => {
         return res.data;
       })

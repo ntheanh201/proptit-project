@@ -20,7 +20,8 @@ class SplashScreen extends BaseScreen<SplashScreenProps> {
   componentDidUpdate() {
     const { isSignIn } = this.props.signInState;
     // logD("AppLog", isSignIn);
-    if (isSignIn === true) this.navigate('HomeStack');
+    if (isSignIn) this.navigate('HomeStack');
+    else this.navigate('SignIn');
   }
 
   componentDidMount() {
