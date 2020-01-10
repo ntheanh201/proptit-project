@@ -3,7 +3,7 @@ import { connection } from '../database';
 const POSTS_TABLE = 'posts';
 
 export const post_post_method = (
-  { id, userId, groupId, content, type } = post,
+  { id, userId, groupId, content, type },
   result,
 ) => {
   const sql = `INSERT INTO ${POSTS_TABLE}(id, userId, groupId, content, type) 
