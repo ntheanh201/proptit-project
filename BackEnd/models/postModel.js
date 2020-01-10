@@ -9,7 +9,6 @@ export const post_post_method = (
   const sql = `INSERT INTO ${POSTS_TABLE}(userId, groupId, content, type) 
                 VALUES (${userId}', '${groupId}', '${content}', '${type}')`;
   connection.query(sql, (err, res) => {
-    console.log(sql);
     if (err) {
       console.log('AppLog', err);
     } else {

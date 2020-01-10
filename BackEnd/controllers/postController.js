@@ -4,6 +4,7 @@ import {
   delete_post_method,
   patch_post_method,
 } from '../models/postModel';
+import uuid from 'uuid';
 
 class Post {
   constructor() {}
@@ -15,9 +16,18 @@ class Post {
   }
 
   postPost(post, res) {
-    post_post_method(post, result => {
-      res.send(result);
-    });
+    post_post_method(
+      {
+        id: uuid(),
+        userId: post.userId,
+        groupId: post.groupId,
+        content: post.content,
+        type: post.type,
+      },
+      result => {
+        res.send(result);
+      },
+    );
   }
 
   deletePostById(id, res) {

@@ -81,8 +81,8 @@ class Account {
     );
   }
 
-  deleteUser(id, res) {
-    delete_user_method(id, err => {
+  deleteUser(body, res) {
+    delete_user_method(body.id, err => {
       if (err) console.log(err);
       else res.send('Delete Account Successful');
     });
