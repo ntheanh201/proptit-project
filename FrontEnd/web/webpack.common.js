@@ -1,8 +1,8 @@
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackBar = require('webpackbar');
-const StylelintPlugin = require('stylelint-webpack-plugin');
+const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackBar = require('webpackbar')
+const StylelintPlugin = require('stylelint-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -39,8 +39,40 @@ module.exports = {
         use: ['html-loader']
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader']
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      {
+        exclude: [
+          /\.html$/,
+          /\.(js|jsx|mjs)$/,
+          /\.css$/,
+          /\.json$/,
+          /\.svg$/,
+          /\.(graphql|gql)$/,
+          /particles\.js/
+        ],
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'static/media/[name].[hash:8].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|png|jpg|gif)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
       }
     ]
   },
@@ -56,4 +88,4 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   }
-};
+}

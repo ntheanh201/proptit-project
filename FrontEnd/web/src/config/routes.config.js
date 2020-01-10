@@ -16,4 +16,4 @@ export default [
     component: 'MyAccount',
     isPrivate: true
   }
-];
+]
