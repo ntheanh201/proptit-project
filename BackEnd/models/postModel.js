@@ -3,11 +3,11 @@ import { connection } from '../database';
 const POSTS_TABLE = 'posts';
 
 export const post_post_method = (
-  { id, userId, groupId, content, type } = post,
+  { userId, groupId, content, type = 1 },
   result,
 ) => {
-  const sql = `INSERT INTO ${POSTS_TABLE}(id, userId, groupId, content, type) 
-                VALUES ('${id}', '${userId}', '${groupId}', '${content}', '${type}')`;
+  const sql = `INSERT INTO ${POSTS_TABLE}(userId, groupId, content, type) 
+                VALUES (${userId}', '${groupId}', '${content}', '${type}')`;
   connection.query(sql, (err, res) => {
     console.log(sql);
     if (err) {
