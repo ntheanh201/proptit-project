@@ -7,9 +7,8 @@ export const post_post_method = (
   result,
 ) => {
   const sql = `INSERT INTO ${POSTS_TABLE}(id, userId, groupId, content, type) 
-                VALUES ('${id}', '${userId}', '${groupId}', '${content}', '${type}')`;
+                VALUES ("${id}", "${userId}", "${groupId}", "${content}", "${type}")`;
   connection.query(sql, (err, res) => {
-    console.log(sql);
     if (err) {
       console.log('AppLog', err);
     } else {
