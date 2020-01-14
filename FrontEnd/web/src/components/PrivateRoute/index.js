@@ -1,15 +1,16 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const isAuthenticated = () => true
 
-const PrivateRoute = ({ children, exact, path }) => {
+export const PrivateRoute = ({ children, exact, path }) => {
   return (
     <Route
       exact={exact}
       path={path}
-      render={() => (isAuthenticated() ? children : <Redirect to="/login" />)}
+      render={() => (isAuthenticated() ? children : <Redirect to='/login' />)}
     />
   )
 }
@@ -25,5 +26,3 @@ PrivateRoute.defaultProps = {
   exact: false,
   path: '/'
 }
-
-export default PrivateRoute

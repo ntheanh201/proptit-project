@@ -1,15 +1,15 @@
+/* eslint-disable id-length */
+/* eslint-disable space-before-function-paren */
 /* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/jsx-fragments */
 /* eslint-disable react/state-in-constructor */
 /* eslint-disable react/jsx-one-expression-per-line */
 
 import React, { Fragment } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 
-import { Site, Nav, Grid, List, Button, RouterContextProvider } from 'tabler-react'
+import { Site, RouterContextProvider } from 'tabler-react'
 
 const navBarItems = [
   {
@@ -101,7 +101,7 @@ const navBarItems = [
 
 const accountDropdownProps = {
   avatarURL: './demo/faces/female/25.jpg',
-  name: 'Jane Pearson',
+  name: 'Nguyen The Anh',
   description: 'Administrator',
   options: [
     { icon: 'user', value: 'Profile' },
@@ -114,7 +114,7 @@ const accountDropdownProps = {
   ]
 }
 
-class DefaultNavbar extends React.Component {
+export class DefaultNavbar extends React.Component {
   state = {
     notificationsObjects: [
       {
@@ -122,7 +122,8 @@ class DefaultNavbar extends React.Component {
         avatarURL: 'demo/faces/male/41.jpg',
         message: (
           <Fragment>
-            <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
+            <strong>Nathan</strong> pushed new commit: Fix page load performance
+            issue.
           </Fragment>
         ),
         time: '10 minutes ago'
@@ -152,110 +153,63 @@ class DefaultNavbar extends React.Component {
 
   render() {
     const notificationsObjects = this.state.notificationsObjects || []
-    const unreadCount = this.state.notificationsObjects.reduce((a, v) => a || v.unread, false)
+    const unreadCount = this.state.notificationsObjects.reduce(
+      (a, v) => a || v.unread,
+      false
+    )
     return (
       <Site.Wrapper
         headerProps={{
           href: '/',
           alt: 'Tabler React',
-          imageURL: './demo/brand/tabler.svg',
-          navItems: (
-            <Nav.Item type="div" className="d-none d-md-flex">
-              <Button
-                href="https://github.com/tabler/tabler-react"
-                target="_blank"
-                outline
-                size="sm"
-                RootComponent="a"
-                color="primary"
-              >
-                Source code
-              </Button>
-            </Nav.Item>
-          ),
+          imageURL: '../../../public/assets/logo.svg',
+          // navItems: (
+          //   <Nav.Item type='div' className='d-none d-md-flex'>
+          //     <Button
+          //       href='https://github.com/tabler/tabler-react'
+          //       target='_blank'
+          //       outline
+          //       size='sm'
+          //       RootComponent='a'
+          //       color='primary'
+          //     >
+          //       Source code
+          //     </Button>
+          //   </Nav.Item>
+          // ),
           notificationsTray: {
             notificationsObjects,
             markAllAsRead: () =>
               this.setState(
                 () => ({
-                  notificationsObjects: this.state.notificationsObjects.map(v => ({
-                    ...v,
-                    unread: false
-                  }))
+                  notificationsObjects: this.state.notificationsObjects.map(
+                    v => ({
+                      ...v,
+                      unread: false
+                    })
+                  )
                 }),
                 () =>
                   setTimeout(
                     () =>
                       this.setState({
-                        notificationsObjects: this.state.notificationsObjects.map(v => ({
-                          ...v,
-                          unread: true
-                        }))
+                        notificationsObjects: this.state.notificationsObjects.map(
+                          v => ({
+                            ...v,
+                            unread: true
+                          })
+                        )
                       }),
                     5000
                   )
               ),
             unread: unreadCount
           },
-          accountDropdown: accountDropdownProps
+          accountDropdown: this.props.isLogin && accountDropdownProps
         }}
         navProps={{ itemsObjects: navBarItems }}
         routerContextComponentType={withRouter(RouterContextProvider)}
-        footerProps={{
-          links: [
-            <a href="#">First Link</a>,
-            <a href="#">Second Link</a>,
-            <a href="#">Third Link</a>,
-            <a href="#">Fourth Link</a>,
-            <a href="#">Five Link</a>,
-            <a href="#">Sixth Link</a>,
-            <a href="#">Seventh Link</a>,
-            <a href="#">Eigth Link</a>
-          ],
-          note:
-            'Premium and Open Source dashboard template with responsive and high quality UI. For Free!',
-          copyright: (
-            <React.Fragment>
-              Copyright © 2019
-              <a href="."> Tabler-react</a>. Theme by
-              <a href="https://codecalm.net" target="_blank" rel="noopener noreferrer">
-                {' '}
-                codecalm.net
-              </a>{' '}
-              All rights reserved.
-            </React.Fragment>
-          ),
-          nav: (
-            <React.Fragment>
-              <Grid.Col auto>
-                <List className="list-inline list-inline-dots mb-0">
-                  <List.Item className="list-inline-item">
-                    <a href="./docs/index.html">Documentation</a>
-                  </List.Item>
-                  <List.Item className="list-inline-item">
-                    <a href="./faq.html">FAQ</a>
-                  </List.Item>
-                </List>
-              </Grid.Col>
-              <Grid.Col auto>
-                <Button
-                  href="https://github.com/tabler/tabler-react"
-                  size="sm"
-                  outline
-                  color="primary"
-                  RootComponent="a"
-                >
-                  Source code
-                </Button>
-              </Grid.Col>
-            </React.Fragment>
-          )
-        }}
-      >
-        {this.props.children}
-      </Site.Wrapper>
+      />
     )
   }
 }
-
-export default DefaultNavbar

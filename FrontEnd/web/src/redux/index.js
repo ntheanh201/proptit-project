@@ -16,4 +16,7 @@ let middlewares = [thunk, axiosMiddleware(client)]
 
 if (process.env.NODE_EN !== 'production') middlewares = [...middlewares, logger]
 
-export default createStore(rootReducer, composeEnhancers(applyMiddleware(...middlewares)))
+export default createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(...middlewares))
+)
