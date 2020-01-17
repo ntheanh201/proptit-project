@@ -1,5 +1,5 @@
 import BaseService from './BaseService';
-import {User} from '../core';
+import { User } from '../core';
 
 class UserService extends BaseService<User> {
   constructor() {

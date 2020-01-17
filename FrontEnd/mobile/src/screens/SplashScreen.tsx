@@ -1,30 +1,30 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
-import { signInService } from '../service';
-import { handleContinueSignIn, AppState, SignInState } from '../core';
-import { Dispatch, AnyAction, bindActionCreators } from 'redux';
-import { signInAction } from '../core/actions';
-import { connect } from 'react-redux';
-import { BaseScreen, BaseScreenProps } from './BaseScreen';
+import * as React from 'react'
+import { Text, View } from 'react-native'
+import { signInService } from '../service'
+import { handleContinueSignIn, AppState, SignInState } from '../core'
+import { Dispatch, AnyAction, bindActionCreators } from 'redux'
+import { signInAction } from '../core/actions'
+import { connect } from 'react-redux'
+import { BaseScreen, BaseScreenProps } from './BaseScreen'
 
 interface SplashScreenProps extends BaseScreenProps {
-  handleContinueSignIn: typeof handleContinueSignIn;
-  signInState: SignInState;
+  handleContinueSignIn: typeof handleContinueSignIn
+  signInState: SignInState
 }
 
 class SplashScreen extends BaseScreen<SplashScreenProps> {
   constructor(props: SplashScreenProps) {
-    super(props);
+    super(props)
   }
 
   componentDidUpdate() {
-    const { isSignIn } = this.props.signInState;
+    const { isSignIn } = this.props.signInState
     // logD("AppLog", isSignIn);
-    if (isSignIn === true) this.navigate('HomeStack');
+    if (isSignIn === true) this.navigate('HomeStack')
   }
 
   componentDidMount() {
-    this.props.handleContinueSignIn();
+    this.props.handleContinueSignIn()
   }
 
   render() {
@@ -32,15 +32,15 @@ class SplashScreen extends BaseScreen<SplashScreenProps> {
       <View>
         <Text>PROPTIT</Text>
       </View>
-    );
+    )
   }
 }
 
 const mapStateToProps = (state: AppState) => ({
   signInState: state.signin,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-  bindActionCreators(signInAction, dispatch);
+  bindActionCreators(signInAction, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen)

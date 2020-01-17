@@ -1,5 +1,5 @@
-import { BaseScreen, BaseScreenProps } from './BaseScreen';
-import React from 'react';
+import { BaseScreen, BaseScreenProps } from './BaseScreen'
+import React from 'react'
 import {
   Form,
   Container,
@@ -9,36 +9,35 @@ import {
   Button,
   Text,
   Spinner,
-} from 'native-base';
-import EditText from '../components/EditText';
-import colors from '../values/colors';
-import { Image, ActivityIndicator, Dimensions } from 'react-native';
-import { ButtonText, LoadingView } from '../components';
-import { signIn, SignInState, SignInAction, AppState } from '../core';
-import { bindActionCreators, Dispatch, AnyAction } from 'redux';
-import { connect } from 'react-redux';
-import { signInAction } from '../core/actions';
-import { logD } from '../common/LogTool';
-import { signInService } from '../service';
+} from 'native-base'
+import EditText from '../components/EditText'
+import colors from '../values/colors'
+import { Image, ActivityIndicator, Dimensions } from 'react-native'
+import { ButtonText, LoadingView } from '../components'
+import { signIn, SignInState, SignInAction, AppState } from '../core'
+import { bindActionCreators, Dispatch, AnyAction } from 'redux'
+import { connect } from 'react-redux'
+import { signInAction } from '../core/actions'
+import { signInService } from '../service'
 
 interface SignInProps extends BaseScreenProps {
-  signIn: typeof signIn;
-  signInState: SignInState;
+  signIn: typeof signIn
+  signInState: SignInState
 }
 
 class SignIn extends BaseScreen<SignInProps> {
   componentDidUpdate() {
-    const { isSignIn } = this.props.signInState;
+    const { isSignIn } = this.props.signInState
     // logD("AppLog", isSignIn);
-    if (isSignIn === true) this.navigate('HomeStack');
+    if (isSignIn === true) this.navigate('HomeStack')
   }
 
   handleSignIn() {
-    this.props.signIn('admin', 'admin');
+    this.props.signIn('admin', 'admin')
   }
 
   render() {
-    const { isLoading } = this.props.signInState;
+    const { isLoading } = this.props.signInState
     return (
       <Container style={{ margin: 10 }}>
         <Content>
@@ -66,15 +65,15 @@ class SignIn extends BaseScreen<SignInProps> {
           </Container>
         </Content>
       </Container>
-    );
+    )
   }
 }
 
 const mapStateToProps = (state: AppState) => ({
   signInState: state.signin,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-  bindActionCreators(signInAction, dispatch);
+  bindActionCreators(signInAction, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

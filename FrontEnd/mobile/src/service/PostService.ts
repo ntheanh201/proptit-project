@@ -1,22 +1,22 @@
-import BaseService from './BaseService';
-import {Post} from '../core';
-import axios from 'axios';
+import BaseService from './BaseService'
+import { Post } from '../core'
+import axios from 'axios'
 
 class PostService extends BaseService<Post> {
   constructor() {
-    super();
-    this.baseURL += '/posts';
+    super()
+    this.baseURL += '/posts'
   }
 
   getByGroup(groupId: string): Promise<Post[]> {
-    this.baseURL += `/${groupId}`;
+    this.baseURL += `/${groupId}`
     return axios
       .get(this.baseURL)
       .then(res => {
-        return res.data;
+        return res.data
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
   }
 }
 
-export const postService = new PostService();
+export const postService = new PostService()

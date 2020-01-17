@@ -1,10 +1,10 @@
-import {View, Spinner} from 'native-base';
-import React from 'react';
-import colors from '../values/colors';
-import {Modal} from 'react-native';
+import { View, Spinner } from 'native-base'
+import React from 'react'
+import colors from '../values/colors'
+import { Modal } from 'react-native'
 
 interface LoadingView {
-  show: boolean;
+  show: boolean
 }
 
 const LoadingView = (state: LoadingView): React.ReactElement => {
@@ -21,7 +21,7 @@ const LoadingView = (state: LoadingView): React.ReactElement => {
         <Spinner color={colors.blue01} />
       </View>
     </Modal>
-  );
-};
+  )
+}
 
-export default LoadingView;
+export default LoadingView
