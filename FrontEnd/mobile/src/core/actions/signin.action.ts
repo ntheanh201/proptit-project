@@ -6,7 +6,7 @@ import {
   SIGN_OUT,
   SignInAction,
 } from '../types/signin.types'
-import { signInService } from '../../service'
+import { signInService } from '../../services'
 import AsyncStorage from '@react-native-community/async-storage'
 
 export const signIn = (username: string, password: string) => {
