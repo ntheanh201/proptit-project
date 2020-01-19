@@ -1,7 +1,5 @@
-
 const colors = {
-    blue01: "rgb(70, 132, 192)",
-    blue02: "rgb(42, 163, 240)"
+  mainBlue: '#4580C2',
 }
 
-export default colors;
+export default colors

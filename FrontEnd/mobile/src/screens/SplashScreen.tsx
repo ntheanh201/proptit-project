@@ -6,6 +6,7 @@ import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { BaseScreen, BaseScreenProps } from './BaseScreen'
+import { images } from '../assets'
 
 interface SplashScreenProps extends BaseScreenProps {
   handleContinueSignIn: typeof handleContinueSignIn
@@ -20,13 +21,16 @@ class SplashScreen extends BaseScreen<SplashScreenProps> {
   componentDidUpdate() {
     const { isSignIn, isLoading } = this.props.signInState
     console.log('AppLog', isSignIn)
-    // if (!isLoading && isSignIn) this.navigate('HomeStack')
-    // else if (!isLoading) this.navigate('SignIn')
+    // if (!isLoading && isSignIn) {
+    // } else if (!isLoading) this.navigate('SignInScreen')
   }
 
   componentDidMount() {
     console.log('running')
     // this.props.handleContinueSignIn()
+    setTimeout(() => {
+      this.navigate('SignIn')
+    }, 3000)
   }
 
   render() {
@@ -40,11 +44,8 @@ class SplashScreen extends BaseScreen<SplashScreenProps> {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image
-          source={require('../data/images/ic_app.png')}
-          style={{ width: 200, height: 200 }}
-        />
-        <ActivityIndicator animating={true} color="white" />
+        <Image source={images.APP_ICON} style={{ width: 200, height: 200 }} />
+        <ActivityIndicator animating={true} color="#fff" />
       </View>
     )
   }
