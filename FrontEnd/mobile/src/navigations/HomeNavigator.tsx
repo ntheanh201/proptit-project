@@ -3,9 +3,18 @@ import { Icon } from 'native-base'
 import React from 'react'
 import { createAppContainer } from 'react-navigation'
 import ProfileScreen from '../screens/ProfileScreen'
+import NewsFeedScreen from '../screens/NewsFeedScreen'
 
 const HomeNavigator = createBottomTabNavigator(
   {
+    NewsFeed: {
+      screen: NewsFeedScreen,
+      navigationOptions: {
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          return <Icon name="home" type="AntDesign" style={{ color: tintColor }} />
+        }
+      }
+    },
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
@@ -20,14 +29,6 @@ const HomeNavigator = createBottomTabNavigator(
         },
       },
     },
-    // NewFeed: {
-    //     screen: NewFeed,
-    //     navigationOptions: {
-    //         tabBarIcon: ({ focused, horizontal, tintColor }) => {
-    //             return <Icon name="home" type="AntDesign" style={{ color: tintColor }} />
-    //         }
-    //     }
-    // },
     // Notification: {
     //     screen: Notification,
     //     navigationOptions: {
@@ -49,7 +50,7 @@ const HomeNavigator = createBottomTabNavigator(
     // }
   },
   {
-    initialRouteName: 'Profile',
+    initialRouteName: 'NewsFeed',
     tabBarOptions: {
       showLabel: false,
     },

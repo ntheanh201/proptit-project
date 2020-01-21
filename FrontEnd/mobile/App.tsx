@@ -7,10 +7,9 @@ import NewsFeedScreen from './src/screens/NewsFeedScreen';
 
 const App = () => {
   return (
-    // <Provider store={store}>
-    //   <AppNavigator />
-    // </Provider>
-    <NewsFeedScreen />
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
   );
 };
 

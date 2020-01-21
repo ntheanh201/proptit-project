@@ -1,14 +1,15 @@
 import { Platform } from "react-native";
-import { isIPhoneXFamily } from "@freakycoder/react-native-helpers";
+import { ClassicHeaderProps } from "./ClassicHeader";
+import { isIphoneXFamily } from "./Helpers"
 
-export function container(props) {
+export function container(props: ClassicHeaderProps) {
   const { height, width, backgroundColor, statusBarHidden } = props;
   return {
     width: width || "100%",
     ...Platform.select({
       ios: {
         top: 0,
-        height: isIPhoneXFamily
+        height: isIphoneXFamily()
           ? height || 60
           : height || (statusBarHidden ? 50 : 70)
       },
@@ -22,14 +23,14 @@ export function container(props) {
   };
 }
 
-export function innerContainer(statusBarHidden) {
+export function innerContainer(statusBarHidden?: boolean) {
   return {
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
     ...Platform.select({
       ios: {
-        top: isIPhoneXFamily ? 12 : statusBarHidden ? 0 : 24
+        top: isIphoneXFamily() ? 12 : statusBarHidden ? 0 : 24
       },
       android: {
         top: statusBarHidden ? 12 : 24
@@ -38,7 +39,7 @@ export function innerContainer(statusBarHidden) {
   };
 }
 
-export function _shadowStyle(shadowColor) {
+export function _shadowStyle(shadowColor?: string) {
   return {
     ...Platform.select({
       ios: {
@@ -54,14 +55,14 @@ export function _shadowStyle(shadowColor) {
   };
 }
 
-export function _leftComponentStyle(leftComponentDisable) {
+export function _leftComponentStyle(leftComponentDisable?: boolean) {
   return {
     marginLeft: 16,
     opacity: leftComponentDisable ? 0 : 1
   };
 }
 
-export function _rightComponentStyle(rightComponentDisable) {
+export function _rightComponentStyle(rightComponentDisable?: boolean) {
   return {
     marginRight: 16,
     opacity: rightComponentDisable ? 0 : 1
