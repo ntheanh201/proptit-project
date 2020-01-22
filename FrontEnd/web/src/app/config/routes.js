@@ -13,6 +13,12 @@ export const routes = [
     component: () => <AsyncPage component='Home' />,
     title: 'Homepage'
   },
+  // {
+  //   redirect: true,
+  //   exact: true,
+  //   from: '/demo',
+  //   to: '/theanhdz'
+  // },
   {
     path: '/demo',
     exact: true,
@@ -30,7 +36,7 @@ export const routes = [
     path: '/login',
     exact: true,
     component: () => <AsyncPage component='Login' />,
-    title: 'Login'
+    withoutNormalLayout: true
   },
   {
     path: '/404.html',

@@ -20,6 +20,17 @@ const App = () => {
             case route.redirect:
               const { redirect, ...props } = route
               return <Redirect key={index} {...props} />
+            case route.withoutNormalLayout: {
+              const { path, exact = false, title = false, component } = route
+              return (
+                <Route
+                  key={index}
+                  path={path}
+                  exact={exact}
+                  component={component}
+                />
+              )
+            }
             case route.isPrivate: {
               const { path, exact = false, title = false, component } = route
               return (

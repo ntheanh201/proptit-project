@@ -150,7 +150,7 @@ export const Layout = ({ children }) => {
         copyright: (
           <React.Fragment>
             Copyright © 2020
-            <a href='.'> ntheanh201</a>.
+            <a href='.'> ProPTIT</a>.
           </React.Fragment>
         ),
         nav: (
