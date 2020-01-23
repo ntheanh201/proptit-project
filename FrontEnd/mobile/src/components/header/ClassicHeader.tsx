@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { SafeAreaView, View, Text, TouchableOpacity, StyleProp, ViewProps, Insets, Platform, ViewStyle } from "react-native";
-import IconIonicons from "react-native-vector-icons/Ionicons";
-import IconAntDesign from "react-native-vector-icons/AntDesign"
 // Styles
 import _styles, {
   container,
@@ -12,6 +10,7 @@ import _styles, {
   _rightComponentStyle
 } from "./ClassicHeader.style";
 import colors from "../../values/colors";
+import { Icon } from "native-base";
 
 const hitSlop = {
   top: 30,
@@ -80,14 +79,14 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
             >
               {
                 Platform.OS == "ios" ?
-                  (<IconIonicons
-                    size={30}
+                  (<Icon
+                    fontSize={30}
                     name="ios-arrow-back"
                     color={colors.mainBlue}
                   // {...props}
                   />) :
-                  <IconAntDesign
-                    size={30}
+                  <Icon
+                    fontSize={30}
                     name="arrowleft"
                     color={colors.mainBlue}
                   // {...props}
@@ -107,9 +106,10 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
               hitSlop={hitSlops}
               onPress={rightComponentOnPress}
             >
-              <IconIonicons
+              <Icon
+                type="Ionicons"
                 name="ios-menu"
-                size={30}
+                fontSize={30}
                 color="white"
                 {...props}
               />

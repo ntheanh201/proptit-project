@@ -23,7 +23,7 @@ import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 
-interface SignInScreenProps extends BaseScreenProps {}
+interface SignInScreenProps extends BaseScreenProps { }
 
 class SignInScreen extends BaseScreen<SignInScreenProps> {
   constructor(props: SignInScreenProps) {
@@ -50,12 +50,11 @@ class SignInScreen extends BaseScreen<SignInScreenProps> {
             secureTextEntry={true}
             tintColor={colors.mainBlue}
           />
-          <TouchableOpacity style={styles.buttonSignIn}>
+          <TouchableOpacity style={styles.buttonSignIn} onPressIn={() => {
+            this.navigate('HomeStack')
+          }}>
             <Text
-              style={styles.textSignIn}
-              onPress={() => {
-                this.navigate('HomeStack')
-              }}>
+              style={styles.textSignIn}>
               Sign In
             </Text>
           </TouchableOpacity>
