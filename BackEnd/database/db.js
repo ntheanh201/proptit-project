@@ -1,11 +1,11 @@
 import mysql from 'mysql2';
 
 export const connection = mysql.createConnection({
-  host: '35.240.232.224',
+  host: '35.220.172.23',
   user: 'root',
-  password: '',
-  port: '',
-  database: 'proptit',
+  password: 'Nghia.123',
+  port: '3306',
+  database: 'proptit_network',
 });
 
 // export const connection = mysql.createConnection({

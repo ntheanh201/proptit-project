@@ -1,7 +1,7 @@
 import { connection } from '../database';
 
 export const get_group_method = (filterID, result) => {
-  let query = `SELECT * FROM groups`;
+  let query = 'SELECT * FROM `groups`';
   if (filterID) query += ` WHERE id = "${filterID}"`;
   connection.query(query, (error, res) => {
     if (error) {

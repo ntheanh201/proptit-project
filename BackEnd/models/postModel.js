@@ -1,6 +1,6 @@
 import { connection } from '../database';
 
-const POSTS_TABLE = 'posts';
+const POSTS_TABLE = `posts`;
 
 export const post_post_method = (
   { id, userId, groupId, content, type = 1 } = post,
@@ -9,7 +9,6 @@ export const post_post_method = (
   const sql = `INSERT INTO ${POSTS_TABLE}(id, userId, groupId, content, type) 
                 VALUES ('${id}', '${userId}', '${groupId}', '${content}', '${type}')`;
   connection.query(sql, (err, res) => {
-    console.log(sql);
     if (err) {
       console.log('AppLog', err);
     } else {
@@ -23,7 +22,7 @@ export const post_post_method = (
  */
 
 export const get_all_posts_method = (groupId, result) => {
-  const sql = `SELECT * FROM ${POSTS_TABLE} WHERE groupId = '${groupId}'`;
+  const sql = `SELECT posts.id, posts.groupId, posts.content, posts.time, posts.type, posts.userId AS authorId, reactions.userId AS reactuserId, comments.id AS commentId FROM posts LEFT OUTER JOIN reactions ON groupId = '${groupId}' AND posts.id = reactions.postId LEFT OUTER JOIN comments ON posts.id = comments.postId`;
   connection.query(sql, (err, res) => {
     if (err) {
       console.log(err);
