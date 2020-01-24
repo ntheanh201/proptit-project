@@ -22,4 +22,7 @@ export { CardOptionsItem } from './components/Card/CardOptionsItem'
 export { CardStatus } from './components/Card/CardStatus'
 export { CardTitle } from './components/Card/CardTitle'
 
+//site wrapper
+export { default as SiteWrapper } from './components/SiteWrapper/SiteWrapper'
+
 export { ToastService } from './services/ToastService/ToastService'

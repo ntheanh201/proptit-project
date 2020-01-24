@@ -1,12 +1,13 @@
 /* eslint-disable id-length */
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink, withRouter, Link } from 'react-router-dom'
 
-import { useState } from 'core'
-
 import { RouterContextProvider, Grid, List } from 'tabler-react'
-import SiteWrapper from '../SiteWrapper/SiteWrapper'
 
+import { useState } from 'core'
+import { SiteWrapper } from 'ui'
+
+import { PreloaderContext } from '../../../Preloader'
 import User from '../../../assets/user.svg'
 
 const navBarItems = [
@@ -49,17 +50,18 @@ const accountDropdownProps = {
   name: 'Nguyen The Anh',
   description: '@ntheanh201',
   options: [
-    { icon: 'user', value: 'Profile', to: '/user' },
-    { icon: 'settings', value: 'Settings' },
-    { icon: 'mail', value: 'Inbox', badge: '6' },
-    { icon: 'send', value: 'Message' },
+    { icon: 'user', value: 'Profile', to: '/profile' },
+    { icon: 'settings', value: 'Settings', to: '/settings' },
+    { icon: 'mail', value: 'Inbox', badge: '6', to: '/messages' },
     { isDivider: true },
-    { icon: 'help-circle', value: 'Need help?' },
-    { icon: 'log-out', value: 'Sign out' }
+    { icon: 'help-circle', value: 'Need help?', to: '/helps' },
+    { icon: 'log-out', value: 'Sign out', to: '/logout' }
   ]
 }
 
 export const Layout = ({ children }) => {
+  const { isLoggedIn } = useContext(PreloaderContext)
+
   const initialState = {
     notificationsObjects: [
       {
@@ -67,31 +69,30 @@ export const Layout = ({ children }) => {
         avatarURL: 'demo/faces/male/41.jpg',
         message: (
           <React.Fragment>
-            <strong>Nathan</strong> pushed new commit: Fix page load performance
-            issue.
+            <strong>Thế Anh</strong> đăng 1 bài viết mới
           </React.Fragment>
         ),
-        time: '10 minutes ago'
+        time: '10 phút trước'
       },
       {
         unread: true,
         avatarURL: 'demo/faces/female/1.jpg',
         message: (
           <React.Fragment>
-            <strong>Alice</strong> started new task: Tabler UI design.
+            <strong>Tiến Hải</strong> đã trả lời bình luận của bạn
           </React.Fragment>
         ),
-        time: '1 hour ago'
+        time: '1 giờ trước'
       },
       {
         unread: false,
         avatarURL: 'demo/faces/female/18.jpg',
         message: (
           <React.Fragment>
-            <strong>Rose</strong> deployed new version of NodeJS REST Api // V3
+            <strong>Công Khanh</strong> đã bày tỏ cảm xúc về bài viết của bạn
           </React.Fragment>
         ),
-        time: '2 hours ago'
+        time: '2 giờ trước'
       }
     ]
   }
@@ -144,7 +145,7 @@ export const Layout = ({ children }) => {
             ),
           unread: unreadCount
         },
-        accountDropdown: accountDropdownProps
+        accountDropdown: isLoggedIn ? accountDropdownProps : ''
       }}
       footerProps={{
         copyright: (

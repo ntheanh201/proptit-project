@@ -1,27 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { PreloaderContext } from '../../../Preloader'
 
-const isAuthenticated = () => false
-
-export const PrivateRoute = ({ children, exact, path }) => {
-  return (
-    <Route
-      exact={exact}
-      path={path}
-      render={() => (isAuthenticated() ? children : <Redirect to='/login' />)}
-    />
-  )
+const isAuthenticated = () => {
+  const { isLoggedIn } = useContext(PreloaderContext)
+  return isLoggedIn
 }
 
-PrivateRoute.propTypes = {
-  children: PropTypes.instanceOf(Object),
-  exact: PropTypes.bool,
-  path: PropTypes.string
+export const PrivateRoute = ({ component, exact, path }) => {
+  return <Route exact={exact} path={path} component={withAuth(component)} />
 }
 
-PrivateRoute.defaultProps = {
-  children: {},
-  exact: false,
-  path: '/'
+const withAuth = WrappedComponent => {
+  return () =>
+    isAuthenticated() ? <WrappedComponent /> : <Redirect to='/login' />
 }

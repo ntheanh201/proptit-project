@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Card, Button, Form } from 'tabler-react'
+import { Button, Form } from 'tabler-react'
+import { Card, CardHeader, CardTitle, CardBody } from 'ui'
 
 export const FormCard = ({
   children,
@@ -12,17 +13,17 @@ export const FormCard = ({
 }) => {
   return (
     <Card onSubmit={onSubmit} action={action} method={method}>
-      <Card.Header>
-        <Card.Title>{title}</Card.Title>
-      </Card.Header>
-      <Card.Body>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardBody>
         {children}
         <Form.Footer>
           <Button type='submit' color='primary' block>
             {buttonText}
           </Button>
         </Form.Footer>
-      </Card.Body>
+      </CardBody>
     </Card>
   )
 }

@@ -55,7 +55,7 @@ const App = () => {
             }
           }
         })}
-        <Redirect to='/404.html' />
+        <Redirect to='/404' />
       </Switch>
     </Router>
   )

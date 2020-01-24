@@ -10,7 +10,7 @@ export const PreloaderContext = createContext()
 export const Preloader = ({ children }) => {
   const [state, setState] = useState({
     loading: true,
-    isLoggedIn: false
+    isLoggedIn: true
   })
 
   useEffect(() => {

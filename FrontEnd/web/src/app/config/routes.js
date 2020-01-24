@@ -26,11 +26,11 @@ export const routes = [
     title: 'Demo'
   },
   {
-    path: '/user',
+    isPrivate: true,
+    path: '/profile',
     exact: true,
-    component: () => <AsyncPage component='User' />,
-    title: 'User',
-    isPrivate: true
+    component: () => <AsyncPage component='ProfilePage' />,
+    title: 'Profile'
   },
   {
     path: '/login',
@@ -39,7 +39,7 @@ export const routes = [
     withoutNormalLayout: true
   },
   {
-    path: '/404.html',
+    path: '/404',
     exact: true,
     component: () => <AsyncPage component='404' />
   }

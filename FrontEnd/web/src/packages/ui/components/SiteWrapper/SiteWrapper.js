@@ -1,7 +1,6 @@
 /* eslint-disable id-length */
-// @flow
 
-import * as React from 'react'
+import React from 'react'
 
 import { Page } from 'tabler-react'
 import { SiteFooter } from './SiteFooter'

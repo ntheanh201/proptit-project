@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Container, Notification } from 'tabler-react'
 // import { SiteLogo } from './SiteLogo'
 
-import Logo from '../../../assets/logo.svg'
+import Logo from '../../assets/logo.svg'
 import { AccountDropdown } from '../AccountDropdown/AccountDropdown'
 
 export const SiteHeader = ({

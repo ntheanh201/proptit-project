@@ -11,7 +11,8 @@ module.exports = ({ mode, outputPath }) => {
     entry: ['babel-polyfill', './index.js'],
     output: {
       path: path.resolve(process.cwd(), outputPath),
-      filename: '[name].[hash:8].js'
+      filename: '[name].[hash:8].js',
+      publicPath: path.resolve(process.cwd(), outputPath)
     },
     resolve: {
       alias: {
@@ -75,6 +76,10 @@ module.exports = ({ mode, outputPath }) => {
               }
             }
           ]
+        },
+        {
+          test: /\.(jpe?g|png|gif|svg)$/i,
+          loader: 'file-loader?name=/images/[name].[ext]'
         },
         {
           test: /particles\.js/,
