@@ -25,6 +25,18 @@ const navBarItems = [
     to: '/groups',
     icon: 'cpu',
     LinkComponent: withRouter(NavLink)
+  },
+  {
+    value: 'Gallery',
+    to: '/gallery',
+    icon: 'image',
+    LinkComponent: withRouter(NavLink)
+  },
+  {
+    value: 'ProPTIT Chat Room',
+    to: '/chat',
+    icon: 'message-circle',
+    LinkComponent: withRouter(NavLink)
   }
   // {
   //   value: 'Interface',

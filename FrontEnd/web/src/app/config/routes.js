@@ -46,6 +46,12 @@ export const routes = [
     withoutNormalLayout: true
   },
   {
+    path: '/logout',
+    exact: true,
+    component: () => <AsyncPage component='Logout' />,
+    withoutNormalLayout: true
+  },
+  {
     path: '/groups',
     exact: true,
     component: () => <AsyncPage component='Groups' />,
