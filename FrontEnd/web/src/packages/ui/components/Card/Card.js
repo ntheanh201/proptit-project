@@ -9,7 +9,7 @@ import { CardHeader } from './CardHeader'
 import { CardBody } from './CardBody'
 import { CardFooter } from './CardFooter'
 
-class Card extends React.PureComponent {
+export class Card extends React.PureComponent {
   state = {
     isClosed: this.props.isClosed || false,
     isCollapsed: this.props.isCollapsed || false,
@@ -122,5 +122,3 @@ class Card extends React.PureComponent {
     }
   }
 }
-
-export default Card
