@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Redirect,
-  Route
-} from 'react-router-dom'
+import { HashRouter as Router, Switch, Redirect, Route } from 'react-router-dom'
 
 import { withNormalLayout } from 'layout'
 
@@ -21,7 +16,7 @@ const App = () => {
               const { redirect, ...props } = route
               return <Redirect key={index} {...props} />
             case route.withoutNormalLayout: {
-              const { path, exact = false, title = false, component } = route
+              const { path, exact = false, component } = route
               return (
                 <Route
                   key={index}

@@ -27,16 +27,29 @@ export const routes = [
   },
   {
     isPrivate: true,
-    path: '/profile',
-    exact: true,
+    path: '/profile/:id',
+    // exact: true,
     component: () => <AsyncPage component='ProfilePage' />,
     title: 'Profile'
   },
+  // {
+  //   isPrivate: true,
+  //   path: '/profile',
+  //   exact: false,
+  //   component: () => <AsyncPage component='ProfilePage' />,
+  //   title: 'Profile'
+  // },
   {
     path: '/login',
     exact: true,
     component: () => <AsyncPage component='Login' />,
     withoutNormalLayout: true
+  },
+  {
+    path: '/groups',
+    exact: true,
+    component: () => <AsyncPage component='Groups' />,
+    title: 'Groups'
   },
   {
     path: '/404',

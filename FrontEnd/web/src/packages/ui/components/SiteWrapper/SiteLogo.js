@@ -1,8 +1,9 @@
 import React from 'react'
-import { Icon } from 'ui'
 
-export const SiteLogo = ({ source, height, width, fill }) => {
+export const SiteLogo = ({ src, alt, href }) => {
   return (
-    <Icon source={require(source)} height={height} width={width} fill={fill} />
+    <a className='header-brand' href={href}>
+      <img src={src} className='header-brand-img' alt={alt} />
+    </a>
   )
 }

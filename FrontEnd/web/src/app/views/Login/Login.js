@@ -1,9 +1,12 @@
-import React from 'react'
-
+import React, { useContext } from 'react'
+import { withRouter } from 'react-router-dom'
 import { FormTextInput, StandaloneFormPage } from 'tabler-react'
 
 import { withTouchedErrors } from '../../Shared/helpers/withTouchedErrors'
 import { FormCard } from '../../Shared/components/Form/FormCard'
+
+import logo from '../../assets/ProPTIT.png'
+import { PreloaderContext } from '../../Preloader'
 
 const defaultStrings = {
   title: 'Login to your Account',
@@ -15,19 +18,26 @@ const defaultStrings = {
 }
 
 const LoginPage = props => {
+  const { setState: setPreloaderState } = useContext(PreloaderContext)
   const {
     action,
     method,
-    onSubmit,
     onChange,
     onBlur,
     values,
     strings = {},
-    errors
+    errors,
+    history
   } = props
 
+  const onSubmit = async () => {
+    //todo: check Login successfully
+    await setPreloaderState({ isLoggedIn: true })
+    await history.push({ pathname: '/' })
+  }
+
   return (
-    <StandaloneFormPage imageURL={'./demo/logo.svg'}>
+    <StandaloneFormPage imageURL={logo}>
       <FormCard
         buttonText={strings.buttonText || defaultStrings.buttonText}
         title={strings.title || defaultStrings.title}
@@ -63,6 +73,8 @@ const LoginPage = props => {
   )
 }
 
-export const Login = withTouchedErrors(['username', 'password'])(LoginPage)
+export const Login = withRouter(
+  withTouchedErrors(['username', 'password'])(LoginPage)
+)
 
 // export const Login = LoginPage

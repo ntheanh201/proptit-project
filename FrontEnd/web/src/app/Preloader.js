@@ -10,7 +10,12 @@ export const PreloaderContext = createContext()
 export const Preloader = ({ children }) => {
   const [state, setState] = useState({
     loading: true,
-    isLoggedIn: true
+    isLoggedIn: false,
+    user: {
+      id: '1',
+      username: 'ngocmai.buiphuong',
+      name: 'Bùi Phương Ngọc Mai'
+    }
   })
 
   useEffect(() => {
@@ -27,7 +32,8 @@ export const Preloader = ({ children }) => {
   }
 
   const props = {
-    ...state
+    ...state,
+    setState
   }
 
   return (

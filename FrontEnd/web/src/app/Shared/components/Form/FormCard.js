@@ -19,7 +19,7 @@ export const FormCard = ({
       <CardBody>
         {children}
         <Form.Footer>
-          <Button type='submit' color='primary' block>
+          <Button type='submit' color='primary' block onClick={onSubmit}>
             {buttonText}
           </Button>
         </Form.Footer>

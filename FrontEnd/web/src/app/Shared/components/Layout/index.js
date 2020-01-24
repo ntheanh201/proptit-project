@@ -2,13 +2,15 @@
 import React, { useContext } from 'react'
 import { NavLink, withRouter, Link } from 'react-router-dom'
 
-import { RouterContextProvider, Grid, List } from 'tabler-react'
+import { RouterContextProvider, Grid, List, Nav, Button } from 'tabler-react'
 
 import { useState } from 'core'
 import { SiteWrapper } from 'ui'
 
 import { PreloaderContext } from '../../../Preloader'
 import User from '../../../assets/user.svg'
+
+import logo from '../../../assets/ProPTIT.png'
 
 const navBarItems = [
   {
@@ -19,48 +21,63 @@ const navBarItems = [
     useExact: true
   },
   {
-    value: 'Demo',
-    to: '/demo',
-    icon: 'image',
+    value: 'Groups',
+    to: '/groups',
+    icon: 'cpu',
     LinkComponent: withRouter(NavLink)
-  },
-  {
-    value: 'Interface',
-    icon: 'box',
-    subItems: [
-      {
-        value: 'Cards Design',
-        to: '/cards',
-        LinkComponent: withRouter(NavLink)
-      },
-      { value: 'Charts', to: '/charts', LinkComponent: withRouter(NavLink) },
-      {
-        value: 'Pricing Cards',
-        to: '/pricing-cards',
-        LinkComponent: withRouter(NavLink)
-      }
-    ]
   }
+  // {
+  //   value: 'Interface',
+  //   icon: 'box',
+  //   subItems: [
+  //     {
+  //       value: 'Cards Design',
+  //       to: '/cards',
+  //       LinkComponent: withRouter(NavLink)
+  //     },
+  //     { value: 'Charts', to: '/charts', LinkComponent: withRouter(NavLink) },
+  //     {
+  //       value: 'Pricing Cards',
+  //       to: '/pricing-cards',
+  //       LinkComponent: withRouter(NavLink)
+  //     }
+  //   ]
+  // }
 ]
 
-const accountDropdownProps = {
-  avatarLogo: User,
-  avatarURL: '',
-  avatarOptions: { width: '32px', height: '32px' },
-  name: 'Nguyen The Anh',
-  description: '@ntheanh201',
-  options: [
-    { icon: 'user', value: 'Profile', to: '/profile' },
-    { icon: 'settings', value: 'Settings', to: '/settings' },
-    { icon: 'mail', value: 'Inbox', badge: '6', to: '/messages' },
-    { isDivider: true },
-    { icon: 'help-circle', value: 'Need help?', to: '/helps' },
-    { icon: 'log-out', value: 'Sign out', to: '/logout' }
-  ]
-}
+const Container = ({ history, children }) => {
+  const { isLoggedIn, user } = useContext(PreloaderContext)
 
-export const Layout = ({ children }) => {
-  const { isLoggedIn } = useContext(PreloaderContext)
+  const accountDropdownProps = {
+    avatarLogo: User,
+    avatarURL: '',
+    avatarOptions: { width: '32px', height: '32px' },
+    name: user.name,
+    description: '@' + user.username,
+    options: [
+      { icon: 'user', value: 'Profile', to: `/#/profile/${user.id}` },
+      { icon: 'settings', value: 'Settings', to: '/#/settings' },
+      { icon: 'mail', value: 'Inbox', badge: '6', to: '/#/messages' },
+      { isDivider: true },
+      { icon: 'help-circle', value: 'Need help?', to: '/#/helps' },
+      { icon: 'log-out', value: 'Sign out', to: '/#/logout' }
+    ]
+  }
+
+  const navItems = (
+    <Nav.Item type='div' className='d-none d-md-flex'>
+      <Button
+        onClick={() => history.push({ pathname: '/login' })}
+        target='_blank'
+        outline
+        size='sm'
+        RootComponent='a'
+        color='primary'
+      >
+        Login
+      </Button>
+    </Nav.Item>
+  )
 
   const initialState = {
     notificationsObjects: [
@@ -108,20 +125,10 @@ export const Layout = ({ children }) => {
   return (
     <SiteWrapper
       headerProps={{
-        // navItems: (
-        //   <Nav.Item type='div' className='d-none d-md-flex'>
-        //     <Button
-        //       href='https://github.com/tabler/tabler-react'
-        //       target='_blank'
-        //       outline
-        //       size='sm'
-        //       RootComponent='a'
-        //       color='primary'
-        //     >
-        //       Source code
-        //     </Button>
-        //   </Nav.Item>
-        // ),
+        href: '/',
+        alt: 'ProPTIT',
+        imageURL: logo,
+        navItems: !isLoggedIn ? navItems : null,
         notificationsTray: {
           notificationsObjects,
           markAllAsRead: () =>
@@ -173,3 +180,5 @@ export const Layout = ({ children }) => {
     </SiteWrapper>
   )
 }
+
+export const Layout = withRouter(Container)

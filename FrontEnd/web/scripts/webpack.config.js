@@ -11,8 +11,8 @@ module.exports = ({ mode, outputPath }) => {
     entry: ['babel-polyfill', './index.js'],
     output: {
       path: path.resolve(process.cwd(), outputPath),
-      filename: '[name].[hash:8].js',
-      publicPath: path.resolve(process.cwd(), outputPath)
+      filename: '[name].[hash:8].js'
+      // publicPath: path.resolve(process.cwd(), outputPath)
     },
     resolve: {
       alias: {

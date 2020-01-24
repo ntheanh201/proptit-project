@@ -1,12 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Container, Notification } from 'tabler-react'
-// import { SiteLogo } from './SiteLogo'
+import { SiteLogo } from './SiteLogo'
 
 import Logo from '../../assets/logo.svg'
 import { AccountDropdown } from '../AccountDropdown/AccountDropdown'
 
 export const SiteHeader = ({
+  alt,
+  href,
+  imageURL,
   children,
   align,
   notificationsTray: notificationsTrayFromProps,
@@ -28,7 +31,8 @@ export const SiteHeader = ({
         <div className='d-flex'>
           {children || (
             <React.Fragment>
-              <StyledLogo />
+              {/* <StyledLogo /> */}
+              <SiteLogo href={href} alt={alt} src={imageURL} />
               <div className='d-flex order-lg-2 ml-auto'>
                 {navItems}
                 {notificationsTray}

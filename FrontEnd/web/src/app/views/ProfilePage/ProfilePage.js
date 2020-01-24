@@ -109,7 +109,7 @@ export const ProfilePage = ({ state, setState }) => {
               <CardHeader>
                 <CardTitle>
                   {!tab ? 'Thông tin cá nhân' : 'Nhiệm vụ hàng tháng'}
-                </CardTitle>{' '}
+                </CardTitle>
                 <CardOptions>
                   <Form.Switch
                     value={tab ? 1 : 0}

@@ -9,6 +9,7 @@ import avt from './assets/avt.jpg'
 
 export const ProfilePageContainer = () => {
   const initialValues = {
+    id: 1,
     name: 'Bùi Phương Ngọc Mai',
     username: 'ngocmai.buiphuong',
     avt,
