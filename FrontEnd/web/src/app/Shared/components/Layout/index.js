@@ -141,29 +141,31 @@ const Container = ({ history, children }) => {
         alt: 'ProPTIT',
         imageURL: logo,
         navItems: !isLoggedIn ? navItems : null,
-        notificationsTray: {
-          notificationsObjects,
-          markAllAsRead: () =>
-            setState(
-              () => ({
-                notificationsObjects: state.notificationsObjects.map(v => ({
-                  ...v,
-                  unread: false
-                }))
-              }),
-              () =>
-                setTimeout(
+        notificationsTray: isLoggedIn
+          ? {
+              notificationsObjects,
+              markAllAsRead: () =>
+                setState(
+                  () => ({
+                    notificationsObjects: state.notificationsObjects.map(v => ({
+                      ...v,
+                      unread: false
+                    }))
+                  }),
                   () =>
-                    setState({
-                      notificationsObjects: state.notificationsObjects.map(
-                        v => ({ ...v, unread: true })
-                      )
-                    }),
-                  5000
-                )
-            ),
-          unread: unreadCount
-        },
+                    setTimeout(
+                      () =>
+                        setState({
+                          notificationsObjects: state.notificationsObjects.map(
+                            v => ({ ...v, unread: true })
+                          )
+                        }),
+                      5000
+                    )
+                ),
+              unread: unreadCount
+            }
+          : null,
         accountDropdown: isLoggedIn ? accountDropdownProps : ''
       }}
       footerProps={{

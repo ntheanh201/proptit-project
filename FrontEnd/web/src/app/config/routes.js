@@ -10,8 +10,8 @@ export const routes = [
   {
     path: '/',
     exact: true,
-    component: () => <AsyncPage component='Home' />,
-    title: 'Homepage'
+    component: () => <AsyncPage component='Home' />
+    // title: 'Homepage'
   },
   // {
   //   redirect: true,
@@ -19,26 +19,25 @@ export const routes = [
   //   from: '/demo',
   //   to: '/theanhdz'
   // },
+  // {
+  //   path: '/demo',
+  //   exact: true,
+  //   component: () => <AsyncPage component='Demo' />,
+  //   title: 'Demo'
+  // },
   {
-    path: '/demo',
+    // isPrivate: true,
+    path: '/profile/:id',
     exact: true,
-    component: () => <AsyncPage component='Demo' />,
-    title: 'Demo'
+    component: () => <AsyncPage component='ProfilePage' />
+    // title: 'Profile'
   },
   {
-    isPrivate: true,
-    path: '/profile/:id',
-    // exact: true,
-    component: () => <AsyncPage component='ProfilePage' />,
+    path: '/profile',
+    exact: true,
+    component: () => <AsyncPage component='AllAccounts' />,
     title: 'Profile'
   },
-  // {
-  //   isPrivate: true,
-  //   path: '/profile',
-  //   exact: false,
-  //   component: () => <AsyncPage component='ProfilePage' />,
-  //   title: 'Profile'
-  // },
   {
     path: '/login',
     exact: true,
@@ -56,6 +55,12 @@ export const routes = [
     exact: true,
     component: () => <AsyncPage component='Groups' />,
     title: 'Groups'
+  },
+  {
+    path: '/groups/:id',
+    exact: true,
+    component: () => <AsyncPage component='GroupPage' />,
+    title: 'Group'
   },
   {
     path: '/404',

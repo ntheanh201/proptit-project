@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import {
   Grid,
@@ -90,6 +91,9 @@ export const ProfilePage = ({ state, setState }) => {
 
   return (
     <Page>
+      <Page.MapHeader>
+        <Cover src={cover} />
+      </Page.MapHeader>
       <Page.Main>
         <Grid.Row>
           <Grid.Col md={4}>
@@ -128,3 +132,9 @@ export const ProfilePage = ({ state, setState }) => {
     </Page>
   )
 }
+
+const Cover = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
