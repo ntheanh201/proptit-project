@@ -25,20 +25,20 @@ export interface ClassicHeaderProps {
   shadowStyle?: StyleProp<ViewProps>,
   headerTitle?: string,
   shadowColor?: string,
-  leftComponent?: React.Component,
-  rightComponent?: React.Component,
-  centerComponent?: React.Component,
+  leftComponent?: React.ReactNode,
+  rightComponent?: React.ReactNode,
+  centerComponent?: React.ReactNode,
   statusBarHidden?: boolean,
   leftComponentStyle?: StyleProp<ViewStyle>,
   rightComponentStyle?: StyleProp<ViewStyle>,
   leftComponentDisable?: boolean,
   leftComponentOnPress?: () => void,
-  centerComponentStyle?: StyleProp<View>,
+  centerComponentStyle?: StyleProp<ViewStyle>,
   rightComponentDisable?: boolean,
   rightComponentOnPress?: () => void,
   height?: string | number,
   width?: string | number,
-  backgroundColor: string
+  backgroundColor?: string
 }
 
 const ClassicHeader = (props: ClassicHeaderProps) => {

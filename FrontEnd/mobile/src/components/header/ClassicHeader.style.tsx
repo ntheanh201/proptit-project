@@ -1,8 +1,8 @@
-import { Platform } from "react-native";
+import { Platform, StyleProp, ViewProps } from "react-native";
 import { ClassicHeaderProps } from "./ClassicHeader";
 import { isIphoneXFamily } from "./Helpers"
 
-export function container(props: ClassicHeaderProps) {
+export function container(props: ClassicHeaderProps): StyleProp<any> {
   const { height, width, backgroundColor, statusBarHidden } = props;
   return {
     width: width || "100%",
@@ -23,7 +23,7 @@ export function container(props: ClassicHeaderProps) {
   };
 }
 
-export function innerContainer(statusBarHidden?: boolean) {
+export function innerContainer(statusBarHidden?: boolean): StyleProp<any> {
   return {
     flexDirection: "row",
     alignItems: "flex-end",
