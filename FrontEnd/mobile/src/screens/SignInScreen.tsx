@@ -50,13 +50,12 @@ class SignInScreen extends BaseScreen<SignInScreenProps> {
             secureTextEntry={true}
             tintColor={colors.mainBlue}
           />
-          <TouchableOpacity style={styles.buttonSignIn} onPressIn={() => {
-            this.navigate('HomeStack')
-          }}>
-            <Text
-              style={styles.textSignIn}>
-              Sign In
-            </Text>
+          <TouchableOpacity
+            style={styles.buttonSignIn}
+            onPress={() => {
+              this.navigate('HomeStack')
+            }}>
+            <Text style={styles.textSignIn}>Sign In</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
