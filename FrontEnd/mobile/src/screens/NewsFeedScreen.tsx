@@ -8,6 +8,7 @@ import { BaseScreen } from "./BaseScreen";
 import { _rightComponentStyle } from "../components/header/ClassicHeader.style";
 import { Post } from "../core";
 import ItemNewsFeed from "../components/ItemNewsFeed";
+import FloatingButton from "../components/FloatingButton";
 
 class NewsFeedScreen extends BaseScreen {
 
@@ -30,6 +31,7 @@ class NewsFeedScreen extends BaseScreen {
                         <ItemNewsFeed />
                         <ItemNewsFeed />
                     </ScrollView>
+                    <FloatingButton onPress={() => { }} />
                 </View>
             </SafeAreaView>
         )
