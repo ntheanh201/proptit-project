@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useEffect } from 'react'
 import { useState } from 'core'
 import { Home } from './Home'
 
@@ -8,6 +8,7 @@ import ngocmai from '../../assets/ngocmai.jpg'
 import prologo from '../../assets/ProPTIT.png'
 
 import { buildFileSelector } from '../../Shared/helpers/helpers'
+import { testService } from '../../../packages/service'
 
 export const HomeContext = createContext()
 
@@ -113,6 +114,10 @@ export const HomeContainer = () => {
     fileSelector: buildFileSelector()
   }
   const [state, setState] = useState(initialValues)
+
+  // useEffect(() => {
+  //   testService.getAll()
+  // }, [])
 
   const onCreatePost = post => {
     setState({ posts: [{ ...post, avatarImg: ngocmai }, ...state.posts] })

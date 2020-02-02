@@ -24,14 +24,29 @@ module.exports = ({ mode, outputPath }) => {
         environments: path.resolve(process.cwd(), 'src', 'environments')
       },
       mainFields: ['browser', 'main', 'module'],
-      extensions: ['.js', '.json', '.jsx']
+      extensions: ['.js', '.json', '.jsx', '.ts', '.tsx']
     },
     module: {
       rules: [
         {
-          test: /\.(js|jsx|mjs)$/,
+          test: /\.(js|jsx|mjs|ts|tsx)$/,
           exclude: /node_modules/,
           use: 'babel-loader'
+        },
+        {
+          test: /\.ts(x?)$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'ts-loader'
+            }
+          ]
+        },
+        // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+        {
+          enforce: 'pre',
+          test: /\.js$/,
+          loader: 'source-map-loader'
         },
         {
           test: /\.(graphql|gql)$/,

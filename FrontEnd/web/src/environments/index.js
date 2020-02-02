@@ -1,5 +1,4 @@
 module.exports = {
-  baseUrl: 'http://db.eachclass.net:8000/apis/',
-  websocketUrl: 'db.eachclass.net:8000/streaming/',
-  text_showing: 'text_norm'
+  // baseUrl: 'http://35.220.172.23/'
+  baseUrl: 'https://jsonplaceholder.typicode.com/'
 }
