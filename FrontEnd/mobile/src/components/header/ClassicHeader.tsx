@@ -80,14 +80,16 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
               {
                 Platform.OS == "ios" ?
                   (<Icon
+                    type="Ionicons"
                     fontSize={30}
                     name="ios-arrow-back"
                     color={colors.mainBlue}
                   // {...props}
                   />) :
                   <Icon
+                    type="Ionicons"
                     fontSize={30}
-                    name="arrowleft"
+                    name="md-arrow-back"
                     color={colors.mainBlue}
                   // {...props}
                   />

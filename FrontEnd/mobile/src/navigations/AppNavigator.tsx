@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import SplashScreen from '../screens/SplashScreen'
 import SignInScreen from '../screens/SignInScreen'
 import HomeNavigator from './HomeNavigator'
+import CreatePostScreen from '../screens/CreatePostScreen'
 
 const AppNavigator = createSwitchNavigator(
   {
@@ -20,12 +21,22 @@ const AppNavigator = createSwitchNavigator(
         },
       },
     }),
-    HomeStack: {
-      screen: HomeNavigator,
-      navigationOptions: {
-        header: null,
+    HomeStack: createStackNavigator({
+      CreatePost: {
+        screen: CreatePostScreen,
+        navigationOptions: {
+          header: null
+        }
       },
-    },
+      HomeStack: {
+        screen: HomeNavigator,
+        navigationOptions: {
+          header: null
+        }
+      }
+    }, {
+      initialRouteName: "HomeStack"
+    })
   },
   {
     initialRouteName: 'SplashStack',
