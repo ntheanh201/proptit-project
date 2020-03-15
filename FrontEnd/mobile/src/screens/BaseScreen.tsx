@@ -1,6 +1,4 @@
 import React from 'react'
-import { NavigationAction, NavigationDispatch } from 'react-navigation'
-import { NavigationStackProp } from 'react-navigation-stack'
 import { AppState } from '../core'
 import { types } from '@babel/core'
 
@@ -38,5 +36,5 @@ export class BaseScreen<
 }
 
 export interface BaseScreenProps {
-  navigation: NavigationStackProp
+  navigation: any
 }

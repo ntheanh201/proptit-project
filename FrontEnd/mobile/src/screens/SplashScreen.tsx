@@ -7,6 +7,7 @@ import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import { images } from '../assets'
+import { useNavigation } from '@react-navigation/native'
 
 interface SplashScreenProps extends BaseScreenProps {
   handleContinueSignIn: typeof handleContinueSignIn
@@ -29,7 +30,7 @@ class SplashScreen extends BaseScreen<SplashScreenProps> {
     console.log('running')
     // this.props.handleContinueSignIn()
     setTimeout(() => {
-      this.navigate('SignIn')
+      this.replace('SignIn')
     }, 3000)
   }
 

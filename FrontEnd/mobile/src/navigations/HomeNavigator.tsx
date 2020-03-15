@@ -1,60 +1,85 @@
-import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { Icon } from 'native-base'
 import React from 'react'
-import { createAppContainer } from 'react-navigation'
-import ProfileScreen from '../screens/ProfileScreen'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
+import SplashScreen from '../screens/SplashScreen'
+import SignInScreen from '../screens/SignInScreen'
 import NewsFeedScreen from '../screens/NewsFeedScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+import { Icon } from 'native-base'
+import PostDetailScreen from '../screens/PostDetailScreen'
 
-const HomeNavigator = createBottomTabNavigator(
-  {
-    NewsFeed: {
-      screen: NewsFeedScreen,
-      navigationOptions: {
-        tabBarIcon: ({ focused, horizontal, tintColor }) => {
-          return <Icon name="home" type="AntDesign" style={{ color: tintColor }} />
-        }
-      }
-    },
-    Profile: {
-      screen: ProfileScreen,
-      navigationOptions: {
-        tabBarIcon: ({ focused, horizontal, tintColor }) => {
-          return (
-            <Icon
-              name="profile"
-              type="AntDesign"
-              style={{ color: tintColor }}
-            />
-          )
+const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator()
+
+export const HomeNavigator = () => {
+  return (
+    <Tab.Navigator
+      headerMode={'none'}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName
+          if (route.name === 'Home') {
+            iconName = 'home'
+          } else {
+            iconName = 'user'
+          }
+          return <Icon name={iconName} type="AntDesign" style={{ color }} />
         },
-      },
-    },
-    // Notification: {
-    //     screen: Notification,
-    //     navigationOptions: {
-    //         tabBarIcon: ({ focused, horizontal, tintColor }) => {
-    //             return (
-    //                 <Icon name="notification" type="AntDesign" style={{ color: tintColor }} />
+      })}>
+      <Tab.Screen name={'Home'} component={NewsFeedStack} />
+      <Tab.Screen name={'Profile'} component={ProfileScreen} />
+    </Tab.Navigator>
+  )
+}
 
-    //             )
-    //         },
-    //     }
-    // },
-    // Search: {
-    //     screen: Notification,
-    //     navigationOptions: {
-    //         tabBarIcon: ({ focused, horizontal, tintColor }) => {
-    //             return <Icon name="search1" type="AntDesign" style={{ color: tintColor }} />
-    //         },
-    //     }
-    // }
-  },
-  {
-    initialRouteName: 'NewsFeed',
-    tabBarOptions: {
-      showLabel: false,
-    },
-  },
-)
-
-export default createAppContainer(HomeNavigator)
+const NewsFeedStack = () => {
+  return (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name={'Home'} component={NewsFeedScreen} />
+      <Stack.Screen name={'Detail'} component={PostDetailScreen} />
+    </Stack.Navigator>
+  )
+}
+// const HomeNavigator = createBottomTabNavigator(
+//   {
+//     NewsFeed: {
+//       screen: createStackNavigator({
+//         NewFeed: {
+//           screen: NewsFeedScreen,
+//           navigationOptions: {
+//             header: null,
+//           },
+//         },
+//         Detail: {
+//           screen: PostDetailScreen,
+//           navigationOptions: {
+//             header: null,
+//           },
+//         },
+//       }),
+//       navigationOptions: {
+//         tabBarIcon: ({ focused, horizontal, tintColor }) => {
+//           return (
+//             <Icon name="home" type="AntDesign" style={{ color: tintColor }} />
+//           )
+//         },
+//       },
+//     },
+//     Profile: {
+//       screen: ProfileScreen,
+//       navigationOptions: {
+//         tabBarIcon: ({ focused, horizontal, tintColor }) => {
+//           return (
+//             <Icon name="user" type="AntDesign" style={{ color: tintColor }} />
+//           )
+//         },
+//       },
+//     },
+//   },
+//   {
+//     initialRouteName: 'NewsFeed',
+//     tabBarOptions: {
+//       showLabel: false,
+//     },
+//   },
+// )

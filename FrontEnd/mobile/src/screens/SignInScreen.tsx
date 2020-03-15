@@ -23,7 +23,7 @@ import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 
-interface SignInScreenProps extends BaseScreenProps { }
+interface SignInScreenProps extends BaseScreenProps {}
 
 class SignInScreen extends BaseScreen<SignInScreenProps> {
   constructor(props: SignInScreenProps) {

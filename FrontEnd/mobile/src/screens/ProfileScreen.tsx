@@ -7,6 +7,8 @@ import {
   ImageBackground,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
+  Platform,
 } from 'react-native'
 import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
@@ -15,7 +17,8 @@ import { connect } from 'react-redux'
 import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
 import { WIDTH, HEIGHT } from '../configs/Function'
-import { TabView, SceneMap, Route } from 'react-native-tab-view'
+import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
+import ItemNewsFeed from '../components/ItemNewsFeed'
 
 interface ProfileScreenProps extends BaseScreenProps {}
 
@@ -25,11 +28,48 @@ interface ProfileScreenState {
 }
 
 const ActivityRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#000' }} />
+  <ScrollView>
+    <ItemNewsFeed />
+    <ItemNewsFeed />
+  </ScrollView>
 )
 
 const ImageRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#4580C2' }} />
+  <ScrollView>
+    <View style={styles.rowImageContainer}>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+    </View>
+    <View style={styles.rowImageContainer}>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+    </View>
+    <View style={styles.rowImageContainer}>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+      </TouchableOpacity>
+    </View>
+  </ScrollView>
 )
 
 class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
@@ -38,8 +78,8 @@ class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
     this.state = {
       index: 0,
       routes: [
-        { key: 'first', title: 'ABCD' },
-        { key: 'second', title: 'EFRG' },
+        { key: 'first', title: 'Hoạt động' },
+        { key: 'second', title: 'Ảnh' },
       ],
     }
   }
@@ -50,13 +90,17 @@ class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
       second: ImageRoute,
     })
     return (
-      <View>
+      <View style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}>
         <ImageBackground source={images.BGR_BATMAN} style={styles.coverImage}>
           <LinearGradient
             colors={['transparent', '#fff']}
             style={styles.coverImage}>
             <View style={styles.headerContainer}>
-              <TouchableOpacity style={{ marginLeft: 10 }}>
+              <TouchableOpacity
+                style={{ marginLeft: 10 }}
+                onPress={() => {
+                  this.props.navigation.goBack()
+                }}>
                 <Image source={images.ARROWBACK} style={styles.arrowBack} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.editButton}>
@@ -71,16 +115,25 @@ class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
           </View>
         </ImageBackground>
         <TabView
+          style={{ marginTop: 10 }}
           navigationState={{
             index: this.state.index,
             routes: this.state.routes,
           }}
           renderScene={renderScene}
           onIndexChange={index => {
-            console.log(index)
             this.setState({ index })
           }}
           initialLayout={{ width: WIDTH(360) }}
+          renderTabBar={props => (
+            <TabBar
+              {...props}
+              style={{ backgroundColor: '#fff' }}
+              activeColor="#000"
+              inactiveColor="#000"
+              indicatorStyle={{ backgroundColor: '#4580C2' }}
+            />
+          )}
         />
       </View>
     )
@@ -93,7 +146,7 @@ const styles = StyleSheet.create({
     height: HEIGHT(250),
   },
   headerContainer: {
-    marginTop: 50,
+    marginTop: Platform.OS === 'ios' ? 50 : 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -123,6 +176,16 @@ const styles = StyleSheet.create({
     left: 20,
     bottom: 0,
     right: 150,
+  },
+  gridImage: {
+    width: WIDTH(357) / 3,
+    height: WIDTH(357) / 3,
+    resizeMode: 'cover',
+  },
+  rowImageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 1,
   },
 })
 
