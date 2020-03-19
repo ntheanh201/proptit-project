@@ -1,43 +1,53 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { SafeAreaView, View, Text, TouchableOpacity, StyleProp, ViewProps, Insets, Platform, ViewStyle } from "react-native";
+import React from 'react'
+import PropTypes from 'prop-types'
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleProp,
+  ViewProps,
+  Insets,
+  Platform,
+  ViewStyle,
+} from 'react-native'
 // Styles
 import _styles, {
   container,
   _shadowStyle,
   innerContainer,
   _leftComponentStyle,
-  _rightComponentStyle
-} from "./ClassicHeader.style";
-import colors from "../../values/colors";
-import { Icon } from "native-base";
+  _rightComponentStyle,
+} from './ClassicHeader.style'
+import colors from '../../values/colors'
+import { Icon } from 'native-base'
 
 const hitSlop = {
   top: 30,
   bottom: 30,
   left: 30,
-  right: 30
-};
+  right: 30,
+}
 
 export interface ClassicHeaderProps {
-  styles?: StyleProp<ViewProps>,
-  hitSlops?: Insets,
-  shadowStyle?: StyleProp<ViewProps>,
-  headerTitle?: string,
-  shadowColor?: string,
-  leftComponent?: React.ReactNode,
-  rightComponent?: React.ReactNode,
-  centerComponent?: React.ReactNode,
-  statusBarHidden?: boolean,
-  leftComponentStyle?: StyleProp<ViewStyle>,
-  rightComponentStyle?: StyleProp<ViewStyle>,
-  leftComponentDisable?: boolean,
-  leftComponentOnPress?: () => void,
-  centerComponentStyle?: StyleProp<ViewStyle>,
-  rightComponentDisable?: boolean,
-  rightComponentOnPress?: () => void,
-  height?: string | number,
-  width?: string | number,
+  styles?: StyleProp<ViewProps>
+  hitSlops?: Insets
+  shadowStyle?: StyleProp<ViewProps>
+  headerTitle?: string
+  shadowColor?: string
+  leftComponent?: React.ReactNode
+  rightComponent?: React.ReactNode
+  centerComponent?: React.ReactNode
+  statusBarHidden?: boolean
+  leftComponentStyle?: StyleProp<ViewStyle>
+  rightComponentStyle?: StyleProp<ViewStyle>
+  leftComponentDisable?: boolean
+  leftComponentOnPress?: () => void
+  centerComponentStyle?: StyleProp<ViewStyle>
+  rightComponentDisable?: boolean
+  rightComponentOnPress?: () => void
+  height?: string | number
+  width?: string | number
   backgroundColor?: string
 }
 
@@ -58,16 +68,15 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
     leftComponentOnPress,
     centerComponentStyle,
     rightComponentDisable,
-    rightComponentOnPress
-  } = props;
+    rightComponentOnPress,
+  } = props
   return (
     <SafeAreaView>
       <View
         style={[
           styles || container(props),
-          shadowStyle || _shadowStyle(shadowColor)
-        ]}
-      >
+          shadowStyle || _shadowStyle(shadowColor),
+        ]}>
         <View style={[innerContainer(statusBarHidden)]}>
           {leftComponent || (
             <TouchableOpacity
@@ -75,29 +84,30 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
                 leftComponentStyle || _leftComponentStyle(leftComponentDisable)
               }
               hitSlop={hitSlops}
-              onPress={leftComponentOnPress}
-            >
-              {
-                Platform.OS == "ios" ?
-                  (<Icon
-                    type="Ionicons"
-                    fontSize={30}
-                    name="ios-arrow-back"
-                    color={colors.mainBlue}
+              onPress={leftComponentOnPress}>
+              {Platform.OS == 'ios' ? (
+                <Icon
+                  type="Ionicons"
+                  fontSize={30}
+                  name="ios-arrow-back"
+                  color={colors.mainBlue}
                   // {...props}
-                  />) :
-                  <Icon
-                    type="Ionicons"
-                    fontSize={30}
-                    name="md-arrow-back"
-                    color={colors.mainBlue}
+                />
+              ) : (
+                <Icon
+                  type="Ionicons"
+                  fontSize={30}
+                  name="md-arrow-back"
+                  color={colors.mainBlue}
                   // {...props}
-                  />
-              }
+                />
+              )}
             </TouchableOpacity>
           )}
           {centerComponent || (
-            <Text style={[centerComponentStyle, { color: 'black' }]}>{headerTitle}</Text>
+            <Text style={[centerComponentStyle, { color: 'black' }]}>
+              {headerTitle}
+            </Text>
           )}
           {rightComponent || (
             <TouchableOpacity
@@ -106,8 +116,7 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
                 _rightComponentStyle(rightComponentDisable)
               }
               hitSlop={hitSlops}
-              onPress={rightComponentOnPress}
-            >
+              onPress={rightComponentOnPress}>
               <Icon
                 type="Ionicons"
                 name="ios-menu"
@@ -120,17 +129,17 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
         </View>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 ClassicHeader.propTypes = {
   hitSlops: PropTypes.object,
-  ratings: PropTypes.string
-};
+  ratings: PropTypes.string,
+}
 
 ClassicHeader.defaultProps = {
   hitSlops: hitSlop,
-  centerComponentStyle: _styles.centerComponentStyle
-};
+  centerComponentStyle: _styles.centerComponentStyle,
+}
 
-export default ClassicHeader;
+export default ClassicHeader

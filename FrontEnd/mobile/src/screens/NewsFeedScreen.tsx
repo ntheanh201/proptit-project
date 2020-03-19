@@ -1,124 +1,149 @@
-import { SafeAreaView, Platform, Image, RefreshControl, NativeSyntheticEvent, NativeScrollEvent, ActivityIndicator } from "react-native";
-import React from "react";
-import ClassicHeader from "../components/header/ClassicHeader";
-import { View, Text, List } from "native-base";
-import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
-import { BaseScreen, BaseScreenProps } from "./BaseScreen";
-import { _rightComponentStyle } from "../components/header/ClassicHeader.style";
-import ItemNewsFeed from "../components/ItemNewsFeed";
-import FloatingButton from "../components/FloatingButton";
+import {
+  SafeAreaView,
+  View,
+  Platform,
+  Image,
+  RefreshControl,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native'
+import React from 'react'
+import ClassicHeader from '../components/header/ClassicHeader'
+import { BaseScreen, BaseScreenProps } from './BaseScreen'
+import { _rightComponentStyle } from '../components/header/ClassicHeader.style'
+import ItemNewsFeed from '../components/ItemNewsFeed'
+import FloatingButton from '../components/FloatingButton'
 
+interface Item {
+  key: string
+}
 
 interface NewsFeedScreenState {
-    refreshing: boolean,
-    isBottom: boolean,
-    listItems: number[]
+  refreshing: boolean
+  isLoadingMore: boolean
+  isBottom: boolean
+  listItems: Item[]
 }
 
-interface NewsFeedScreenProps extends BaseScreenProps {
+interface NewsFeedScreenProps extends BaseScreenProps {}
 
-}
-
-class NewsFeedScreen extends BaseScreen<NewsFeedScreenProps, NewsFeedScreenState> {
-
-
-
-    constructor(props: NewsFeedScreenProps) {
-        super(props);
-        this.state = {
-            refreshing: false,
-            isBottom: false,
-            listItems: [1, 2, 3, 4, 5]
-        }
+class NewsFeedScreen extends BaseScreen<
+  NewsFeedScreenProps,
+  NewsFeedScreenState
+> {
+  constructor(props: NewsFeedScreenProps) {
+    super(props)
+    this.state = {
+      refreshing: false,
+      isLoadingMore: false,
+      isBottom: false,
+      listItems: [
+        {
+          key: '1',
+        },
+        {
+          key: '2',
+        },
+        {
+          key: '3',
+        },
+      ],
     }
+  }
 
-    onRefresh = (): void => {
+  onRefresh = () => {
+    this.setState({
+      refreshing: true,
+    })
 
-        this.setState({
-            refreshing: true
-        })
+    setTimeout(() => {
+      this.setState({ refreshing: false })
+    }, 1000)
+  }
 
-        this.wait(3000).then(() => {
-            this.setState(
-                {
-                    refreshing: false
-                }
-            )
-        })
+  loadMore = () => {
+    console.log('running', this.state.isLoadingMore)
+    this.setState({
+      isLoadingMore: true,
+    })
 
-    }
+    setTimeout(() => {
+      this.setState({ isLoadingMore: false })
+    }, 1000)
+  }
 
-    render() {
-        return (
-            <SafeAreaView>
-                <View style={{ width: '100%', height: '100%', backgroundColor: 'white', flexDirection: "column" }}>
-                    <ClassicHeader
-                        statusBarHidden={true}
-                        backgroundColor="white"
-                        leftComponent={
-                            <TouchableOpacity style={{ marginLeft: 16 }} onPressIn={() => this.handleOnPressProfile()}>
-                                <Image source={require("../assets/images/bgr_batman.png")} style={{ width: 30, height: 30 }} borderRadius={100} />
-                            </TouchableOpacity>
-                        }
-                        headerTitle="HOME" />
-                    <ScrollView style={{ width: '100%', height: "100%" }}
-                        refreshControl={
-                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
-                        }
-                        onScroll={event => this.isCloseToBottom(event.nativeEvent) ? this.handleOnBottomList() : null}>
-                        {
-                            this.state.listItems.map(
-                                () => <ItemNewsFeed />
-                            )
-                        }
-                    </ScrollView>
-                    {
-                        this.state.isBottom ? (
-                            <View style={{ height: 100, alignItems: "center", justifyContent: "center" }}>
-                                <ActivityIndicator size="small" color="#000000" animating={true} />
-                            </View>
-                        ) : null
-                    }
-                    <FloatingButton onPress={() => { this.navigate("CreatePost") }} />
-                </View>
-            </SafeAreaView>
-        )
-    }
-
-    handleOnPressProfile() {
-        this.navigate("Profile");
-    }
-
-    handleOnBottomList() {
-        this.setState(
-            {
-                isBottom: true
+  render() {
+    return (
+      <SafeAreaView>
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'white',
+            flexDirection: 'column',
+          }}>
+          <ClassicHeader
+            statusBarHidden={true}
+            backgroundColor="white"
+            leftComponent={
+              <TouchableOpacity
+                style={{ marginLeft: 16 }}
+                onPressIn={() => this.handleOnPressProfile()}>
+                <Image
+                  source={require('../assets/images/bgr_batman.png')}
+                  style={{ width: 30, height: 30 }}
+                  borderRadius={100}
+                />
+              </TouchableOpacity>
             }
-        )
+            headerTitle="HOME"
+          />
+          <FlatList
+            data={this.state.listItems}
+            renderItem={({ item }) => {
+              return (
+                <ItemNewsFeed
+                  onPress={() => {
+                    this.navigate('Detail')
+                  }}
+                />
+              )
+            }}
+            initialNumToRender={2}
+            onRefresh={this.onRefresh}
+            refreshing={this.state.refreshing}
+            onEndReachedThreshold={0.1}
+            onEndReached={this.loadMore}
+          />
+          {this.state.isLoadingMore ? (
+            <ActivityIndicator
+              animating={this.state.isLoadingMore}
+              style={{ marginVertical: 20 }}
+            />
+          ) : null}
+          <FloatingButton
+            onPress={() => {
+              this.navigate('CreatePost')
+            }}
+          />
+        </View>
+      </SafeAreaView>
+    )
+  }
 
-        this.state.listItems.push(1)
+  handleOnPressProfile() {
+    this.navigate('Profile')
+  }
 
-        this.wait(1000).then(() => {
-            this.setState(
-                {
-                    isBottom: false
-                }
-            )
-        })
-    }
-
-    isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
-        const paddingToBottom = 20;
-        return layoutMeasurement.height + contentOffset.y >=
-            contentSize.height - paddingToBottom;
-    }
-
-    wait = (timeout: number) => {
-        return new Promise(resolve => {
-            setTimeout(resolve, timeout);
-        });
-    }
-
+  wait = (timeout: number) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout)
+    })
+  }
 }
 
 export default NewsFeedScreen

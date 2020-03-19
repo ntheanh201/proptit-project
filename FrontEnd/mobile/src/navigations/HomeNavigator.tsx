@@ -7,6 +7,7 @@ import NewsFeedScreen from '../screens/NewsFeedScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import { Icon } from 'native-base'
 import PostDetailScreen from '../screens/PostDetailScreen'
+import CreatePostScreen from '../screens/CreatePostScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -37,6 +38,7 @@ const NewsFeedStack = () => {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name={'Home'} component={NewsFeedScreen} />
       <Stack.Screen name={'Detail'} component={PostDetailScreen} />
+      <Stack.Screen name={'CreatePost'} component={CreatePostScreen} />
     </Stack.Navigator>
   )
 }
