@@ -2,11 +2,13 @@ import React from 'react'
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { images } from '../assets'
 import colors from '../values/colors'
+import moment from 'moment'
 
 export interface ItemNotificationProps {
   postId?: string
   type?: 'like' | 'comment' | 'confirm' | 'poll-ticked'
   userId?: string
+  createTime?: string
   onPress?: () => void
 }
 
@@ -26,6 +28,9 @@ export const ItemNotification = (props: ItemNotificationProps) => {
       content = ' đã bầu chọn trong bài thăm dò ý kiến.'
       break
   }
+
+  const time = moment(props.createTime, 'YYYY-MM-DD hh:mm').fromNow()
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -37,6 +42,7 @@ export const ItemNotification = (props: ItemNotificationProps) => {
           <Text style={styles.txtName}>Batman</Text>
           <Text>{content}</Text>
         </Text>
+        <Text style={styles.txtTime}>{time}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -62,5 +68,8 @@ const styles = StyleSheet.create({
   txtName: {
     fontWeight: 'bold',
     color: colors.mainBlue,
+  },
+  txtTime: {
+    color: 'gray',
   },
 })

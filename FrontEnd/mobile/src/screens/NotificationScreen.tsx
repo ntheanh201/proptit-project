@@ -28,11 +28,11 @@ class NotificationScreen extends BaseScreen<
     this.state = {
       refreshing: false,
       listNoti: [
-        { type: 'like' },
-        { type: 'comment' },
-        { type: 'poll-ticked' },
-        { type: 'confirm' },
-        { type: 'like' },
+        { type: 'like', createTime: '2020-03-19 14:00' },
+        { type: 'comment', createTime: '2020-03-20 13:00' },
+        { type: 'poll-ticked', createTime: '2020-03-20 14:00' },
+        { type: 'confirm', createTime: '2020-03-20 14:00' },
+        { type: 'like', createTime: '2020-03-20 14:00' },
       ],
     }
   }
@@ -75,6 +75,7 @@ class NotificationScreen extends BaseScreen<
             return (
               <ItemNotification
                 type={item.type}
+                createTime={item.createTime}
                 onPress={() => this.navigate('Detail')}
               />
             )
