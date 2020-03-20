@@ -4,6 +4,8 @@ import SplashScreen from '../screens/SplashScreen'
 import SignInScreen from '../screens/SignInScreen'
 import { HomeNavigator } from './HomeNavigator'
 import { NavigationContainer } from '@react-navigation/native'
+import PostDetailScreen from '../screens/PostDetailScreen'
+import CreatePostScreen from '../screens/CreatePostScreen'
 
 const Stack = createStackNavigator()
 
@@ -14,6 +16,8 @@ const AppNavigator = () => {
         <Stack.Screen name={'Splash'} component={SplashScreen} />
         <Stack.Screen name={'SignIn'} component={SignInScreen} />
         <Stack.Screen name={'HomeStack'} component={HomeNavigator} />
+        <Stack.Screen name={'Detail'} component={PostDetailScreen} />
+        <Stack.Screen name={'CreatePost'} component={CreatePostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

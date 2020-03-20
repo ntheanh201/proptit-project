@@ -3,9 +3,6 @@ import {
   View,
   Platform,
   Image,
-  RefreshControl,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
@@ -17,6 +14,7 @@ import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import { _rightComponentStyle } from '../components/header/ClassicHeader.style'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import FloatingButton from '../components/FloatingButton'
+import { images } from '../assets'
 
 interface Item {
   key: string
@@ -78,71 +76,62 @@ class NewsFeedScreen extends BaseScreen<
 
   render() {
     return (
-      <SafeAreaView>
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'white',
-            flexDirection: 'column',
-          }}>
-          <ClassicHeader
-            statusBarHidden={true}
-            backgroundColor="white"
-            leftComponent={
-              <TouchableOpacity
-                style={{ marginLeft: 16 }}
-                onPressIn={() => this.handleOnPressProfile()}>
-                <Image
-                  source={require('../assets/images/bgr_batman.png')}
-                  style={{ width: 30, height: 30 }}
-                  borderRadius={100}
-                />
-              </TouchableOpacity>
-            }
-            headerTitle="HOME"
+      <View
+        style={{
+          backgroundColor: 'white',
+          height: '100%',
+          width: '100%',
+        }}>
+        <ClassicHeader
+          statusBarHidden={true}
+          backgroundColor="white"
+          leftComponent={
+            <TouchableOpacity
+              style={{ marginLeft: 16 }}
+              onPressIn={() => this.handleOnPressProfile()}>
+              <Image
+                source={images.AVT_BATMAN}
+                style={{ width: 30, height: 30 }}
+                borderRadius={100}
+              />
+            </TouchableOpacity>
+          }
+          headerTitle="HOME"
+        />
+        <FlatList
+          data={this.state.listItems}
+          renderItem={({ item }) => {
+            return (
+              <ItemNewsFeed
+                onPress={() => {
+                  this.navigate('Detail')
+                }}
+              />
+            )
+          }}
+          initialNumToRender={2}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.refreshing}
+          onEndReachedThreshold={0.1}
+          onEndReached={this.loadMore}
+        />
+        {this.state.isLoadingMore ? (
+          <ActivityIndicator
+            animating={this.state.isLoadingMore}
+            style={{ marginVertical: 20 }}
           />
-          <FlatList
-            data={this.state.listItems}
-            renderItem={({ item }) => {
-              return (
-                <ItemNewsFeed
-                  onPress={() => {
-                    this.navigate('Detail')
-                  }}
-                />
-              )
-            }}
-            initialNumToRender={2}
-            onRefresh={this.onRefresh}
-            refreshing={this.state.refreshing}
-            onEndReachedThreshold={0.1}
-            onEndReached={this.loadMore}
-          />
-          {this.state.isLoadingMore ? (
-            <ActivityIndicator
-              animating={this.state.isLoadingMore}
-              style={{ marginVertical: 20 }}
-            />
-          ) : null}
-          <FloatingButton
-            onPress={() => {
-              this.navigate('CreatePost')
-            }}
-          />
-        </View>
-      </SafeAreaView>
+        ) : null}
+        <FloatingButton
+          onPress={() => {
+            this.navigate('CreatePost')
+          }}
+        />
+      </View>
     )
   }
 
   handleOnPressProfile() {
     this.navigate('Profile')
-  }
-
-  wait = (timeout: number) => {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout)
-    })
   }
 }
 

@@ -8,26 +8,53 @@ import ProfileScreen from '../screens/ProfileScreen'
 import { Icon } from 'native-base'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
+import NotificationScreen from '../screens/NotificationScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
+
+interface TabBarIconProps {
+  focused: boolean
+  color: string
+  size: number
+}
 
 export const HomeNavigator = () => {
   return (
     <Tab.Navigator
       headerMode={'none'}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+      screenOptions={({ route }: any) => ({
+        tabBarIcon: ({ focused, color, size }: TabBarIconProps) => {
           let iconName
-          if (route.name === 'Home') {
-            iconName = 'home'
-          } else {
-            iconName = 'user'
+          switch (route.name) {
+            case 'Home':
+              iconName = 'home'
+              break
+            case 'Notification':
+              iconName = 'bells'
+              break
+            case 'Profile':
+              iconName = 'user'
+              break
+            default:
+              iconName = 'home'
+              break
           }
-          return <Icon name={iconName} type="AntDesign" style={{ color }} />
+          return (
+            <Icon
+              name={iconName}
+              type="AntDesign"
+              style={{ color, fontSize: size }}
+            />
+          )
         },
-      })}>
-      <Tab.Screen name={'Home'} component={NewsFeedStack} />
+      })}
+      tabBarOptions={{
+        activeTintColor: '#4580C2',
+        inactiveTintColor: 'gray',
+      }}>
+      <Tab.Screen name={'Home'} component={NewsFeedScreen} />
+      <Tab.Screen name={'Notification'} component={NotificationScreen} />
       <Tab.Screen name={'Profile'} component={ProfileScreen} />
     </Tab.Navigator>
   )
@@ -39,6 +66,15 @@ const NewsFeedStack = () => {
       <Stack.Screen name={'Home'} component={NewsFeedScreen} />
       <Stack.Screen name={'Detail'} component={PostDetailScreen} />
       <Stack.Screen name={'CreatePost'} component={CreatePostScreen} />
+    </Stack.Navigator>
+  )
+}
+
+const NotiStack = () => {
+  return (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name={'Notification'} component={NotificationScreen} />
+      <Stack.Screen name={'Detail'} component={PostDetailScreen} />
     </Stack.Navigator>
   )
 }
