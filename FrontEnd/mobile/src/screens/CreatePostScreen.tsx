@@ -8,6 +8,7 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
+  FlatList,
 } from 'react-native'
 import ClassicHeader from '../components/header/ClassicHeader'
 import {
@@ -22,9 +23,11 @@ import ItemTickPoll from '../components/tickpoll/ItemTickPoll'
 import TickPoll, { ItemTickPollRef } from '../components/tickpoll/TickPoll'
 import ItemTickPollEditor from '../components/tickpolleditor/ItemTickPollEditor'
 import TickPollEditor from '../components/tickpolleditor/TickPollEditor'
+import ItemPicture from '../components/itempicture/ItemPicture'
 
 interface CreatePostScreenState {
-  isHaveTickPoll: boolean
+  isHaveTickPoll: boolean,
+  listUrlPicture: string[]
 }
 
 interface CreatePostScreenProps extends BaseScreenProps {
@@ -36,12 +39,13 @@ class CreatePostScreen extends BaseScreen<CreatePostScreenProps, CreatePostScree
   constructor(props: CreatePostScreenProps) {
     super(props)
     this.state = {
-      isHaveTickPoll: false
+      isHaveTickPoll: false,
+      listUrlPicture: []
     }
   }
 
   render() {
-    const { isHaveTickPoll } = this.state
+    const { isHaveTickPoll, listUrlPicture } = this.state
     return (
       <SafeAreaView style={styles.wrapper}>
         <ClassicHeader
@@ -72,6 +76,29 @@ class CreatePostScreen extends BaseScreen<CreatePostScreenProps, CreatePostScree
                 })} />
               </View> : null
           }
+          <View style={{ width: "100%", height: 100, position: "absolute", bottom: 70, zIndex: 10 }}>
+            <FlatList
+              horizontal={true}
+              style={{ width: "100%", height: "100%" }}
+              data={listUrlPicture}
+              keyExtractor={
+                item => item
+              }
+              renderItem={({ item }) => {
+                // console.log("Render:", listUrlPicture?.length)
+                return (
+                  <ItemPicture urlPicture={item} onClose={() => {
+                    console.log("AppLog", "On Close")
+                    const index = listUrlPicture.indexOf(item)
+                    delete listUrlPicture[index]
+                    this.setState({
+                      listUrlPicture: listUrlPicture
+                    })
+                  }} />
+                )
+              }}
+            />
+          </View>
           <TouchableWithoutFeedback
             style={{ width: '100%', height: '100%' }}
             onPress={() => Keyboard.dismiss()}
@@ -92,7 +119,7 @@ class CreatePostScreen extends BaseScreen<CreatePostScreenProps, CreatePostScree
   listTickPoll: ItemTickPollRef[] = [{ name: "Android", numberTick: 150 }, { name: "React Native", numberTick: 50 }]
 
   onPressAddPicture() {
-    console.log("Picture clicked!")
+    // console.log("Picture clicked!")
 
     const options: ImagePickerOptions = {
       title: 'Select Picture',
@@ -106,7 +133,12 @@ class CreatePostScreen extends BaseScreen<CreatePostScreenProps, CreatePostScree
      * Open gallery
      */
     ImagePicker.showImagePicker(options, (response: ImagePickerResponse) => {
-
+      this.state.listUrlPicture?.push(response.uri)
+      this.setState(
+        {
+          listUrlPicture: this.state.listUrlPicture
+        }
+      )
     })
   }
 
