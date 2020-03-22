@@ -1,4 +1,4 @@
-import { BaseScreen } from './BaseScreen'
+import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import {
   SafeAreaView,
   Text,
@@ -20,10 +20,28 @@ import { _rightComponentStyle } from '../components/header/ClassicHeader.style'
 import ImagePicker, { ImagePickerOptions, ImagePickerResponse } from 'react-native-image-picker'
 import ItemTickPoll from '../components/tickpoll/ItemTickPoll'
 import TickPoll, { ItemTickPollRef } from '../components/tickpoll/TickPoll'
+import ItemTickPollEditor from '../components/tickpolleditor/ItemTickPollEditor'
+import TickPollEditor from '../components/tickpolleditor/TickPollEditor'
 
+interface CreatePostScreenState {
+  isHaveTickPoll: boolean
+}
 
-class CreatePostScreen extends BaseScreen {
+interface CreatePostScreenProps extends BaseScreenProps {
+
+}
+
+class CreatePostScreen extends BaseScreen<CreatePostScreenProps, CreatePostScreenState> {
+
+  constructor(props: CreatePostScreenProps) {
+    super(props)
+    this.state = {
+      isHaveTickPoll: false
+    }
+  }
+
   render() {
+    const { isHaveTickPoll } = this.state
     return (
       <SafeAreaView style={styles.wrapper}>
         <ClassicHeader
@@ -46,7 +64,14 @@ class CreatePostScreen extends BaseScreen {
               multiline={true}
             />
           </View>
-          <TickPoll listItem={this.listTickPoll} totalTick={200} />
+          {
+            isHaveTickPoll ?
+              <View style={{ width: "100%", alignItems: "center" }}>
+                <TickPollEditor onClose={() => this.setState({
+                  isHaveTickPoll: false
+                })} />
+              </View> : null
+          }
           <TouchableWithoutFeedback
             style={{ width: '100%', height: '100%' }}
             onPress={() => Keyboard.dismiss()}
@@ -86,7 +111,9 @@ class CreatePostScreen extends BaseScreen {
   }
 
   onPressChart() {
-    console.log("Chart clicked!")
+    this.setState({
+      isHaveTickPoll: true
+    })
   }
 
   onPressPost() {
@@ -108,7 +135,7 @@ const styles = StyleSheet.create({
   wrapperTextInput: {
     width: '100%',
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   avartar: {
     height: 50,
