@@ -1,6 +1,7 @@
 import { View, Image } from "react-native";
 import React from "react";
-import { Text } from "native-base";
+import { Text, Icon } from "native-base";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface ItemCommentProps {
     urlAvatar: string
@@ -23,7 +24,14 @@ const ItemComment = ({ content }: ItemCommentProps) => {
                 <Image source={require('../../assets/images/avt_batman.png')} style={{ height: 40, width: 40, borderRadius: 100 }} />
                 <Text style={{ marginLeft: 10 }}>{content}</Text>
             </View>
-            <Text style={{ color: "gray" }}>2 min</Text>
+            <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity style={{ marginHorizontal: 10 }}>
+                    <Icon type="AntDesign" name="back" style={{ colors: "gray", fontSize: 20 }} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Icon type="AntDesign" name="hearto" style={{ colors: "gray", fontSize: 20 }} />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
