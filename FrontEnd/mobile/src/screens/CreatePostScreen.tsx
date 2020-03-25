@@ -88,9 +88,9 @@ class CreatePostScreen extends BaseScreen<CreatePostScreenProps, CreatePostScree
                 // console.log("Render:", listUrlPicture?.length)
                 return (
                   <ItemPicture urlPicture={item} onClose={() => {
-                    console.log("AppLog", "On Close")
                     const index = listUrlPicture.indexOf(item)
-                    delete listUrlPicture[index]
+                    console.log("AppLog", index)
+                    listUrlPicture.splice(index, index + 1)
                     this.setState({
                       listUrlPicture: listUrlPicture
                     })
