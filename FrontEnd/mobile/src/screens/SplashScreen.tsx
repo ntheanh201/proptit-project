@@ -59,4 +59,7 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
   bindActionCreators(signInAction, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SplashScreen)

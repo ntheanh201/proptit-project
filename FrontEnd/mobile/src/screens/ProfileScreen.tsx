@@ -103,7 +103,11 @@ class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
                 }}>
                 <Image source={images.ARROWBACK} style={styles.arrowBack} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.editButton}>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => {
+                  this.navigate('EditProfile')
+                }}>
                 <Text>Edit Profile</Text>
               </TouchableOpacity>
             </View>

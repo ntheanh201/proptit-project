@@ -6,6 +6,7 @@ import { HomeNavigator } from './HomeNavigator'
 import { NavigationContainer } from '@react-navigation/native'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
+import EditProfileScreen from '../screens/EditProfileScreen'
 
 const Stack = createStackNavigator()
 
@@ -18,6 +19,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'HomeStack'} component={HomeNavigator} />
         <Stack.Screen name={'Detail'} component={PostDetailScreen} />
         <Stack.Screen name={'CreatePost'} component={CreatePostScreen} />
+        <Stack.Screen name={'EditProfile'} component={EditProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
