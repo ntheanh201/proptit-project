@@ -125,11 +125,11 @@ class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
             routes: this.state.routes,
           }}
           renderScene={renderScene}
-          onIndexChange={index => {
+          onIndexChange={(index) => {
             this.setState({ index })
           }}
           initialLayout={{ width: WIDTH(360) }}
-          renderTabBar={props => (
+          renderTabBar={(props) => (
             <TabBar
               {...props}
               style={{ backgroundColor: '#fff' }}

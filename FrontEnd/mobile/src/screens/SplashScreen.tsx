@@ -1,13 +1,11 @@
 import * as React from 'react'
-import { Text, View, Image, ActivityIndicator } from 'react-native'
-import { signInService } from '../services'
+import { View, Image, ActivityIndicator } from 'react-native'
 import { handleContinueSignIn, AppState, SignInState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import { images } from '../assets'
-import { useNavigation } from '@react-navigation/native'
 
 interface SplashScreenProps extends BaseScreenProps {
   handleContinueSignIn: typeof handleContinueSignIn
@@ -59,7 +57,4 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
   bindActionCreators(signInAction, dispatch)
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SplashScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen)

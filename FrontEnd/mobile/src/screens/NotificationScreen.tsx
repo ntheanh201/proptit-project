@@ -44,16 +44,16 @@ class NotificationScreen extends BaseScreen<
   onRefresh = () => {
     this.setState({
       refreshing: true,
-    }),
-      setTimeout(() => {
-        this.setState({ refreshing: false })
-      }, 1000)
+    })
+    setTimeout(() => {
+      this.setState({ refreshing: false })
+    }, 1000)
   }
 
   render() {
     return (
       <View style={{ backgroundColor: 'white', width: '100%', height: '100%' }}>
-        <ClassicHeader
+        {/* <ClassicHeader
           statusBarHidden={true}
           backgroundColor="white"
           leftComponent={
@@ -68,7 +68,7 @@ class NotificationScreen extends BaseScreen<
             </TouchableOpacity>
           }
           headerTitle="NOTIFICATIONS"
-        />
+        /> */}
         <FlatList
           data={this.state.listNoti}
           renderItem={({ item }) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import ViewPropsTypes from 'prop-types'
 import {
   SafeAreaView,
   View,
@@ -20,7 +20,7 @@ import _styles, {
   _rightComponentStyle,
 } from './ClassicHeader.style'
 import colors from '../../values/colors'
-import { Icon } from 'native-base'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const hitSlop = {
   top: 30,
@@ -87,16 +87,14 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
               onPress={leftComponentOnPress}>
               {Platform.OS == 'ios' ? (
                 <Icon
-                  type="Ionicons"
-                  fontSize={30}
+                  size={30}
                   name="ios-arrow-back"
                   color={colors.mainBlue}
                   // {...props}
                 />
               ) : (
                 <Icon
-                  type="Ionicons"
-                  fontSize={30}
+                  size={30}
                   name="md-arrow-back"
                   color={colors.mainBlue}
                   // {...props}
@@ -117,13 +115,7 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
               }
               hitSlop={hitSlops}
               onPress={rightComponentOnPress}>
-              <Icon
-                type="Ionicons"
-                name="ios-menu"
-                fontSize={30}
-                color="white"
-                {...props}
-              />
+              <Icon name="ios-menu" size={30} color="white" {...props} />
             </TouchableOpacity>
           )}
         </View>
@@ -132,9 +124,9 @@ const ClassicHeader = (props: ClassicHeaderProps) => {
   )
 }
 
-ClassicHeader.propTypes = {
-  hitSlops: PropTypes.object,
-  ratings: PropTypes.string,
+ClassicHeader.ViewPropsTypes = {
+  hitSlops: ViewPropsTypes.object,
+  ratings: ViewPropsTypes.string,
 }
 
 ClassicHeader.defaultProps = {

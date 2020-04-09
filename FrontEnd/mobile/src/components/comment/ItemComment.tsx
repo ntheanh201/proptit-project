@@ -1,6 +1,6 @@
-import { View, Image } from 'react-native'
+import { View, Image, Text } from 'react-native'
 import React from 'react'
-import { Text, Icon } from 'native-base'
+import Icon from 'react-native-vector-icons/AntDesign'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface ItemCommentProps {
@@ -35,18 +35,10 @@ const ItemComment = ({ content }: ItemCommentProps) => {
       </View>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={{ marginHorizontal: 10 }}>
-          <Icon
-            type="AntDesign"
-            name="back"
-            style={{ color: 'gray', fontSize: 20 }}
-          />
+          <Icon name="back" style={{ color: 'gray' }} size={20} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Icon
-            type="AntDesign"
-            name="hearto"
-            style={{ color: 'gray', fontSize: 20 }}
-          />
+          <Icon name="hearto" style={{ color: 'gray' }} size={20} />
         </TouchableOpacity>
       </View>
     </View>

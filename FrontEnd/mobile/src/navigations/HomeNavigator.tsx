@@ -1,11 +1,9 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
-import SplashScreen from '../screens/SplashScreen'
-import SignInScreen from '../screens/SignInScreen'
 import NewsFeedScreen from '../screens/NewsFeedScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-import { Icon } from 'native-base'
+import Icon from 'react-native-vector-icons/AntDesign'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import NotificationScreen from '../screens/NotificationScreen'
@@ -22,7 +20,6 @@ interface TabBarIconProps {
 export const HomeNavigator = () => {
   return (
     <Tab.Navigator
-      headerMode={'none'}
       screenOptions={({ route }: any) => ({
         tabBarIcon: ({ focused, color, size }: TabBarIconProps) => {
           let iconName
@@ -40,13 +37,7 @@ export const HomeNavigator = () => {
               iconName = 'home'
               break
           }
-          return (
-            <Icon
-              name={iconName}
-              type="AntDesign"
-              style={{ color, fontSize: size }}
-            />
-          )
+          return <Icon name={iconName} style={{ color, fontSize: size }} />
         },
       })}
       tabBarOptions={{

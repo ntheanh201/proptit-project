@@ -1,7 +1,7 @@
 import { View, TouchableOpacity, Image, Text } from 'react-native'
 import { Post } from '../core'
 import React from 'react'
-import { Icon } from 'native-base'
+import Icon from 'react-native-vector-icons/EvilIcons'
 import { images } from '../assets'
 
 interface ItemNewsFeedProps {
@@ -33,8 +33,9 @@ const ItemNewsFeed = (props: ItemNewsFeedProps) => {
               </View>
               <Text>2 phút trước</Text>
             </View>
-            <Text
-              style={{ marginTop: 10 }}>{`Hello ProPTIT, \nI'm Batman`}</Text>
+            <Text style={{ marginTop: 10 }}>
+              {"Hello ProPTIT, \nI'm Batman"}
+            </Text>
           </View>
           <Image
             source={{
@@ -54,19 +55,19 @@ const ItemNewsFeed = (props: ItemNewsFeedProps) => {
         }}>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon type="EvilIcons" name="comment" fontSize={30} />
+            <Icon name="comment" size={30} />
             <Text style={{ marginLeft: 5 }}>2</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon type="EvilIcons" name="heart" fontSize={30} />
+            <Icon name="heart" size={30} />
             <Text style={{ marginLeft: 5 }}>200</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon type="EvilIcons" name="retweet" fontSize={30} />
+            <Icon name="retweet" size={30} />
             <Text style={{ marginLeft: 5 }}>2</Text>
           </View>
         </TouchableOpacity>

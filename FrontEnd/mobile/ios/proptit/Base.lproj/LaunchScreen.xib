@@ -9,23 +9,23 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="Umc-dT-h3W">
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="7Un-uH-MFy">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Itx-52-s9O">
                     <rect key="frame" x="140" y="140" width="200" height="200"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="200" id="CqN-8q-4wd"/>
-                        <constraint firstAttribute="width" secondItem="7Un-uH-MFy" secondAttribute="height" multiplier="1:1" id="fla-ze-WQY"/>
+                        <constraint firstAttribute="width" secondItem="Itx-52-s9O" secondAttribute="height" multiplier="1:1" id="j5B-Qq-o8C"/>
+                        <constraint firstAttribute="width" constant="200" id="x1E-ds-G3X"/>
                     </constraints>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.27058823529411763" green="0.50196078431372548" blue="0.76078431372549016" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.27058823529999998" green="0.50196078430000002" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="7Un-uH-MFy" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="4km-DZ-0yz"/>
-                <constraint firstItem="7Un-uH-MFy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="crA-cD-vqE"/>
+                <constraint firstItem="Itx-52-s9O" firstAttribute="centerX" secondItem="Umc-dT-h3W" secondAttribute="centerX" id="bCu-jV-7am"/>
+                <constraint firstItem="Itx-52-s9O" firstAttribute="centerY" secondItem="Umc-dT-h3W" secondAttribute="centerY" id="kXs-Xq-MWc"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

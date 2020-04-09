@@ -15,7 +15,6 @@ import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import ClassicHeader from '../components/header/ClassicHeader'
-import { TextField } from 'react-native-material-textfield'
 import colors from '../values/colors'
 
 interface EditProfileScreenProps extends BaseScreenProps {}
@@ -30,7 +29,7 @@ class EditProfileScreen extends BaseScreen<EditProfileScreenProps> {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}>
-        <ClassicHeader />
+        {/* <ClassicHeader /> */}
         <TouchableWithoutFeedback
           style={{
             backgroundColor: 'white',
@@ -39,7 +38,7 @@ class EditProfileScreen extends BaseScreen<EditProfileScreenProps> {
             Keyboard.dismiss()
           }}>
           <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <TextField
+            {/* <TextField
               label="Name"
               value="Batman"
               keyboardType="default"
@@ -85,8 +84,8 @@ class EditProfileScreen extends BaseScreen<EditProfileScreenProps> {
               tintColor={colors.mainBlue}
               containerStyle={styles.textField}
               multiline={true}
-            />
-            <View style={{ flex: 1 }}></View>
+            /> */}
+            <View style={{ flex: 1 }} />
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

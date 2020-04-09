@@ -5,7 +5,7 @@ import { types } from '@babel/core'
 export class BaseScreen<
   P extends BaseScreenProps = BaseScreenProps,
   S = {}
-  > extends React.Component<P, S> {
+> extends React.Component<P, S> {
   navigate(routeID: string) {
     this.props.navigation.navigate(routeID)
   }

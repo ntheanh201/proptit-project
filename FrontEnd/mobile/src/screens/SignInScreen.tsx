@@ -4,20 +4,13 @@ import {
   View,
   Image,
   StyleSheet,
-  Button,
   TouchableOpacity,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
+  Text,
 } from 'react-native'
-import { Text } from 'native-base'
 import { images } from '../assets'
 import colors from '../values/colors'
-import {
-  OutlinedTextField,
-  TextField,
-  FilledTextField,
-} from 'react-native-material-textfield'
 import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
@@ -37,7 +30,7 @@ class SignInScreen extends BaseScreen<SignInScreenProps> {
         style={{ flex: 1 }}>
         <View style={styles.container}>
           <Image source={images.APP_ICON_REV} style={styles.logoRev} />
-          <TextField
+          {/* <TextField
             containerStyle={styles.textInput}
             label="Username"
             keyboardType="default"
@@ -49,7 +42,7 @@ class SignInScreen extends BaseScreen<SignInScreenProps> {
             keyboardType="default"
             secureTextEntry={true}
             tintColor={colors.mainBlue}
-          />
+          /> */}
           <TouchableOpacity
             style={styles.buttonSignIn}
             onPress={() => {

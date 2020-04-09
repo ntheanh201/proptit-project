@@ -2,7 +2,6 @@ import * as React from 'react'
 import { BaseScreenProps, BaseScreen } from './BaseScreen'
 import {
   View,
-  TouchableOpacity,
   Image,
   Text,
   ScrollView,
@@ -12,9 +11,7 @@ import {
   Platform,
 } from 'react-native'
 import ItemNewsFeed from '../components/ItemNewsFeed'
-import ClassicHeader from '../components/header/ClassicHeader'
 import { images } from '../assets'
-import { WIDTH } from '../configs/Function'
 import ItemComment from '../components/comment/ItemComment'
 
 interface PostDetailScreenProps extends BaseScreenProps {}
@@ -42,7 +39,7 @@ class PostDetailScreen extends BaseScreen {
             'Good! dddddddddddddddddddddddddddddddd d d d d d  d d d d d d d d d d d d d ',
             'Nice! Bro',
             'Awesome!',
-          ].map(content => (
+          ].map((content) => (
             <ItemComment content={content} urlAvatar="" />
           ))}
           <View
