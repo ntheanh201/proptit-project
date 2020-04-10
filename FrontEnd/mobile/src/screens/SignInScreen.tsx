@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { BaseScreenProps, BaseScreen } from './BaseScreen'
 import {
   View,
   Image,
@@ -15,10 +14,15 @@ import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
+import { AuthStackParams } from 'src/navigations/AuthNavigator'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from 'src/navigations/AppNavigator'
 
-interface SignInScreenProps extends BaseScreenProps {}
+interface SignInScreenProps {
+  navigation: StackNavigationProp<RootStackParams>
+}
 
-class SignInScreen extends BaseScreen<SignInScreenProps> {
+class SignInScreen extends React.Component<SignInScreenProps> {
   constructor(props: SignInScreenProps) {
     super(props)
   }
@@ -46,7 +50,7 @@ class SignInScreen extends BaseScreen<SignInScreenProps> {
           <TouchableOpacity
             style={styles.buttonSignIn}
             onPress={() => {
-              this.navigate('HomeStack')
+              this.props.navigation.navigate('HomeStack')
             }}>
             <Text style={styles.textSignIn}>Sign In</Text>
           </TouchableOpacity>

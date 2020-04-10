@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { BaseScreenProps, BaseScreen } from './BaseScreen'
 import {
   View,
   Image,
@@ -14,14 +13,20 @@ import {
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { images } from '../assets'
 import ItemComment from '../components/comment/ItemComment'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from 'src/navigations/AppNavigator'
+import IonIcon from 'react-native-vector-icons/Ionicons'
+import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-interface PostDetailScreenProps extends BaseScreenProps {}
+interface PostDetailScreenProps {
+  navigation: StackNavigationProp<RootStackParams>
+}
 
 interface PostDetailScreenState {
   padding: number
 }
 
-class PostDetailScreen extends BaseScreen<
+class PostDetailScreen extends React.Component<
   PostDetailScreenProps,
   PostDetailScreenState
 > {
@@ -30,6 +35,19 @@ class PostDetailScreen extends BaseScreen<
     this.state = {
       padding: 0,
     }
+    this.props.navigation.setOptions({
+      title: 'Post',
+      headerLeft: () => (
+        <IonIcon
+          name="md-arrow-round-back"
+          size={25}
+          style={{ marginLeft: 10 }}
+        />
+      ),
+      headerRight: () => (
+        <MCIcons name="magnify" size={25} style={{ marginRight: 10 }} />
+      ),
+    })
   }
 
   componentDidMount() {

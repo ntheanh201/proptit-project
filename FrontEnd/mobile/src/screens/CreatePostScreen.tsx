@@ -1,4 +1,3 @@
-import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import {
   SafeAreaView,
   Text,
@@ -16,7 +15,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler'
-import React from 'react'
+import React, { Component } from 'react'
 import ImagePicker, {
   ImagePickerOptions,
   ImagePickerResponse,
@@ -25,6 +24,8 @@ import { ItemTickPollRef } from '../components/tickpoll/TickPoll'
 import TickPollEditor from '../components/tickpolleditor/TickPollEditor'
 import ItemPicture from '../components/itempicture/ItemPicture'
 import Icon from 'react-native-vector-icons/AntDesign'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from 'src/navigations/AppNavigator'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
@@ -32,9 +33,11 @@ interface CreatePostScreenState {
   padding: number
 }
 
-interface CreatePostScreenProps extends BaseScreenProps {}
+interface CreatePostScreenProps {
+  navigation: StackNavigationProp<RootStackParams>
+}
 
-class CreatePostScreen extends BaseScreen<
+class CreatePostScreen extends Component<
   CreatePostScreenProps,
   CreatePostScreenState
 > {
@@ -207,7 +210,7 @@ class CreatePostScreen extends BaseScreen<
 
   onPressPost() {
     console.log('Post clicked!')
-    this.goBack()
+    this.props.navigation.goBack()
   }
 }
 const styles = StyleSheet.create({

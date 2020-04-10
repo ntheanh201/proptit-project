@@ -6,11 +6,14 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native'
-import React from 'react'
+import React, { Component } from 'react'
 import ClassicHeader from '../components/header/ClassicHeader'
-import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import FloatingButton from '../components/FloatingButton'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from 'src/navigations/AppNavigator'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { HomeTabParams } from 'src/navigations/HomeNavigator'
 
 interface Item {
   key: string
@@ -23,9 +26,12 @@ interface NewsFeedScreenState {
   listItems: Item[]
 }
 
-interface NewsFeedScreenProps extends BaseScreenProps {}
+interface NewsFeedScreenProps {
+  stackNav: StackNavigationProp<RootStackParams>
+  tabNav: BottomTabNavigationProp<HomeTabParams>
+}
 
-class NewsFeedScreen extends BaseScreen<
+class NewsFeedScreen extends Component<
   NewsFeedScreenProps,
   NewsFeedScreenState
 > {
@@ -60,7 +66,6 @@ class NewsFeedScreen extends BaseScreen<
   }
 
   loadMore = () => {
-    console.log('running', this.state.isLoadingMore)
     this.setState({
       isLoadingMore: true,
     })
@@ -102,7 +107,7 @@ class NewsFeedScreen extends BaseScreen<
               return (
                 <ItemNewsFeed
                   onPress={() => {
-                    this.navigate('Detail')
+                    this.props.stackNav.navigate('PostDetail')
                   }}
                 />
               )
@@ -121,7 +126,7 @@ class NewsFeedScreen extends BaseScreen<
           ) : null}
           <FloatingButton
             onPress={() => {
-              this.navigate('CreatePost')
+              this.props.stackNav.navigate('CreatePost')
             }}
           />
         </View>
@@ -130,13 +135,7 @@ class NewsFeedScreen extends BaseScreen<
   }
 
   handleOnPressProfile() {
-    this.navigate('Profile')
-  }
-
-  wait = (timeout: number) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout)
-    })
+    this.props.tabNav.navigate('Profile')
   }
 }
 

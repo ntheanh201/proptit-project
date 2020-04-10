@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { BaseScreenProps, BaseScreen } from './BaseScreen'
 import {
   View,
   Text,
@@ -19,8 +18,12 @@ import LinearGradient from 'react-native-linear-gradient'
 import { WIDTH, HEIGHT } from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import ItemNewsFeed from '../components/ItemNewsFeed'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from 'src/navigations/AppNavigator'
 
-interface ProfileScreenProps extends BaseScreenProps {}
+interface ProfileScreenProps {
+  navigation: StackNavigationProp<RootStackParams>
+}
 
 interface ProfileScreenState {
   index: number
@@ -72,7 +75,10 @@ const ImageRoute = () => (
   </ScrollView>
 )
 
-class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
+class ProfileScreen extends React.Component<
+  ProfileScreenProps,
+  ProfileScreenState
+> {
   constructor(props: ProfileScreenProps) {
     super(props)
     this.state = {
@@ -106,7 +112,7 @@ class ProfileScreen extends BaseScreen<ProfileScreenProps, ProfileScreenState> {
               <TouchableOpacity
                 style={styles.editButton}
                 onPress={() => {
-                  this.navigate('EditProfile')
+                  this.props.navigation.navigate('EditProfile')
                 }}>
                 <Text>Edit Profile</Text>
               </TouchableOpacity>

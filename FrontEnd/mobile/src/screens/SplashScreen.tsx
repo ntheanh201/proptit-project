@@ -4,15 +4,17 @@ import { handleContinueSignIn, AppState, SignInState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
-import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import { images } from '../assets'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { AuthStackParams } from 'src/navigations/AuthNavigator'
 
-interface SplashScreenProps extends BaseScreenProps {
+interface SplashScreenProps {
   handleContinueSignIn: typeof handleContinueSignIn
   signInState: SignInState
+  navigation: StackNavigationProp<AuthStackParams>
 }
 
-class SplashScreen extends BaseScreen<SplashScreenProps> {
+class SplashScreen extends React.Component<SplashScreenProps> {
   constructor(props: SplashScreenProps) {
     super(props)
   }
@@ -28,8 +30,8 @@ class SplashScreen extends BaseScreen<SplashScreenProps> {
     console.log('running')
     // this.props.handleContinueSignIn()
     setTimeout(() => {
-      this.replace('SignIn')
-    }, 3000)
+      this.props.navigation.navigate('SignIn')
+    }, 1000)
   }
 
   render() {

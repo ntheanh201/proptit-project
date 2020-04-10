@@ -8,6 +8,12 @@ import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import NotificationScreen from '../screens/NotificationScreen'
 
+export type HomeTabParams = {
+  Home: undefined
+  Notification: undefined
+  Profile: undefined
+}
+
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 

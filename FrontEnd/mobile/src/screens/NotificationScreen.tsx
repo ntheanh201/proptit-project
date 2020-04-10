@@ -1,5 +1,4 @@
-import React from 'react'
-import { BaseScreen, BaseScreenProps } from './BaseScreen'
+import React, { Component } from 'react'
 import { View, TouchableOpacity, Image, FlatList } from 'react-native'
 import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
@@ -11,15 +10,21 @@ import {
   ItemNotification,
   ItemNotificationProps,
 } from '../components/ItemNotification'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { HomeTabParams } from 'src/navigations/HomeNavigator'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { RootStackParams } from 'src/navigations/AppNavigator'
 
-interface NotificationScreenProps extends BaseScreenProps {}
+interface NotificationScreenProps {
+  navigation: BottomTabNavigationProp<HomeTabParams>
+}
 
 interface NotificationScreenState {
   refreshing: boolean
   listNoti: ItemNotificationProps[]
 }
 
-class NotificationScreen extends BaseScreen<
+class NotificationScreen extends Component<
   NotificationScreenProps,
   NotificationScreenState
 > {
@@ -38,7 +43,7 @@ class NotificationScreen extends BaseScreen<
   }
 
   handleOnPressProfile = () => {
-    this.navigate('Profile')
+    this.props.navigation.navigate('Profile')
   }
 
   onRefresh = () => {
@@ -76,7 +81,7 @@ class NotificationScreen extends BaseScreen<
               <ItemNotification
                 type={item.type}
                 createTime={item.createTime}
-                onPress={() => this.navigate('Detail')}
+                onPress={() => this.props.navigation.navigate('PostDetail')}
               />
             )
           }}

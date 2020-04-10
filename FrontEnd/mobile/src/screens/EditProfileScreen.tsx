@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { BaseScreen, BaseScreenProps } from './BaseScreen'
 import {
   View,
   Text,
@@ -9,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  TextInput,
 } from 'react-native'
 import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
@@ -16,79 +16,81 @@ import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import ClassicHeader from '../components/header/ClassicHeader'
 import colors from '../values/colors'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from 'src/navigations/AppNavigator'
 
-interface EditProfileScreenProps extends BaseScreenProps {}
+interface EditProfileScreenProps {
+  navigation: StackNavigationProp<RootStackParams>
+}
 
-class EditProfileScreen extends BaseScreen<EditProfileScreenProps> {
+interface EditProfileScreenState {
+  padding: number
+}
+
+class EditProfileScreen extends React.Component<
+  EditProfileScreenProps,
+  EditProfileScreenState
+> {
   constructor(props: EditProfileScreenProps) {
     super(props)
+    this.state = {
+      padding: 0,
+    }
+  }
+
+  componentDidMount() {
+    Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      this.onKeyboardShow,
+    )
+    Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      this.onKeyboardHide,
+    )
+  }
+
+  onKeyboardShow = (e: any) => {
+    this.setState({
+      padding: e.endCoordinates.height,
+    })
+  }
+
+  onKeyboardHide = () => {
+    this.setState({
+      padding: 0,
+    })
   }
 
   render() {
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{ flex: 1 }}>
-        {/* <ClassicHeader /> */}
-        <TouchableWithoutFeedback
+      <ScrollView
+        style={{
+          flex: 1,
+          paddingBottom: this.state.padding,
+        }}>
+        <TextInput
+          multiline={true}
           style={{
-            backgroundColor: 'white',
+            height: 200,
+            width: 200,
+            marginTop: 100,
+            borderWidth: 1,
+            borderColor: 'gray',
           }}
-          onPress={() => {
-            Keyboard.dismiss()
-          }}>
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            {/* <TextField
-              label="Name"
-              value="Batman"
-              keyboardType="default"
-              tintColor={colors.mainBlue}
-              containerStyle={styles.textField}
-            />
-            <TextField
-              label="Description"
-              value="Smart, tough and brutally violent solutions to crime."
-              keyboardType="default"
-              tintColor={colors.mainBlue}
-              containerStyle={styles.textField}
-              multiline={true}
-            />
-            <TextField
-              label="Description"
-              value="Smart, tough and brutally violent solutions to crime."
-              keyboardType="default"
-              tintColor={colors.mainBlue}
-              containerStyle={styles.textField}
-              multiline={true}
-            />
-            <TextField
-              label="Description"
-              value="Smart, tough and brutally violent solutions to crime."
-              keyboardType="default"
-              tintColor={colors.mainBlue}
-              containerStyle={styles.textField}
-              multiline={true}
-            />
-            <TextField
-              label="Description"
-              value="Smart, tough and brutally violent solutions to crime."
-              keyboardType="default"
-              tintColor={colors.mainBlue}
-              containerStyle={styles.textField}
-              multiline={true}
-            />
-            <TextField
-              label="Description"
-              value="Smart, tough and brutally violent solutions to crime."
-              keyboardType="default"
-              tintColor={colors.mainBlue}
-              containerStyle={styles.textField}
-              multiline={true}
-            /> */}
-            <View style={{ flex: 1 }} />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+          placeholder={'ABBCD'}
+        />
+        <TextInput
+          multiline={true}
+          style={{
+            height: 200,
+            width: 200,
+            marginTop: 100,
+            borderWidth: 1,
+            borderColor: 'gray',
+          }}
+          placeholder={'ABBCD'}
+        />
+      </ScrollView>
     )
   }
 }

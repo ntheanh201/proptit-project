@@ -7,20 +7,46 @@ import { NavigationContainer } from '@react-navigation/native'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import EditProfileScreen from '../screens/EditProfileScreen'
+import { AuthNavigator } from './AuthNavigator'
+import { View, Image } from 'react-native'
+import { images } from '../assets'
 
-const Stack = createStackNavigator()
+export type RootStackParams = {
+  AuthStack: undefined
+  HomeStack: undefined
+  PostDetail: undefined
+  CreatePost: undefined
+  EditProfile: undefined
+}
+
+const RootStack = createStackNavigator<RootStackParams>()
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode={'none'}>
-        <Stack.Screen name={'Splash'} component={SplashScreen} />
-        <Stack.Screen name={'SignIn'} component={SignInScreen} />
-        <Stack.Screen name={'HomeStack'} component={HomeNavigator} />
-        <Stack.Screen name={'Detail'} component={PostDetailScreen} />
-        <Stack.Screen name={'CreatePost'} component={CreatePostScreen} />
-        <Stack.Screen name={'EditProfile'} component={EditProfileScreen} />
-      </Stack.Navigator>
+      <RootStack.Navigator>
+        <RootStack.Screen
+          name={'AuthStack'}
+          component={AuthNavigator}
+          options={{ header: () => null }}
+        />
+        <RootStack.Screen
+          name={'HomeStack'}
+          component={HomeNavigator}
+          options={{
+            headerTitle: () => (
+              <Image
+                source={images.APP_ICON}
+                style={{ width: 35, height: 35 }}
+              />
+            ),
+            headerLeft: () => null,
+          }}
+        />
+        <RootStack.Screen name={'PostDetail'} component={PostDetailScreen} />
+        <RootStack.Screen name={'CreatePost'} component={CreatePostScreen} />
+        <RootStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+      </RootStack.Navigator>
     </NavigationContainer>
   )
 }
