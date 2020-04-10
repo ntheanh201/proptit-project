@@ -9,6 +9,7 @@ import {
   Image,
   KeyboardAvoidingView,
   FlatList,
+  Platform,
 } from 'react-native'
 import ClassicHeader from '../components/header/ClassicHeader'
 import {
@@ -28,6 +29,7 @@ import Icon from 'react-native-vector-icons/AntDesign'
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
   listUrlPicture: string[]
+  padding: number
 }
 
 interface CreatePostScreenProps extends BaseScreenProps {}
@@ -41,13 +43,37 @@ class CreatePostScreen extends BaseScreen<
     this.state = {
       isHaveTickPoll: false,
       listUrlPicture: [],
+      padding: 0,
     }
+  }
+
+  componentDidMount() {
+    Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      this.onKeyboardShow,
+    )
+    Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      this.onKeyboardHide,
+    )
+  }
+
+  onKeyboardShow = (e: any) => {
+    this.setState({
+      padding: e.endCoordinates.height,
+    })
+  }
+
+  onKeyboardHide = () => {
+    this.setState({
+      padding: 0,
+    })
   }
 
   render() {
     const { isHaveTickPoll, listUrlPicture } = this.state
     return (
-      <SafeAreaView style={styles.wrapper}>
+      <View style={[styles.wrapper, { paddingBottom: this.state.padding }]}>
         {/* <ClassicHeader
           leftComponentOnPress={() => this.goBack()}
           statusBarHidden={true}
@@ -65,7 +91,7 @@ class CreatePostScreen extends BaseScreen<
             </TouchableOpacity>
           }
         /> */}
-        <KeyboardAvoidingView style={styles.wrapperTextInput}>
+        <View style={styles.wrapperTextInput}>
           <View style={{ flexDirection: 'row' }}>
             <Image
               source={require('../assets/images/avt_batman.png')}
@@ -141,8 +167,8 @@ class CreatePostScreen extends BaseScreen<
               <Icon name="areachart" size={30} />
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+        </View>
+      </View>
     )
   }
 

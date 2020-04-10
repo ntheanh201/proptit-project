@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Platform,
+  Keyboard,
 } from 'react-native'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { images } from '../assets'
@@ -16,13 +17,57 @@ import ItemComment from '../components/comment/ItemComment'
 
 interface PostDetailScreenProps extends BaseScreenProps {}
 
-class PostDetailScreen extends BaseScreen {
+interface PostDetailScreenState {
+  padding: number
+}
+
+class PostDetailScreen extends BaseScreen<
+  PostDetailScreenProps,
+  PostDetailScreenState
+> {
+  constructor(props: PostDetailScreenProps) {
+    super(props)
+    this.state = {
+      padding: 0,
+    }
+  }
+
+  componentDidMount() {
+    Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      this.onKeyboardShow,
+    )
+    Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      this.onKeyboardHide,
+    )
+  }
+
+  onKeyboardShow = (e: any) => {
+    this.setState({
+      padding: e.endCoordinates.height,
+    })
+  }
+
+  onKeyboardHide = () => {
+    this.setState({
+      padding: 0,
+    })
+  }
+
   render() {
     return (
-      <KeyboardAvoidingView
-        style={{ marginTop: 50, flexDirection: 'column' }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView style={{ width: '100%', height: '90%' }}>
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          paddingBottom: this.state.padding,
+        }}>
+        <ScrollView
+          style={{
+            width: '100%',
+            height: '90%',
+          }}>
           <ItemNewsFeed />
           <View
             style={{
@@ -98,7 +143,7 @@ class PostDetailScreen extends BaseScreen {
             style={{ width: '100%', fontSize: 20, marginLeft: 10 }}
           />
         </View>
-      </KeyboardAvoidingView>
+      </View>
     )
   }
 }
