@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Image, FlatList } from 'react-native'
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  SafeAreaView,
+} from 'react-native'
 import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
@@ -57,23 +63,8 @@ class NotificationScreen extends Component<
 
   render() {
     return (
-      <View style={{ backgroundColor: 'white', width: '100%', height: '100%' }}>
-        {/* <ClassicHeader
-          statusBarHidden={true}
-          backgroundColor="white"
-          leftComponent={
-            <TouchableOpacity
-              style={{ marginLeft: 16 }}
-              onPressIn={this.handleOnPressProfile}>
-              <Image
-                source={images.AVT_BATMAN}
-                style={{ width: 30, height: 30 }}
-                borderRadius={100}
-              />
-            </TouchableOpacity>
-          }
-          headerTitle="NOTIFICATIONS"
-        /> */}
+      <SafeAreaView
+        style={{ backgroundColor: 'white', width: '100%', height: '100%' }}>
         <FlatList
           data={this.state.listNoti}
           renderItem={({ item }) => {
@@ -81,14 +72,18 @@ class NotificationScreen extends Component<
               <ItemNotification
                 type={item.type}
                 createTime={item.createTime}
-                onPress={() => this.props.navigation.navigate('PostDetail')}
+                onPress={() =>
+                  this.props.navigation.navigate('RootStack', {
+                    screen: 'PostDetail',
+                  })
+                }
               />
             )
           }}
           refreshing={this.state.refreshing}
           onRefresh={this.onRefresh}
         />
-      </View>
+      </SafeAreaView>
     )
   }
 }

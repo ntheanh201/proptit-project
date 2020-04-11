@@ -3,13 +3,17 @@ import { createStackNavigator } from '@react-navigation/stack'
 import SplashScreen from '../screens/SplashScreen'
 import SignInScreen from '../screens/SignInScreen'
 import { HomeNavigator } from './HomeNavigator'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, ParamListBase } from '@react-navigation/native'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import EditProfileScreen from '../screens/EditProfileScreen'
 import { AuthNavigator } from './AuthNavigator'
 import { View, Image } from 'react-native'
 import { images } from '../assets'
+
+export type SubNavigator<T extends ParamListBase> = {
+  [K in keyof T]: { screen: K; params?: T[K] }
+}[keyof T]
 
 export type RootStackParams = {
   AuthStack: undefined
@@ -34,13 +38,7 @@ const AppNavigator = () => {
           name={'HomeStack'}
           component={HomeNavigator}
           options={{
-            headerTitle: () => (
-              <Image
-                source={images.APP_ICON}
-                style={{ width: 35, height: 35 }}
-              />
-            ),
-            headerLeft: () => null,
+            header: () => null,
           }}
         />
         <RootStack.Screen name={'PostDetail'} component={PostDetailScreen} />

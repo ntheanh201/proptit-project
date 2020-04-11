@@ -7,11 +7,13 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import NotificationScreen from '../screens/NotificationScreen'
+import { SubNavigator, RootStackParams } from './AppNavigator'
 
 export type HomeTabParams = {
-  Home: undefined
+  Newsfeed: undefined
   Notification: undefined
   Profile: undefined
+  RootStack: SubNavigator<RootStackParams>
 }
 
 const Tab = createBottomTabNavigator()
@@ -30,7 +32,7 @@ export const HomeNavigator = () => {
         tabBarIcon: ({ focused, color, size }: TabBarIconProps) => {
           let iconName
           switch (route.name) {
-            case 'Home':
+            case 'Newsfeed':
               iconName = 'home'
               break
             case 'Notification':
@@ -49,8 +51,9 @@ export const HomeNavigator = () => {
       tabBarOptions={{
         activeTintColor: '#4580C2',
         inactiveTintColor: 'gray',
+        showLabel: false,
       }}>
-      <Tab.Screen name={'Home'} component={NewsFeedScreen} />
+      <Tab.Screen name={'Newsfeed'} component={NewsFeedScreen} />
       <Tab.Screen name={'Notification'} component={NotificationScreen} />
       <Tab.Screen name={'Profile'} component={ProfileScreen} />
     </Tab.Navigator>

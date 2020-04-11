@@ -8,6 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  StatusBar,
+  StatusBarIOS,
 } from 'react-native'
 import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
@@ -15,7 +17,7 @@ import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
-import { WIDTH, HEIGHT } from '../configs/Function'
+import { WIDTH, HEIGHT, getStatusBarHeight } from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -103,13 +105,6 @@ class ProfileScreen extends React.Component<
             style={styles.coverImage}>
             <View style={styles.headerContainer}>
               <TouchableOpacity
-                style={{ marginLeft: 10 }}
-                onPress={() => {
-                  this.props.navigation.goBack()
-                }}>
-                <Image source={images.ARROWBACK} style={styles.arrowBack} />
-              </TouchableOpacity>
-              <TouchableOpacity
                 style={styles.editButton}
                 onPress={() => {
                   this.props.navigation.navigate('EditProfile')
@@ -156,9 +151,9 @@ const styles = StyleSheet.create({
     height: HEIGHT(250),
   },
   headerContainer: {
-    marginTop: Platform.OS === 'ios' ? 50 : 30,
+    marginTop: getStatusBarHeight(),
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   arrowBack: {
