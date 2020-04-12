@@ -1,18 +1,14 @@
 const path = require('path')
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 
 module.exports = ({ mode, outputPath }) => {
   return {
     mode,
-    context: path.resolve(process.cwd(), './src'),
-    entry: ['babel-polyfill', './index.js'],
+    entry: './src/index.tsx',
     output: {
       path: path.resolve(process.cwd(), outputPath),
       filename: '[name].[hash:8].js'
-      // publicPath: path.resolve(process.cwd(), outputPath)
     },
     resolve: {
       alias: {
@@ -23,93 +19,21 @@ module.exports = ({ mode, outputPath }) => {
         service: path.resolve(process.cwd(), 'src', 'packages', 'service'),
         environments: path.resolve(process.cwd(), 'src', 'environments')
       },
-      mainFields: ['browser', 'main', 'module'],
-      extensions: ['.js', '.json', '.jsx', '.ts', '.tsx']
+      extensions: ['.ts', '.tsx', '.js']
     },
     module: {
       rules: [
         {
-          test: /\.(js|jsx|mjs|ts|tsx)$/,
-          exclude: /node_modules/,
-          use: 'babel-loader'
-        },
-        {
-          test: /\.ts(x?)$/,
-          exclude: /node_modules/,
-          use: [
-            {
-              loader: 'ts-loader'
-            }
-          ]
-        },
-        // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-        {
-          enforce: 'pre',
-          test: /\.js$/,
-          loader: 'source-map-loader'
-        },
-        {
-          test: /\.(graphql|gql)$/,
-          exclude: /node_modules/,
-          loader: 'graphql-tag/loader'
-        },
-        {
-          test: /\.css$/,
-          use: [
-            {
-              loader: 'style-loader'
-            },
-            {
-              loader: 'css-loader'
-            }
-          ]
-        },
-        {
-          test: /\.svg$/,
-          use: [
-            {
-              loader: 'raw-loader'
-            }
-          ]
-        },
-        {
-          exclude: [
-            /\.html$/,
-            /\.(js|jsx|mjs)$/,
-            /\.css$/,
-            /\.json$/,
-            /\.svg$/,
-            /\.(graphql|gql)$/,
-            /particles\.js/
-          ],
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 10000,
-                name: 'static/media/[name].[hash:8].[ext]'
-              }
-            }
-          ]
-        },
-        {
-          test: /\.(jpe?g|png|gif|svg)$/i,
-          loader: 'file-loader?name=/images/[name].[ext]'
-        },
-        {
-          test: /particles\.js/,
-          loader:
-            'exports-loader?particlesJS=window.particlesJS,pJSDom=window.pJSDom'
+          test: /\.tsx?$/,
+          loader: 'awesome-typescript-loader'
         }
       ]
     },
     plugins: [
-      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         inject: true,
-        template: './index.html'
-      }),
-      new CaseSensitivePathsPlugin()
+        template: './src/index.html'
+      })
     ],
     devServer: {
       compress: true,
