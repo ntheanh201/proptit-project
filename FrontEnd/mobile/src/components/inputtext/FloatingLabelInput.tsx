@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, StatusBar, TextInput, Animated, ViewStyle } from 'react-native'
+import colors from '../../values/colors'
 
 interface FloatingLabelInputProps {
   label?: string
@@ -7,10 +8,12 @@ interface FloatingLabelInputProps {
   borderColor?: string
   textInputColor?: string
   containerStyle?: ViewStyle
+  isPassword?: boolean
 }
 
 interface FloatingLabelInputState {
   isFocused: boolean
+  text: string
 }
 
 class FloatingLabelInput extends React.Component<
@@ -24,6 +27,7 @@ class FloatingLabelInput extends React.Component<
 
     this.state = {
       isFocused: false,
+      text: '',
     }
   }
 
@@ -31,11 +35,13 @@ class FloatingLabelInput extends React.Component<
   handleBlur = () => this.setState({ isFocused: false })
 
   componentDidUpdate() {
-    Animated.timing(this._animatedIsFocused, {
-      toValue: this.state.isFocused ? 1 : 0,
-      duration: 200,
-      useNativeDriver: false,
-    }).start()
+    if (this.state.text == '') {
+      Animated.timing(this._animatedIsFocused, {
+        toValue: this.state.isFocused ? 1 : 0,
+        duration: 200,
+        useNativeDriver: false,
+      }).start()
+    }
   }
 
   render() {
@@ -45,6 +51,7 @@ class FloatingLabelInput extends React.Component<
       borderColor,
       textInputColor,
       containerStyle,
+      isPassword,
       ...props
     } = this.props
     const labelStyle = {
@@ -52,7 +59,7 @@ class FloatingLabelInput extends React.Component<
       left: 0,
       top: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
-        outputRange: [18, 0],
+        outputRange: [10, -10],
       }),
       fontSize: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
@@ -60,24 +67,30 @@ class FloatingLabelInput extends React.Component<
       }),
       color: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
-        outputRange: ['#aaa', '#000'],
+        outputRange: ['#aaa', colors.mainBlue],
       }),
     }
     return (
-      <View style={[containerStyle, { paddingTop: 18 }]}>
+      <View style={[containerStyle]}>
         <Animated.Text style={labelStyle}>{label}</Animated.Text>
         <TextInput
           {...props}
           style={{
-            fontSize: 20,
-            color: textInputColor,
             borderBottomWidth: 1,
             borderBottomColor: borderColor,
+            fontSize: 20,
+            color: textInputColor,
           }}
-          onChangeText={onTextChange}
+          onChangeText={(text) => {
+            this.setState({
+              text: text,
+            })
+            onTextChange ? onTextChange(text) : null
+          }}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           blurOnSubmit
+          secureTextEntry={isPassword}
         />
       </View>
     )

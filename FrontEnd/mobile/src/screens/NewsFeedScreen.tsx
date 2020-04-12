@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import React, { Component } from 'react'
-import ClassicHeader from '../components/header/ClassicHeader'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import FloatingButton from '../components/FloatingButton'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -107,7 +106,8 @@ class NewsFeedScreen extends Component<
               return (
                 <ItemNewsFeed
                   onPress={() => {
-                    this.props.stackNav.navigate('PostDetail')
+                    console.log('AppLog', this.props)
+                    this.props.navigation.navigate('PostDetail')
                   }}
                 />
               )
@@ -126,7 +126,7 @@ class NewsFeedScreen extends Component<
           ) : null}
           <FloatingButton
             onPress={() => {
-              this.props.stackNav.navigate('CreatePost')
+              this.props.navigation.navigate('CreatePost')
             }}
           />
         </View>

@@ -77,23 +77,6 @@ class CreatePostScreen extends Component<
     const { isHaveTickPoll, listUrlPicture } = this.state
     return (
       <View style={[styles.wrapper, { paddingBottom: this.state.padding }]}>
-        {/* <ClassicHeader
-          leftComponentOnPress={() => this.goBack()}
-          statusBarHidden={true}
-          headerTitle="NEW POST"
-          rightComponent={
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 10,
-              }}
-              onPress={() => this.onPressPost()}>
-              <Text style={{ fontSize: 16 }}>POST</Text>
-            </TouchableOpacity>
-          }
-        /> */}
         <View style={styles.wrapperTextInput}>
           <View style={{ flexDirection: 'row' }}>
             <Image

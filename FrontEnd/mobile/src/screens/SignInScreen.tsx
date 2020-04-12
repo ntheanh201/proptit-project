@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Text,
+  TextInput,
 } from 'react-native'
 import { images } from '../assets'
 import colors from '../values/colors'
@@ -39,6 +40,12 @@ class SignInScreen extends React.Component<SignInScreenProps> {
             label="Username"
             borderColor={colors.mainBlue}
             containerStyle={styles.textInput}
+          />
+          <FloatingLabelInput
+            label="Password"
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textInput}
+            isPassword={true}
           />
           <TouchableOpacity
             style={styles.buttonSignIn}
