@@ -1,5 +1,12 @@
 import React from 'react'
-import { View, StatusBar, TextInput, Animated, ViewStyle } from 'react-native'
+import {
+  View,
+  StatusBar,
+  TextInput,
+  Animated,
+  ViewStyle,
+  Platform,
+} from 'react-native'
 import colors from '../../values/colors'
 
 interface FloatingLabelInputProps {
@@ -59,7 +66,7 @@ class FloatingLabelInput extends React.Component<
       left: 0,
       top: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
-        outputRange: [10, -10],
+        outputRange: Platform.OS == 'ios' ? [0, -15] : [10, -10],
       }),
       fontSize: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
