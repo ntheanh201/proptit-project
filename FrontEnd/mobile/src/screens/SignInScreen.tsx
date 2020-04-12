@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import { AuthStackParams } from 'src/navigations/AuthNavigator'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from 'src/navigations/AppNavigator'
+import FloatingLabelInput from '../components/inputtext/FloatingLabelInput'
 
 interface SignInScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -34,19 +35,11 @@ class SignInScreen extends React.Component<SignInScreenProps> {
         style={{ flex: 1 }}>
         <View style={styles.container}>
           <Image source={images.APP_ICON_REV} style={styles.logoRev} />
-          {/* <TextField
-            containerStyle={styles.textInput}
+          <FloatingLabelInput
             label="Username"
-            keyboardType="default"
-            tintColor={colors.mainBlue}
-          />
-          <TextField
+            borderColor={colors.mainBlue}
             containerStyle={styles.textInput}
-            label="Password"
-            keyboardType="default"
-            secureTextEntry={true}
-            tintColor={colors.mainBlue}
-          /> */}
+          />
           <TouchableOpacity
             style={styles.buttonSignIn}
             onPress={() => {

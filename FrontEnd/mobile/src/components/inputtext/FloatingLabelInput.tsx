@@ -1,11 +1,12 @@
 import React from 'react'
-import { View, StatusBar, TextInput, Animated } from 'react-native'
+import { View, StatusBar, TextInput, Animated, ViewStyle } from 'react-native'
 
 interface FloatingLabelInputProps {
   label?: string
   onTextChange?: (text: string) => void
   borderColor?: string
   textInputColor?: string
+  containerStyle?: ViewStyle
 }
 
 interface FloatingLabelInputState {
@@ -16,7 +17,7 @@ class FloatingLabelInput extends React.Component<
   FloatingLabelInputProps,
   FloatingLabelInputState
 > {
-  _animatedIsFocused: Animated.Value | undefined
+  _animatedIsFocused: Animated.Value = new Animated.Value(0)
 
   constructor(props: FloatingLabelInputProps) {
     super(props)
@@ -26,10 +27,6 @@ class FloatingLabelInput extends React.Component<
     }
   }
 
-  componentWillMount() {
-    this._animatedIsFocused = new Animated.Value(0)
-  }
-
   handleFocus = () => this.setState({ isFocused: true })
   handleBlur = () => this.setState({ isFocused: false })
 
@@ -37,6 +34,7 @@ class FloatingLabelInput extends React.Component<
     Animated.timing(this._animatedIsFocused, {
       toValue: this.state.isFocused ? 1 : 0,
       duration: 200,
+      useNativeDriver: false,
     }).start()
   }
 
@@ -46,6 +44,7 @@ class FloatingLabelInput extends React.Component<
       onTextChange,
       borderColor,
       textInputColor,
+      containerStyle,
       ...props
     } = this.props
     const labelStyle = {
@@ -65,7 +64,7 @@ class FloatingLabelInput extends React.Component<
       }),
     }
     return (
-      <View style={{ paddingTop: 18 }}>
+      <View style={[containerStyle, { paddingTop: 18 }]}>
         <Animated.Text style={labelStyle}>{label}</Animated.Text>
         <TextInput
           {...props}
