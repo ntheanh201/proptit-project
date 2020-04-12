@@ -14,10 +14,9 @@ import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
-import { AuthStackParams } from 'src/navigations/AuthNavigator'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParams } from 'src/navigations/AppNavigator'
 import FloatingLabelInput from '../components/inputtext/FloatingLabelInput'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface SignInScreenProps {
   navigation: StackNavigationProp<RootStackParams>

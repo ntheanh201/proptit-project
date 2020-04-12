@@ -14,9 +14,9 @@ import ItemNewsFeed from '../components/ItemNewsFeed'
 import { images } from '../assets'
 import ItemComment from '../components/comment/ItemComment'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParams } from 'src/navigations/AppNavigator'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface PostDetailScreenProps {
   navigation: StackNavigationProp<RootStackParams>

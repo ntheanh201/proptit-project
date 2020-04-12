@@ -17,7 +17,8 @@ import { connect } from 'react-redux'
 import ClassicHeader from '../components/header/ClassicHeader'
 import colors from '../values/colors'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParams } from 'src/navigations/AppNavigator'
+import FloatingLabelInput from '../components/inputtext/FloatingLabelInput'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface EditProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -68,28 +69,7 @@ class EditProfileScreen extends React.Component<
           flex: 1,
           paddingBottom: this.state.padding,
         }}>
-        <TextInput
-          multiline={true}
-          style={{
-            height: 200,
-            width: 200,
-            marginTop: 100,
-            borderWidth: 1,
-            borderColor: 'gray',
-          }}
-          placeholder={'ABBCD'}
-        />
-        <TextInput
-          multiline={true}
-          style={{
-            height: 200,
-            width: 200,
-            marginTop: 100,
-            borderWidth: 1,
-            borderColor: 'gray',
-          }}
-          placeholder={'ABBCD'}
-        />
+        <FloatingLabelInput />
       </ScrollView>
     )
   }

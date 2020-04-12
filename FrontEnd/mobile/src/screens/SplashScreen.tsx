@@ -6,7 +6,7 @@ import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { images } from '../assets'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { AuthStackParams } from 'src/navigations/AuthNavigator'
+import { AuthStackParams } from '../navigations/AuthNavigator'
 
 interface SplashScreenProps {
   handleContinueSignIn: typeof handleContinueSignIn
