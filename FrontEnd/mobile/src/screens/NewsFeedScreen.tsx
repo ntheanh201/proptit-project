@@ -10,9 +10,8 @@ import React, { Component } from 'react'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import FloatingButton from '../components/FloatingButton'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParams } from 'src/navigations/AppNavigator'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
-import { HomeTabParams } from 'src/navigations/HomeNavigator'
+import { HomeTabParams } from '../navigations/HomeNavigator'
 
 interface Item {
   key: string
@@ -26,8 +25,7 @@ interface NewsFeedScreenState {
 }
 
 interface NewsFeedScreenProps {
-  stackNav: StackNavigationProp<RootStackParams>
-  tabNav: BottomTabNavigationProp<HomeTabParams>
+  navigation: BottomTabNavigationProp<HomeTabParams>
 }
 
 class NewsFeedScreen extends Component<
@@ -107,7 +105,9 @@ class NewsFeedScreen extends Component<
                 <ItemNewsFeed
                   onPress={() => {
                     console.log('AppLog', this.props)
-                    this.props.navigation.navigate('PostDetail')
+                    this.props.navigation.navigate('RootStack', {
+                      screen: 'PostDetail',
+                    })
                   }}
                 />
               )
@@ -126,7 +126,9 @@ class NewsFeedScreen extends Component<
           ) : null}
           <FloatingButton
             onPress={() => {
-              this.props.navigation.navigate('CreatePost')
+              this.props.navigation.navigate('RootStack', {
+                screen: 'CreatePost',
+              })
             }}
           />
         </View>
@@ -135,7 +137,7 @@ class NewsFeedScreen extends Component<
   }
 
   handleOnPressProfile() {
-    this.props.tabNav.navigate('Profile')
+    this.props.navigation.navigate('Profile')
   }
 }
 

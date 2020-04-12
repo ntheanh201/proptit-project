@@ -25,7 +25,7 @@ import TickPollEditor from '../components/tickpolleditor/TickPollEditor'
 import ItemPicture from '../components/itempicture/ItemPicture'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParams } from 'src/navigations/AppNavigator'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean

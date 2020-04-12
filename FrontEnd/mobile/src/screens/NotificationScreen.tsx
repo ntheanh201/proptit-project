@@ -17,9 +17,8 @@ import {
   ItemNotificationProps,
 } from '../components/ItemNotification'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { HomeTabParams } from 'src/navigations/HomeNavigator'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
-import { RootStackParams } from 'src/navigations/AppNavigator'
+import { HomeTabParams } from '../navigations/HomeNavigator'
 
 interface NotificationScreenProps {
   navigation: BottomTabNavigationProp<HomeTabParams>

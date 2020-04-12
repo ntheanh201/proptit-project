@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import ClassicHeader from '../components/header/ClassicHeader'
 import colors from '../values/colors'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParams } from 'src/navigations/AppNavigator'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface EditProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>

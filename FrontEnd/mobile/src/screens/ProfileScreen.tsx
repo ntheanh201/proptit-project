@@ -21,7 +21,7 @@ import { WIDTH, HEIGHT, getStatusBarHeight } from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParams } from 'src/navigations/AppNavigator'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface ProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
