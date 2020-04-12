@@ -71,11 +71,7 @@ class NotificationScreen extends Component<
               <ItemNotification
                 type={item.type}
                 createTime={item.createTime}
-                onPress={() =>
-                  this.props.navigation.navigate('RootStack', {
-                    screen: 'PostDetail',
-                  })
-                }
+                onPress={() => this.props.navigation.navigate('PostDetail')}
               />
             )
           }}

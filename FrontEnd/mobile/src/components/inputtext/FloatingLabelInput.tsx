@@ -16,10 +16,14 @@ interface FloatingLabelInputProps {
   textInputColor?: string
   containerStyle?: ViewStyle
   isPassword?: boolean
+  value?: string
+  multiline?: boolean
+  onFocus?: () => void
 }
 
 interface FloatingLabelInputState {
   isFocused: boolean
+  haveValue: boolean
   text: string
 }
 
@@ -34,15 +38,26 @@ class FloatingLabelInput extends React.Component<
 
     this.state = {
       isFocused: false,
-      text: '',
+      haveValue: this.props.value ? true : false,
+      text: this.props.value ?? '',
     }
   }
 
   handleFocus = () => this.setState({ isFocused: true })
   handleBlur = () => this.setState({ isFocused: false })
 
+  componentDidMount() {
+    if (this.state.haveValue) {
+      Animated.timing(this._animatedIsFocused, {
+        toValue: this.state.haveValue ? 1 : 0,
+        duration: 200,
+        useNativeDriver: false,
+      }).start()
+    }
+  }
+
   componentDidUpdate() {
-    if (this.state.text == '') {
+    if (this.state.text === '') {
       Animated.timing(this._animatedIsFocused, {
         toValue: this.state.isFocused ? 1 : 0,
         duration: 200,
@@ -59,23 +74,26 @@ class FloatingLabelInput extends React.Component<
       textInputColor,
       containerStyle,
       isPassword,
+      value,
+      multiline,
       ...props
     } = this.props
     const labelStyle = {
       position: 'absolute',
-      left: 0,
+      left: 1,
       top: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
-        outputRange: Platform.OS == 'ios' ? [0, -15] : [10, -10],
+        outputRange: Platform.OS === 'ios' ? [-5, -20] : [10, -10],
       }),
       fontSize: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
-        outputRange: [20, 14],
+        outputRange: [18, 14],
       }),
-      color: this._animatedIsFocused.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['#aaa', colors.mainBlue],
-      }),
+      color: this.state.isFocused
+        ? colors.mainBlue
+        : this.state.haveValue
+        ? '#000'
+        : '#aaa',
     }
     return (
       <View style={[containerStyle]}>
@@ -84,10 +102,11 @@ class FloatingLabelInput extends React.Component<
           {...props}
           style={{
             borderBottomWidth: 1,
-            borderBottomColor: borderColor,
-            fontSize: 20,
+            borderBottomColor: this.state.isFocused ? borderColor : '#aaa',
+            fontSize: 18,
             color: textInputColor,
           }}
+          defaultValue={value}
           onChangeText={(text) => {
             this.setState({
               text: text,
@@ -98,6 +117,7 @@ class FloatingLabelInput extends React.Component<
           onBlur={this.handleBlur}
           blurOnSubmit
           secureTextEntry={isPassword}
+          multiline={multiline}
         />
       </View>
     )

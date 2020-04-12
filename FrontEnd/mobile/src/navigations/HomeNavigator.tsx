@@ -13,7 +13,8 @@ export type HomeTabParams = {
   Newsfeed: undefined
   Notification: undefined
   Profile: undefined
-  RootStack: SubNavigator<RootStackParams>
+  CreatePost: SubNavigator<RootStackParams>
+  PostDetail: SubNavigator<RootStackParams>
 }
 
 const Tab = createBottomTabNavigator()

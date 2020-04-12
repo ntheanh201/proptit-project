@@ -18,6 +18,8 @@ import ClassicHeader from '../components/header/ClassicHeader'
 import colors from '../values/colors'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
+import FloatingLabelInput from '../components/inputtext/FloatingLabelInput'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 interface EditProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -37,6 +39,10 @@ class EditProfileScreen extends React.Component<
       padding: 0,
     }
   }
+
+  private scrollViewRef: React.RefObject<ScrollView> = React.createRef<
+    ScrollView
+  >()
 
   componentDidMount() {
     Keyboard.addListener(
@@ -63,34 +69,81 @@ class EditProfileScreen extends React.Component<
 
   render() {
     return (
-      <ScrollView
+      <KeyboardAwareScrollView
         style={{
-          flex: 1,
-          paddingBottom: this.state.padding,
+          width: '100%',
+          height: '100%',
         }}>
-        <TextInput
-          multiline={true}
+        <View
           style={{
-            height: 200,
-            width: 200,
-            marginTop: 100,
-            borderWidth: 1,
-            borderColor: 'gray',
-          }}
-          placeholder={'ABBCD'}
-        />
-        <TextInput
-          multiline={true}
-          style={{
-            height: 200,
-            width: 200,
-            marginTop: 100,
-            borderWidth: 1,
-            borderColor: 'gray',
-          }}
-          placeholder={'ABBCD'}
-        />
-      </ScrollView>
+            paddingBottom: this.state.padding,
+            width: '100%',
+            height: '100%',
+          }}>
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+          <FloatingLabelInput
+            label={'Description'}
+            value={'Smart, tough and brutally violent solutions to crime.'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+            multiline={true}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+            multiline={true}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+          <FloatingLabelInput
+            label={'Name'}
+            value={'Batman'}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+          />
+        </View>
+      </KeyboardAwareScrollView>
     )
   }
 }
@@ -98,6 +151,7 @@ class EditProfileScreen extends React.Component<
 const styles = StyleSheet.create({
   textField: {
     marginHorizontal: 10,
+    marginTop: 50,
   },
 })
 

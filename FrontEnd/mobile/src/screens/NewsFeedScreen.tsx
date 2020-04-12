@@ -105,9 +105,7 @@ class NewsFeedScreen extends Component<
                 <ItemNewsFeed
                   onPress={() => {
                     console.log('AppLog', this.props)
-                    this.props.navigation.navigate('RootStack', {
-                      screen: 'PostDetail',
-                    })
+                    this.props.navigation.navigate('PostDetail')
                   }}
                 />
               )
@@ -126,9 +124,7 @@ class NewsFeedScreen extends Component<
           ) : null}
           <FloatingButton
             onPress={() => {
-              this.props.navigation.navigate('RootStack', {
-                screen: 'CreatePost',
-              })
+              this.props.navigation.navigate('CreatePost')
             }}
           />
         </View>
