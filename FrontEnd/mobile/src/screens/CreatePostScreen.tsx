@@ -26,6 +26,7 @@ import ItemPicture from '../components/itempicture/ItemPicture'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
+import colors from '../values/colors'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
@@ -48,6 +49,23 @@ class CreatePostScreen extends Component<
       listUrlPicture: [],
       padding: 0,
     }
+
+    this.props.navigation.setOptions({
+      title: 'CREATE POST',
+      headerBackTitle: '',
+      headerRight: (props) => (
+        <TouchableOpacity onPress={() => this.onPressPost()}>
+          <Text
+            style={{
+              color: colors.mainBlue,
+              marginEnd: 10,
+              fontWeight: 'bold',
+            }}>
+            POST
+          </Text>
+        </TouchableOpacity>
+      ),
+    })
   }
 
   componentDidMount() {

@@ -23,21 +23,23 @@ const ItemTickPollEditor = ({
         alignItems: 'center',
       }}>
       <TextInput placeholder="Options" style={styles.optionsInput} />
-      {showClose ? (
-        <TouchableOpacity
-          onPress={() => {
-            onClickClose()
-          }}>
-          <Icon name="closecircleo" />
-        </TouchableOpacity>
-      ) : null}
+      <View style={{ height: 25, width: 25 }}>
+        {showClose ? (
+          <TouchableOpacity
+            onPress={() => {
+              onClickClose()
+            }}>
+            <Icon name="closecircleo" style={{ fontSize: 20 }} />
+          </TouchableOpacity>
+        ) : null}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   optionsInput: {
-    width: '100%',
+    flex: 1,
     borderWidth: 1,
     borderColor: 'gray',
     padding: 5,

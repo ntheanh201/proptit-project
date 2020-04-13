@@ -29,7 +29,7 @@ class TickPollEditor extends React.Component<
     const { onClose } = this.props
 
     return (
-      <View style={{ alignItems: 'center', width: 300 }}>
+      <View style={{ alignItems: 'center', width: '70%' }}>
         {listOptions.map((value, index) => (
           <ItemTickPollEditor
             index={index}
@@ -48,7 +48,10 @@ class TickPollEditor extends React.Component<
           />
         ))}
         <TouchableOpacity onPress={() => this.onPressAddOptions()}>
-          <Icon name="pluscircle" style={{ color: colors.mainBlue }} />
+          <Icon
+            name="pluscircle"
+            style={{ color: colors.mainBlue, fontSize: 30 }}
+          />
         </TouchableOpacity>
       </View>
     )
