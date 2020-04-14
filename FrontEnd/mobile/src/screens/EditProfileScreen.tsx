@@ -9,6 +9,9 @@ import {
   Keyboard,
   ScrollView,
   TextInput,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  SafeAreaView,
 } from 'react-native'
 import { AppState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
@@ -18,7 +21,10 @@ import ClassicHeader from '../components/header/ClassicHeader'
 import colors from '../values/colors'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
-import FloatingLabelInput from '../components/inputtext/FloatingLabelInput'
+import {
+  FloatingLabelInput,
+  ScrollViewCustomProps,
+} from '../components/inputtext/FloatingLabelInput'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 interface EditProfileScreenProps {
@@ -33,16 +39,20 @@ class EditProfileScreen extends React.Component<
   EditProfileScreenProps,
   EditProfileScreenState
 > {
+  scrollViewRef: ScrollViewCustomProps
+
   constructor(props: EditProfileScreenProps) {
     super(props)
     this.state = {
       padding: 0,
     }
+    this.scrollViewRef = {
+      position: {
+        x: 0,
+        y: 0,
+      },
+    }
   }
-
-  private scrollViewRef: React.RefObject<ScrollView> = React.createRef<
-    ScrollView
-  >()
 
   componentDidMount() {
     Keyboard.addListener(
@@ -67,24 +77,23 @@ class EditProfileScreen extends React.Component<
     })
   }
 
+  handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    this.scrollViewRef.position = e.nativeEvent.contentOffset
+  }
+
   render() {
     return (
-      <KeyboardAwareScrollView
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
-        <View
-          style={{
-            paddingBottom: this.state.padding,
-            width: '100%',
-            height: '100%',
-          }}>
+      <SafeAreaView>
+        <KeyboardAwareScrollView
+          ref={(ref) => (this.scrollViewRef.ref = ref!)}
+          onScroll={this.handleScroll}
+          extraScrollHeight={15}>
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Description'}
@@ -92,36 +101,42 @@ class EditProfileScreen extends React.Component<
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             multiline={true}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Name'}
@@ -129,21 +144,26 @@ class EditProfileScreen extends React.Component<
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             multiline={true}
+            scrollView={this.scrollViewRef}
           />
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
+            multiline={true}
           />
           <FloatingLabelInput
             label={'Name'}
             value={'Batman'}
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
+            multiline={true}
           />
-        </View>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
     )
   }
 }

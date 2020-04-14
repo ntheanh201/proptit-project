@@ -51,9 +51,9 @@ class CreatePostScreen extends Component<
     }
 
     this.props.navigation.setOptions({
-      title: 'CREATE POST',
+      title: '',
       headerBackTitle: '',
-      headerRight: (props) => (
+      headerRight: () => (
         <TouchableOpacity onPress={() => this.onPressPost()}>
           <Text
             style={{
@@ -94,7 +94,11 @@ class CreatePostScreen extends Component<
   render() {
     const { isHaveTickPoll, listUrlPicture } = this.state
     return (
-      <View style={[styles.wrapper, { paddingBottom: this.state.padding }]}>
+      <View
+        style={[
+          styles.wrapper,
+          { paddingBottom: Platform.OS === 'ios' ? this.state.padding : 0 },
+        ]}>
         <View style={styles.wrapperTextInput}>
           <View style={{ flexDirection: 'row' }}>
             <Image

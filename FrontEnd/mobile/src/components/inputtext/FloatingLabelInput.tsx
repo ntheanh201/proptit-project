@@ -1,13 +1,23 @@
-import React from 'react'
-import {
+import React, { RefObject } from 'react'
+import ReactNative, {
   View,
   StatusBar,
   TextInput,
   Animated,
   ViewStyle,
   Platform,
+  ScrollView,
 } from 'react-native'
 import colors from '../../values/colors'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
+export interface ScrollViewCustomProps {
+  ref?: KeyboardAwareScrollView
+  position: {
+    x: number
+    y: number
+  }
+}
 
 interface FloatingLabelInputProps {
   label?: string
@@ -19,6 +29,7 @@ interface FloatingLabelInputProps {
   value?: string
   multiline?: boolean
   onFocus?: () => void
+  scrollView?: ScrollViewCustomProps
 }
 
 interface FloatingLabelInputState {
@@ -27,11 +38,12 @@ interface FloatingLabelInputState {
   text: string
 }
 
-class FloatingLabelInput extends React.Component<
+export class FloatingLabelInput extends React.Component<
   FloatingLabelInputProps,
   FloatingLabelInputState
 > {
   _animatedIsFocused: Animated.Value = new Animated.Value(0)
+  sizeCompanyT: number = 0
 
   constructor(props: FloatingLabelInputProps) {
     super(props)
@@ -43,7 +55,6 @@ class FloatingLabelInput extends React.Component<
     }
   }
 
-  handleFocus = () => this.setState({ isFocused: true })
   handleBlur = () => this.setState({ isFocused: false })
 
   componentDidMount() {
@@ -76,6 +87,8 @@ class FloatingLabelInput extends React.Component<
       isPassword,
       value,
       multiline,
+      scrollView,
+      onFocus,
       ...props
     } = this.props
     const labelStyle = {
@@ -113,15 +126,31 @@ class FloatingLabelInput extends React.Component<
             })
             onTextChange ? onTextChange(text) : null
           }}
-          onFocus={this.handleFocus}
+          onFocus={(event) => {
+            this.setState({
+              isFocused: true,
+            })
+          }}
           onBlur={this.handleBlur}
-          blurOnSubmit
           secureTextEntry={isPassword}
           multiline={multiline}
+          onContentSizeChange={(event) => {
+            const scrollHeight = event.nativeEvent.contentSize.height
+            if (
+              (this.sizeCompanyT && scrollHeight > this.sizeCompanyT) ||
+              scrollHeight < this.sizeCompanyT
+            ) {
+              scrollView &&
+                scrollView.ref!.scrollToPosition(
+                  scrollView.position.x,
+                  scrollView.position.y + (scrollHeight - this.sizeCompanyT),
+                )
+            }
+            this.sizeCompanyT = scrollHeight
+          }}
+          autoCorrect={false}
         />
       </View>
     )
   }
 }
-
-export default FloatingLabelInput

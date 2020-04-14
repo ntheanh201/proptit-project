@@ -1,9 +1,18 @@
 import axios from 'axios'
 
 export default class BaseService<T> {
-  protected baseURL = 'http://34.87.37.63:8080/proptit'
+  protected baseURL = 'http://apis.aiforce.xyz'
 
   constructor() {}
+
+  getConfig(): Promise<T> {
+    return axios
+      .get(this.baseURL)
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => console.log(err))
+  }
 
   getAll(): Promise<T[]> {
     return axios

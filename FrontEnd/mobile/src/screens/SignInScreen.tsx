@@ -16,7 +16,7 @@ import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack'
-import FloatingLabelInput from '../components/inputtext/FloatingLabelInput'
+import { FloatingLabelInput } from '../components/inputtext/FloatingLabelInput'
 import { RootStackParams } from '../navigations/AppNavigator'
 
 interface SignInScreenProps {

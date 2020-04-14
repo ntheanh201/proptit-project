@@ -79,7 +79,7 @@ class PostDetailScreen extends React.Component<
         style={{
           width: '100%',
           height: '100%',
-          paddingBottom: this.state.padding,
+          paddingBottom: Platform.OS === 'ios' ? this.state.padding : 0,
         }}>
         <ScrollView
           style={{
