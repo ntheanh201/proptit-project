@@ -9,6 +9,7 @@ import {
   TextInput,
   Platform,
   Keyboard,
+  TouchableOpacity,
 } from 'react-native'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { images } from '../assets'
@@ -158,12 +159,19 @@ class PostDetailScreen extends React.Component<
           <TextInput
             placeholder="Leave Reply"
             multiline={true}
-            style={{ width: '100%', fontSize: 20, marginLeft: 10 }}
+            style={{ flex: 1, fontSize: 20, marginLeft: 10 }}
           />
+          <TouchableOpacity
+            style={{ width: 30, height: 30 }}
+            onPress={() => this.onPressSend()}>
+            <IonIcon name="md-send" size={30} />
+          </TouchableOpacity>
         </View>
       </View>
     )
   }
+
+  onPressSend = () => {}
 }
 
 export default PostDetailScreen
