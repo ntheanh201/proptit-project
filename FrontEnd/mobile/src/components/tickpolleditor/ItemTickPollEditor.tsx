@@ -5,14 +5,20 @@ import Icon from 'react-native-vector-icons/AntDesign'
 
 interface ItemTickPollEditorProps {
   index: number
-  showClose: boolean
+  placeHolder: string
+  isShowClose: boolean
+  onTextChange: (text: string) => void
   onClickClose: () => void
+  onFocus: () => void
 }
 
 const ItemTickPollEditor = ({
   index,
-  showClose,
+  placeHolder,
   onClickClose,
+  onTextChange,
+  isShowClose,
+  onFocus,
 }: ItemTickPollEditorProps) => {
   return (
     <View
@@ -22,14 +28,19 @@ const ItemTickPollEditor = ({
         marginVertical: 3,
         alignItems: 'center',
       }}>
-      <TextInput placeholder="Options" style={styles.optionsInput} />
+      <TextInput
+        onFocus={() => onFocus()}
+        placeholder={placeHolder}
+        style={styles.optionsInput}
+        onChangeText={onTextChange}
+      />
       <View style={{ height: 25, width: 25 }}>
-        {showClose ? (
+        {isShowClose ? (
           <TouchableOpacity
             onPress={() => {
               onClickClose()
             }}>
-            <Icon name="closecircleo" style={{ fontSize: 20 }} />
+            <Icon name="close" style={{ fontSize: 20 }} />
           </TouchableOpacity>
         ) : null}
       </View>
@@ -43,7 +54,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 5,
     marginHorizontal: 5,
   },
 })
