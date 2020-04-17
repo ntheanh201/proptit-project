@@ -82,22 +82,6 @@ class NewsFeedScreen extends Component<
             backgroundColor: 'white',
             flexDirection: 'column',
           }}>
-          {/* <ClassicHeader
-            statusBarHidden={true}
-            backgroundColor="white"
-            leftComponent={
-              <TouchableOpacity
-                style={{ marginLeft: 16 }}
-                onPressIn={() => this.handleOnPressProfile()}>
-                <Image
-                  source={require('../assets/images/bgr_batman.png')}
-                  style={{ width: 30, height: 30 }}
-                  borderRadius={100}
-                />
-              </TouchableOpacity>
-            }
-            headerTitle="HOME"
-          /> */}
           <FlatList
             data={this.state.listItems}
             renderItem={({ item }) => {
@@ -119,7 +103,7 @@ class NewsFeedScreen extends Component<
           {this.state.isLoadingMore ? (
             <ActivityIndicator
               animating={this.state.isLoadingMore}
-              style={{ marginVertical: 20 }}
+              style={{ marginVertical: 10 }}
             />
           ) : null}
           <FloatingButton

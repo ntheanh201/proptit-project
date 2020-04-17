@@ -1,4 +1,5 @@
 import { Action } from 'redux'
+import { User } from './user.types'
 
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
 export const SIGN_IN_ERROR = 'SIGN_IN_ERROR'
@@ -9,9 +10,16 @@ export interface SignInState {
   isLoading: boolean
   isSignIn: boolean
   isSignOut: boolean
-  currentUserID?: string
+  authKey?: AuthKey
+  currentUser?: User
+}
+
+export interface AuthKey {
+  refresh: string
+  access: string
 }
 
 export interface SignInAction extends Action<string> {
-  currentUserID?: string
+  authKey?: AuthKey
+  currentUser?: User
 }

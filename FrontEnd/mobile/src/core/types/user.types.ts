@@ -12,7 +12,6 @@ export interface User {
   email?: string
   facebook?: string
   id: string
-  password: string
   phoneNumber?: string
   regDate?: Date
   username: string

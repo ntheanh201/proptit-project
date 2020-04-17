@@ -1,27 +1,19 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
+import { User, AuthKey } from '../core'
 
 class SignInService {
-  protected baseURL = 'http://34.87.37.63:8080/proptit'
+  protected authURL = 'http://apis.aiforce.xyz/auth/jwt/create'
+  protected userAuthURL = 'http://apis.aiforce.xyz/auth/users/me'
 
-  requestSignIn(username: string, password: string): Promise<string> {
-    this.baseURL += '/login'
+  requestSignIn(username: string, password: string): Promise<AuthKey> {
     return axios
-      .post(this.baseURL, { username: username, password: password })
+      .post(this.authURL, { username: username, password: password })
       .then(async (res) => {
-        await AsyncStorage.setItem('username', username, (err) =>
+        await AsyncStorage.setItem('authKey', JSON.stringify(res.data), (err) =>
           console.log(err),
         )
-        await AsyncStorage.setItem('password', password, (err) =>
-          console.log(err),
-        )
-        await AsyncStorage.setItem('TOKEN', res.data.token, (err) =>
-          console.log(err),
-        )
-        await AsyncStorage.setItem('userId', res.data.user, (err) =>
-          console.log(err),
-        )
-        return res.data.user
+        return res.data
       })
       .catch((err) => {
         console.log('ERR ON SIGN IN', err)
@@ -29,10 +21,26 @@ class SignInService {
       })
   }
 
+  getUserAfterAuth(accessKey: string): Promise<User> {
+    console.log(`Bearer ${accessKey}`)
+    return axios
+      .get(this.userAuthURL, {
+        headers: {
+          Authorization: `Bearer ${accessKey}`,
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   async checkLogin(): Promise<boolean> {
     const token = await AsyncStorage.getItem('TOKEN')
     return await axios
-      .get(this.baseURL, { headers: { authorization: token } })
+      .get(this.authURL, { headers: { authorization: token } })
       .then((res) => {
         if (res.data.success) {
           return true

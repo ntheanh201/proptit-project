@@ -96,7 +96,7 @@ export class FloatingLabelInput extends React.Component<
       left: 1,
       top: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
-        outputRange: Platform.OS === 'ios' ? [-5, -20] : [10, -10],
+        outputRange: Platform.OS === 'ios' ? [-5, -20] : [20, -10],
       }),
       fontSize: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],

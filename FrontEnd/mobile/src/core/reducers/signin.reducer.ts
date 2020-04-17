@@ -29,7 +29,8 @@ export default (
         ...state,
         isLoading: false,
         isSignIn: true,
-        currentUserID: action.currentUserID,
+        currentUser: action.currentUser,
+        authKey: action.authKey,
       }
     case SIGN_IN_ERROR:
       return {

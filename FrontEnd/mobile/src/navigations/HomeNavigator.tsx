@@ -1,13 +1,15 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import NewsFeedScreen from '../screens/NewsFeedScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-import Icon from 'react-native-vector-icons/AntDesign'
+import Icon from 'react-native-vector-icons/Ionicons'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import NotificationScreen from '../screens/NotificationScreen'
 import { SubNavigator, RootStackParams } from './AppNavigator'
+import MenuScreen from '../screens/MenuScreen'
 
 export type HomeTabParams = {
   Newsfeed: undefined
@@ -17,7 +19,7 @@ export type HomeTabParams = {
   PostDetail: SubNavigator<RootStackParams>
 }
 
-const Tab = createBottomTabNavigator()
+const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
 
 interface TabBarIconProps {
@@ -29,34 +31,50 @@ interface TabBarIconProps {
 export const HomeNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }: any) => ({
-        tabBarIcon: ({ focused, color, size }: TabBarIconProps) => {
+      shifting={true}
+      screenOptions={({ route, navigation }) => ({
+        tabBarIcon: ({ color }) => {
           let iconName
           switch (route.name) {
             case 'Newsfeed':
-              iconName = 'home'
+              iconName = 'ios-home'
               break
             case 'Notification':
-              iconName = 'bells'
+              iconName = 'ios-notifications'
               break
             case 'Profile':
-              iconName = 'user'
+              iconName = 'ios-contact'
+              break
+            case 'Menu':
+              iconName = 'ios-menu'
               break
             default:
-              iconName = 'home'
+              iconName = 'ios-home'
               break
           }
-          return <Icon name={iconName} style={{ color, fontSize: size }} />
+          return <Icon name={iconName} style={{ color, fontSize: 27 }} />
         },
-      })}
-      tabBarOptions={{
-        activeTintColor: '#4580C2',
-        inactiveTintColor: 'gray',
-        showLabel: false,
-      }}>
-      <Tab.Screen name={'Newsfeed'} component={NewsFeedScreen} />
-      <Tab.Screen name={'Notification'} component={NotificationScreen} />
-      <Tab.Screen name={'Profile'} component={ProfileScreen} />
+      })}>
+      <Tab.Screen
+        name={'Newsfeed'}
+        component={NewsFeedScreen}
+        options={{ tabBarColor: '#6200ee' }}
+      />
+      <Tab.Screen
+        name={'Notification'}
+        component={NotificationScreen}
+        options={{ tabBarColor: '#2962ff' }}
+      />
+      <Tab.Screen
+        name={'Profile'}
+        component={ProfileScreen}
+        options={{ tabBarColor: '#00796b' }}
+      />
+      <Tab.Screen
+        name={'Menu'}
+        component={MenuScreen}
+        options={{ tabBarColor: '#00796b' }}
+      />
     </Tab.Navigator>
   )
 }
@@ -79,46 +97,3 @@ const NotiStack = () => {
     </Stack.Navigator>
   )
 }
-// const HomeNavigator = createBottomTabNavigator(
-//   {
-//     NewsFeed: {
-//       screen: createStackNavigator({
-//         NewFeed: {
-//           screen: NewsFeedScreen,
-//           navigationOptions: {
-//             header: null,
-//           },
-//         },
-//         Detail: {
-//           screen: PostDetailScreen,
-//           navigationOptions: {
-//             header: null,
-//           },
-//         },
-//       }),
-//       navigationOptions: {
-//         tabBarIcon: ({ focused, horizontal, tintColor }) => {
-//           return (
-//             <Icon name="home" type="AntDesign" style={{ color: tintColor }} />
-//           )
-//         },
-//       },
-//     },
-//     Profile: {
-//       screen: ProfileScreen,
-//       navigationOptions: {
-//         tabBarIcon: ({ focused, horizontal, tintColor }) => {
-//           return (
-//             <Icon name="user" type="AntDesign" style={{ color: tintColor }} />
-//           )
-//         },
-//       },
-//     },
-//   },
-//   {
-//     initialRouteName: 'NewsFeed',
-//     tabBarOptions: {
-//       showLabel: false,
-//     },
-//   },
-// )

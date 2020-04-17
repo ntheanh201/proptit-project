@@ -1,17 +1,10 @@
 import axios from 'axios'
 
 export default class BaseService<T> {
-  protected baseURL = 'http://apis.aiforce.xyz'
+  protected baseURL = ''
 
-  constructor() {}
-
-  getConfig(): Promise<T> {
-    return axios
-      .get(this.baseURL)
-      .then((res) => {
-        return res.data
-      })
-      .catch((err) => console.log(err))
+  constructor() {
+    this.baseURL = 'http://apis.aiforce.xyz'
   }
 
   getAll(): Promise<T[]> {

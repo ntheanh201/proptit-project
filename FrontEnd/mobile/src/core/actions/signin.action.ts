@@ -12,9 +12,12 @@ import AsyncStorage from '@react-native-community/async-storage'
 export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<SignInAction>) => {
     dispatch({ type: SIGN_IN_PROGRESS })
-    const userId = await signInService.requestSignIn(username, password)
-    if (userId) {
-      dispatch({ type: SIGN_IN_SUCCESS, currentUserID: userId })
+    const authKey = await signInService.requestSignIn(username, password)
+    console.log('authKey', authKey)
+    const userData = await signInService.getUserAfterAuth(authKey.access)
+    console.log('userData', userData)
+    if (userData) {
+      dispatch({ type: SIGN_IN_SUCCESS, currentUser: userData, authKey })
     } else {
       dispatch({ type: SIGN_IN_ERROR })
     }

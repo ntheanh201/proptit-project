@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { images } from '../assets'
 import colors from '../values/colors'
-import { AppState } from '../core'
+import { AppState, signIn, SignInState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
@@ -21,6 +21,7 @@ import { RootStackParams } from '../navigations/AppNavigator'
 
 interface SignInScreenProps {
   navigation: StackNavigationProp<RootStackParams>
+  signIn: typeof signIn
 }
 
 class SignInScreen extends React.Component<SignInScreenProps> {
@@ -49,6 +50,7 @@ class SignInScreen extends React.Component<SignInScreenProps> {
           <TouchableOpacity
             style={styles.buttonSignIn}
             onPress={() => {
+              // this.props.signIn('proptit', 'aiforce.proptit')
               this.props.navigation.navigate('HomeStack')
             }}>
             <Text style={styles.textSignIn}>Sign In</Text>
