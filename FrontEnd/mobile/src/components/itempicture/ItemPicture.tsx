@@ -17,7 +17,8 @@ const ItemPicture = ({ onClose, urlPicture }: ItemPictureProps) => {
       />
       <Icon
         name="closecircle"
-        style={{ position: 'relative', top: -100, right: -70, color: 'white' }}
+        style={{ position: 'relative', top: -95, right: -75, color: 'white' }}
+        size={20}
         onPress={() => {
           onClose()
         }}

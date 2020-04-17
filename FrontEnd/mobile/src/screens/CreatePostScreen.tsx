@@ -9,6 +9,8 @@ import {
   KeyboardAvoidingView,
   FlatList,
   Platform,
+  Animated,
+  Easing,
 } from 'react-native'
 import ClassicHeader from '../components/header/ClassicHeader'
 import {
@@ -42,6 +44,8 @@ class CreatePostScreen extends Component<
   CreatePostScreenProps,
   CreatePostScreenState
 > {
+  scaleValue: Animated.Value = new Animated.Value(0)
+
   constructor(props: CreatePostScreenProps) {
     super(props)
     this.state = {
@@ -83,16 +87,38 @@ class CreatePostScreen extends Component<
     this.setState({
       padding: e.endCoordinates.height,
     })
+    this.onFocusEditText()
   }
 
   onKeyboardHide = () => {
     this.setState({
       padding: 0,
     })
+    this.onUnfocusEditText()
   }
 
   render() {
     const { isHaveTickPoll, listUrlPicture } = this.state
+
+    const menuStyle = {
+      zIndex: 10,
+      paddingBottom: 50,
+      flexDirection: 'column',
+      alignSelf: 'baseline',
+      width: '100%',
+      position: 'absolute',
+      bottom: 0,
+      paddingHorizontal: 10,
+      transform: [
+        {
+          scaleY: this.scaleValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 0.5, 0],
+          }),
+        },
+      ],
+    }
+
     return (
       <View
         style={[
@@ -106,6 +132,8 @@ class CreatePostScreen extends Component<
               style={styles.avartar}
             />
             <TextInput
+              onFocus={() => this.onFocusEditText()}
+              onBlur={() => this.onUnfocusEditText()}
               style={styles.textinput}
               placeholder="Share something!"
               multiline={true}
@@ -122,13 +150,21 @@ class CreatePostScreen extends Component<
               />
             </View>
           ) : null}
-          <View
+          <Animated.View
             style={{
               width: '100%',
               height: 100,
               position: 'absolute',
-              bottom: 70,
+              bottom: 170,
               zIndex: 10,
+              transform: [
+                {
+                  scaleY: this.scaleValue.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [1, 0.5, 0],
+                  }),
+                },
+              ],
             }}>
             <FlatList
               horizontal={true}
@@ -152,29 +188,28 @@ class CreatePostScreen extends Component<
                 )
               }}
             />
-          </View>
+          </Animated.View>
           <TouchableWithoutFeedback
             style={{ width: '100%', height: '100%' }}
             onPress={() => Keyboard.dismiss()}
           />
-          <View
-            style={{
-              flexDirection: 'row-reverse',
-              height: 50,
-              width: '100%',
-              position: 'absolute',
-              bottom: 0,
-              paddingHorizontal: 10,
-            }}>
+          <Animated.View style={menuStyle}>
             <TouchableOpacity
               style={styles.icon}
               onPress={() => this.onPressAddPicture()}>
               <Icon name="picture" size={30} />
+              <Text style={styles.title}>Picture</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.onPressChart()}>
+            <TouchableOpacity
+              style={[
+                styles.icon,
+                { borderColor: 'gray', borderBottomWidth: 0.3 },
+              ]}
+              onPress={() => this.onPressChart()}>
               <Icon name="areachart" size={30} />
+              <Text style={styles.title}>Chart</Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         </View>
       </View>
     )
@@ -186,8 +221,6 @@ class CreatePostScreen extends Component<
   ]
 
   onPressAddPicture() {
-    // console.log("Picture clicked!")
-
     const options: ImagePickerOptions = {
       title: 'Select Picture',
       storageOptions: {
@@ -211,6 +244,24 @@ class CreatePostScreen extends Component<
     this.setState({
       isHaveTickPoll: true,
     })
+  }
+
+  onFocusEditText() {
+    Animated.timing(this.scaleValue, {
+      toValue: 1,
+      useNativeDriver: true,
+      easing: Easing.linear,
+      duration: 250,
+    }).start()
+  }
+
+  onUnfocusEditText() {
+    Animated.timing(this.scaleValue, {
+      toValue: 0,
+      useNativeDriver: true,
+      easing: Easing.linear,
+      duration: 250,
+    }).start()
   }
 
   onPressPost() {
@@ -241,7 +292,15 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   icon: {
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderColor: 'gray',
+    borderTopWidth: 0.3,
+    flexDirection: 'row',
     marginHorizontal: 10,
+  },
+  title: {
+    margin: 10,
   },
 })
 
