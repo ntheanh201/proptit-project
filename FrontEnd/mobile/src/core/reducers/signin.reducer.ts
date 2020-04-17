@@ -9,9 +9,10 @@ import {
 } from '../types/signin.types'
 
 let initialState: SignInState = {
-  isLoading: false,
+  isLoading: true,
   isSignIn: false,
   isSignOut: true,
+  isOpeningApp: true,
 }
 
 export default (
@@ -30,12 +31,14 @@ export default (
         isLoading: false,
         isSignIn: true,
         currentUser: action.currentUser,
-        authKey: action.authKey,
+        authToken: action.authKey,
+        isOpeningApp: false,
       }
     case SIGN_IN_ERROR:
       return {
         ...state,
         isLoading: false,
+        isOpeningApp: false,
       }
     case SIGN_OUT:
       return {

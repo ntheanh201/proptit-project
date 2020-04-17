@@ -12,34 +12,31 @@ import AsyncStorage from '@react-native-community/async-storage'
 export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<SignInAction>) => {
     dispatch({ type: SIGN_IN_PROGRESS })
-    const authKey = await signInService.requestSignIn(username, password)
-    console.log('authKey', authKey)
-    const userData = await signInService.getUserAfterAuth(authKey.access)
-    console.log('userData', userData)
-    if (userData) {
-      dispatch({ type: SIGN_IN_SUCCESS, currentUser: userData, authKey })
+    const authToken = await signInService.requestSignIn(username, password)
+    const userData = await signInService.getUserAfterAuth(authToken.access)
+    if (userData && authToken) {
+      dispatch({ type: SIGN_IN_SUCCESS, currentUser: userData, authToken })
     } else {
       dispatch({ type: SIGN_IN_ERROR })
     }
   }
 }
 
-export const handleContinueSignIn = () => {
+export const autoSignIn = () => {
   return async (dispatch: Dispatch<SignInAction>) => {
-    dispatch({ type: SIGN_IN_PROGRESS })
-    const isContinue = await signInService.checkLogin()
-    if (isContinue) {
-      const userId = await AsyncStorage.getItem('userId')
-      dispatch({ type: SIGN_IN_SUCCESS, currentUserID: userId! })
-    } else {
-      const username = await AsyncStorage.getItem('username')
-      const password = await AsyncStorage.getItem('password')
-      if (username && password) {
-        const userId = await signInService.requestSignIn(username, password)
-        dispatch({ type: SIGN_IN_SUCCESS, currentUserID: userId })
+    const tokenStr = await AsyncStorage.getItem('authToken')
+    if (tokenStr) {
+      const refreshToken = JSON.parse(tokenStr).refresh
+      const authToken = await signInService.refreshToken(refreshToken)
+      if (authToken) {
+        const userDataStr = await AsyncStorage.getItem('userData')
+        const userData = userDataStr && JSON.parse(userDataStr)
+        dispatch({ type: SIGN_IN_SUCCESS, currentUser: userData, authToken })
       } else {
         dispatch({ type: SIGN_IN_ERROR })
       }
+    } else {
+      dispatch({ type: SIGN_IN_ERROR })
     }
   }
 }

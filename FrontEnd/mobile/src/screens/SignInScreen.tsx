@@ -18,15 +18,23 @@ import { connect } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { FloatingLabelInput } from '../components/inputtext/FloatingLabelInput'
 import { RootStackParams } from '../navigations/AppNavigator'
+import { ActivityIndicator } from 'react-native-paper'
 
 interface SignInScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   signIn: typeof signIn
+  signInState: SignInState
 }
 
 class SignInScreen extends React.Component<SignInScreenProps> {
   constructor(props: SignInScreenProps) {
     super(props)
+  }
+
+  componentDidUpdate() {
+    // if (this.props.signInState.isSignIn) {
+    //   this.props.navigation.navigate('HomeStack')
+    // }
   }
 
   render() {
@@ -50,10 +58,17 @@ class SignInScreen extends React.Component<SignInScreenProps> {
           <TouchableOpacity
             style={styles.buttonSignIn}
             onPress={() => {
-              // this.props.signIn('proptit', 'aiforce.proptit')
-              this.props.navigation.navigate('HomeStack')
+              this.props.signIn('proptit', 'aiforce.proptit')
             }}>
-            <Text style={styles.textSignIn}>Sign In</Text>
+            {this.props.signInState.isLoading ? (
+              <ActivityIndicator
+                animating={true}
+                style={{ marginVertical: 10 }}
+                color={'#fff'}
+              />
+            ) : (
+              <Text style={styles.textSignIn}>Sign In</Text>
+            )}
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

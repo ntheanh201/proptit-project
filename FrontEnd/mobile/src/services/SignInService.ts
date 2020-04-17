@@ -1,17 +1,20 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
-import { User, AuthKey } from '../core'
+import { User, AuthToken } from '../core'
 
 class SignInService {
-  protected authURL = 'http://apis.aiforce.xyz/auth/jwt/create'
-  protected userAuthURL = 'http://apis.aiforce.xyz/auth/users/me'
+  protected authURL = 'http://apis.aiforce.xyz/auth/jwt/create/'
+  protected userAuthURL = 'http://apis.aiforce.xyz/auth/users/me/'
+  protected refreshTokenURL = 'http://apis.aiforce.xyz/auth/jwt/refresh/'
 
-  requestSignIn(username: string, password: string): Promise<AuthKey> {
+  requestSignIn(username: string, password: string): Promise<AuthToken> {
     return axios
       .post(this.authURL, { username: username, password: password })
       .then(async (res) => {
-        await AsyncStorage.setItem('authKey', JSON.stringify(res.data), (err) =>
-          console.log(err),
+        await AsyncStorage.setItem(
+          'authToken',
+          JSON.stringify(res.data),
+          (err) => console.log(err),
         )
         return res.data
       })
@@ -22,14 +25,20 @@ class SignInService {
   }
 
   getUserAfterAuth(accessKey: string): Promise<User> {
-    console.log(`Bearer ${accessKey}`)
     return axios
       .get(this.userAuthURL, {
         headers: {
-          Authorization: `Bearer ${accessKey}`,
+          authorization: `Bearer ${accessKey}`,
         },
       })
-      .then((res) => {
+      .then(async (res) => {
+        await AsyncStorage.setItem(
+          'userData',
+          JSON.stringify(res.data),
+          (err) => {
+            console.log(err)
+          },
+        )
         return res.data
       })
       .catch((err) => {
@@ -37,20 +46,26 @@ class SignInService {
       })
   }
 
-  async checkLogin(): Promise<boolean> {
-    const token = await AsyncStorage.getItem('TOKEN')
-    return await axios
-      .get(this.authURL, { headers: { authorization: token } })
-      .then((res) => {
-        if (res.data.success) {
-          return true
-        } else {
-          return false
+  refreshToken(refreshToken: string): Promise<AuthToken | null> {
+    return axios
+      .post(this.refreshTokenURL, { refresh: refreshToken })
+      .then(async (res) => {
+        const authToken: AuthToken = {
+          refresh: refreshToken,
+          access: res.data.access,
         }
+        await AsyncStorage.setItem(
+          'authToken',
+          JSON.stringify(authToken),
+          (err) => {
+            console.log(err)
+          },
+        )
+        return authToken
       })
       .catch((err) => {
         console.log(err)
-        return false
+        return null
       })
   }
 }
