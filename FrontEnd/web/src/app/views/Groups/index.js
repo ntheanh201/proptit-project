@@ -1,1 +1,1 @@
-export { Group as default } from './Groups'
+export { GroupContainer as default } from './GroupContainer'
