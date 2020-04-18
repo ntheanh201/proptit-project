@@ -103,6 +103,7 @@ class CreatePostScreen extends Component<
     const menuStyle = {
       zIndex: 10,
       paddingBottom: 50,
+      elevation: 4,
       flexDirection: 'column',
       alignSelf: 'baseline',
       width: '100%',
@@ -111,9 +112,9 @@ class CreatePostScreen extends Component<
       paddingHorizontal: 10,
       transform: [
         {
-          scaleY: this.scaleValue.interpolate({
+          translateY: this.scaleValue.interpolate({
             inputRange: [0, 0.5, 1],
-            outputRange: [1, 0.5, 0],
+            outputRange: [0, 200, 400],
           }),
         },
       ],
@@ -150,25 +151,19 @@ class CreatePostScreen extends Component<
               />
             </View>
           ) : null}
-          <Animated.View
-            style={{
-              width: '100%',
-              height: 100,
-              position: 'absolute',
-              bottom: 170,
-              zIndex: 10,
-              transform: [
-                {
-                  scaleY: this.scaleValue.interpolate({
-                    inputRange: [0, 0.5, 1],
-                    outputRange: [1, 0.5, 0],
-                  }),
-                },
-              ],
-            }}>
+          <TouchableWithoutFeedback
+            style={{ width: '100%', height: '100%' }}
+            onPress={() => Keyboard.dismiss()}
+          />
+          <TouchableOpacity style={{}}></TouchableOpacity>
+          <Animated.View style={menuStyle}>
             <FlatList
               horizontal={true}
-              style={{ width: '100%', height: '100%' }}
+              style={{
+                width: '100%',
+                height: 100,
+                marginBottom: 10,
+              }}
               data={listUrlPicture}
               keyExtractor={(item) => item}
               renderItem={({ item }) => {
@@ -188,12 +183,6 @@ class CreatePostScreen extends Component<
                 )
               }}
             />
-          </Animated.View>
-          <TouchableWithoutFeedback
-            style={{ width: '100%', height: '100%' }}
-            onPress={() => Keyboard.dismiss()}
-          />
-          <Animated.View style={menuStyle}>
             <TouchableOpacity
               style={styles.icon}
               onPress={() => this.onPressAddPicture()}>
