@@ -10,13 +10,17 @@ import EditProfileScreen from '../screens/EditProfileScreen'
 import { AuthNavigator } from './AuthNavigator'
 import { View, Image } from 'react-native'
 import { images } from '../assets'
+import { store, AppState, SignInState } from '../core'
+import { connect } from 'react-redux'
+import { Dispatch, AnyAction, bindActionCreators } from 'redux'
+import { signInAction } from '../core/actions'
 
 export type SubNavigator<T extends ParamListBase> = {
   [K in keyof T]: { screen: K; params?: T[K] }
 }[keyof T]
 
 export type RootStackParams = {
-  AuthStack: undefined
+  SignIn: undefined
   HomeStack: undefined
   PostDetail: undefined
   CreatePost: undefined
@@ -25,22 +29,28 @@ export type RootStackParams = {
 
 const RootStack = createStackNavigator<RootStackParams>()
 
-const AppNavigator = () => {
+const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
+  if (signInState.isOpeningApp) {
+    return <SplashScreen />
+  }
   return (
     <NavigationContainer>
       <RootStack.Navigator>
-        <RootStack.Screen
-          name={'AuthStack'}
-          component={AuthNavigator}
-          options={{ header: () => null }}
-        />
-        <RootStack.Screen
-          name={'HomeStack'}
-          component={HomeNavigator}
-          options={{
-            header: () => null,
-          }}
-        />
+        {signInState.isSignIn ? (
+          <RootStack.Screen
+            name={'HomeStack'}
+            component={HomeNavigator}
+            options={{
+              header: () => null,
+            }}
+          />
+        ) : (
+          <RootStack.Screen
+            name={'SignIn'}
+            component={SignInScreen}
+            options={{ header: () => null }}
+          />
+        )}
         <RootStack.Screen name={'PostDetail'} component={PostDetailScreen} />
         <RootStack.Screen name={'CreatePost'} component={CreatePostScreen} />
         <RootStack.Screen name={'EditProfile'} component={EditProfileScreen} />
@@ -49,4 +59,11 @@ const AppNavigator = () => {
   )
 }
 
-export default AppNavigator
+const mapStateToProps = (state: AppState) => ({
+  signInState: state.signin,
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(signInAction, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator)
