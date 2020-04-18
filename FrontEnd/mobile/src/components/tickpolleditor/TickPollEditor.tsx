@@ -84,6 +84,14 @@ class TickPollEditor extends React.Component<
     })
   }
 
+  validatePlaceHolder(list: ItemTickPoll[]) {
+    list.forEach((value, index) => {
+      value.index = index
+      if (index == list.length - 1) return
+      value.placeHolder = `Options ${index + 1}`
+    })
+  }
+
   renderItem(index: number, item: ItemTickPoll) {
     const { listOptions } = this.state
     const { onClose } = this.props
@@ -97,7 +105,8 @@ class TickPollEditor extends React.Component<
             this.onPressAddOptions()
           }
         }}
-        index={item.index}
+        text={item.title}
+        isLast={index == listOptions.length - 1}
         onTextChange={(text) => {
           item.title = text
         }}
@@ -106,10 +115,18 @@ class TickPollEditor extends React.Component<
             onClose()
             return
           }
+
           const _tmp = listOptions.filter((v, i) => {
             return v.index != item.index
           })
-          console.log('AppLog', _tmp)
+
+          console.log(
+            'AppLog',
+            _tmp.map((v, i) => v.title),
+          )
+
+          this.validatePlaceHolder(_tmp)
+
           this.setState({
             listOptions: _tmp,
           })

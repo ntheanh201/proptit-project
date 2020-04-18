@@ -207,7 +207,7 @@ class CreatePostScreen extends Component<
               ]}
               onPress={() => this.onPressChart()}>
               <Icon name="areachart" size={30} />
-              <Text style={styles.title}>Chart</Text>
+              <Text style={styles.title}>Tick Poll</Text>
             </TouchableOpacity>
           </Animated.View>
         </View>
