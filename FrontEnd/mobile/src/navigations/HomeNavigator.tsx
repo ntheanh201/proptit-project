@@ -10,6 +10,7 @@ import CreatePostScreen from '../screens/CreatePostScreen'
 import NotificationScreen from '../screens/NotificationScreen'
 import { SubNavigator, RootStackParams } from './AppNavigator'
 import MenuScreen from '../screens/MenuScreen'
+import GroupScreen from '../screens/GroupScreen'
 
 export type HomeTabParams = {
   Newsfeed: undefined
@@ -72,7 +73,7 @@ export const HomeNavigator = () => {
       />
       <Tab.Screen
         name={'Menu'}
-        component={MenuScreen}
+        component={GroupScreen}
         options={{ tabBarColor: '#00796b' }}
       />
     </Tab.Navigator>
