@@ -1,26 +1,24 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { Page, Grid, Icon } from 'tabler-react'
 
 import { Card, CardBody, CardHeader, CardTitle, CardOptions } from 'ui'
 
-import { PreloaderContext } from '../../Preloader'
-
 import { Groups } from './components/Groups'
 import { NewFeeds } from './components/NewFeeds'
 
-const Container = ({ state, setState }) => {
-  const { isLoggedIn } = useContext(PreloaderContext)
-
-  const { groups, posts } = state
+const Container = ({ state: props }) => {
+  const { isLogged } = useSelector(state => state.homeReducer)
+  const { groups, posts } = props
 
   return (
     <Page>
       <Page.Main>
         <Grid.Row>
-          {isLoggedIn && (
+          {isLogged && (
             <Grid.Col lg={4}>
               <StickyCard statusColor='green'>
                 <CardHeader>

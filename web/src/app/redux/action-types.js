@@ -1,4 +1,2 @@
-export const LOADING = 'LOADING'
-export const SUCCESS = 'SUCCESS'
-export const FAIL = 'FAIL'
-export const GET_ALL_SESSIONS = 'GET_ALL_SESSIONS'
+export const IS_LOGGED = 'IS_LOGGED'
+export const USER_INFO = 'USER_INFO'

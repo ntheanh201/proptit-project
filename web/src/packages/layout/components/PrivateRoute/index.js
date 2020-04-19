@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { PreloaderContext } from '../../../Preloader'
+import { useSelector } from 'react-redux'
 
 const isAuthenticated = () => {
-  const { isLoggedIn } = useContext(PreloaderContext)
-  return isLoggedIn
+  const { isLogged } = useSelector(state => state.homeReducer)
+  return isLogged
 }
 
 export const PrivateRoute = ({ component, exact, path }) => {

@@ -3,7 +3,6 @@ import { HashRouter as Router, Switch, Redirect, Route } from 'react-router-dom'
 
 import { withNormalLayout } from 'layout'
 
-import { PrivateRoute } from './Shared/components/PrivateRoute'
 import { routes } from './config/routes'
 
 const App = () => {

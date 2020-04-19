@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { withRouter } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { FormTextInput, StandaloneFormPage } from 'tabler-react'
 
-import { withTouchedErrors } from '../../Shared/helpers/withTouchedErrors'
-import { FormCard } from '../../Shared/components/Form/FormCard'
+import { withTouchedErrors } from 'helpers'
+import { FormCard } from 'layout'
+import * as Actions from '../../redux/action-creators/home'
 
 import logo from '../../assets/ProPTIT.png'
-import { PreloaderContext } from '../../Preloader'
 
 const defaultStrings = {
   title: 'Login to your Account',
@@ -18,7 +19,8 @@ const defaultStrings = {
 }
 
 const LoginPage = props => {
-  const { setState: setPreloaderState } = useContext(PreloaderContext)
+  let dispatch = useDispatch()
+
   const {
     action,
     method,
@@ -32,7 +34,7 @@ const LoginPage = props => {
 
   const onSubmit = async () => {
     //todo: check Login successfully
-    await setPreloaderState({ isLoggedIn: true })
+    await dispatch(Actions.updateLoginStatus(true))
     await history.push({ pathname: '/' })
   }
 

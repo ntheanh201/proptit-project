@@ -1,16 +1,17 @@
-// import axios from 'axios'
-// import { createAction } from 'redux-actions'
+import * as Actions from '../action-types'
 
-import { LOADING } from '../action-types'
+export const updateLoginStatus = payload => {
+  return dispatch =>
+    dispatch({
+      type: Actions.IS_LOGGED,
+      payload
+    })
+}
 
-export const startLoading = () => dispatch =>
-  dispatch({
-    type: LOADING,
-    payload: { isLoading: true }
-  })
-
-export const stopLoading = () => dispatch =>
-  dispatch({
-    type: LOADING,
-    payload: { isLoading: false }
-  })
+export const updateUserInfo = payload => {
+  return dispatch =>
+    dispatch({
+      type: Actions.USER_INFO,
+      payload
+    })
+}

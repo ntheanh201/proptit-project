@@ -10,7 +10,7 @@ import { HomeContext } from '../HomeContainer'
 import img from '../../../assets/imgChucTet.jpg'
 
 export const CreatePost = () => {
-  const { onCreatePost, handleFileSelect } = useContext(HomeContext)
+  const { onCreatePost } = useContext(HomeContext)
 
   const [state, setState] = useState({ value: '' })
 
@@ -32,10 +32,7 @@ export const CreatePost = () => {
           ></Form.Textarea>
         </Form.Group>
         <Bottom>
-          <div
-            className='icon d-none d-md-inline-block ml-3'
-            onClick={handleFileSelect}
-          >
+          <div className='icon d-none d-md-inline-block ml-3' onClick={}>
             <Icon prefix='fa' name={'file-picture-o'} />
           </div>
           <div className='icon d-none d-md-inline-block ml-3'>

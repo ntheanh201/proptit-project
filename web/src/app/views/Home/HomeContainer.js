@@ -7,8 +7,6 @@ import pro from '../../assets/pro.png'
 import ngocmai from '../../assets/ngocmai.jpg'
 import prologo from '../../assets/ProPTIT.png'
 
-import { buildFileSelector } from '../../Shared/helpers/helpers'
-
 export const HomeContext = createContext()
 
 export const HomeContainer = () => {
@@ -173,7 +171,6 @@ export const HomeContainer = () => {
 
   const handleFileSelect = e => {
     e.preventDefault()
-    state.fileSelector.click()
   }
 
   const onCreatePoll = (poll, postId) => {
@@ -184,7 +181,6 @@ export const HomeContainer = () => {
     state,
     setState,
     onCreatePost,
-    handleFileSelect,
     onCreatePoll
   }
 

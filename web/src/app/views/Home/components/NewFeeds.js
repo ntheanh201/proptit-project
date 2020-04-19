@@ -1,17 +1,16 @@
 import React, { useContext } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Grid } from 'tabler-react'
 
 import { Card, CardTitle, CardHeader, CardBody } from 'ui'
 
-import { PreloaderContext } from '../../../Preloader'
-
 import { Post } from './Post'
 import { CreatePost } from './CreatePost'
 
 const ShowNewFeeds = ({ children }) => {
-  const { isLoggedIn } = useContext(PreloaderContext)
-  return isLoggedIn ? (
+  const { isLogged } = useSelector(state => state.homeReducer)
+  return isLogged ? (
     <Grid.Col lg={8}>
       <CreatePost />
       {children}

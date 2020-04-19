@@ -1,4 +1,4 @@
 import React from 'react'
-import { Error404Page } from '../../Shared/components/Errors/Error404Page'
+import { Error404Page } from 'layout'
 
 export default () => <Error404Page />

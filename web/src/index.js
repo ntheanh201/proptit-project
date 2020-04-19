@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import loadable from '@loadable/component'
 
 import store from './app/redux'
-
 import { Preloader } from './app/Preloader'
 
 import './index.css'
@@ -12,6 +11,9 @@ import 'tabler-react/dist/Tabler.css'
 
 import { LoadingIndicator } from 'ui'
 
+// import dotenv from 'dotenv'
+// dotenv.config()
+require('dotenv').config()
 const AppComponent = loadable(() => import('./app'), {
   fallback: LoadingIndicator
 })
