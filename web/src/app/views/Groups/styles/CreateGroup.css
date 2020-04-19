@@ -1,0 +1,17 @@
+.btn i {
+    margin-right: 5px;
+    color: rgb(10, 92, 199);
+    font-size: 1rem;
+    vertical-align: 0px;
+}
+
+.btn {
+    font-size: 1rem;
+    background-color: rgb(208, 227, 243);
+    color: rgb(10, 92, 199);
+}
+
+.btn:hover {
+    background-color: rgb(196, 225, 248);
+    color: rgb(10, 92, 199);
+}

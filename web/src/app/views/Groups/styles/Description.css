@@ -1,0 +1,21 @@
+.btn-edit .btn,.view-description .btn {
+    border-radius: 10px;
+    border: 2px solid rgb(0, 132, 255);
+    font-size: 1rem;
+    color: rgb(0, 132, 255);
+}
+
+.btn-edit .btn i,.view-description .btn i {
+    color: rgb(0, 132, 255);
+    margin-right: 5px;
+    vertical-align: 0px;
+}
+
+.btn-edit .btn:hover,.view-description .btn:hover {
+    background-color: rgb(175, 216, 255);
+    color: rgb(0, 132, 255);
+}
+
+.row {
+    justify-content: space-around;
+}
