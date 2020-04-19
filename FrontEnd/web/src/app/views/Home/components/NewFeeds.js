@@ -31,6 +31,7 @@ export const NewFeeds = ({ posts }) => {
         <CardBody>
           {posts.map(
             ({
+              id,
               name,
               username,
               content,
@@ -40,9 +41,12 @@ export const NewFeeds = ({ posts }) => {
               avatarImg,
               comments,
               likeCount,
-              commentCount
+              commentCount,
+              type,
+              listPoll
             }) => (
               <Post
+                id={id}
                 img={img}
                 imgAlt={'Post'}
                 postHref={'#'}
@@ -55,6 +59,8 @@ export const NewFeeds = ({ posts }) => {
                 comments={comments}
                 likeCount={likeCount}
                 commentCount={commentCount}
+                type={type}
+                listPoll={listPoll}
               />
             )
           )}

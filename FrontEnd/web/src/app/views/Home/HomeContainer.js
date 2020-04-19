@@ -39,6 +39,7 @@ export const HomeContainer = () => {
         type: 0,
         img: dodo,
         avatarImg: prologo,
+        // listPoll = [],
         comments: [
           {
             avatarUrl: '',
@@ -69,6 +70,7 @@ export const HomeContainer = () => {
         type: 0,
         img: pro,
         avatarImg: prologo,
+        // listPoll = [],
         // comments: [
         //   {
         //     avatarUrl: '',
@@ -99,6 +101,7 @@ export const HomeContainer = () => {
         type: 0,
         img: ngocmai,
         avatarImg: ngocmai,
+        // listPoll = [],
         // comments: [
         //   {
         //     avatarUrl: '',
@@ -109,6 +112,53 @@ export const HomeContainer = () => {
         // ],
         likeCount: 999,
         commentCount: 0
+      },
+      {
+        id: 4,
+        userId: 1,
+        name: 'Nguyễn Mạnh Cường',
+        username: 'do.do.5',
+        groupId: 1,
+        content:
+          'Make your choice',
+        time: '16/04/2020',
+        type: 1,
+        img: dodo,
+        avatarImg: prologo,
+        comments: [
+          {
+            id: 1,
+            avatarUrl: '',
+            name: 'Nguyễn Thế Anh',
+            date: '4 phút trước',
+            text: 'OMG!!!',
+            replies: [
+              {
+                id: 1,
+                name: 'Nguyễn Mạnh Cường',
+                avatarUrl: prologo,
+                date: '1 phút trước',
+                text: 'haha'
+              }
+            ]
+          }
+        ],
+        likeCount: '10k',
+        commentCount: 2,
+        listPoll: [
+          {
+            id: 1,
+            text: 'one'
+          },
+          {
+            id: 2,
+            text: 'two'
+          },
+          {
+            id: 3,
+            text: 'three'
+          },
+        ]
       }
     ],
     fileSelector: buildFileSelector()
@@ -128,11 +178,16 @@ export const HomeContainer = () => {
     state.fileSelector.click()
   }
 
+  const onCreatePoll = (poll, postId) => {
+    state.posts[postId-1].listPoll.push(poll);
+  }
+
   const props = {
     state,
     setState,
     onCreatePost,
-    handleFileSelect
+    handleFileSelect,
+    onCreatePoll
   }
 
   return (

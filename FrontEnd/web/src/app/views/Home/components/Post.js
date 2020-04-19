@@ -4,8 +4,10 @@ import styled from 'styled-components'
 import { Comment } from 'tabler-react'
 
 import { Icon, Card, CardBody, CardFooter } from 'ui'
+import { TickPoll } from '../../../../packages/ui/components/Post/TickPoll/TickPoll'
 
 export const Post = ({
+  id,
   children,
   content,
   avatarUrl,
@@ -19,7 +21,9 @@ export const Post = ({
   profileHref = '',
   comments,
   likeCount,
-  commentCount
+  commentCount,
+  type,
+  listPoll = []
 }) => {
   return (
     <Card>
@@ -41,6 +45,11 @@ export const Post = ({
             {/* <div className='text-muted'>{content}</div> */}
             <Span>{content}</Span>
           </div>
+
+          <div className="tickPoll">
+            {type === 1 && <TickPoll listPoll={listPoll} postId={id} />}
+          </div>
+
           <ImageWrapper>
             <Img className='card-img-top' src={img} alt={imgAlt} />
           </ImageWrapper>
