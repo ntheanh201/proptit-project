@@ -108,14 +108,29 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
           scrollEventThrottle={16}
           onScroll={(e) => {
             const y = e.nativeEvent.contentOffset.y
-            console.log('AppLog', y)
+            // console.log('AppLog', y)
             if (y >= 300)
               this.props.navigation.setOptions({
-                title: 'Mobile Group',
+                headerTitle: (prop) => (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Image
+                      source={require('../assets/images/avt_batman.png')}
+                      style={{ height: 30, width: 30, borderRadius: 5 }}
+                    />
+                    <Text style={[styles.bold_text, { marginLeft: 10 }]}>
+                      Mobile Group
+                    </Text>
+                  </View>
+                ),
               })
             else
               this.props.navigation.setOptions({
-                title: '',
+                headerTitle: (prop) => null,
               })
           }}
           style={{
