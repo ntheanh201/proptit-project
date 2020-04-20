@@ -5,7 +5,7 @@ import axios from 'axios'
 class PostService extends BaseService<Post> {
   constructor() {
     super()
-    this.baseURL += '/posts'
+    this.baseURL += 'posts/'
   }
 
   getByGroup(groupId: string): Promise<Post[]> {

@@ -9,9 +9,12 @@ import {
 import React, { Component } from 'react'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import FloatingButton from '../components/FloatingButton'
-import { StackNavigationProp } from '@react-navigation/stack'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { HomeTabParams } from '../navigations/HomeNavigator'
+import { AppState, getNewfeeds, NewFeedState } from '../core'
+import { newfeedAction } from '../core/actions'
+import { Dispatch, AnyAction, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 interface Item {
   key: string
@@ -26,6 +29,8 @@ interface NewsFeedScreenState {
 
 interface NewsFeedScreenProps {
   navigation: BottomTabNavigationProp<HomeTabParams>
+  getNewfeeds: typeof getNewfeeds
+  postsState: NewFeedState
 }
 
 class NewsFeedScreen extends Component<
@@ -50,6 +55,9 @@ class NewsFeedScreen extends Component<
         },
       ],
     }
+  }
+  componentDidMount() {
+    this.props.getNewfeeds('1')
   }
 
   onRefresh = () => {
@@ -79,14 +87,15 @@ class NewsFeedScreen extends Component<
           style={{
             width: '100%',
             height: '100%',
-            backgroundColor: 'white',
+            backgroundColor: 'blue',
             flexDirection: 'column',
           }}>
           <FlatList
-            data={this.state.listItems}
+            data={this.props.postsState.currentNewFeed}
             renderItem={({ item }) => {
               return (
                 <ItemNewsFeed
+                  post={item}
                   onPress={() => {
                     console.log('AppLog', this.props)
                     this.props.navigation.navigate('PostDetail')
@@ -115,10 +124,13 @@ class NewsFeedScreen extends Component<
       </SafeAreaView>
     )
   }
-
-  handleOnPressProfile() {
-    this.props.navigation.navigate('Profile')
-  }
 }
 
-export default NewsFeedScreen
+const mapStateToProps = (state: AppState) => ({
+  postsState: state.newfeed,
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(newfeedAction, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsFeedScreen)

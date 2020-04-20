@@ -128,10 +128,11 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                   </View>
                 ),
               })
-            else
+            } else {
               this.props.navigation.setOptions({
                 headerTitle: (prop) => null,
               })
+            }
           }}
           style={{
             width: '100%',

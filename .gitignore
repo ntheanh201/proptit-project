@@ -1,3 +1,5 @@
 BackEnd/node_modules
 FrontEnd/node_modules
 node_modules
+
+FrontEnd/mobile/ios/Podfile.lock

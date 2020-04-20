@@ -11,9 +11,7 @@ import {
   StatusBar,
   StatusBarIOS,
 } from 'react-native'
-import { AppState } from '../core'
-import { Dispatch, AnyAction, bindActionCreators } from 'redux'
-import { signInAction } from '../core/actions'
+import { AppState, SignInState } from '../core'
 import { connect } from 'react-redux'
 import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
@@ -25,6 +23,7 @@ import { RootStackParams } from '../navigations/AppNavigator'
 
 interface ProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
+  signInState: SignInState
 }
 
 interface ProfileScreenState {
@@ -115,8 +114,12 @@ class ProfileScreen extends React.Component<
           </LinearGradient>
           <Image source={images.AVT_BATMAN} style={styles.avatar} />
           <View style={styles.nameContainer}>
-            <Text style={{ fontSize: 39 }}>Batman</Text>
-            <Text>Smart, tough and brutally violent solutions to crime.</Text>
+            <Text style={{ fontSize: 27 }}>
+              {this.props.signInState.currentUser!.displayName}
+            </Text>
+            <Text numberOfLines={2}>
+              {this.props.signInState.currentUser!.description}
+            </Text>
           </View>
         </ImageBackground>
         <TabView
@@ -148,7 +151,7 @@ class ProfileScreen extends React.Component<
 const styles = StyleSheet.create({
   coverImage: {
     width: WIDTH(360),
-    height: HEIGHT(250),
+    height: HEIGHT(180),
   },
   headerContainer: {
     marginTop: getStatusBarHeight(),
@@ -169,18 +172,18 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   avatar: {
-    width: WIDTH(150),
-    height: WIDTH(150),
-    borderRadius: WIDTH(150) / 2,
+    width: WIDTH(130),
+    height: WIDTH(130),
+    borderRadius: WIDTH(130) / 2,
     position: 'absolute',
     right: 20,
-    bottom: -20,
+    bottom: 0,
   },
   nameContainer: {
     position: 'absolute',
     left: 20,
     bottom: 0,
-    right: 150,
+    right: 170,
   },
   gridImage: {
     width: WIDTH(357) / 3,
@@ -194,9 +197,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const mapStateToProps = (state: AppState) => ({})
+const mapStateToProps = (state: AppState) => ({
+  signInState: state.signin,
+})
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-  bindActionCreators(signInAction, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
+export default connect(mapStateToProps)(ProfileScreen)

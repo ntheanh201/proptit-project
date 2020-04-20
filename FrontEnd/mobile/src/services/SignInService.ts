@@ -1,6 +1,7 @@
-import axios from 'axios'
+import Axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 import { User, AuthToken } from '../core'
+import { convertToUserType } from '../configs/Function'
 
 class SignInService {
   protected authURL = 'http://apis.aiforce.xyz/auth/jwt/create/'
@@ -8,8 +9,7 @@ class SignInService {
   protected refreshTokenURL = 'http://apis.aiforce.xyz/auth/jwt/refresh/'
 
   requestSignIn(username: string, password: string): Promise<AuthToken> {
-    return axios
-      .post(this.authURL, { username: username, password: password })
+    return Axios.post(this.authURL, { username: username, password: password })
       .then(async (res) => {
         await AsyncStorage.setItem(
           'authToken',
@@ -24,36 +24,33 @@ class SignInService {
       })
   }
 
-  getUserAfterAuth(accessKey: string): Promise<User> {
-    return axios
-      .get(this.userAuthURL, {
-        headers: {
-          authorization: `Bearer ${accessKey}`,
-        },
-      })
+  getUserAfterAuth(accessKey: string): Promise<User | null> {
+    return Axios.get(this.userAuthURL, {
+      headers: {
+        authorization: `Bearer ${accessKey}`,
+      },
+    })
       .then(async (res) => {
-        await AsyncStorage.setItem(
-          'userData',
-          JSON.stringify(res.data),
-          (err) => {
-            console.log(err)
-          },
-        )
-        return res.data
+        const user = convertToUserType(res.data)
+        await AsyncStorage.setItem('userData', JSON.stringify(user), (err) => {
+          console.log(err)
+        })
+        return user
       })
       .catch((err) => {
         console.log(err)
+        return null
       })
   }
 
   refreshToken(refreshToken: string): Promise<AuthToken | null> {
-    return axios
-      .post(this.refreshTokenURL, { refresh: refreshToken })
+    return Axios.post(this.refreshTokenURL, { refresh: refreshToken })
       .then(async (res) => {
         const authToken: AuthToken = {
           refresh: refreshToken,
           access: res.data.access,
         }
+        Axios.defaults.headers.Authorization = `Bearer ${res.data.access}`
         await AsyncStorage.setItem(
           'authToken',
           JSON.stringify(authToken),

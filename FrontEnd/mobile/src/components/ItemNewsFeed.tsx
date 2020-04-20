@@ -1,11 +1,17 @@
-import { View, TouchableOpacity, Image, Text } from 'react-native'
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+} from 'react-native'
 import { Post } from '../core'
 import React from 'react'
 import Icon from 'react-native-vector-icons/EvilIcons'
 import { images } from '../assets'
 
 interface ItemNewsFeedProps {
-  post?: Post
+  post: Post
   onPress?: () => void
 }
 
@@ -15,11 +21,10 @@ const ItemNewsFeed = (props: ItemNewsFeedProps) => {
     <View
       style={{
         width: '100%',
-        height: 500,
         backgroundColor: 'white',
         paddingBottom: 15,
       }}>
-      <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+      <TouchableWithoutFeedback onPress={onPress}>
         <View style={{ width: '100%', flexDirection: 'column' }}>
           <View style={{ width: '100%', padding: 15 }}>
             <View
@@ -30,29 +35,26 @@ const ItemNewsFeed = (props: ItemNewsFeedProps) => {
               }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image
-                  source={images.AVT_BATMAN}
+                  source={{ uri: post.authorAvatar }}
                   style={{ height: 50, width: 50, borderRadius: 100 }}
                 />
                 <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
-                  Batman
+                  {post.authorName}
                 </Text>
               </View>
               <Text>2 phút trước</Text>
             </View>
-            <Text style={{ marginTop: 10 }}>
-              {"Hello ProPTIT, \nI'm Batman"}
-            </Text>
+            <Text style={{ marginTop: 10 }}>{post.content}</Text>
           </View>
-          <Image
-            source={{
-              uri:
-                'https://res.cloudinary.com/teepublic/image/private/s--uN69cNct--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1551060908/production/designs/4278062_0.jpg',
-            }}
-            resizeMode="cover"
-            style={{ width: '100%', height: '70%' }}
-          />
+          {post.photos.length > 0 ? (
+            <Image
+              source={{ uri: 'http://apis.aiforce.xyz' + post.photos[0] }}
+              resizeMode="cover"
+              style={{ width: '100%', height: '70%' }}
+            />
+          ) : null}
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
       <View
         style={{
           flexDirection: 'row',

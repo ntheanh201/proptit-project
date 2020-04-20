@@ -72,31 +72,6 @@ class CreatePostScreen extends Component<
     })
   }
 
-  componentDidMount() {
-    Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
-      this.onKeyboardShow,
-    )
-    Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
-      this.onKeyboardHide,
-    )
-  }
-
-  onKeyboardShow = (e: any) => {
-    this.setState({
-      padding: e.endCoordinates.height,
-    })
-    this.onFocusEditText()
-  }
-
-  onKeyboardHide = () => {
-    this.setState({
-      padding: 0,
-    })
-    this.onUnfocusEditText()
-  }
-
   render() {
     const { isHaveTickPoll, listUrlPicture } = this.state
 
@@ -121,16 +96,12 @@ class CreatePostScreen extends Component<
     }
 
     return (
-      <View
-        style={[
-          styles.wrapper,
-          { paddingBottom: Platform.OS === 'ios' ? this.state.padding : 0 },
-        ]}>
+      <View style={styles.wrapper}>
         <View style={styles.wrapperTextInput}>
           <View style={{ flexDirection: 'row' }}>
             <Image
               source={require('../assets/images/avt_batman.png')}
-              style={styles.avartar}
+              style={styles.avatar}
             />
             <TextInput
               onFocus={() => this.onFocusEditText()}
@@ -155,7 +126,6 @@ class CreatePostScreen extends Component<
             style={{ width: '100%', height: '100%' }}
             onPress={() => Keyboard.dismiss()}
           />
-          <TouchableOpacity style={{}}></TouchableOpacity>
           <Animated.View style={menuStyle}>
             <FlatList
               horizontal={true}
@@ -274,7 +244,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  avartar: {
+  avatar: {
     height: 50,
     width: 50,
     borderRadius: 100,
