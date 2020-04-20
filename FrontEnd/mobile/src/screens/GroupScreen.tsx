@@ -75,6 +75,10 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
         },
       ],
     }
+    this.props.navigation.setOptions({
+      title: '',
+      headerBackTitle: 'Back',
+    })
   }
 
   onRefresh = () => {
@@ -101,6 +105,19 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
     return (
       <SafeAreaView>
         <ScrollView
+          scrollEventThrottle={16}
+          onScroll={(e) => {
+            const y = e.nativeEvent.contentOffset.y
+            console.log('AppLog', y)
+            if (y >= 300)
+              this.props.navigation.setOptions({
+                title: 'Mobile Group',
+              })
+            else
+              this.props.navigation.setOptions({
+                title: '',
+              })
+          }}
           style={{
             width: '100%',
             height: '100%',
@@ -132,47 +149,51 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              {this.state.listMember.map((member, index) => {
-                if (index == this.state.listMember.length - 1) {
-                  return (
-                    <TouchableOpacity
-                      style={{
-                        height: 40,
-                        width: 100,
-                        marginLeft: 20,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 25,
-                        backgroundColor: colors.mainBlue,
-                      }}>
-                      <Icon name="plus" color="white" size={20} />
-                      <Text
-                        style={{
-                          color: 'white',
-                          fontWeight: 'bold',
-                          marginLeft: 10,
-                        }}>
-                        Invite
-                      </Text>
-                    </TouchableOpacity>
-                  )
-                } else {
-                  return (
-                    <Image
-                      style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 25,
-                        position: 'relative',
-                        top: 0,
-                        left: 0,
-                      }}
-                      source={require('../assets/images/avt_batman.png')}
-                    />
-                  )
-                }
-              })}
+              <TouchableOpacity
+                onPress={() => {
+                  this.navigateToMember()
+                }}
+                style={{
+                  flexDirection: 'row',
+                }}>
+                {this.state.listMember.map((member, index) => (
+                  <Image
+                    style={{
+                      height: 40,
+                      width: 40,
+                      borderRadius: 25,
+                      position: 'relative',
+                      top: 0,
+                      left: 0,
+                    }}
+                    source={require('../assets/images/avt_batman.png')}
+                  />
+                ))}
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.navigateToInvite()
+                }}
+                style={{
+                  height: 40,
+                  width: 100,
+                  marginLeft: 20,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 25,
+                  backgroundColor: colors.mainBlue,
+                }}>
+                <Icon name="plus" color="white" size={20} />
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    marginLeft: 10,
+                  }}>
+                  Invite
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
           {this.state.listItems.map(() => (
@@ -198,6 +219,11 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
       </SafeAreaView>
     )
   }
+  navigateToInvite() {
+    throw new Error('Method not implemented.')
+  }
+
+  navigateToMember() {}
 }
 
 export default GroupScreen

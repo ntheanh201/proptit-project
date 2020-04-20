@@ -12,7 +12,13 @@ interface ItemNewsFeedProps {
 const ItemNewsFeed = (props: ItemNewsFeedProps) => {
   const { post, onPress } = props
   return (
-    <View style={{ width: '100%', height: 500, backgroundColor: 'white' }}>
+    <View
+      style={{
+        width: '100%',
+        height: 500,
+        backgroundColor: 'white',
+        paddingBottom: 15,
+      }}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
         <View style={{ width: '100%', flexDirection: 'column' }}>
           <View style={{ width: '100%', padding: 15 }}>

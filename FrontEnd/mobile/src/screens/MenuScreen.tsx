@@ -1,9 +1,28 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Button, SafeAreaView } from 'react-native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from '../navigations/AppNavigator'
+import colors from '../values/colors'
 
-class MenuScreen extends Component {
+interface MenuScreenProps {
+  navigation: StackNavigationProp<RootStackParams>
+}
+
+class MenuScreen extends Component<MenuScreenProps> {
   render() {
-    return <View />
+    return (
+      <SafeAreaView>
+        <View style={{ width: '100%', height: '100%' }}>
+          <Button
+            color={colors.mainBlue}
+            title="Group"
+            onPress={() => {
+              this.props.navigation.navigate('Group')
+            }}
+          />
+        </View>
+      </SafeAreaView>
+    )
   }
 }
 

@@ -14,6 +14,7 @@ import { store, AppState, SignInState } from '../core'
 import { connect } from 'react-redux'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
+import GroupScreen from '../screens/GroupScreen'
 
 export type SubNavigator<T extends ParamListBase> = {
   [K in keyof T]: { screen: K; params?: T[K] }
@@ -25,6 +26,7 @@ export type RootStackParams = {
   PostDetail: undefined
   CreatePost: undefined
   EditProfile: undefined
+  Group: undefined
 }
 
 const RootStack = createStackNavigator<RootStackParams>()
@@ -54,6 +56,7 @@ const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
         <RootStack.Screen name={'PostDetail'} component={PostDetailScreen} />
         <RootStack.Screen name={'CreatePost'} component={CreatePostScreen} />
         <RootStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+        <RootStack.Screen name={'Group'} component={GroupScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   )

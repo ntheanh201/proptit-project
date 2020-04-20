@@ -73,7 +73,7 @@ export const HomeNavigator = () => {
       />
       <Tab.Screen
         name={'Menu'}
-        component={GroupScreen}
+        component={MenuScreen}
         options={{ tabBarColor: '#00796b' }}
       />
     </Tab.Navigator>
