@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from 'react'
+import React, { createContext } from 'react'
 import { useState } from 'core'
 import { Home } from './Home'
 
@@ -6,8 +6,6 @@ import dodo from '../../assets/dodo.jpg'
 import pro from '../../assets/pro.png'
 import ngocmai from '../../assets/ngocmai.jpg'
 import prologo from '../../assets/ProPTIT.png'
-
-import { buildFileSelector } from '../../Shared/helpers/helpers'
 
 export const HomeContext = createContext()
 
@@ -38,21 +36,12 @@ export const HomeContainer = () => {
         type: 0,
         img: dodo,
         avatarImg: prologo,
-        // listPoll = [],
         comments: [
           {
             avatarUrl: '',
             name: 'Nguyễn Thế Anh',
             date: '4 phút trước',
-            text: 'Chúc mừng năm mới Chủ tịch, 2 bạn đẹp đôi quá ạ ^^',
-            replies: [
-              {
-                name: 'Nguyễn Mạnh Cường',
-                avatarUrl: prologo,
-                date: '1 phút trước',
-                text: 'Cảm ơn cậu <3'
-              }
-            ]
+            text: 'Chúc mừng năm mới Chủ tịch, 2 bạn đẹp đôi quá ạ ^^'
           }
         ],
         likeCount: '10k',
@@ -69,23 +58,6 @@ export const HomeContainer = () => {
         type: 0,
         img: pro,
         avatarImg: prologo,
-        // listPoll = [],
-        // comments: [
-        //   {
-        //     avatarUrl: '',
-        //     name: '',
-        //     date: '4 phút trước',
-        //     text: '',
-        //     replies: [
-        //       {
-        //         name: '',
-        //         avatarUrl: '',
-        //         date: '',
-        //         text: ''
-        //       }
-        //     ]
-        //   }
-        // ],
         likeCount: 69,
         commentCount: 0
       },
@@ -100,15 +72,6 @@ export const HomeContainer = () => {
         type: 0,
         img: ngocmai,
         avatarImg: ngocmai,
-        // listPoll = [],
-        // comments: [
-        //   {
-        //     avatarUrl: '',
-        //     name: '',
-        //     date: '4 phút trước',
-        //     text: ''
-        //   }
-        // ],
         likeCount: 999,
         commentCount: 0
       },
@@ -129,16 +92,7 @@ export const HomeContainer = () => {
             avatarUrl: '',
             name: 'Nguyễn Thế Anh',
             date: '4 phút trước',
-            text: 'OMG!!!',
-            replies: [
-              {
-                id: 1,
-                name: 'Nguyễn Mạnh Cường',
-                avatarUrl: prologo,
-                date: '1 phút trước',
-                text: 'haha'
-              }
-            ]
+            text: 'OMG!!!'
           }
         ],
         likeCount: '10k',
@@ -158,22 +112,12 @@ export const HomeContainer = () => {
           }
         ]
       }
-    ],
-    fileSelector: buildFileSelector()
+    ]
   }
   const [state, setState] = useState(initialValues)
 
-  // useEffect(() => {
-  //   testService.getAll()
-  // }, [])
-
-  const onCreatePost = post => {
+  const onCreatePost = (post) => {
     setState({ posts: [{ ...post, avatarImg: ngocmai }, ...state.posts] })
-  }
-
-  const handleFileSelect = e => {
-    e.preventDefault()
-    state.fileSelector.click()
   }
 
   const onCreatePoll = (poll, postId) => {
@@ -184,7 +128,6 @@ export const HomeContainer = () => {
     state,
     setState,
     onCreatePost,
-    handleFileSelect,
     onCreatePoll
   }
 

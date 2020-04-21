@@ -1,3 +1,3 @@
 module.exports = {
-  baseUrl: 'https://jsonplaceholder.typicode.com/'
+  BASE_URL: 'http://apis.aiforce.xyz/'
 }

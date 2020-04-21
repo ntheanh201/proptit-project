@@ -5,16 +5,13 @@ import { Form, Button } from 'tabler-react'
 import { useState } from 'core'
 
 import { Card, CardHeader, CardBody, CardTitle, Icon } from 'ui'
-import { HomeContext } from '../HomeContainer'
 
-import img from '../../../assets/imgChucTet.jpg'
+import img from '../../../../assets/imgChucTet.jpg'
 
-export const CreatePost = () => {
-  const { onCreatePost, handleFileSelect } = useContext(HomeContext)
-
+export const CreatePost = ({ onCreatePost }) => {
   const [state, setState] = useState({ value: '' })
 
-  const onChangeValue = event => {
+  const onChangeValue = (event) => {
     setState({ value: event.target.value })
   }
 
@@ -29,13 +26,10 @@ export const CreatePost = () => {
             rows={3}
             placeholder='Bạn đang nghĩ gì?'
             onChange={onChangeValue}
-          ></Form.Textarea>
+          />
         </Form.Group>
         <Bottom>
-          <div
-            className='icon d-none d-md-inline-block ml-3'
-            onClick={handleFileSelect}
-          >
+          <div className='icon d-none d-md-inline-block ml-3'>
             <Icon prefix='fa' name={'file-picture-o'} />
           </div>
           <div className='icon d-none d-md-inline-block ml-3'>

@@ -13,7 +13,7 @@ class SiteWrapper extends React.PureComponent {
   }
 
   handleCollapseMobileMenu = () => {
-    this.setState(s => ({ collapseMobileMenu: !s.collapseMobileMenu }))
+    this.setState((s) => ({ collapseMobileMenu: !s.collapseMobileMenu }))
   }
 
   render() {

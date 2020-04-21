@@ -1,16 +1,15 @@
-import { useContext, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
+import React from 'react'
+import { Redirect } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-import { PreloaderContext } from '../../Preloader'
+import * as Actions from '../../redux/action-creators/home'
 
-const Logout = ({ history }) => {
-  const { setState: setPreloaderState } = useContext(PreloaderContext)
-
-  useEffect(() => {
-    setPreloaderState({ isLoggedIn: false })
-    history.push({ pathname: '/' })
-  }, [])
-  return null
+const Logout = () => {
+  const dispatch = useDispatch()
+  localStorage.removeItem('authToken')
+  localStorage.removeItem('userData')
+  dispatch(Actions.updateLoginStatus(false))
+  return <Redirect to='/' />
 }
 
-export default withRouter(Logout)
+export default Logout

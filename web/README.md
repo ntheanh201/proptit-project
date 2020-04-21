@@ -1,7 +1,5 @@
-### Web Demo Sessions
+### ProSocial - FrontEnd WEB
 
-##1. Change config file: ./src/environments/index.js
+##1. To run development: yarn dev
 
-##2. To run development: yarn development
-
-##3. To build: yarn build
+##2. To build: yarn build

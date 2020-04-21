@@ -16,37 +16,49 @@ import { Card, CardBody, CardHeader, CardOptions, CardTitle } from 'ui'
 
 export const ProfilePage = ({ state, setState }) => {
   const {
-    name,
+    displayName,
     username,
     avt,
     cover,
-    dob,
+    dateOfBirth,
     gender,
     grade,
     address,
-    quotes,
+    description,
     position,
+    email,
     tab,
-    title,
+    phoneNumber,
     missions
   } = state
 
   const RenderInformation = () => {
     return (
       <Timeline>
-        <Timeline.Item title={'Họ và tên: ' + name} badgeColor='red' />
+        <Timeline.Item title={'Họ và tên: ' + displayName} badgeColor='red' />
         <Timeline.Item title={'Username: ' + username} badge />
         <Timeline.Item
-          title={'Ngày tháng năm sinh: ' + dob}
+          title={'Ngày tháng năm sinh: ' + dateOfBirth}
           badgeColor='blue'
         />
         <Timeline.Item title={'Giới tính: ' + gender} badgeColor='yellow' />
         <Timeline.Item title={'Khoá: ' + grade} badgeColor='wheat' />
         <Timeline.Item title={'Quê quán: ' + address} badge />
-        <Timeline.Item
-          title={'Châm ngôn yêu thích: ' + quotes}
-          badgeColor='green'
-        />
+        {phoneNumber && (
+          <Timeline.Item
+            title={'Số điện thoại: ' + phoneNumber}
+            badgeColor={'pink'}
+          />
+        )}
+        {email && (
+          <Timeline.Item title={'Email: ' + email} badgeColor='yellow' />
+        )}
+        {description && (
+          <Timeline.Item
+            title={'Châm ngôn yêu thích: ' + description}
+            badgeColor='green'
+          />
+        )}
       </Timeline>
     )
   }
@@ -98,14 +110,14 @@ export const ProfilePage = ({ state, setState }) => {
         <Grid.Row>
           <Grid.Col md={4}>
             <Profile
-              name={name}
+              name={displayName}
               backgroundURL={cover}
               avatarURL={avt}
               twitterURL='ntheanh201'
             >
               <strong>{position}</strong>
               <br />
-              {quotes}
+              {description}
             </Profile>
           </Grid.Col>
           <Grid.Col md={8}>

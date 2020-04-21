@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import { Comment } from 'tabler-react'
 
-import { Icon, Card, CardBody, CardFooter } from 'ui'
-import { TickPoll } from '../../../../packages/ui/components/Post/TickPoll/TickPoll'
+import { Icon, Card, CardFooter, TickPoll } from 'ui'
 
 export const Post = ({
   id,
@@ -23,10 +22,11 @@ export const Post = ({
   likeCount,
   commentCount,
   type,
-  listPoll = []
+  listPoll = [],
+  onCreatePoll
 }) => {
   return (
-    <Card>
+    <Card key={id}>
       <div className='d-flex pt-5 mt-auto pl-5'>
         <div className='avatar avatar-md mr-3' style={{ overflow: 'hidden' }}>
           <img src={avatarImg} />
@@ -39,20 +39,26 @@ export const Post = ({
             <strong>{username}</strong>
           </small>
           <div className='d-flex flex-column pt-5 pb-5'>
-            {/* <h4>
-          <a href={postHref}>{title}</a>
-        </h4> */}
-            {/* <div className='text-muted'>{content}</div> */}
             <Span>{content}</Span>
           </div>
 
-          <div className="tickPoll">
-            {type === 1 && <TickPoll listPoll={listPoll} postId={id} />}
+          <div className='tickPoll'>
+            {type === 1 && (
+              <TickPoll
+                onCreatePoll={onCreatePoll}
+                listPoll={listPoll}
+                postId={id}
+              />
+            )}
+          </div>
+          <div>
+            {type === 0 && (
+              <ImageWrapper>
+                <Img className='card-img-top' src={img} alt={imgAlt} />
+              </ImageWrapper>
+            )}
           </div>
 
-          <ImageWrapper>
-            <Img className='card-img-top' src={img} alt={imgAlt} />
-          </ImageWrapper>
           <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
             <div className='icon d-none d-md-inline-block ml-3'>
               <Icon prefix='fe' name={'heart'} /> {likeCount}
@@ -64,33 +70,17 @@ export const Post = ({
               <Icon prefix='fe' name={'external-link'} />
             </div>
           </CardBottom>
-
-          {/* <div className='pb-5'></div> */}
         </div>
       </div>
       {commentCount > 0 && (
         <CardFooter>
           <Comment.List>
-            {comments.map(({ name, date, text, avatarURL, replies }) => (
+            {comments.map(({ name, date, text, avatarURL }) => (
               <Comment
                 avatarURL={avatarURL}
                 name={name}
                 date={date}
                 text={text}
-                replies={
-                  replies && (
-                    <React.Fragment>
-                      {replies.map(({ name, avatarURL, text, date }) => (
-                        <Comment.Reply
-                          name={name}
-                          avatarURL={avatarURL}
-                          text={text}
-                          date={date}
-                        />
-                      ))}
-                    </React.Fragment>
-                  )
-                }
               />
             ))}
           </Comment.List>

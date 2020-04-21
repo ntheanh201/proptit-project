@@ -1,12 +1,16 @@
-import React, { useContext } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+
 import { FormTextInput, StandaloneFormPage } from 'tabler-react'
 
-import { withTouchedErrors } from '../../Shared/helpers/withTouchedErrors'
-import { FormCard } from '../../Shared/components/Form/FormCard'
+import { withTouchedErrors } from 'helpers'
+import { FormCard } from 'layout'
+import { SignInService, fetchUserDataService } from 'services'
 
 import logo from '../../assets/ProPTIT.png'
-import { PreloaderContext } from '../../Preloader'
+import * as Actions from '../../redux/action-creators/home'
 
 const defaultStrings = {
   title: 'Login to your Account',
@@ -17,23 +21,35 @@ const defaultStrings = {
   passwordPlaceholder: 'Password'
 }
 
-const LoginPage = props => {
-  const { setState: setPreloaderState } = useContext(PreloaderContext)
-  const {
-    action,
-    method,
-    onChange,
-    onBlur,
-    values,
-    strings = {},
-    errors,
-    history
-  } = props
+const LoginPage = (props) => {
+  const dispatch = useDispatch()
+
+  const { onBlur, strings = {} } = props
+  const [username, setUsername] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [errors, setErrors] = useState(null)
+
+  const onChangeUsername = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const onChangePassword = (event) => {
+    setPassword(event.target.value)
+  }
+
+  const history = useHistory()
+
+  const fetchUserData = (accessKey) => {
+    dispatch(Actions.updateUserInfo(fetchUserDataService(accessKey)))
+    history.push({ pathname: '/' })
+  }
 
   const onSubmit = async () => {
-    //todo: check Login successfully
-    await setPreloaderState({ isLoggedIn: true })
-    await history.push({ pathname: '/' })
+    // eslint-disable-next-line new-cap
+    await SignInService(username, password)
+    dispatch(Actions.updateLoginStatus(true))
+    const authToken = JSON.parse(localStorage.getItem('authToken'))
+    await fetchUserData(authToken.access)
   }
 
   return (
@@ -42,8 +58,7 @@ const LoginPage = props => {
         buttonText={strings.buttonText || defaultStrings.buttonText}
         title={strings.title || defaultStrings.title}
         onSubmit={onSubmit}
-        action={action}
-        method={method}
+        method='POST'
       >
         <FormTextInput
           name='username'
@@ -51,10 +66,10 @@ const LoginPage = props => {
           placeholder={
             strings.usernamePlaceholder || defaultStrings.usernamePlaceholder
           }
-          onChange={onChange}
+          onChange={onChangeUsername}
           onBlur={onBlur}
-          value={values && values.username}
-          error={errors && errors.username}
+          value={username}
+          error={errors}
         />
         <FormTextInput
           name='password'
@@ -63,18 +78,14 @@ const LoginPage = props => {
           placeholder={
             strings.passwordPlaceholder || defaultStrings.passwordPlaceholder
           }
-          onChange={onChange}
+          onChange={onChangePassword}
           onBlur={onBlur}
-          value={values && values.password}
-          error={errors && errors.password}
+          value={password}
+          error={errors}
         />
       </FormCard>
     </StandaloneFormPage>
   )
 }
 
-export const Login = withRouter(
-  withTouchedErrors(['username', 'password'])(LoginPage)
-)
-
-// export const Login = LoginPage
+export const Login = withTouchedErrors(['username', 'password'])(LoginPage)

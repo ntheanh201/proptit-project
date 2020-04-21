@@ -1,5 +1,5 @@
 {
-  "extends": ["prettier", "standard", "standard-react"],
+  "extends": ["prettier"],
   "plugins": ["prettier", "class-property"],
   "parser": "babel-eslint",
   "rules": {

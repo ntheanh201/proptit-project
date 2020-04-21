@@ -1,30 +1,45 @@
 import React, { createContext, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 
-// import environments from 'environments'
+import environments from 'environments'
 import { useState } from 'core'
 import { LoadingIndicator } from 'ui'
+
+import * as Actions from '../app/redux/action-creators/home'
 
 export const PreloaderContext = createContext()
 
 export const Preloader = ({ children }) => {
+  const dispatch = useDispatch()
+  const { isLogged } = useSelector((state) => state.homeReducer)
+
+  if (!isLogged) {
+  }
+
   const [state, setState] = useState({
-    loading: true,
-    isLoggedIn: false,
-    user: {
-      id: '1',
-      username: 'ngocmai.buiphuong',
-      name: 'Bùi Phương Ngọc Mai'
-    }
+    loading: true
   })
 
+  const fetchData = async (userInfo) => {
+    // const posts = await axios(`${environments.BASE_URL}posts`)
+    // const groups = await axios(`${environments.BASE_URL}groups`)
+  }
+
   useEffect(() => {
-    const fetchData = async () => {
-      // const sessions = await axios(`${environments.baseUrl}sessions`)
-      // const parts = await axios(`${environments.baseUrl}parts`)
-      setState({ loading: false })
+    if (
+      localStorage &&
+      localStorage.getItem('authToken') &&
+      localStorage.getItem('userData')
+    ) {
+      const authToken = JSON.parse(localStorage.getItem('authToken'))
+      const { access, refresh } = authToken
+      dispatch(Actions.updateLoginStatus(true))
+      const userInfo = JSON.parse(localStorage.getItem('userData'))
+      dispatch(Actions.updateUserInfo(userInfo))
+      fetchData(userInfo)
     }
-    fetchData()
+    setState({ loading: false })
   }, [])
 
   if (state.loading) {

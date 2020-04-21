@@ -2,7 +2,7 @@ import React from 'react'
 import loadable from '@loadable/component'
 import { LoadingIndicator } from 'ui'
 
-const AsyncPage = loadable(props => import(`../views/${props.component}`), {
+const AsyncPage = loadable((props) => import(`../views/${props.component}`), {
   fallback: LoadingIndicator
 })
 
@@ -10,27 +10,14 @@ export const routes = [
   {
     path: '/',
     exact: true,
-    component: () => <AsyncPage component='Home' />
-    // title: 'Homepage'
+    component: () => <AsyncPage component='Home' />,
+    isPrivate: true
   },
-  // {
-  //   redirect: true,
-  //   exact: true,
-  //   from: '/demo',
-  //   to: '/theanhdz'
-  // },
-  // {
-  //   path: '/demo',
-  //   exact: true,
-  //   component: () => <AsyncPage component='Demo' />,
-  //   title: 'Demo'
-  // },
   {
-    // isPrivate: true,
+    isPrivate: true,
     path: '/profile/:id',
     exact: true,
     component: () => <AsyncPage component='ProfilePage' />
-    // title: 'Profile'
   },
   {
     path: '/profile',

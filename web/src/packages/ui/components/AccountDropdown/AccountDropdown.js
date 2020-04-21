@@ -12,8 +12,8 @@ const defaultOptions = {
   divider: { isDivider: true }
 }
 
-const itemsFromDefaultOptions = options =>
-  options.map(opt => (typeof opt === 'string' ? defaultOptions[opt] : opt))
+const itemsFromDefaultOptions = (options) =>
+  options.map((opt) => (typeof opt === 'string' ? defaultOptions[opt] : opt))
 
 export const AccountDropdown = ({
   avatarURL,

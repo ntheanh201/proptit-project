@@ -1,16 +1,17 @@
 /* eslint-disable id-length */
-import React, { useContext } from 'react'
+
+import React from 'react'
 import { NavLink, withRouter, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { RouterContextProvider, Grid, List, Nav, Button } from 'tabler-react'
 
 import { useState } from 'core'
 import { SiteWrapper } from 'ui'
 
-import { PreloaderContext } from '../../../Preloader'
-import User from '../../../assets/user.svg'
+import User from '../../assets/user.svg'
 
-import logo from '../../../assets/ProPTIT.png'
+import logo from '../../assets/ProPTIT.png'
 
 const navBarItems = [
   {
@@ -58,16 +59,18 @@ const navBarItems = [
 ]
 
 const Container = ({ history, children }) => {
-  const { isLoggedIn, user } = useContext(PreloaderContext)
+  const { isLogged, user } = useSelector((state) => state.homeReducer)
+
+  const { display_name: displayName, username, id: userId } = user
 
   const accountDropdownProps = {
     avatarLogo: User,
     avatarURL: '',
     avatarOptions: { width: '32px', height: '32px' },
-    name: user.name,
-    description: '@' + user.username,
+    name: displayName,
+    description: '@' + username,
     options: [
-      { icon: 'user', value: 'Profile', to: `/#/profile/${user.id}` },
+      { icon: 'user', value: 'Profile', to: `/#/profile/${userId}` },
       { icon: 'settings', value: 'Settings', to: '/#/settings' },
       { icon: 'mail', value: 'Inbox', badge: '6', to: '/#/messages' },
       { isDivider: true },
@@ -140,24 +143,26 @@ const Container = ({ history, children }) => {
         href: '/',
         alt: 'ProPTIT',
         imageURL: logo,
-        navItems: !isLoggedIn ? navItems : null,
-        notificationsTray: isLoggedIn
+        navItems: !isLogged ? navItems : null,
+        notificationsTray: isLogged
           ? {
               notificationsObjects,
               markAllAsRead: () =>
                 setState(
                   () => ({
-                    notificationsObjects: state.notificationsObjects.map(v => ({
-                      ...v,
-                      unread: false
-                    }))
+                    notificationsObjects: state.notificationsObjects.map(
+                      (v) => ({
+                        ...v,
+                        unread: false
+                      })
+                    )
                   }),
                   () =>
                     setTimeout(
                       () =>
                         setState({
                           notificationsObjects: state.notificationsObjects.map(
-                            v => ({ ...v, unread: true })
+                            (v) => ({ ...v, unread: true })
                           )
                         }),
                       5000
@@ -166,7 +171,7 @@ const Container = ({ history, children }) => {
               unread: unreadCount
             }
           : null,
-        accountDropdown: isLoggedIn ? accountDropdownProps : ''
+        accountDropdown: isLogged ? accountDropdownProps : ''
       }}
       footerProps={{
         copyright: (

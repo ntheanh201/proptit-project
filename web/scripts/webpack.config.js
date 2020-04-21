@@ -17,10 +17,10 @@ module.exports = ({ mode, outputPath }) => {
     resolve: {
       alias: {
         ui: path.resolve(process.cwd(), 'src', 'packages', 'ui'),
-        base: path.resolve(process.cwd(), 'src', 'packages', 'base'),
         layout: path.resolve(process.cwd(), 'src', 'packages', 'layout'),
         core: path.resolve(process.cwd(), 'src', 'packages', 'core'),
-        service: path.resolve(process.cwd(), 'src', 'packages', 'service'),
+        helpers: path.resolve(process.cwd(), 'src', 'packages', 'helpers'),
+        services: path.resolve(process.cwd(), 'src', 'packages', 'services'),
         environments: path.resolve(process.cwd(), 'src', 'environments')
       },
       mainFields: ['browser', 'main', 'module'],
@@ -79,6 +79,9 @@ module.exports = ({ mode, outputPath }) => {
           ]
         }
       ]
+    },
+    node: {
+      fs: 'empty'
     },
     plugins: [
       new CleanWebpackPlugin(),

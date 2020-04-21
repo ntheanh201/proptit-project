@@ -17,19 +17,19 @@ export class Card extends React.PureComponent {
   }
 
   handleCloseOnClick = () => {
-    this.setState(s => ({
+    this.setState((s) => ({
       isClosed: !s.isClosed
     }))
   }
 
   handleCollapseOnClick = () => {
-    this.setState(s => ({
+    this.setState((s) => ({
       isCollapsed: !s.isCollapsed
     }))
   }
 
   handleFullscreenOnClick = () => {
-    this.setState(s => ({
+    this.setState((s) => ({
       isFullscreen: !s.isFullscreen
     }))
   }

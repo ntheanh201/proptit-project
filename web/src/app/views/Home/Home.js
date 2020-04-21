@@ -1,26 +1,23 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { withRouter } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { Page, Grid, Icon } from 'tabler-react'
 
 import { Card, CardBody, CardHeader, CardTitle, CardOptions } from 'ui'
 
-import { PreloaderContext } from '../../Preloader'
-
 import { Groups } from './components/Groups'
 import { NewFeeds } from './components/NewFeeds'
 
-const Container = ({ state, setState }) => {
-  const { isLoggedIn } = useContext(PreloaderContext)
-
-  const { groups, posts } = state
+export const Home = ({ state: props }) => {
+  const { isLogged } = useSelector((state) => state.homeReducer)
+  const { groups, posts, onCreatePoll, onCreatePost } = props
 
   return (
     <Page>
       <Page.Main>
         <Grid.Row>
-          {isLoggedIn && (
+          {isLogged && (
             <Grid.Col lg={4}>
               <StickyCard statusColor='green'>
                 <CardHeader>
@@ -35,14 +32,16 @@ const Container = ({ state, setState }) => {
               </StickyCard>
             </Grid.Col>
           )}
-          <NewFeeds posts={posts} />
+          <NewFeeds
+            posts={posts}
+            onCreatePoll={onCreatePoll}
+            onCreatePost={onCreatePost}
+          />
         </Grid.Row>
       </Page.Main>
     </Page>
   )
 }
-
-export const Home = withRouter(Container)
 
 const StickyCard = styled(Card)`
   position: sticky;

@@ -1,16 +1,17 @@
-import { LOADING, GET_ALL_SESSIONS } from '../action-types'
+import * as Actions from '../action-types'
 
 const STATE_INIT = {
   isLoading: false,
-  sessions: []
+  user: null,
+  isLogged: false
 }
 
 export default (state = STATE_INIT, { type, payload }) => {
   switch (type) {
-    case LOADING:
-      return { ...state, ...payload }
-    case GET_ALL_SESSIONS:
-      return {}
+    case Actions.IS_LOGGED:
+      return { ...state, isLogged: payload }
+    case Actions.USER_INFO:
+      return { ...state, user: payload }
     default:
       return state
   }
