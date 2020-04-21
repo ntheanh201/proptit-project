@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import querystring from 'querystring'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -8,11 +7,10 @@ import { FormTextInput, StandaloneFormPage } from 'tabler-react'
 
 import { withTouchedErrors } from 'helpers'
 import { FormCard } from 'layout'
-import environments from 'environments'
-
-import * as Actions from '../../redux/action-creators/home'
+import { SignInService, fetchUserDataService } from 'services'
 
 import logo from '../../assets/ProPTIT.png'
+import * as Actions from '../../redux/action-creators/home'
 
 const defaultStrings = {
   title: 'Login to your Account',
@@ -42,32 +40,14 @@ const LoginPage = (props) => {
   const history = useHistory()
 
   const fetchUserData = (accessKey) => {
-    axios
-      .get(`${environments.BASE_URL}auth/users/me/`, {
-        headers: {
-          Authorization: `Bearer ${accessKey}`
-        }
-      })
-      .then((response) => {
-        localStorage.setItem('userData', JSON.stringify(response.data))
-        dispatch(Actions.updateUserInfo(response.data))
-        history.push({ pathname: '/' })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    dispatch(Actions.updateUserInfo(fetchUserDataService(accessKey)))
+    history.push({ pathname: '/' })
   }
 
   const onSubmit = async () => {
-    await axios
-      .post(`${environments.BASE_URL}auth/jwt/create/`, { username, password })
-      .then((response) => {
-        dispatch(Actions.updateLoginStatus(true))
-        localStorage.setItem('authToken', JSON.stringify(response.data))
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    // eslint-disable-next-line new-cap
+    await SignInService(username, password)
+    dispatch(Actions.updateLoginStatus(true))
     const authToken = JSON.parse(localStorage.getItem('authToken'))
     await fetchUserData(authToken.access)
   }
