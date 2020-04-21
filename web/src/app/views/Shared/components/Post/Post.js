@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Comment } from 'tabler-react'
 
 import { Icon, Card, CardFooter, TickPoll } from 'ui'
-import { HomeContext } from '../HomeContainer'
 
 export const Post = ({
   id,
@@ -23,9 +22,9 @@ export const Post = ({
   likeCount,
   commentCount,
   type,
-  listPoll = []
+  listPoll = [],
+  onCreatePoll
 }) => {
-  const { onCreatePoll } = useContext(HomeContext)
   return (
     <Card key={id}>
       <div className='d-flex pt-5 mt-auto pl-5'>

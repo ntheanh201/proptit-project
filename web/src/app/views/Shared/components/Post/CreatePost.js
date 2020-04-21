@@ -5,13 +5,10 @@ import { Form, Button } from 'tabler-react'
 import { useState } from 'core'
 
 import { Card, CardHeader, CardBody, CardTitle, Icon } from 'ui'
-import { HomeContext } from '../HomeContainer'
 
-import img from '../../../assets/imgChucTet.jpg'
+import img from '../../../../assets/imgChucTet.jpg'
 
-export const CreatePost = () => {
-  const { onCreatePost } = useContext(HomeContext)
-
+export const CreatePost = ({ onCreatePost }) => {
   const [state, setState] = useState({ value: '' })
 
   const onChangeValue = (event) => {

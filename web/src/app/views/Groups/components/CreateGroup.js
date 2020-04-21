@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './../styles/CreateGroup.css'
 
-function CreateGroup(props) {
+const CreateGroup = (props) => {
   const [isCreate, setIsCreate] = useState(true)
   const onGetCreate = () => {
     setIsCreate(!isCreate)
@@ -13,7 +13,7 @@ function CreateGroup(props) {
         <div className='input-group mb-3'>
           <div className='input-group-prepend'>
             <span className='input-group-text'>
-              <i className='fa fa-search'></i>
+              <i className='fa fa-search' />
             </span>
           </div>
           <input
@@ -29,7 +29,7 @@ function CreateGroup(props) {
         className='btn btn-block'
         onClick={onGetCreate}
       >
-        <i className={!isCreate ? 'fas fa-times' : 'fas fa-plus'}></i>
+        <i className={!isCreate ? 'fas fa-times' : 'fas fa-plus'} />
         {!isCreate ? 'Hủy tạo nhóm' : 'Tạo nhóm mới'}
       </button>
     </div>

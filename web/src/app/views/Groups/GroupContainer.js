@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import SettingGroup from './mygroup/SettingGroup'
-import MyGroup from './mygroup/MyGroup'
+
+import SettingGroup from './MyGroup/SettingGroup'
+import MyGroup from './MyGroup/MyGroup'
 import ManageGroup from './components/ManageGroup'
 import PostGroup from './components/PostGroup'
-import { Groups } from '../Home/components/Groups'
 
 export const GroupContainer = () => {
   const [isCreate, setIsCreate] = useState(false)
@@ -50,8 +50,8 @@ export const GroupContainer = () => {
   }
 
   const [groupCurrent, setGroupCurrent] = useState({})
-  const groupAd = groups.filter((groupfil) => groupfil.isAdmin === true)
-  const groupMb = groups.filter((groupfil) => groupfil.isAdmin === false)
+  const groupAd = groups.filter((group) => group.isAdmin === true)
+  const groupMb = groups.filter((group) => group.isAdmin === false)
   const findIndex = (id) => {
     var result = -1
     groups.forEach((group, index) => {
@@ -94,7 +94,7 @@ export const GroupContainer = () => {
   const inIDGroup = (id) => {
     setGroupCurrent(groups[findIndex(id)])
   }
-  var show = inGroup ? (
+  const show = inGroup ? (
     <div className='row'>
       <SettingGroup getIsAdmin={groupCurrent.isAdmin} />
       <MyGroup setGroup={setGroup} getGroup={groupCurrent} />

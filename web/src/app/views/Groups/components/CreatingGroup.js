@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './../styles/CreatingGroup.css'
-function CreatingGroup(props) {
+
+const CreatingGroup = (props) => {
   const [groups, setGroups] = useState({
     id: '',
     nameGroup: '',
@@ -36,10 +37,10 @@ function CreatingGroup(props) {
   }
   return (
     <div>
-      <div className='image-cover'></div>
+      <div className='image-cover' />
       <h2>{groups.nameGroup}</h2>
       <button type='button' name='' className='btn btn-block btn-create'>
-        <i className='far fa-images'></i>
+        <i className='far fa-images' />
         Thêm ảnh bìa
       </button>
       <div className='form-group'>
@@ -59,7 +60,7 @@ function CreatingGroup(props) {
           name='description'
           rows='3'
           onChange={handleChange}
-        ></textarea>
+        />
       </div>
       <input
         type='text'

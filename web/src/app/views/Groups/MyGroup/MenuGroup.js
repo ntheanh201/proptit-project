@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+
 import './../styles/MenuGroup.css'
-import { Post } from '../../Home/components/Post'
+
+import { Post } from '../../Shared/components/Post/Post'
 import Description from './Description'
+
 export default function MenuGroup(props) {
   const [isDiscuss, setIsDiscuss] = useState(true)
   const handleClickFalse = () => {
@@ -10,7 +13,7 @@ export default function MenuGroup(props) {
   const handleClickTrue = () => {
     setIsDiscuss(true)
   }
-  var showMenu = isDiscuss ? (
+  const showMenu = isDiscuss ? (
     <Post />
   ) : (
     <Description setGroup={props.setGroup} getGroup={props.getGroup} />

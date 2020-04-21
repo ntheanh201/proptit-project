@@ -2,17 +2,16 @@ import React, { useContext } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Grid } from 'tabler-react'
-
 import { Card, CardTitle, CardHeader, CardBody } from 'ui'
 
-import { Post } from './Post'
-import { CreatePost } from './CreatePost'
+import { Post } from '../../Shared/components/Post/Post'
+import { CreatePost } from '../../Shared/components/Post/CreatePost'
 
-const ShowNewFeeds = ({ children }) => {
+const ShowNewFeeds = ({ children, onCreatePost }) => {
   const { isLogged } = useSelector((state) => state.homeReducer)
   return isLogged ? (
     <Grid.Col lg={8}>
-      <CreatePost />
+      <CreatePost onCreatePost={onCreatePost} />
       {children}
     </Grid.Col>
   ) : (
@@ -20,9 +19,9 @@ const ShowNewFeeds = ({ children }) => {
   )
 }
 
-export const NewFeeds = ({ posts }) => {
+export const NewFeeds = ({ posts, onCreatePost, onCreatePoll }) => {
   return (
-    <ShowNewFeeds>
+    <ShowNewFeeds onCreatePost={onCreatePost}>
       <Card statusColor='blue'>
         <CardHeader>
           <CardTitle>Bảng tin</CardTitle>
@@ -60,6 +59,7 @@ export const NewFeeds = ({ posts }) => {
                 commentCount={commentCount}
                 type={type}
                 listPoll={listPoll}
+                onCreatePoll={onCreatePoll}
               />
             )
           )}

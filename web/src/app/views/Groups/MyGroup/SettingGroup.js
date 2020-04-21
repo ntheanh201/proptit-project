@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import './../styles/ManagerGroup.css'
 import './../styles/SettingGroup.css'
 
@@ -14,7 +15,7 @@ export default function SettingGroup(props) {
       className='form-control add-admin'
       name='member'
       placeholder='Chọn thành viên'
-    ></input>
+    />
   ) : (
     <div></div>
   )

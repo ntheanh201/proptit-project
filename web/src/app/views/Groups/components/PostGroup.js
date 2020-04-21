@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Post } from '../../Home/components/Post'
+
+import { Post } from '../../Shared/components/Post/Post'
 import CreatingGroup from './CreatingGroup'
-import { CreatePost } from '../../Home/components/CreatePost'
 
 export default function PostGroup(props) {
   var show = props.showCreate ? (

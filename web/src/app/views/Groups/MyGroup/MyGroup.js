@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
+
 import './../styles/CreatingGroup.css'
 import './../styles/MyGroup.css'
+
 import MenuGroup from './MenuGroup'
-function MyGroup(props) {
+
+const MyGroup = (props) => {
   const [addMember, setAddMember] = useState(false)
   const addMemberTo = () => {
     setAddMember(!addMember)
   }
 
-  var show = addMember ? (
+  const show = addMember && (
     <input
       type='text'
       className='form-control add-mem'
       name='member'
       placeholder='Chọn thành viên'
-    ></input>
-  ) : (
-    <div></div>
+    />
   )
 
   return (
@@ -28,7 +29,7 @@ function MyGroup(props) {
           className='btn btn-block btn-change'
           disabled={!props.getGroup.isAdmin}
         >
-          <i className='fa fa-camera'></i>
+          <i className='fa fa-camera' />
           Chỉnh sửa
         </button>
       </div>
@@ -42,7 +43,7 @@ function MyGroup(props) {
           disabled={!props.getGroup.isAdmin}
           onClick={addMemberTo}
         >
-          <i className='fa fa-plus'></i>
+          <i className='fa fa-plus' />
           Mời
         </button>
         {show}

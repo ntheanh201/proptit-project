@@ -1,11 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { Table, Icon } from 'tabler-react'
 
-const GroupsDetails = ({ groups, history }) => {
+export const Groups = ({ groups }) => {
+  const history = useHistory()
+
   const onClick = (id) => {
     history.push({ pathname: `/groups/${id}` })
   }
@@ -37,8 +39,6 @@ const GroupsDetails = ({ groups, history }) => {
     </Table>
   )
 }
-
-export const Groups = withRouter(GroupsDetails)
 
 const Description = styled.div``
 

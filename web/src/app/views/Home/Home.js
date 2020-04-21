@@ -11,7 +11,7 @@ import { NewFeeds } from './components/NewFeeds'
 
 export const Home = ({ state: props }) => {
   const { isLogged } = useSelector((state) => state.homeReducer)
-  const { groups, posts } = props
+  const { groups, posts, onCreatePoll, onCreatePost } = props
 
   return (
     <Page>
@@ -32,7 +32,11 @@ export const Home = ({ state: props }) => {
               </StickyCard>
             </Grid.Col>
           )}
-          <NewFeeds posts={posts} />
+          <NewFeeds
+            posts={posts}
+            onCreatePoll={onCreatePoll}
+            onCreatePost={onCreatePost}
+          />
         </Grid.Row>
       </Page.Main>
     </Page>

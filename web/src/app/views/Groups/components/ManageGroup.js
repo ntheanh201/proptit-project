@@ -1,11 +1,11 @@
 import React from 'react'
-import CreateGroup from './CreateGroup'
-import './../styles/ManagerGroup.css'
-import dodo from './../../../assets/dodo.jpg'
-import TaskManager from './TaskManager'
-import { Groups } from '../../Home/components/Groups'
 
-export default function ManageGroup(props) {
+import CreateGroup from './CreateGroup'
+import TaskManager from './TaskManager'
+
+import './../styles/ManagerGroup.css'
+
+const ManageGroup = (props) => {
   const listGroupAd = props.groupAdmin.map((groups) => (
     <TaskManager
       key={groups.id}
@@ -34,3 +34,5 @@ export default function ManageGroup(props) {
     </div>
   )
 }
+
+export default ManageGroup
