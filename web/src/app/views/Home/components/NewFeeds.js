@@ -9,7 +9,7 @@ import { Post } from './Post'
 import { CreatePost } from './CreatePost'
 
 const ShowNewFeeds = ({ children }) => {
-  const { isLogged } = useSelector(state => state.homeReducer)
+  const { isLogged } = useSelector((state) => state.homeReducer)
   return isLogged ? (
     <Grid.Col lg={8}>
       <CreatePost />

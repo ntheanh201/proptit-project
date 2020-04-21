@@ -18,7 +18,7 @@ const defaultStrings = {
   passwordPlaceholder: 'Password'
 }
 
-const LoginPage = props => {
+const LoginPage = (props) => {
   let dispatch = useDispatch()
 
   const {

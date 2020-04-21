@@ -11,7 +11,7 @@ import { Groups } from './components/Groups'
 import { NewFeeds } from './components/NewFeeds'
 
 const Container = ({ state: props }) => {
-  const { isLogged } = useSelector(state => state.homeReducer)
+  const { isLogged } = useSelector((state) => state.homeReducer)
   const { groups, posts } = props
 
   return (

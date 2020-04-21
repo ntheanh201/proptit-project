@@ -58,7 +58,7 @@ const navBarItems = [
 ]
 
 const Container = ({ history, children }) => {
-  const { isLogged, user } = useSelector(state => state.homeReducer)
+  const { isLogged, user } = useSelector((state) => state.homeReducer)
 
   const accountDropdownProps = {
     avatarLogo: User,
@@ -147,17 +147,19 @@ const Container = ({ history, children }) => {
               markAllAsRead: () =>
                 setState(
                   () => ({
-                    notificationsObjects: state.notificationsObjects.map(v => ({
-                      ...v,
-                      unread: false
-                    }))
+                    notificationsObjects: state.notificationsObjects.map(
+                      (v) => ({
+                        ...v,
+                        unread: false
+                      })
+                    )
                   }),
                   () =>
                     setTimeout(
                       () =>
                         setState({
                           notificationsObjects: state.notificationsObjects.map(
-                            v => ({ ...v, unread: true })
+                            (v) => ({ ...v, unread: true })
                           )
                         }),
                       5000

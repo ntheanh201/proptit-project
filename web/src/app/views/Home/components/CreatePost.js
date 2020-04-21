@@ -14,7 +14,7 @@ export const CreatePost = () => {
 
   const [state, setState] = useState({ value: '' })
 
-  const onChangeValue = event => {
+  const onChangeValue = (event) => {
     setState({ value: event.target.value })
   }
 

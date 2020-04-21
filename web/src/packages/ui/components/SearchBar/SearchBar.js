@@ -15,7 +15,7 @@ export const SearchBar = ({
     {!noLabel && <Label>{label}</Label>}
     <InputWrapper>
       <Input
-        onChange={event => onFilterChange(event.target.value)}
+        onChange={(event) => onFilterChange(event.target.value)}
         placeholder={placeholder}
         defaultValue={defaultValue}
       />

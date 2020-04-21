@@ -4,7 +4,7 @@ import update from 'immutability-helper'
 export const useState = (initialValue = {}) => {
   const [state, monkeyPatchSetState] = defaultUseState(initialValue)
 
-  const setState = data => {
+  const setState = (data) => {
     let newState = null
     if (typeof data === 'object') {
       newState = update(state, {

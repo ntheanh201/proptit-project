@@ -2,7 +2,7 @@ import React from 'react'
 import loadable from '@loadable/component'
 import { LoadingIndicator } from 'ui'
 
-const AsyncPage = loadable(props => import(`../views/${props.component}`), {
+const AsyncPage = loadable((props) => import(`../views/${props.component}`), {
   fallback: LoadingIndicator
 })
 

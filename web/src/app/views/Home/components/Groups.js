@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { Table, Icon } from 'tabler-react'
 
 const GroupsDetails = ({ groups, history }) => {
-  const onClick = id => {
+  const onClick = (id) => {
     history.push({ pathname: `/groups/${id}` })
   }
 

@@ -23,7 +23,7 @@ export const NormalLayout = ({
 }
 
 export const withNormalLayout = (WrappedComponent, layoutProps) => {
-  return props => (
+  return (props) => (
     <NormalLayout {...layoutProps} match={props.match}>
       <WrappedComponent {...props} />
     </NormalLayout>

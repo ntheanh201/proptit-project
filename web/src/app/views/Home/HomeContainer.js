@@ -165,11 +165,11 @@ export const HomeContainer = () => {
   //   testService.getAll()
   // }, [])
 
-  const onCreatePost = post => {
+  const onCreatePost = (post) => {
     setState({ posts: [{ ...post, avatarImg: ngocmai }, ...state.posts] })
   }
 
-  const handleFileSelect = e => {
+  const handleFileSelect = (e) => {
     e.preventDefault()
   }
 
