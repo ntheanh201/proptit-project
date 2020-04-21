@@ -10,10 +10,11 @@ export const routes = [
   {
     path: '/',
     exact: true,
-    component: () => <AsyncPage component='Home' />
+    component: () => <AsyncPage component='Home' />,
+    isPrivate: true
   },
   {
-    // isPrivate: true,
+    isPrivate: true,
     path: '/profile/:id',
     exact: true,
     component: () => <AsyncPage component='ProfilePage' />

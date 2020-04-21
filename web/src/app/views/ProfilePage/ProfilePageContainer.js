@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'core'
 
 import { ProfilePage } from './ProfilePage'
@@ -8,21 +8,32 @@ import cover from './assets/cover.jpg'
 import avt from './assets/avt.jpg'
 
 export const ProfilePageContainer = () => {
+  const { user } = useSelector((state) => state.homeReducer)
+  const {
+    id,
+    display_name: displayName,
+    username,
+    date_of_birth: dateOfBrith,
+    description,
+    email,
+    phone_number: phoneNumber
+  } = user
   const initialValues = {
-    id: 1,
-    name: 'Bùi Phương Ngọc Mai',
-    username: 'ngocmai.buiphuong',
+    displayName,
+    username,
     avt,
     cover,
-    dob: '19/12/2000',
-    gender: 'Nữ',
-    grade: 'D18',
-    address: 'Ba Vì, Hà Nội',
-    quotes: 'The best or nothing',
+    dateOfBrith,
+    phoneNumber,
+    email,
+    description,
+    gender: '',
+    grade: '',
+    address: '',
+    quotes: '',
     position: 'Ban Sự kiện',
     tab: false,
-    title: 'Profile Information',
-    facebook: 'ngocmai.buiphuong',
+    facebook: '',
     missions: [
       {
         id: 1,

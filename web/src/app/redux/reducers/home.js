@@ -2,11 +2,7 @@ import * as Actions from '../action-types'
 
 const STATE_INIT = {
   isLoading: false,
-  user: {
-    id: '1',
-    username: 'ngocmai.buiphuong',
-    name: 'Bùi Phương Ngọc Mai'
-  },
+  user: null,
   isLogged: false
 }
 

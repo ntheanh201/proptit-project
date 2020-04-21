@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+import querystring from 'querystring'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import axios from 'axios'
+
 import { FormTextInput, StandaloneFormPage } from 'tabler-react'
 
 import { withTouchedErrors } from 'helpers'
 import { FormCard } from 'layout'
+import environments from 'environments'
+
 import * as Actions from '../../redux/action-creators/home'
 
 import logo from '../../assets/ProPTIT.png'
@@ -21,21 +26,50 @@ const defaultStrings = {
 const LoginPage = (props) => {
   const dispatch = useDispatch()
 
-  const {
-    action,
-    method,
-    onChange,
-    onBlur,
-    values,
-    strings = {},
-    errors
-  } = props
+  const { onBlur, strings = {} } = props
+  const [username, setUsername] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [errors, setErrors] = useState(null)
+
+  const onChangeUsername = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const onChangePassword = (event) => {
+    setPassword(event.target.value)
+  }
+
   const history = useHistory()
 
+  const fetchUserData = (accessKey) => {
+    axios
+      .get(`${environments.BASE_URL}auth/users/me/`, {
+        headers: {
+          Authorization: `Bearer ${accessKey}`
+        }
+      })
+      .then((response) => {
+        localStorage.setItem('userData', JSON.stringify(response.data))
+        dispatch(Actions.updateUserInfo(response.data))
+        history.push({ pathname: '/' })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   const onSubmit = async () => {
-    //todo: check Login successfully
-    await dispatch(Actions.updateLoginStatus(true))
-    await history.push({ pathname: '/' })
+    await axios
+      .post(`${environments.BASE_URL}auth/jwt/create/`, { username, password })
+      .then((response) => {
+        dispatch(Actions.updateLoginStatus(true))
+        localStorage.setItem('authToken', JSON.stringify(response.data))
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    const authToken = JSON.parse(localStorage.getItem('authToken'))
+    await fetchUserData(authToken.access)
   }
 
   return (
@@ -44,8 +78,7 @@ const LoginPage = (props) => {
         buttonText={strings.buttonText || defaultStrings.buttonText}
         title={strings.title || defaultStrings.title}
         onSubmit={onSubmit}
-        action={action}
-        method={method}
+        method='POST'
       >
         <FormTextInput
           name='username'
@@ -53,10 +86,10 @@ const LoginPage = (props) => {
           placeholder={
             strings.usernamePlaceholder || defaultStrings.usernamePlaceholder
           }
-          onChange={onChange}
+          onChange={onChangeUsername}
           onBlur={onBlur}
-          value={values && values.username}
-          error={errors && errors.username}
+          value={username}
+          error={errors}
         />
         <FormTextInput
           name='password'
@@ -65,10 +98,10 @@ const LoginPage = (props) => {
           placeholder={
             strings.passwordPlaceholder || defaultStrings.passwordPlaceholder
           }
-          onChange={onChange}
+          onChange={onChangePassword}
           onBlur={onBlur}
-          value={values && values.password}
-          error={errors && errors.password}
+          value={password}
+          error={errors}
         />
       </FormCard>
     </StandaloneFormPage>
