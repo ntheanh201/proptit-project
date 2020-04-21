@@ -38,11 +38,13 @@ export const TickPoll = ({
                 <div className="add">
                     <div className="add-icon"
                         onClick={() => {
-                            onCreatePoll({
-                                id: 5,
-                                text: state.value
-                            }, postId);
-                            setState({value: ""})
+                            if (state.value != '') {
+                                onCreatePoll({
+                                    id: 5,
+                                    text: state.value
+                                }, postId);
+                                setState({ value: "" })
+                                }
                             }
                         }
                     >

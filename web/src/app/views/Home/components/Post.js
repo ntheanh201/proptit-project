@@ -49,10 +49,12 @@ export const Post = ({
           <div className="tickPoll">
             {type === 1 && <TickPoll listPoll={listPoll} postId={id} />}
           </div>
+          <div>
+            {type === 0 && <ImageWrapper>
+              <Img className='card-img-top' src={img} alt={imgAlt} />
+            </ImageWrapper>}
+          </div>
 
-          <ImageWrapper>
-            <Img className='card-img-top' src={img} alt={imgAlt} />
-          </ImageWrapper>
           <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
             <div className='icon d-none d-md-inline-block ml-3'>
               <Icon prefix='fe' name={'heart'} /> {likeCount}
