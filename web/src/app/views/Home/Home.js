@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { withRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { Page, Grid, Icon } from 'tabler-react'
@@ -10,7 +9,7 @@ import { Card, CardBody, CardHeader, CardTitle, CardOptions } from 'ui'
 import { Groups } from './components/Groups'
 import { NewFeeds } from './components/NewFeeds'
 
-const Container = ({ state: props }) => {
+export const Home = ({ state: props }) => {
   const { isLogged } = useSelector((state) => state.homeReducer)
   const { groups, posts } = props
 
@@ -39,8 +38,6 @@ const Container = ({ state: props }) => {
     </Page>
   )
 }
-
-export const Home = withRouter(Container)
 
 const StickyCard = styled(Card)`
   position: sticky;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { FormTextInput, StandaloneFormPage } from 'tabler-react'
 
@@ -19,7 +19,7 @@ const defaultStrings = {
 }
 
 const LoginPage = (props) => {
-  let dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const {
     action,
@@ -28,9 +28,9 @@ const LoginPage = (props) => {
     onBlur,
     values,
     strings = {},
-    errors,
-    history
+    errors
   } = props
+  const history = useHistory()
 
   const onSubmit = async () => {
     //todo: check Login successfully
@@ -75,8 +75,4 @@ const LoginPage = (props) => {
   )
 }
 
-export const Login = withRouter(
-  withTouchedErrors(['username', 'password'])(LoginPage)
-)
-
-// export const Login = LoginPage
+export const Login = withTouchedErrors(['username', 'password'])(LoginPage)

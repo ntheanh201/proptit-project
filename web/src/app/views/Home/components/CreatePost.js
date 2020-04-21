@@ -29,10 +29,10 @@ export const CreatePost = () => {
             rows={3}
             placeholder='Bạn đang nghĩ gì?'
             onChange={onChangeValue}
-          ></Form.Textarea>
+          />
         </Form.Group>
         <Bottom>
-          <div className='icon d-none d-md-inline-block ml-3' onClick={}>
+          <div className='icon d-none d-md-inline-block ml-3'>
             <Icon prefix='fa' name={'file-picture-o'} />
           </div>
           <div className='icon d-none d-md-inline-block ml-3'>

@@ -230,12 +230,10 @@
           a.a.createElement('h5', null, e.groups.nameGroup)
         )
       }
-      var i = t
-        .n(o)
-        .a.div.withConfig({
-          displayName: 'TaskManager__ImgPage',
-          componentId: 'sc-1muoq4w-0'
-        })(['width:60px;height:60px;background-color:#ccc;border-radius:5px;'])
+      var i = t.n(o).a.div.withConfig({
+        displayName: 'TaskManager__ImgPage',
+        componentId: 'sc-1muoq4w-0'
+      })(['width:60px;height:60px;background-color:#ccc;border-radius:5px;'])
     },
     874: function (e, n, t) {
       'use strict'

@@ -3,11 +3,8 @@ import React, { useContext, useState } from 'react'
 import { Checkbox } from '../Checkbox/Checkbox'
 import { Icon } from '../../Icon/Icon'
 import './TickPoll.css'
-import { HomeContext } from '../../../../../app/views/Home/HomeContainer'
 
-export const TickPoll = ({ listPoll, postId, check = '' }) => {
-  const { onCreatePoll } = useContext(HomeContext)
-
+export const TickPoll = ({ onCreatePoll, listPoll, postId, check = '' }) => {
   const [state, setState] = useState({ value: '' })
 
   const onChangeValue = (event) => {

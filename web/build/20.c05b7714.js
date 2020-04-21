@@ -23,12 +23,10 @@
           o.a.createElement('h5', null, n.groups.nameGroup)
         )
       }
-      var i = a
-        .n(u)
-        .a.div.withConfig({
-          displayName: 'TaskManager__ImgPage',
-          componentId: 'sc-1muoq4w-0'
-        })(['width:60px;height:60px;background-color:#ccc;border-radius:5px;'])
+      var i = a.n(u).a.div.withConfig({
+        displayName: 'TaskManager__ImgPage',
+        componentId: 'sc-1muoq4w-0'
+      })(['width:60px;height:60px;background-color:#ccc;border-radius:5px;'])
     }
   }
 ])

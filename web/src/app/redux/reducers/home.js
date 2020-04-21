@@ -13,7 +13,7 @@ const STATE_INIT = {
 export default (state = STATE_INIT, { type, payload }) => {
   switch (type) {
     case Actions.IS_LOGGED:
-      return { ...state, is_logged: payload }
+      return { ...state, isLogged: payload }
     case Actions.USER_INFO:
       return { ...state, user: payload }
     default:
