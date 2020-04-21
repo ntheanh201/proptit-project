@@ -8,15 +8,21 @@ import {
 import { Post } from '../core'
 import React from 'react'
 import Icon from 'react-native-vector-icons/EvilIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import { images } from '../assets'
+import { WIDTH } from '../configs/Function'
+import moment from 'moment'
 
 interface ItemNewsFeedProps {
   post: Post
+  reactionNumber?: number
+  commentNumber?: number
   onPress?: () => void
 }
 
 const ItemNewsFeed = (props: ItemNewsFeedProps) => {
-  const { post, onPress } = props
+  const { post, onPress, reactionNumber, commentNumber } = props
+  const timeago = moment(post.time).fromNow()
   return (
     <View
       style={{
@@ -36,13 +42,21 @@ const ItemNewsFeed = (props: ItemNewsFeedProps) => {
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image
                   source={{ uri: post.authorAvatar }}
-                  style={{ height: 50, width: 50, borderRadius: 100 }}
+                  style={{ height: 40, width: 40, borderRadius: 20 }}
                 />
                 <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
                   {post.authorName}
                 </Text>
+                {post.groupId !== 0 ? (
+                  <>
+                    <AntDesign name={'caretright'} style={{ marginLeft: 5 }} />
+                    <Text style={{ marginLeft: 5, fontWeight: 'bold' }}>
+                      {post.groupName}
+                    </Text>
+                  </>
+                ) : null}
               </View>
-              <Text>2 phút trước</Text>
+              <Text>{timeago}</Text>
             </View>
             <Text style={{ marginTop: 10 }}>{post.content}</Text>
           </View>
@@ -50,7 +64,7 @@ const ItemNewsFeed = (props: ItemNewsFeedProps) => {
             <Image
               source={{ uri: 'http://apis.aiforce.xyz' + post.photos[0] }}
               resizeMode="cover"
-              style={{ width: '100%', height: '70%' }}
+              style={{ width: WIDTH(360), height: WIDTH(360) }}
             />
           ) : null}
         </View>
@@ -60,23 +74,28 @@ const ItemNewsFeed = (props: ItemNewsFeedProps) => {
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           alignItems: 'center',
+          paddingTop: 10,
         }}>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="comment" size={30} />
-            <Text style={{ marginLeft: 5 }}>2</Text>
+            <Icon name="heart" size={30} />
+            <Text style={{ marginLeft: 5 }}>
+              {reactionNumber ?? post.reactionNumber}
+            </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="heart" size={30} />
-            <Text style={{ marginLeft: 5 }}>200</Text>
+            <Icon name="comment" size={30} />
+            <Text style={{ marginLeft: 5 }}>
+              {commentNumber ?? post.commentNumber}
+            </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon name="retweet" size={30} />
-            <Text style={{ marginLeft: 5 }}>2</Text>
+            <Text style={{ marginLeft: 5 }}>{post.commentNumber}</Text>
           </View>
         </TouchableOpacity>
       </View>

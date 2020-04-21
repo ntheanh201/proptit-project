@@ -50,21 +50,25 @@ export const convertToUserType = (data: any): User => {
   }
 }
 
-export const convertToPostType = (data: any[]): Post[] => {
+export const convertToPostType = (data: any): Post => {
+  return {
+    id: data.id,
+    authorId: data.assigned_user_id,
+    authorAvatar: baseURL + data.assigned_user_avatar,
+    authorName: data.assigned_user_display_name,
+    groupId: data.assigned_group_id,
+    groupName: data.assigned_group_name,
+    content: data.content,
+    commentNumber: data.comment_number,
+    reactionNumber: data.reaction_number,
+    time: data.time,
+    type: data.type,
+    photos: data.photos,
+  }
+}
+
+export const convertPostsArray = (data: any[]): Post[] => {
   return data.map((post: any) => {
-    return {
-      id: post.id,
-      authorId: post.assigned_user_id,
-      authorAvatar: baseURL + post.assigned_user_avatar,
-      authorName: post.assigned_user_display_name,
-      groupId: post.assigned_group_id,
-      groupName: post.assigned_group_name,
-      content: post.content,
-      commentNumber: post.comment_number,
-      reactionNumber: post.reaction_number,
-      time: post.time,
-      type: post.type,
-      photos: post.photos,
-    }
+    return convertToPostType(post)
   })
 }

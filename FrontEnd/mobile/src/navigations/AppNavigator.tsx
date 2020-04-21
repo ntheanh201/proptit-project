@@ -23,7 +23,7 @@ export type SubNavigator<T extends ParamListBase> = {
 export type RootStackParams = {
   SignIn: undefined
   HomeStack: undefined
-  PostDetail: undefined
+  PostDetail: { postId: number }
   CreatePost: undefined
   EditProfile: undefined
   Group: undefined

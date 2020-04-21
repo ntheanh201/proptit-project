@@ -7,14 +7,14 @@ import {
   LOAD_NEWFEED_PROGRESS,
 } from '../types/newfeed.types'
 import { postService } from '../../services'
-import { convertToPostType } from '../../configs/Function'
+import { convertPostsArray } from '../../configs/Function'
 
 export const getNewfeeds = (groupId: string) => {
   return async (dispatch: Dispatch<NewFeedAction>) => {
     dispatch({ type: LOAD_NEWFEED_PROGRESS })
     const data = await postService.getAll()
     if (data) {
-      const posts = convertToPostType(data)
+      const posts = convertPostsArray(data)
       dispatch({ type: LOAD_NEWFEED_SUCCESS, newfeeds: posts })
     } else {
       dispatch({ type: LOAD_NEWFEED_FAIL })

@@ -109,7 +109,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
           onScroll={(e) => {
             const y = e.nativeEvent.contentOffset.y
             // console.log('AppLog', y)
-            if (y >= 300)
+            if (y >= 300) {
               this.props.navigation.setOptions({
                 headerTitle: (prop) => (
                   <View

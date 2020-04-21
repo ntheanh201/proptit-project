@@ -23,7 +23,7 @@ interface Item {
 interface NewsFeedScreenState {
   refreshing: boolean
   isLoadingMore: boolean
-  isBottom: boolean
+  haveMorePosts: boolean
   listItems: Item[]
 }
 
@@ -42,7 +42,7 @@ class NewsFeedScreen extends Component<
     this.state = {
       refreshing: false,
       isLoadingMore: false,
-      isBottom: false,
+      haveMorePosts: true,
       listItems: [
         {
           key: '1',
@@ -73,6 +73,7 @@ class NewsFeedScreen extends Component<
   loadMore = () => {
     this.setState({
       isLoadingMore: true,
+      haveMorePosts: false,
     })
 
     setTimeout(() => {
@@ -80,41 +81,52 @@ class NewsFeedScreen extends Component<
     }, 1000)
   }
 
+  componentDidUpdate() {
+    // console.log(this.props.postsState.currentNewFeed)
+  }
+
   render() {
+    if (!this.props.postsState.currentNewFeed) {
+      return <ActivityIndicator animating={true} />
+    }
     return (
       <SafeAreaView>
         <View
           style={{
             width: '100%',
             height: '100%',
-            backgroundColor: 'blue',
+            backgroundColor: 'white',
             flexDirection: 'column',
           }}>
           <FlatList
             data={this.props.postsState.currentNewFeed}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
                 <ItemNewsFeed
                   post={item}
                   onPress={() => {
-                    console.log('AppLog', this.props)
-                    this.props.navigation.navigate('PostDetail')
+                    this.props.navigation.navigate('PostDetail', {
+                      screen: 'PostDetail',
+                      params: { postId: item.id },
+                    })
                   }}
+                  key={index}
                 />
               )
             }}
-            initialNumToRender={2}
             onRefresh={this.onRefresh}
             refreshing={this.state.refreshing}
             onEndReachedThreshold={0.1}
-            onEndReached={this.loadMore}
+            onEndReached={this.state.haveMorePosts ? this.loadMore : null}
+            ListFooterComponent={
+              this.state.isLoadingMore ? (
+                <ActivityIndicator
+                  animating={this.state.isLoadingMore}
+                  style={{ marginVertical: 10 }}
+                />
+              ) : null
+            }
           />
-          {this.state.isLoadingMore ? (
-            <ActivityIndicator
-              animating={this.state.isLoadingMore}
-              style={{ marginVertical: 10 }}
-            />
-          ) : null}
           <FloatingButton
             onPress={() => {
               this.props.navigation.navigate('CreatePost')

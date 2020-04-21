@@ -16,9 +16,9 @@ export default class BaseService<T> {
       .catch((err) => console.log(err))
   }
 
-  getById(id: string): Promise<T> {
+  getById(id: number): Promise<T> {
     return axios
-      .get(this.baseURL + `/${id}`)
+      .get(this.baseURL + `${id}/`)
       .then((res) => {
         return res.data
       })

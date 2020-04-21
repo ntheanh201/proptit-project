@@ -18,13 +18,24 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { RootStackParams } from '../navigations/AppNavigator'
+import { RouteProp } from '@react-navigation/native'
+import { postService } from '../services'
+import { ActivityIndicator } from 'react-native-paper'
+import { HomeTabParams } from '../navigations/HomeNavigator'
+import { Post, Reaction, Comment } from '../core'
+import { convertToPostType } from '../configs/Function'
 
 interface PostDetailScreenProps {
   navigation: StackNavigationProp<RootStackParams>
+  route: RouteProp<HomeTabParams, 'PostDetail'>
 }
 
 interface PostDetailScreenState {
   padding: number
+  isLoadingPost: boolean
+  post?: Post
+  reactions?: Reaction[]
+  comments?: Comment[]
 }
 
 class PostDetailScreen extends React.Component<
@@ -35,6 +46,7 @@ class PostDetailScreen extends React.Component<
     super(props)
     this.state = {
       padding: 0,
+      isLoadingPost: true,
     }
     this.props.navigation.setOptions({
       title: 'Post',
@@ -52,6 +64,7 @@ class PostDetailScreen extends React.Component<
   }
 
   componentDidMount() {
+    this.getPosts()
     Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
       this.onKeyboardShow,
@@ -60,6 +73,22 @@ class PostDetailScreen extends React.Component<
       Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
       this.onKeyboardHide,
     )
+  }
+
+  getPosts = async () => {
+    const data = await postService.getFullPostById(
+      this.props.route.params.params!.postId,
+    )
+    const post = convertToPostType(data.post)
+    console.log(data)
+    if (data) {
+      this.setState({
+        isLoadingPost: false,
+        post,
+        reactions: data.reactions_info,
+        comments: data.comments_info,
+      })
+    }
   }
 
   onKeyboardShow = (e: any) => {
@@ -75,6 +104,9 @@ class PostDetailScreen extends React.Component<
   }
 
   render() {
+    if (this.state.isLoadingPost) {
+      return <ActivityIndicator animating={true} />
+    }
     return (
       <View
         style={{
@@ -87,7 +119,11 @@ class PostDetailScreen extends React.Component<
             width: '100%',
             height: '90%',
           }}>
-          <ItemNewsFeed />
+          <ItemNewsFeed
+            post={this.state.post!}
+            reactionNumber={this.state.reactions?.length}
+            commentNumber={this.state.comments?.length}
+          />
           <View
             style={{
               width: '100%',
