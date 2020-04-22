@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { Grid } from 'tabler-react'
-import { Card, CardTitle, CardHeader, CardBody } from 'ui'
+import { Card, CardTitle, CardHeader, CardBody, LoadingIndicator } from 'ui'
 
 import { Post } from '../../Shared/components/Post/Post'
 import { CreatePost } from '../../Shared/components/Post/CreatePost'
@@ -26,6 +26,10 @@ export const NewFeeds = () => {
     posts[postId - 1].listPoll.push(poll)
   }
 
+  if (!posts) {
+    return <LoadingIndicator />
+  }
+
   return (
     <ShowNewFeeds>
       <Card statusColor='blue'>
@@ -33,9 +37,10 @@ export const NewFeeds = () => {
           <CardTitle>Bảng tin</CardTitle>
         </CardHeader>
         <CardBody>
-          {posts.map((post) => (
-            <Post post={post} onCreatePoll={onCreatePoll} />
-          ))}
+          {posts &&
+            posts.map((post) => (
+              <Post post={post} onCreatePoll={onCreatePoll} />
+            ))}
         </CardBody>
       </Card>
     </ShowNewFeeds>

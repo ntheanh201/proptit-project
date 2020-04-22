@@ -14,7 +14,7 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      // await dispatch(PostActions.getAllPosts())
+      await dispatch(PostActions.getAllPosts())
     }
     fetchPosts().then((result) => console.log(result))
   }, [])

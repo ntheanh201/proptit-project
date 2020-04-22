@@ -5,13 +5,12 @@ import { getAccessKey } from './util'
 export const GetAllPostsService = () => {
   const accessKey = getAccessKey()
   return axios
-    .get(`${environments.BASE_URL}posts`, {
+    .get(`${environments.BASE_URL}posts/`, {
       headers: {
         Authorization: `Bearer ${accessKey}`
       }
     })
     .then((response) => {
-      console.log(response.data)
       return response.data
     })
     .catch((error) => {
@@ -25,7 +24,7 @@ export const GetAllPostsService = () => {
 export const getPostsByGroupIdService = (id) => {
   const accessKey = getAccessKey()
   return axios
-    .get(`${environments.BASE_URL}posts/${id}`, {
+    .get(`${environments.BASE_URL}posts/${id}/`, {
       headers: {
         Authorization: `Bearer ${accessKey}`
       }
@@ -44,7 +43,7 @@ export const getPostsByGroupIdService = (id) => {
 export const getPostByIdService = (id) => {
   const accessKey = getAccessKey()
   return axios
-    .get(`${environments.BASE_URL}posts/${id}`, {
+    .get(`${environments.BASE_URL}posts/${id}/`, {
       headers: {
         Authorization: `Bearer ${accessKey}`
       }
