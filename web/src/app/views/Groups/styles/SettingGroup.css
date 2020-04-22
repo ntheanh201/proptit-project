@@ -1,0 +1,60 @@
+.flex-setting {
+    display: flex;
+    flex-flow: column wrap;
+    position: relative;
+}
+.flex-setting .btn-admin {
+    width: 190px;
+    background-color: rgb(34, 111, 253);
+    color: #ffffff;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.flex-setting .btn-admin:hover {
+    background-color: rgb(15, 98, 252);
+    color: #ffffff;
+}
+
+.flex-setting .btn-admin i {
+    color: #ffffff;
+    margin-right: 5px;
+    vertical-align: 0px;
+}
+
+.list-admin {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.list-admin .admin {
+    width: 43px;
+    height: 43px;
+    background-color: #c9c9c9;
+    border-radius: 100%;
+    align-self: center;
+    position: relative;
+}
+
+.add-admin {
+    width: 100%;
+    height: 43px;
+    margin-bottom: 5px;
+}
+.kick-out {
+    display: none;
+}
+.list-admin .admin:hover {
+    cursor: pointer;
+}
+.list-admin .admin:hover .kick-out {
+    display: block;
+    color: rgb(68, 68, 68);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.list-admin .admin:hover .kick-out:hover {
+    color: black;
+    cursor: pointer;
+}

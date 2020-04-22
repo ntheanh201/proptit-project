@@ -1,0 +1,28 @@
+.link-group {
+    border-radius: 3px;
+    width: 100%;
+    height: 70px;
+    margin-bottom: 10px;
+    flex-flow: row wrap;
+    padding: 5px;
+    display: flex;
+    overflow: hidden;
+}
+  
+.link-group:hover {
+    background-color: rgb(235, 233, 233);
+    text-decoration: none;
+    cursor: pointer;
+}
+  
+  
+.link-group h5 {
+    display: block;
+    align-self: center;
+    margin-left: 5px;
+    flex:1;
+}
+
+.card-text {
+    margin-top: 10px;
+}
