@@ -50,8 +50,8 @@ export const TickPoll = ({
                     >
                         <Icon prefix='fa' name={'plus'} />
                     </div>
-                    <input className="add-text" type="text" placeholder="Them lua chon" value={state.value}
-                        onChange={onChangeValue}></input>
+                    <textarea className="add-text" type="text" placeholder="Them lua chon" value={state.value}
+                        onChange={onChangeValue}></textarea>
                 </div>
 
             </div>
