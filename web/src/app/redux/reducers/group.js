@@ -1,16 +1,13 @@
 import * as Actions from '../action-types'
 
 const STATE_INIT = {
-  user: null,
-  isLogged: false
+  groups: null
 }
 
 export default (state = STATE_INIT, { type, payload }) => {
   switch (type) {
-    case Actions.IS_LOGGED:
-      return { ...state, isLogged: payload }
-    case Actions.USER_INFO:
-      return { ...state, user: payload }
+    case Actions.GET_ALL_GROUPS:
+      return { ...state, groups: payload }
     default:
       return state
   }
