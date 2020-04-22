@@ -3,28 +3,26 @@ import styled from 'styled-components'
 
 import { Comment } from 'tabler-react'
 
-import { Icon, Card, CardFooter, TickPoll } from 'ui'
+import { Icon, Card, TickPoll } from 'ui'
 
-export const Post = ({
-  id,
-  children,
-  content,
-  avatarUrl,
-  img = '',
-  imgAlt = '',
-  name,
-  username,
-  avatarImg = '',
-  iconHref,
-  postHref,
-  profileHref = '',
-  comments,
-  likeCount,
-  commentCount,
-  type,
-  listPoll = [],
-  onCreatePoll
-}) => {
+export const Post = (props) => {
+  const { post, onCreatePoll } = props
+
+  const {
+    id,
+    assigned_user_display_name: name,
+    content,
+    img,
+    assigned_user_id: userId,
+    profileHref = '',
+    username = '',
+    assigned_user_avatar: avatarImg,
+    reaction_number: reactionCount,
+    commentCount,
+    type,
+    listPoll
+  } = post
+
   return (
     <Card key={id}>
       <div className='d-flex pt-5 mt-auto pl-5'>
@@ -54,14 +52,14 @@ export const Post = ({
           <div>
             {type === 0 && (
               <ImageWrapper>
-                <Img className='card-img-top' src={img} alt={imgAlt} />
+                <Img className='card-img-top' src={img} alt={username} />
               </ImageWrapper>
             )}
           </div>
 
           <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
             <div className='icon d-none d-md-inline-block ml-3'>
-              <Icon prefix='fe' name={'heart'} /> {likeCount}
+              <Icon prefix='fe' name={'heart'} /> {reactionCount}
             </div>
             <div className='icon d-none d-md-inline-block ml-3'>
               <Icon prefix='fa' name={'comment-o'} /> {commentCount}
@@ -72,20 +70,20 @@ export const Post = ({
           </CardBottom>
         </div>
       </div>
-      {commentCount > 0 && (
-        <CardFooter>
-          <Comment.List>
-            {comments.map(({ name, date, text, avatarURL }) => (
-              <Comment
-                avatarURL={avatarURL}
-                name={name}
-                date={date}
-                text={text}
-              />
-            ))}
-          </Comment.List>
-        </CardFooter>
-      )}
+      {/*{commentCount > 0 && (*/}
+      {/*  <CardFooter>*/}
+      {/*    <Comment.List>*/}
+      {/*      {comments.map(({ name, date, text, avatarURL }) => (*/}
+      {/*        <Comment*/}
+      {/*          avatarURL={avatarURL}*/}
+      {/*          name={name}*/}
+      {/*          date={date}*/}
+      {/*          text={text}*/}
+      {/*        />*/}
+      {/*      ))}*/}
+      {/*    </Comment.List>*/}
+      {/*  </CardFooter>*/}
+      {/*)}*/}
     </Card>
   )
 }

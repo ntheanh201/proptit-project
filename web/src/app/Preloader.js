@@ -10,7 +10,6 @@ export const PreloaderContext = createContext()
 
 export const Preloader = ({ children }) => {
   const dispatch = useDispatch()
-
   const [state, setState] = useState({
     loading: true
   })

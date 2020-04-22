@@ -3,6 +3,7 @@ export const USER_INFO = 'USER_INFO'
 
 export const GET_ALL_POSTS = 'GET_ALL_POSTS'
 export const GET_POST_BY_ID = 'GET_POST_BY_ID'
+export const GET_POSTS_BY_GROUP = 'GET_POSTS_BY_GROUP'
 export const CREATE_POST = 'CREATE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'

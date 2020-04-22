@@ -5,8 +5,21 @@ import { useHistory } from 'react-router-dom'
 
 import { Table, Icon } from 'tabler-react'
 
-export const Groups = ({ groups }) => {
+export const Groups = () => {
   const history = useHistory()
+
+  const groups = [
+    {
+      id: 1,
+      name: 'Ban Điều Hành Gen 6',
+      description: 'Ban điều hành'
+    },
+    {
+      id: 2,
+      name: 'Ban Sự kiện Gen 6',
+      description: ''
+    }
+  ]
 
   const onClick = (id) => {
     history.push({ pathname: `/groups/${id}` })
