@@ -64,11 +64,9 @@
   }
   
   .text{
-    /* border: 1px solid black; */
     width: 100%;
-    /* padding: 0 20px; */
-    /* border-radius: 5px; */
-    flex-wrap: wrap;
+    word-break: break-all;
     align-items: center;
     font-size: 15px;
+    padding-right: 5rem;
   }

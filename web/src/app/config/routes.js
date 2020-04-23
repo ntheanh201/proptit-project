@@ -40,8 +40,7 @@ export const routes = [
   {
     path: '/groups',
     exact: true,
-    component: () => <AsyncPage component='Groups' />,
-    title: 'Groups'
+    component: () => <AsyncPage component='Groups' />
   },
   {
     path: '/groups/:id',
@@ -53,6 +52,11 @@ export const routes = [
     path: '/404',
     exact: true,
     component: () => <AsyncPage component='404' />
+  },
+  {
+    path: '/about',
+    exact: true,
+    component: () => <AsyncPage component='AboutUs' />
   }
 ]
 export default routes

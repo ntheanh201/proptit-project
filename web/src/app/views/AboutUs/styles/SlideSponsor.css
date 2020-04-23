@@ -1,0 +1,91 @@
+.sponsors {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 100%;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 0px auto;
+}
+
+.diamond {
+    border-top: 3px solid darkturquoise;
+    flex: 1;
+    height: 90%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.gold {
+    border-top: 3px solid gold;
+    flex: 1;
+    height: 80%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.silver {
+    border-top: 3px solid silver;
+    flex: 1;
+    height: 70%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.cup-gold, .cup-diamond, .cup-silver {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background-color: skyblue;
+    position: absolute;
+    margin-top: -50px;
+}
+
+.cup-gold {
+    border: 3px solid gold;
+}
+
+.cup-diamond {
+    border: 3px solid darkturquoise;
+}
+
+.cup-silver {
+    border: 3px solid silver;
+}
+
+.ava-spon {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-size: cover;
+    margin-top: 100px;
+    transition: 0.6s ease-in-out;
+}
+
+.name-spon, .khoa-spon {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease-in-out;
+}
+
+.control-sponsor {
+    text-align: center;
+    position: absolute;
+    bottom: 80px;
+    font-size: 40px;
+    color: rgb(180, 232, 255);
+}
+.control-sponsor:hover {
+    color: rgb(53, 194, 255);
+    cursor: pointer;
+}

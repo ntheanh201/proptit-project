@@ -1,8 +1,6 @@
 import React, { createContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 
-import environments from 'environments'
 import { useState } from 'core'
 import { LoadingIndicator } from 'ui'
 
@@ -12,33 +10,12 @@ export const PreloaderContext = createContext()
 
 export const Preloader = ({ children }) => {
   const dispatch = useDispatch()
-  const { isLogged } = useSelector((state) => state.homeReducer)
-
-  if (!isLogged) {
-  }
-
   const [state, setState] = useState({
     loading: true
   })
 
-  const fetchData = async (userInfo) => {
-    // const posts = await axios(`${environments.BASE_URL}posts`)
-    // const groups = await axios(`${environments.BASE_URL}groups`)
-  }
-
   useEffect(() => {
-    if (
-      localStorage &&
-      localStorage.getItem('authToken') &&
-      localStorage.getItem('userData')
-    ) {
-      const authToken = JSON.parse(localStorage.getItem('authToken'))
-      const { access, refresh } = authToken
-      dispatch(Actions.updateLoginStatus(true))
-      const userInfo = JSON.parse(localStorage.getItem('userData'))
-      dispatch(Actions.updateUserInfo(userInfo))
-      fetchData(userInfo)
-    }
+    dispatch(Actions.updatePreloader())
     setState({ loading: false })
   }, [])
 
