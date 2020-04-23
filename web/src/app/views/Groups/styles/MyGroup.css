@@ -67,7 +67,7 @@
 }
 
 .add-mem {
-    width: 300px;
+    width: 50%;
     position: absolute;
     z-index: 3;
     height: 43px;

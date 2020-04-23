@@ -1,0 +1,64 @@
+@media (min-width: 1200px) {
+    .get-mem {
+        width: 60%;
+    }
+}
+@media (max-width: 1200px) {
+    .get-mem {
+        width: 70%;
+    }
+} 
+@media (max-width: 992px) {
+    .get-mem {
+        width: 80%;
+    }
+} 
+@media (max-width: 768px) {
+    .get-mem {
+        width: 90%;
+    }
+}
+@media (max-width: 600px) {
+    .get-mem {
+        width: 100%;
+    }
+}  
+.show-mem {
+    width: 100%;
+    min-height: 100px;
+}
+
+.show-mem .ava-mem {
+    width: 50px;
+    height: 50px;
+    margin: 0px auto;
+    border-radius: 100%;
+    background-size: cover;
+    transition: 0.6s ease-in-out;
+}
+.show-mem .name-mem, .show-mem .khoa-mem {
+    text-align: center;
+    margin: 0;
+    color: rgb(70, 70, 70);
+    font-weight: bold;
+    transition: 0.6s ease-in-out;
+}
+
+.get-mem {
+    height: 112px;
+    padding: 10px;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.control {
+    font-size: 30px;
+    color: rgb(99, 206, 252);
+}
+
+.control:hover {
+    color: rgb(0, 177, 253);
+    cursor: pointer;
+}
