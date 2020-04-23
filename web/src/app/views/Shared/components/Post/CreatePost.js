@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Button } from 'tabler-react'
@@ -12,14 +12,88 @@ import ngocmai from '../../../../assets/ngocmai.jpg'
 
 export const CreatePost = () => {
   const dispatch = useDispatch()
-  const { posts } = useSelector((state) => state.postReducer)
+  const { posts } = useSelector(state => state.postReducer)
   const [state, setState] = useState({ value: '' })
 
-  const onChangeValue = (event) => {
+  const onChangeValue = event => {
     setState({ value: event.target.value })
   }
 
-  const onCreatePost = (post) => {
+  const [groups, setGroups] = useState([
+    {
+      url: 'http://apis.aiforce.xyz/groups/1/',
+      id: 1,
+      name: 'D17',
+      description: 'Khóa D17 CLB Lập trình',
+      members: [
+        {
+          avatar:
+            'http://apis.aiforce.xyz/media/7514383c-0273-4715-834b-260c1bf542a7.png',
+          url: 'http://apis.aiforce.xyz/auth/users/1/',
+          id: 1,
+          username: 'proptit',
+          display_name: 'Nguyen The Anh',
+          phone_number: '0123456789',
+          facebook: 'https://www.facebook.com/ntheanh201',
+          role: 0,
+          date_of_birth: '1999-02-03T13:35:56Z',
+          description:
+            'Ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque massa placerat',
+          email: 'ntanh311@gmail.com',
+          participating_group: [
+            {
+              id: 1
+            }
+          ]
+        },
+        {
+          avatar:
+            'http://apis.aiforce.xyz/media/c0ded396-2777-46aa-a064-3bf316bc6598png',
+          url: 'http://apis.aiforce.xyz/auth/users/2/',
+          id: 2,
+          username: 'hanhnguyenduc999',
+          display_name: null,
+          phone_number: null,
+          facebook: null,
+          role: 0,
+          date_of_birth: null,
+          description: null,
+          email: '',
+          participating_group: [
+            {
+              id: 1
+            }
+          ]
+        }
+      ],
+      admins: [
+        {
+          avatar:
+            'http://apis.aiforce.xyz/media/7514383c-0273-4715-834b-260c1bf542a7.png',
+          url: 'http://apis.aiforce.xyz/auth/users/1/',
+          id: 1,
+          username: 'proptit',
+          display_name: 'Nguyen The Anh',
+          phone_number: '0123456789',
+          facebook: 'https://www.facebook.com/ntheanh201',
+          role: 0,
+          date_of_birth: '1999-02-03T13:35:56Z',
+          description:
+            'Ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque massa placerat',
+          email: 'ntanh311@gmail.com',
+          participating_group: [
+            {
+              id: 1
+            }
+          ]
+        }
+      ]
+    }
+  ])
+  //todo: get all groups
+
+  const onCreatePost = post => {
+    //todo: createPost, update redux
     dispatch(
       // eslint-disable-next-line camelcase
       Actions.createPost([{ ...post, assigned_user_avatar: ngocmai }, ...posts])
