@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react'
 
-import { Checkbox } from '../Checkbox/Checkbox'
 import { Icon } from '../../Icon/Icon'
+import { Checkbox } from '../Checkbox/Checkbox'
+
 import './TickPoll.css'
 
-export const TickPoll = ({ onCreatePoll, listPoll, postId, check = '' }) => {
+export const TickPoll = ({ listPoll, postId, check = '', onCreatePoll }) => {
   const [state, setState] = useState({ value: '' })
 
   const onChangeValue = (event) => {
@@ -35,7 +36,7 @@ export const TickPoll = ({ onCreatePoll, listPoll, postId, check = '' }) => {
           >
             <Icon prefix='fa' name={'plus'} />
           </div>
-          <input
+          <textarea
             className='add-text'
             type='text'
             placeholder='Them lua chon'

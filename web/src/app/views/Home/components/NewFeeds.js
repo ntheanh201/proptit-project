@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { Grid } from 'tabler-react'
-import { Card, CardTitle, CardHeader, CardBody } from 'ui'
+import { Card, CardTitle, CardHeader, CardBody, LoadingIndicator } from 'ui'
 
 import { Post } from '../../Shared/components/Post/Post'
 import { CreatePost } from '../../Shared/components/Post/CreatePost'
 
-const ShowNewFeeds = ({ children, onCreatePost }) => {
+const ShowNewFeeds = ({ children }) => {
   const { isLogged } = useSelector((state) => state.homeReducer)
   return isLogged ? (
     <Grid.Col lg={8}>
-      <CreatePost onCreatePost={onCreatePost} />
+      <CreatePost />
       {children}
     </Grid.Col>
   ) : (
@@ -19,50 +19,28 @@ const ShowNewFeeds = ({ children, onCreatePost }) => {
   )
 }
 
-export const NewFeeds = ({ posts, onCreatePost, onCreatePoll }) => {
+export const NewFeeds = () => {
+  const { posts } = useSelector((state) => state.postReducer)
+
+  const onCreatePoll = (poll, postId) => {
+    posts[postId - 1].listPoll.push(poll)
+  }
+
+  if (!posts) {
+    return <LoadingIndicator />
+  }
+
   return (
-    <ShowNewFeeds onCreatePost={onCreatePost}>
+    <ShowNewFeeds>
       <Card statusColor='blue'>
         <CardHeader>
           <CardTitle>Bảng tin</CardTitle>
         </CardHeader>
         <CardBody>
-          {posts.map(
-            ({
-              id,
-              name,
-              username,
-              content,
-              time,
-              img,
-              userId,
-              avatarImg,
-              comments,
-              likeCount,
-              commentCount,
-              type,
-              listPoll
-            }) => (
-              <Post
-                id={id}
-                img={img}
-                imgAlt={'Post'}
-                postHref={'#'}
-                content={content}
-                username={'@' + username}
-                profileHref={`/#/profile/${userId}`}
-                name={name}
-                avatarImg={avatarImg}
-                time={time}
-                comments={comments}
-                likeCount={likeCount}
-                commentCount={commentCount}
-                type={type}
-                listPoll={listPoll}
-                onCreatePoll={onCreatePoll}
-              />
-            )
-          )}
+          {posts &&
+            posts.map((post) => (
+              <Post post={post} onCreatePoll={onCreatePoll} />
+            ))}
         </CardBody>
       </Card>
     </ShowNewFeeds>

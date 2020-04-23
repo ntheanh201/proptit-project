@@ -1,7 +1,6 @@
 import * as Actions from '../action-types'
 
 const STATE_INIT = {
-  isLoading: false,
   user: null,
   isLogged: false
 }

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import environments from 'environments'
+import { getAccessKey } from './util'
 
 export const SignInService = (username, password) => {
   return axios
@@ -9,11 +10,20 @@ export const SignInService = (username, password) => {
       return response.data
     })
     .catch((error) => {
-      console.log(error)
+      if (error.response) {
+        return error.response.status
+      }
+      return null
     })
 }
 
-export const fetchUserDataService = (accessKey) => {
+export const updateAccessTokenService = () => {
+  // todo: get new access token if the current access token is expired
+  return null
+}
+
+export const fetchUserDataService = () => {
+  const accessKey = getAccessKey()
   return axios
     .get(`${environments.BASE_URL}auth/users/me/`, {
       headers: {
@@ -22,8 +32,12 @@ export const fetchUserDataService = (accessKey) => {
     })
     .then((response) => {
       localStorage.setItem('userData', JSON.stringify(response.data))
+      return response.data
     })
     .catch((error) => {
-      console.log(error)
+      if (error.response) {
+        return error.response.status
+      }
+      return null
     })
 }

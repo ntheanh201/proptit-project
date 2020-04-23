@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
+import { Redirect } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { FormTextInput, StandaloneFormPage } from 'tabler-react'
 
 import { withTouchedErrors } from 'helpers'
 import { FormCard } from 'layout'
-import { SignInService, fetchUserDataService } from 'services'
 
 import logo from '../../assets/ProPTIT.png'
 import * as Actions from '../../redux/action-creators/home'
@@ -24,6 +22,8 @@ const defaultStrings = {
 const LoginPage = (props) => {
   const dispatch = useDispatch()
 
+  const { isLogged } = useSelector((state) => state.homeReducer)
+
   const { onBlur, strings = {} } = props
   const [username, setUsername] = useState(null)
   const [password, setPassword] = useState(null)
@@ -37,19 +37,16 @@ const LoginPage = (props) => {
     setPassword(event.target.value)
   }
 
-  const history = useHistory()
-
-  const fetchUserData = (accessKey) => {
-    dispatch(Actions.updateUserInfo(fetchUserDataService(accessKey)))
-    history.push({ pathname: '/' })
+  const onSubmit = () => {
+    dispatch(Actions.updateLogin({ username, password })).then((result) => {
+      if (result === 401) {
+        setErrors('Wrong username or password')
+      }
+    })
   }
 
-  const onSubmit = async () => {
-    // eslint-disable-next-line new-cap
-    await SignInService(username, password)
-    dispatch(Actions.updateLoginStatus(true))
-    const authToken = JSON.parse(localStorage.getItem('authToken'))
-    await fetchUserData(authToken.access)
+  if (isLogged) {
+    return <Redirect to='/' />
   }
 
   return (
