@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[6],{878:function(n,o,r){"use strict";r.r(o);var t=r(873);r.d(o,"default",(function(){return t.GroupContainer}))}}]);
