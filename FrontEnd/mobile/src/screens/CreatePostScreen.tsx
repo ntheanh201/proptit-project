@@ -29,11 +29,14 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import colors from '../values/colors'
+import { postService } from '../services'
+import { Post, ImageFormData } from '../core'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
-  listUrlPicture: string[]
+  images: ImageFormData[]
   padding: number
+  content: string
 }
 
 interface CreatePostScreenProps {
@@ -50,8 +53,9 @@ class CreatePostScreen extends Component<
     super(props)
     this.state = {
       isHaveTickPoll: false,
-      listUrlPicture: [],
+      images: [],
       padding: 0,
+      content: '',
     }
 
     this.props.navigation.setOptions({
@@ -73,7 +77,7 @@ class CreatePostScreen extends Component<
   }
 
   render() {
-    const { isHaveTickPoll, listUrlPicture } = this.state
+    const { isHaveTickPoll, images } = this.state
 
     const menuStyle = {
       zIndex: 10,
@@ -109,6 +113,11 @@ class CreatePostScreen extends Component<
               style={styles.textinput}
               placeholder="Share something!"
               multiline={true}
+              onChangeText={(text) => {
+                this.setState({
+                  content: text,
+                })
+              }}
             />
           </View>
           {isHaveTickPoll ? (
@@ -134,19 +143,16 @@ class CreatePostScreen extends Component<
                 height: 100,
                 marginBottom: 10,
               }}
-              data={listUrlPicture}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => {
+              data={images}
+              renderItem={({ item, index }) => {
                 // console.log("Render:", listUrlPicture?.length)
                 return (
                   <ItemPicture
-                    urlPicture={item}
+                    urlPicture={item.uri}
                     onClose={() => {
-                      const index = listUrlPicture.indexOf(item)
-                      console.log('AppLog', index)
-                      listUrlPicture.splice(index, index + 1)
+                      images.splice(index, index + 1)
                       this.setState({
-                        listUrlPicture: listUrlPicture,
+                        images: images,
                       })
                     }}
                   />
@@ -192,9 +198,15 @@ class CreatePostScreen extends Component<
      * Open gallery
      */
     ImagePicker.showImagePicker(options, (response: ImagePickerResponse) => {
-      this.state.listUrlPicture?.push(response.uri)
+      console.log(response.path)
+      const imageState = JSON.parse(JSON.stringify(this.state.images))
+      imageState.push({
+        uri: 'file://' + response.path,
+        name: response.fileName!,
+        type: response.type!,
+      })
       this.setState({
-        listUrlPicture: this.state.listUrlPicture,
+        images: imageState,
       })
     })
   }
@@ -223,9 +235,17 @@ class CreatePostScreen extends Component<
     }).start()
   }
 
-  onPressPost() {
+  onPressPost = async () => {
     console.log('Post clicked!')
-    this.props.navigation.goBack()
+    const post: Post = {
+      content: this.state.content,
+      groupId: 1,
+      type: 1,
+      photos: [],
+    }
+    // console.log(this.state.images)
+    const status = await postService.addPost(post, this.state.images)
+    // this.props.navigation.goBack()
   }
 }
 const styles = StyleSheet.create({

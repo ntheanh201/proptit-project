@@ -14,18 +14,24 @@ export interface NewFeedAction extends Action<string> {
 }
 
 export interface Post {
-  id: number
-  authorId: number
-  authorAvatar: string
-  authorName: string
+  id?: number
+  authorId?: number
+  authorAvatar?: string
+  authorName?: string
   groupId: number
-  groupName: string
+  groupName?: string
   content: string
-  reactionNumber: number
-  commentNumber: number
-  time: Date
+  reactionNumber?: number
+  commentNumber?: number
+  time?: Date
   type: Number
   photos: string[]
+}
+
+export interface ImageFormData {
+  uri: string
+  type: string
+  name: string
 }
 
 export interface Reaction {}

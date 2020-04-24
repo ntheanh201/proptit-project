@@ -32,10 +32,8 @@ interface ProfileScreenState {
 }
 
 const ActivityRoute = () => (
-  <ScrollView>
-    <ItemNewsFeed />
-    <ItemNewsFeed />
-  </ScrollView>
+  <ScrollView>{/* <ItemNewsFeed />
+    <ItemNewsFeed /> */}</ScrollView>
 )
 
 const ImageRoute = () => (

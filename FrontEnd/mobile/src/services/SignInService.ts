@@ -16,6 +16,7 @@ class SignInService {
           JSON.stringify(res.data),
           (err) => console.log(err),
         )
+        Axios.defaults.headers.Authorization = `Bearer ${res.data.access}`
         return res.data
       })
       .catch((err) => {
