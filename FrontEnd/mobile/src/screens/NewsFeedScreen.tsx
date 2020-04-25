@@ -128,10 +128,10 @@ class NewsFeedScreen extends Component<
                   }}
                   post={item}
                   onPress={() => {
-                    // this.props.navigation.navigate('PostDetail', {
-                    //   screen: 'PostDetail',
-                    //   params: { postId: item.id },
-                    // })
+                    this.props.navigation.navigate('PostDetail', {
+                      screen: 'PostDetail',
+                      params: { postId: item.id },
+                    })
                   }}
                   key={index}
                 />
@@ -215,7 +215,13 @@ class NewsFeedScreen extends Component<
   onPressEditNewFeed(post?: Post) {
     if (post == null || post == undefined) return
 
-    //TODO: do somthing with post please :))
+    this.props.navigation.navigate('CreatePost', {
+      params: {
+        postId: this.currentPostFocus?.id,
+      },
+    })
+
+    this.bottomSheetRef.current?.close()
   }
 
   onPressDeleteNewFeed(post?: Post) {

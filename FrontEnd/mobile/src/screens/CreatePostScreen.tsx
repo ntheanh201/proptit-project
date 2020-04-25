@@ -31,16 +31,21 @@ import { RootStackParams } from '../navigations/AppNavigator'
 import colors from '../values/colors'
 import { postService } from '../services'
 import { Post, ImageFormData } from '../core'
+import { RouteProp } from '@react-navigation/native'
+import { HomeTabParams } from '../navigations/HomeNavigator'
+import { convertToPostType } from '../configs/Function'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
   images: ImageFormData[]
   padding: number
   content: string
+  defaultContent?: string
 }
 
 interface CreatePostScreenProps {
   navigation: StackNavigationProp<RootStackParams>
+  route: RouteProp<HomeTabParams, 'CreatePost'>
 }
 
 class CreatePostScreen extends Component<
@@ -56,7 +61,10 @@ class CreatePostScreen extends Component<
       images: [],
       padding: 0,
       content: '',
+      defaultContent: '',
     }
+
+    this.getContentIfEditPost()
 
     this.props.navigation.setOptions({
       title: '',
@@ -108,6 +116,7 @@ class CreatePostScreen extends Component<
               style={styles.avatar}
             />
             <TextInput
+              defaultValue={this.state.defaultContent}
               onFocus={() => this.onFocusEditText()}
               onBlur={() => this.onUnfocusEditText()}
               style={styles.textinput}
@@ -185,6 +194,25 @@ class CreatePostScreen extends Component<
     { name: 'React Native', numberTick: 50 },
   ]
 
+  async getContentIfEditPost() {
+    const id = this.props.route.params.params?.postId
+    console.log('AppLog', 'Get post')
+    if (id == null || id == undefined) return
+    const data = await postService.getFullPostById(id)
+    const post = convertToPostType(data.post)
+    const imageState = JSON.parse(JSON.stringify(this.state.images))
+    post.photos.forEach((v) => {
+      imageState.push({
+        uri: 'http://apis.aiforce.xyz' + v,
+      })
+    })
+    console.log('AppLog', post.photos)
+    this.setState({
+      defaultContent: post.content,
+      images: imageState,
+    })
+  }
+
   onPressAddPicture() {
     const options: ImagePickerOptions = {
       title: 'Select Picture',
@@ -255,7 +283,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   textinput: {
-    width: '100%',
+    flex: 1,
+    marginRight: 20,
     fontSize: 20,
     marginTop: 16,
   },
