@@ -7,9 +7,10 @@ import {
 } from 'react-native'
 import { Post } from '../core'
 import React, { Component } from 'react'
-import Icon from 'react-native-vector-icons/EvilIcons'
-import MIcon from 'react-native-vector-icons/MaterialIcons'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import IonIcons from 'react-native-vector-icons/Ionicons'
+import MIcon from 'react-native-vector-icons/MaterialIcons'
 import { images } from '../assets'
 import { WIDTH } from '../configs/Function'
 import moment from 'moment'
@@ -24,11 +25,16 @@ interface ItemNewsFeedProps {
   isShowMore?: boolean
 }
 
-interface ItemNewFeedState {}
+interface ItemNewFeedState {
+  liked: boolean
+}
 
 class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   constructor(props: ItemNewsFeedProps) {
     super(props)
+    this.state = {
+      liked: false,
+    }
   }
 
   renderImage = () => {
@@ -106,6 +112,10 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     }
   }
 
+  onPressReaction = async () => {
+    this.setState({ liked: !this.state.liked })
+  }
+
   render() {
     const { post, onPress, reactionNumber, commentNumber } = this.props
     const timeago = moment(post.time).fromNow()
@@ -172,9 +182,13 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             alignItems: 'center',
             paddingTop: 10,
           }}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={this.onPressReaction}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Icon name="heart" size={30} />
+              <IonIcons
+                name={this.state.liked ? 'ios-heart' : 'ios-heart-empty'}
+                size={30}
+                color={this.state.liked ? 'red' : 'black'}
+              />
               <Text style={{ marginLeft: 5 }}>
                 {reactionNumber ?? post.reactionNumber}
               </Text>
@@ -182,25 +196,29 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
           </TouchableOpacity>
           <TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Icon name="comment" size={30} />
+              <EvilIcons name="comment" size={30} />
               <Text style={{ marginLeft: 5 }}>
                 {commentNumber ?? post.commentNumber}
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Icon name="retweet" size={30} />
+              <EvilIcons name="retweet" size={30} />
               <Text style={{ marginLeft: 5 }}>{post.commentNumber}</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     )
   }
   onPressMore() {
-    if (this.props.onPressMore != null && this.props.onPressMore != undefined)
+    if (
+      this.props.onPressMore != null &&
+      this.props.onPressMore !== undefined
+    ) {
       this.props.onPressMore()
+    }
   }
 }
 

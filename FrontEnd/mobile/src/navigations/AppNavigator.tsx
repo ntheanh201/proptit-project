@@ -25,7 +25,7 @@ export type RootStackParams = {
   SignIn: undefined
   HomeStack: undefined
   PostDetail: { postId: number }
-  CreatePost: undefined
+  CreatePost: { postId: number }
   EditProfile: undefined
   Group: undefined
 }

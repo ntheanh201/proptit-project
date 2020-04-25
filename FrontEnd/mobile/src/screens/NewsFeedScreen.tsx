@@ -72,7 +72,7 @@ class NewsFeedScreen extends Component<
     }
   }
   componentDidMount() {
-    this.props.getNewfeeds('1')
+    this.props.getNewfeeds(1)
   }
 
   onRefresh = () => {
@@ -130,7 +130,7 @@ class NewsFeedScreen extends Component<
                   onPress={() => {
                     this.props.navigation.navigate('PostDetail', {
                       screen: 'PostDetail',
-                      params: { postId: item.id },
+                      params: { postId: item.id! },
                     })
                   }}
                   key={index}
@@ -213,11 +213,14 @@ class NewsFeedScreen extends Component<
     )
   }
   onPressEditNewFeed(post?: Post) {
-    if (post == null || post == undefined) return
+    if (post == null || post == undefined) {
+      return
+    }
 
     this.props.navigation.navigate('CreatePost', {
+      screen: 'CreatePost',
       params: {
-        postId: this.currentPostFocus?.id,
+        postId: this.currentPostFocus?.id!,
       },
     })
 
@@ -225,7 +228,9 @@ class NewsFeedScreen extends Component<
   }
 
   onPressDeleteNewFeed(post?: Post) {
-    if (post == null || post == undefined) return
+    if (post === null || post === undefined) {
+      return
+    }
 
     //TODO: do somthing with post please :))
   }

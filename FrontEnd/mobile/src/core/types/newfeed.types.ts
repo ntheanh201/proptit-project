@@ -26,6 +26,7 @@ export interface Post {
   time?: Date
   type: Number
   photos: string[]
+  isLiked?: boolean
 }
 
 export interface ImageFormData {

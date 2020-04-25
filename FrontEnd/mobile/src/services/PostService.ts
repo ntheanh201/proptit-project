@@ -8,6 +8,18 @@ class PostService extends BaseService<Post> {
     this.baseURL += 'posts/'
   }
 
+  getAllwParams(type: 'group' | 'user', id: number): Promise<Post[]> {
+    const method = type === 'group' ? 'byGroup' : 'byUser'
+    return Axios.get(this.baseURL + `?method=${method}&id=${id}`)
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        console.log(err)
+        return null
+      })
+  }
+
   getFullPostById(
     postId: number,
   ): Promise<{
