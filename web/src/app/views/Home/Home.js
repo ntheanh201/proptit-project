@@ -16,7 +16,7 @@ export const Home = () => {
     const fetchPosts = async () => {
       await dispatch(PostActions.getAllPosts())
     }
-    fetchPosts().then((result) => console.log(result))
+    fetchPosts()
   }, [])
 
   return (
