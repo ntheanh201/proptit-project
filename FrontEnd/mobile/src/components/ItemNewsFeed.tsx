@@ -23,6 +23,7 @@ interface ItemNewsFeedProps {
   onPress?: () => void
   onPressMore?: () => void
   isShowMore?: boolean
+  onPressImage: () => void
 }
 
 interface ItemNewFeedState {
@@ -174,7 +175,12 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             </View>
           </View>
         </TouchableWithoutFeedback>
-        {this.renderImage()}
+        <TouchableOpacity
+          onPress={() => {
+            this.props.onPressImage ? this.props.onPressImage() : null
+          }}>
+          {this.renderImage()}
+        </TouchableOpacity>
         <View
           style={{
             flexDirection: 'row',

@@ -17,6 +17,7 @@ import GroupScreen from '../screens/GroupScreen'
 import { NavigationProp } from '@react-navigation/native'
 import { View, Text, Image } from 'react-native'
 import styles from '../values/styles'
+import ImageViewScreen from '../screens/ImageViewScreen'
 
 export type HomeTabParams = {
   Newsfeed: undefined
@@ -24,6 +25,7 @@ export type HomeTabParams = {
   Profile: undefined
   CreatePost: SubNavigator<RootStackParams>
   PostDetail: SubNavigator<RootStackParams>
+  ImageView: SubNavigator<RootStackParams>
 }
 
 const Tab = createMaterialBottomTabNavigator()

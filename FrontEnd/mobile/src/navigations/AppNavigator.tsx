@@ -16,6 +16,7 @@ import { signInAction } from '../core/actions'
 import GroupScreen from '../screens/GroupScreen'
 import { Text, View, Image, SafeAreaView } from 'react-native'
 import styles from '../values/styles'
+import ImageViewScreen from '../screens/ImageViewScreen'
 
 export type SubNavigator<T extends ParamListBase> = {
   [K in keyof T]: { screen: K; params?: T[K] }
@@ -28,6 +29,7 @@ export type RootStackParams = {
   CreatePost: { postId: number }
   EditProfile: undefined
   Group: undefined
+  ImageView: { listImage: string[] }
 }
 
 const RootStack = createStackNavigator<RootStackParams>()
@@ -57,6 +59,7 @@ const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
         <RootStack.Screen name={'PostDetail'} component={PostDetailScreen} />
         <RootStack.Screen name={'CreatePost'} component={CreatePostScreen} />
         <RootStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+        <RootStack.Screen name={'ImageView'} component={ImageViewScreen} />
         <RootStack.Screen name={'Group'} component={GroupScreen} />
       </RootStack.Navigator>
     </NavigationContainer>

@@ -118,6 +118,14 @@ class NewsFeedScreen extends Component<
             renderItem={({ item, index }) => {
               return (
                 <ItemNewsFeed
+                  onPressImage={() =>
+                    this.props.navigation.navigate('ImageView', {
+                      screen: 'ImageView',
+                      params: {
+                        listImage: item.photos,
+                      },
+                    })
+                  }
                   isShowMore={
                     item.authorId ===
                     this.props.currentUserState.currentUser?.id
@@ -212,6 +220,7 @@ class NewsFeedScreen extends Component<
       </SafeAreaView>
     )
   }
+
   onPressEditNewFeed(post?: Post) {
     if (post == null || post == undefined) {
       return
