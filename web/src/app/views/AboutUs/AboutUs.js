@@ -5,7 +5,7 @@ import SlideSponsor from './components/SlideSponsor'
 import clb from '../../assets/clb.JPG'
 export const AboutUs = () => {
     return (
-        <div className="row">
+        <div className="row about-us">
             <div className="view-clb">
                 <img src={clb} alt="clb" />
                 <a href="https://www.facebook.com/clubproptit" className="view-page" target="_blank">CLB Lập Trình PTIT</a>

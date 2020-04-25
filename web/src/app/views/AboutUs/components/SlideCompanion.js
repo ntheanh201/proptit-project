@@ -26,7 +26,7 @@ export default function SlideCompanion() {
             image: 'https://scontent.fhan3-2.fna.fbcdn.net/v/t1.0-9/70484206_2370760386529881_5713510580581564416_n.jpg?_nc_cat=111&_nc_sid=09cbfe&_nc_ohc=SocytO7wD5MAX_oIZOR&_nc_ht=scontent.fhan3-2.fna&oh=f8d8b5b63bb4aa269d06290e89b77c7b&oe=5EC38C28',
             name: 'Trần Duy Công Khanh',
             khoa: 'D17'
-        },
+        }
     ]);
 
     const [index, setIndex] = useState({
