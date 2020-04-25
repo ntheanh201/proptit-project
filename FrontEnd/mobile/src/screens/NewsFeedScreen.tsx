@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   requireNativeComponent,
   Animated,
+  Modal,
+  Dimensions,
 } from 'react-native'
 import React, { Component } from 'react'
 import ItemNewsFeed from '../components/ItemNewsFeed'
@@ -19,7 +21,7 @@ import { newfeedAction } from '../core/actions'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styles from '../values/styles'
-import BottomSheet from 'reanimated-bottom-sheet'
+import BottomSheet from 'react-native-raw-bottom-sheet'
 import AIcon from 'react-native-vector-icons/AntDesign'
 
 interface Item {
@@ -122,14 +124,14 @@ class NewsFeedScreen extends Component<
                   }
                   onPressMore={() => {
                     this.currentPostFocus = item
-                    this.bottomSheetRef.current?.snapTo(1)
+                    this.bottomSheetRef.current?.open()
                   }}
                   post={item}
                   onPress={() => {
-                    this.props.navigation.navigate('PostDetail', {
-                      screen: 'PostDetail',
-                      params: { postId: item.id },
-                    })
+                    // this.props.navigation.navigate('PostDetail', {
+                    //   screen: 'PostDetail',
+                    //   params: { postId: item.id },
+                    // })
                   }}
                   key={index}
                 />
@@ -154,43 +156,58 @@ class NewsFeedScreen extends Component<
             }}
           />
           <BottomSheet
+            customStyles={{
+              container: {
+                backgroundColor: 'transparent',
+              },
+            }}
             ref={this.bottomSheetRef}
-            renderContent={() => (
+            height={150}>
+            <View
+              style={{
+                padding: 5,
+                zIndex: 10,
+                elevation: 10,
+                flexDirection: 'column',
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'white',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}>
               <View
                 style={{
-                  zIndex: 10,
-                  elevation: 10,
-                  flexDirection: 'column',
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: 'white',
+                  width: 50,
+                  height: 7,
+                  marginBottom: 10,
+                  borderRadius: 10,
+                  backgroundColor: 'gray',
+                }}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('AppLog', 'On Press Edit')
+                  this.onPressEditNewFeed(this.currentPostFocus)
+                }}
+                style={styles.option_button}>
+                <AIcon name="edit" style={styles.bold_text} />
+                <Text style={[styles.bold_text, { marginLeft: 20 }]}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.option_button}
+                onPress={() => {
+                  console.log('AppLog', 'On Press Deleted')
+                  this.onPressDeleteNewFeed(this.currentPostFocus)
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log('AppLog', 'On Press Edit')
-                    this.onPressEditNewFeed(this.currentPostFocus)
-                  }}
-                  style={styles.option_button}>
-                  <AIcon name="edit" style={styles.bold_text} />
-                  <Text style={[styles.bold_text, { marginLeft: 20 }]}>
-                    Edit
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.option_button}
-                  onPress={() => {
-                    console.log('AppLog', 'On Press Deleted')
-                    this.onPressDeleteNewFeed(this.currentPostFocus)
-                  }}>
-                  <AIcon name="delete" style={styles.bold_text} />
-                  <Text style={[styles.bold_text, { marginLeft: 20 }]}>
-                    Delete
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            snapPoints={[0, 120]}
-          />
+                <AIcon name="delete" style={styles.bold_text} />
+                <Text style={[styles.bold_text, { marginLeft: 20 }]}>
+                  Delete
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </BottomSheet>
         </View>
       </SafeAreaView>
     )

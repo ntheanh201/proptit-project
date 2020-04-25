@@ -5315,6 +5315,11 @@ react-native-progress@^4.1.2:
     "@react-native-community/art" "^1.1.2"
     prop-types "^15.7.2"
 
+react-native-raw-bottom-sheet@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-2.1.0.tgz#cf875206a748d4ccf0b1086d2d113eb75d128664"
+  integrity sha512-Ho/UkKrq8MzmiSRLcveUdMEEwa8oFwDr8Va2NnjJrLpe3v/0WDLpA7SKdU1zg8FcHYmCWXdrGjFbhVMi4lSCqg==
+
 react-native-reanimated@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.8.0.tgz#0b5719b20c1fed9aaf8afd9a12e21c9bd46ee428"
