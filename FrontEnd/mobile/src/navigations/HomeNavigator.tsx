@@ -1,7 +1,10 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import { createStackNavigator } from '@react-navigation/stack'
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack'
 import NewsFeedScreen from '../screens/NewsFeedScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -11,6 +14,9 @@ import NotificationScreen from '../screens/NotificationScreen'
 import { SubNavigator, RootStackParams } from './AppNavigator'
 import MenuScreen from '../screens/MenuScreen'
 import GroupScreen from '../screens/GroupScreen'
+import { NavigationProp } from '@react-navigation/native'
+import { View, Text, Image } from 'react-native'
+import styles from '../values/styles'
 
 export type HomeTabParams = {
   Newsfeed: undefined

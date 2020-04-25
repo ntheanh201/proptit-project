@@ -8,13 +8,14 @@ import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import EditProfileScreen from '../screens/EditProfileScreen'
 import { AuthNavigator } from './AuthNavigator'
-import { View, Image } from 'react-native'
 import { images } from '../assets'
 import { store, AppState, SignInState } from '../core'
 import { connect } from 'react-redux'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import GroupScreen from '../screens/GroupScreen'
+import { Text, View, Image, SafeAreaView } from 'react-native'
+import styles from '../values/styles'
 
 export type SubNavigator<T extends ParamListBase> = {
   [K in keyof T]: { screen: K; params?: T[K] }

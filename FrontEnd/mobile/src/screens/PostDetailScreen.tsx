@@ -50,13 +50,7 @@ class PostDetailScreen extends React.Component<
     }
     this.props.navigation.setOptions({
       title: 'Post',
-      headerLeft: () => (
-        <IonIcon
-          name="md-arrow-round-back"
-          size={25}
-          style={{ marginLeft: 10 }}
-        />
-      ),
+      headerBackTitle: 'Back',
       headerRight: () => (
         <MCIcons name="magnify" size={25} style={{ marginRight: 10 }} />
       ),
