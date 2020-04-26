@@ -50,6 +50,7 @@ class NewsFeedScreen extends Component<
   NewsFeedScreenState
 > {
   bottomSheetRef = React.createRef<BottomSheet>()
+  dialogDeleteDialog = React.createRef<BottomSheet>()
   /**
    * current selected post when user press more icon (...)
    */
@@ -111,14 +112,77 @@ class NewsFeedScreen extends Component<
     return (
       <SafeAreaView>
         <Modal
+          ref={this.dialogDeleteDialog}
           animationType="slide"
-          transparent={false}
+          transparent={true}
           visible={this.state.deleteDialogTrigger}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.')
           }}>
-          <View>
-            <Text>ABCD</Text>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            }}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 10,
+                padding: 10,
+              }}>
+              <View
+                style={{
+                  height: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={[
+                    styles.bold_text,
+                    {
+                      width: '100%',
+                      textAlign: 'center',
+                      textAlignVertical: 'center',
+                    },
+                  ]}>
+                  Do you want delete this post?
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({
+                      deleteDialogTrigger: false,
+                    })
+                  }}
+                  style={{
+                    flex: 1,
+                    height: 50,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={[styles.bold_text]}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({
+                      deleteDialogTrigger: false,
+                    })
+                    this.deletePost()
+                  }}
+                  style={{
+                    flex: 1,
+                    height: 50,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={[styles.bold_text, { color: 'red' }]}>OK</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </Modal>
         <View
@@ -179,6 +243,9 @@ class NewsFeedScreen extends Component<
             }}
           />
           <BottomSheet
+            duration={200}
+            closeOnPressBack={true}
+            closeOnDragDown={true}
             customStyles={{
               container: {
                 backgroundColor: 'transparent',
@@ -200,15 +267,6 @@ class NewsFeedScreen extends Component<
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
               }}>
-              <View
-                style={{
-                  width: 50,
-                  height: 7,
-                  marginBottom: 10,
-                  borderRadius: 10,
-                  backgroundColor: 'gray',
-                }}
-              />
               <TouchableOpacity
                 onPress={() => {
                   console.log('AppLog', 'On Press Edit')
@@ -234,8 +292,18 @@ class NewsFeedScreen extends Component<
       </SafeAreaView>
     )
   }
+  async deletePost() {
+    console.log('AppLog', 'Delete Post!')
+    const id = this.currentPostFocus?.id
+    if (id == null) return
+    const status = await postService.delete(id)
+    if (status === 'success') {
+      this.props.getNewfeeds(1)
+    }
+  }
 
   onPressEditNewFeed(post?: Post) {
+    this.bottomSheetRef.current?.close()
     if (post) {
       this.props.navigation.navigate('CreatePost', {
         screen: 'CreatePost',
@@ -243,20 +311,17 @@ class NewsFeedScreen extends Component<
           postId: this.currentPostFocus?.id!,
         },
       })
-
-      this.bottomSheetRef.current?.close()
     }
   }
 
   async onPressDeleteNewFeed(post?: Post) {
-    if (post) {
-      //TODO: do somthing with post please :))
-      const status = await postService.delete(post.id!)
-      if (status === 'success') {
-        this.bottomSheetRef.current?.close()
-        this.props.getNewfeeds(1)
-      }
-    }
+    this.bottomSheetRef.current?.close()
+
+    setTimeout(() => {
+      this.setState({
+        deleteDialogTrigger: true,
+      })
+    }, 250)
   }
 }
 
