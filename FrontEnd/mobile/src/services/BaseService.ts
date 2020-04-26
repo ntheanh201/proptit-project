@@ -1,4 +1,4 @@
-import axios from 'axios'
+import Axios from 'axios'
 
 export default class BaseService<T> {
   protected baseURL = ''
@@ -8,8 +8,7 @@ export default class BaseService<T> {
   }
 
   getAll(): Promise<T[]> {
-    return axios
-      .get(this.baseURL)
+    return Axios.get(this.baseURL)
       .then((res) => {
         return res.data
       })
@@ -17,8 +16,7 @@ export default class BaseService<T> {
   }
 
   getById(id: number): Promise<T> {
-    return axios
-      .get(this.baseURL + `${id}/`)
+    return Axios.get(this.baseURL + `${id}/`)
       .then((res) => {
         return res.data
       })
@@ -26,8 +24,7 @@ export default class BaseService<T> {
   }
 
   add(item: T): Promise<void> {
-    return axios
-      .post(this.baseURL, item)
+    return Axios.post(this.baseURL, item)
       .then((res) => {
         console.log(res.status)
         return
@@ -36,8 +33,7 @@ export default class BaseService<T> {
   }
 
   update(item: T): Promise<void> {
-    return axios
-      .patch(this.baseURL, item)
+    return Axios.patch(this.baseURL, item)
       .then((res) => {
         console.log(res.status)
         return
@@ -45,13 +41,15 @@ export default class BaseService<T> {
       .catch((err) => console.log(err))
   }
 
-  delete(id: string): Promise<void> {
-    return axios
-      .delete(this.baseURL + `/${id}`)
+  delete(id: number): Promise<string> {
+    return Axios.delete(this.baseURL + `${id}/`)
       .then((res) => {
         console.log(res.status)
-        return
+        return 'success'
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        return 'error'
+      })
   }
 }

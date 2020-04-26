@@ -10,6 +10,7 @@ import {
   Animated,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native'
 import React, { Component } from 'react'
 import ItemNewsFeed from '../components/ItemNewsFeed'
@@ -23,6 +24,7 @@ import { connect } from 'react-redux'
 import styles from '../values/styles'
 import BottomSheet from 'react-native-raw-bottom-sheet'
 import AIcon from 'react-native-vector-icons/AntDesign'
+import { postService } from '../services'
 
 interface Item {
   key: string
@@ -33,6 +35,7 @@ interface NewsFeedScreenState {
   isLoadingMore: boolean
   haveMorePosts: boolean
   listItems: Item[]
+  deleteDialogTrigger: boolean
 }
 
 interface NewsFeedScreenProps {
@@ -58,6 +61,7 @@ class NewsFeedScreen extends Component<
       refreshing: false,
       isLoadingMore: false,
       haveMorePosts: true,
+      deleteDialogTrigger: false,
       listItems: [
         {
           key: '1',
@@ -106,6 +110,17 @@ class NewsFeedScreen extends Component<
     }
     return (
       <SafeAreaView>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.deleteDialogTrigger}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.')
+          }}>
+          <View>
+            <Text>ABCD</Text>
+          </View>
+        </Modal>
         <View
           style={{
             width: '100%',
@@ -206,7 +221,6 @@ class NewsFeedScreen extends Component<
               <TouchableOpacity
                 style={styles.option_button}
                 onPress={() => {
-                  console.log('AppLog', 'On Press Deleted')
                   this.onPressDeleteNewFeed(this.currentPostFocus)
                 }}>
                 <AIcon name="delete" style={styles.bold_text} />
@@ -234,9 +248,14 @@ class NewsFeedScreen extends Component<
     }
   }
 
-  onPressDeleteNewFeed(post?: Post) {
+  async onPressDeleteNewFeed(post?: Post) {
     if (post) {
       //TODO: do somthing with post please :))
+      const status = await postService.delete(post.id!)
+      if (status === 'success') {
+        this.bottomSheetRef.current?.close()
+        this.props.getNewfeeds(1)
+      }
     }
   }
 }
