@@ -23,9 +23,9 @@ export type HomeTabParams = {
   Newsfeed: undefined
   Notification: undefined
   Profile: undefined
-  CreatePost: SubNavigator<RootStackParams>
-  PostDetail: SubNavigator<RootStackParams>
-  ImageView: SubNavigator<RootStackParams>
+  CreatePost: SubNavigator<RootStackParams, 'CreatePost'>
+  PostDetail: SubNavigator<RootStackParams, 'PostDetail'>
+  ImageView: SubNavigator<RootStackParams, 'ImageView'>
 }
 
 const Tab = createMaterialBottomTabNavigator()

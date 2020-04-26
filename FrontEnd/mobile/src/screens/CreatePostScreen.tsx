@@ -64,11 +64,9 @@ class CreatePostScreen extends Component<
       defaultContent: '',
     }
 
-    this.getContentIfEditPost()
-
     this.props.navigation.setOptions({
       title: '',
-      headerBackTitle: '',
+      headerBackTitleVisible: true,
       headerRight: () => (
         <TouchableOpacity onPress={() => this.onPressPost()}>
           <Text
@@ -82,6 +80,12 @@ class CreatePostScreen extends Component<
         </TouchableOpacity>
       ),
     })
+  }
+
+  componentDidMount() {
+    if (this.props.route.params) {
+      this.getContentIfEditPost()
+    }
   }
 
   render() {
@@ -197,20 +201,21 @@ class CreatePostScreen extends Component<
   async getContentIfEditPost() {
     const id = this.props.route.params.params?.postId
     console.log('AppLog', 'Get post')
-    if (id == null || id == undefined) return
-    const data = await postService.getFullPostById(id)
-    const post = convertToPostType(data.post)
-    const imageState = JSON.parse(JSON.stringify(this.state.images))
-    post.photos.forEach((v) => {
-      imageState.push({
-        uri: 'http://apis.aiforce.xyz' + v,
+    if (id) {
+      const data = await postService.getFullPostById(id)
+      const post = convertToPostType(data.post)
+      const imageState = JSON.parse(JSON.stringify(this.state.images))
+      post.photos.forEach((v) => {
+        imageState.push({
+          uri: v,
+        })
       })
-    })
-    console.log('AppLog', post.photos)
-    this.setState({
-      defaultContent: post.content,
-      images: imageState,
-    })
+      console.log('AppLog', post.photos)
+      this.setState({
+        defaultContent: post.content,
+        images: imageState,
+      })
+    }
   }
 
   onPressAddPicture() {

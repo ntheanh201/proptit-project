@@ -5,9 +5,12 @@ import { RouteProp } from '@react-navigation/native'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import colors from '../values/colors'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface ImageViewScreenProps {
   route: RouteProp<HomeTabParams, 'ImageView'>
+  navigation: StackNavigationProp<RootStackParams>
 }
 
 interface ImageViewScreenState {
@@ -26,10 +29,17 @@ class ImageViewScreen extends React.Component<
     this.state = {
       seletedPosition: 0,
     }
+
+    this.props.navigation.setOptions({
+      title: '',
+      headerTransparent: true,
+      headerBackTitleVisible: false,
+      headerTintColor: 'white',
+    })
   }
 
   render() {
-    const photos = this.props.route.params.params?.listImage
+    const photos = this.props.route.params.params?.listImage!
 
     return (
       <SafeAreaView

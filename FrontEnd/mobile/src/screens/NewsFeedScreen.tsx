@@ -222,26 +222,22 @@ class NewsFeedScreen extends Component<
   }
 
   onPressEditNewFeed(post?: Post) {
-    if (post == null || post == undefined) {
-      return
+    if (post) {
+      this.props.navigation.navigate('CreatePost', {
+        screen: 'CreatePost',
+        params: {
+          postId: this.currentPostFocus?.id!,
+        },
+      })
+
+      this.bottomSheetRef.current?.close()
     }
-
-    this.props.navigation.navigate('CreatePost', {
-      screen: 'CreatePost',
-      params: {
-        postId: this.currentPostFocus?.id!,
-      },
-    })
-
-    this.bottomSheetRef.current?.close()
   }
 
   onPressDeleteNewFeed(post?: Post) {
-    if (post === null || post === undefined) {
-      return
+    if (post) {
+      //TODO: do somthing with post please :))
     }
-
-    //TODO: do somthing with post please :))
   }
 }
 
