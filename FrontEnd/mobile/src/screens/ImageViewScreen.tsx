@@ -58,8 +58,8 @@ class ImageViewScreen extends React.Component<
               <Image
                 key={i}
                 style={{ width: '100%', height: '100%' }}
-                source={{ uri: 'http://apis.aiforce.xyz' + v }}
-                resizeMode="center"
+                source={{ uri: v }}
+                resizeMode="contain"
               />
             ))}
           </ViewPager>
@@ -84,7 +84,7 @@ class ImageViewScreen extends React.Component<
                         ? styles.selected_image
                         : styles.normal_image
                     }
-                    source={{ uri: 'http://apis.aiforce.xyz' + item }}
+                    source={{ uri: item }}
                   />
                 </TouchableWithoutFeedback>
               )}

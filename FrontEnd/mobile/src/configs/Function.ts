@@ -54,7 +54,7 @@ export const convertToPostType = (data: any): Post => {
   return {
     id: data.id,
     authorId: data.assigned_user_id,
-    authorAvatar: baseURL + data.assigned_user_avatar,
+    authorAvatar: data.assigned_user_avatar,
     authorName: data.assigned_user_display_name,
     groupId: data.assigned_group_id,
     groupName: data.assigned_group_name,

@@ -34,7 +34,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   constructor(props: ItemNewsFeedProps) {
     super(props)
     this.state = {
-      liked: false,
+      liked: this.props.post.isLiked!,
     }
   }
 
@@ -50,16 +50,16 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             flexDirection: 'row',
           }}>
           <Image
-            source={{ uri: 'http://apis.aiforce.xyz' + post.photos[0] }}
+            source={{ uri: post.photos[0] }}
             style={{ width: width / 2, height: width }}
           />
           <View>
             <Image
-              source={{ uri: 'http://apis.aiforce.xyz' + post.photos[1] }}
+              source={{ uri: post.photos[1] }}
               style={{ width: width / 2, height: width / 2 }}
             />
             <Image
-              source={{ uri: 'http://apis.aiforce.xyz' + post.photos[2] }}
+              source={{ uri: post.photos[2] }}
               style={{ width: width / 2, height: width / 2 }}
             />
             {post.photos.length > 3 ? (
@@ -93,11 +93,11 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             flexDirection: 'row',
           }}>
           <Image
-            source={{ uri: 'http://apis.aiforce.xyz' + post.photos[0] }}
+            source={{ uri: post.photos[0] }}
             style={{ width: width / 2, height: width }}
           />
           <Image
-            source={{ uri: 'http://apis.aiforce.xyz' + post.photos[1] }}
+            source={{ uri: post.photos[1] }}
             style={{ width: width / 2, height: width }}
           />
         </View>
@@ -106,7 +106,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     if (post.photos.length === 1) {
       return (
         <Image
-          source={{ uri: 'http://apis.aiforce.xyz' + post.photos[0] }}
+          source={{ uri: post.photos[0] }}
           style={{ width, height: width }}
         />
       )
