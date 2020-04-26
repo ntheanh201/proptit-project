@@ -66,7 +66,7 @@ class CreatePostScreen extends Component<
 
     this.props.navigation.setOptions({
       title: '',
-      headerBackTitleVisible: true,
+      headerBackTitleVisible: false,
       headerRight: () => (
         <TouchableOpacity onPress={() => this.onPressPost()}>
           <Text
@@ -163,9 +163,17 @@ class CreatePostScreen extends Component<
                   <ItemPicture
                     urlPicture={item.uri}
                     onClose={() => {
-                      images.splice(index, index + 1)
+                      const imageState: ImageFormData[] = JSON.parse(
+                        JSON.stringify(this.state.images),
+                      )
+                      const newImageState = imageState.filter(
+                        (image, index1) => {
+                          return index1 !== index ? image : null
+                        },
+                      )
+                      console.log(newImageState)
                       this.setState({
-                        images: images,
+                        images: newImageState,
                       })
                     }}
                   />
@@ -200,7 +208,6 @@ class CreatePostScreen extends Component<
 
   async getContentIfEditPost() {
     const id = this.props.route.params.params?.postId
-    console.log('AppLog', 'Get post')
     if (id) {
       const data = await postService.getFullPostById(id)
       const post = convertToPostType(data.post)
@@ -210,7 +217,6 @@ class CreatePostScreen extends Component<
           uri: v,
         })
       })
-      console.log('AppLog', post.photos)
       this.setState({
         defaultContent: post.content,
         images: imageState,
@@ -234,7 +240,7 @@ class CreatePostScreen extends Component<
       console.log(response.path)
       const imageState = JSON.parse(JSON.stringify(this.state.images))
       imageState.push({
-        uri: 'file://' + response.path,
+        uri: Platform.OS === 'ios' ? response.uri : 'file://' + response.path,
         name: response.fileName!,
         type: response.type!,
       })
@@ -270,14 +276,27 @@ class CreatePostScreen extends Component<
 
   onPressPost = async () => {
     console.log('Post clicked!')
-    const post: Post = {
-      content: this.state.content,
-      groupId: 1,
-      type: 1,
-      photos: [],
-    }
+
     // console.log(this.state.images)
-    const status = await postService.addPost(post, this.state.images)
+    if (this.props.route.params) {
+      const post: Post = {
+        id: this.props.route.params.params?.postId,
+        content: this.state.content,
+        groupId: 1,
+        type: 1,
+        photos: [],
+      }
+      // console.log(this.state.images)
+      const status = await postService.updatePost(post, this.state.images)
+    } else {
+      const post: Post = {
+        content: this.state.content,
+        groupId: 1,
+        type: 1,
+        photos: [],
+      }
+      const status = await postService.addPost(post, this.state.images)
+    }
     // this.props.navigation.goBack()
   }
 }

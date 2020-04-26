@@ -113,12 +113,9 @@ class NewsFeedScreen extends Component<
       <SafeAreaView>
         <Modal
           ref={this.dialogDeleteDialog}
-          animationType="slide"
+          animationType="fade"
           transparent={true}
-          visible={this.state.deleteDialogTrigger}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.')
-          }}>
+          visible={this.state.deleteDialogTrigger}>
           <View
             style={{
               justifyContent: 'center',
@@ -295,7 +292,9 @@ class NewsFeedScreen extends Component<
   async deletePost() {
     console.log('AppLog', 'Delete Post!')
     const id = this.currentPostFocus?.id
-    if (id == null) return
+    if (id == null) {
+      return
+    }
     const status = await postService.delete(id)
     if (status === 'success') {
       this.props.getNewfeeds(1)

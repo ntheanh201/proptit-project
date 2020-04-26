@@ -117,6 +117,11 @@ class PostDetailScreen extends React.Component<
             post={this.state.post!}
             reactionNumber={this.state.reactions?.length}
             commentNumber={this.state.comments?.length}
+            onPressImage={() => {
+              this.props.navigation.navigate('ImageView', {
+                listImage: this.state.post!.photos,
+              })
+            }}
           />
           <View
             style={{
