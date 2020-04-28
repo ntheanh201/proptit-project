@@ -35,7 +35,7 @@ import { RouteProp } from '@react-navigation/native'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { convertToPostType } from '../configs/Function'
 
-import ImagePicker from 'react-native-image-crop-picker'
+import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
@@ -112,6 +112,8 @@ class CreatePostScreen extends Component<
         },
       ],
     }
+
+    console.log('AppLog', this.state.images)
 
     return (
       <View style={styles.wrapper}>
@@ -256,8 +258,10 @@ class CreatePostScreen extends Component<
       height: 400,
       multiple: true,
       cropping: true,
-    }).then((image) => {
+    }).then((res) => {
       // console.log('AppLog', image)
+
+      const image = res as ImageP[]
 
       const imageState = JSON.parse(JSON.stringify(this.state.images))
 
@@ -267,7 +271,7 @@ class CreatePostScreen extends Component<
         imageState.push({
           uri: element.path,
           name: name,
-          type: image.mime,
+          type: element.mime,
         })
       })
 
