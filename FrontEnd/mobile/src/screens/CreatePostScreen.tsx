@@ -113,7 +113,7 @@ class CreatePostScreen extends Component<
       ],
     }
 
-    console.log('AppLog', this.state.images)
+    // console.log('AppLog', this.state.images)
 
     return (
       <View style={styles.wrapper}>
@@ -254,17 +254,15 @@ class CreatePostScreen extends Component<
     // })
 
     ImagePicker.openPicker({
-      width: 300,
-      height: 400,
+      mediaType: 'photo',
+      writeTempFile: true,
+      includeExif: true,
       multiple: true,
       cropping: true,
     }).then((res) => {
       // console.log('AppLog', image)
-
       const image = res as ImageP[]
-
       const imageState = JSON.parse(JSON.stringify(this.state.images))
-
       image.forEach((element) => {
         const arr = element.path.split('/')
         const name = arr[arr.length - 1]
@@ -274,7 +272,6 @@ class CreatePostScreen extends Component<
           type: element.mime,
         })
       })
-
       this.setState({
         images: imageState,
       })

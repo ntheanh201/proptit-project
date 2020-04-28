@@ -176,6 +176,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
           </View>
         </TouchableWithoutFeedback>
         <TouchableOpacity
+          activeOpacity={0.9}
           onPress={() => {
             this.props.onPressImage ? this.props.onPressImage() : null
           }}>
