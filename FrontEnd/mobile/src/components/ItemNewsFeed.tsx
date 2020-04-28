@@ -15,6 +15,7 @@ import { images } from '../assets'
 import { WIDTH } from '../configs/Function'
 import moment from 'moment'
 import { postService } from '../services'
+import LottieView from 'lottie-react-native'
 
 interface ItemNewsFeedProps {
   post: Post
@@ -31,6 +32,8 @@ interface ItemNewFeedState {
 }
 
 class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
+  animLike = React.createRef<LottieView>()
+
   constructor(props: ItemNewsFeedProps) {
     super(props)
     this.state = {
@@ -114,7 +117,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   }
 
   onPressReaction = async () => {
-    this.setState({ liked: !this.state.liked })
+    this.animLike.current?.play()
   }
 
   render() {
@@ -185,24 +188,56 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-evenly',
+            justifyContent: 'center',
+            width: '100%',
+            height: 50,
             alignItems: 'center',
-            paddingTop: 10,
           }}>
-          <TouchableOpacity onPress={this.onPressReaction}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <IonIcons
+          <TouchableOpacity onPress={this.onPressReaction} style={{ flex: 1 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '100%',
+              }}>
+              {/* <IonIcons
                 name={this.state.liked ? 'ios-heart' : 'ios-heart-empty'}
                 size={30}
                 color={this.state.liked ? 'red' : 'black'}
+              /> */}
+              <LottieView
+                ref={this.animLike}
+                style={{ height: 150, width: 150 }}
+                onAnimationFinish={() => {
+                  this.setState({
+                    liked: !this.state.liked,
+                  })
+
+                  //TODO: request here!!
+                }}
+                loop={false}
+                progress={this.state.liked ? 1 : 0}
+                resizeMode="cover"
+                speed={this.state.liked ? -1 : 1}
+                source={require('../assets/anim/heart.json')}
+                enableMergePathsAndroidForKitKatAndAbove
               />
-              <Text style={{ marginLeft: 5 }}>
+              <Text style={{ marginLeft: -50 }}>
                 {reactionNumber ?? post.reactionNumber}
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity style={{ flex: 1 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                width: '100%',
+              }}>
               <EvilIcons name="comment" size={30} />
               <Text style={{ marginLeft: 5 }}>
                 {commentNumber ?? post.commentNumber}
