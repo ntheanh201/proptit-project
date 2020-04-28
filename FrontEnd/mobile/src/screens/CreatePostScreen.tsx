@@ -18,10 +18,10 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import ImagePicker, {
-  ImagePickerOptions,
-  ImagePickerResponse,
-} from 'react-native-image-picker'
+// import ImagePicker, {
+//   ImagePickerOptions,
+//   ImagePickerResponse,
+// } from 'react-native-image-picker'
 import { ItemTickPollRef } from '../components/tickpoll/TickPoll'
 import TickPollEditor from '../components/tickpolleditor/TickPollEditor'
 import ItemPicture from '../components/itempicture/ItemPicture'
@@ -34,6 +34,8 @@ import { Post, ImageFormData } from '../core'
 import { RouteProp } from '@react-navigation/native'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { convertToPostType } from '../configs/Function'
+
+import ImagePicker from 'react-native-image-crop-picker'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
@@ -225,25 +227,50 @@ class CreatePostScreen extends Component<
   }
 
   onPressAddPicture() {
-    const options: ImagePickerOptions = {
-      title: 'Select Picture',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    }
+    // const options: ImagePickerOptions = {
+    //   title: 'Select Picture',
+    //   storageOptions: {
+    //     skipBackup: true,
+    //     path: 'images',
+    //   },
+    // }
 
-    /**
-     * Open gallery
-     */
-    ImagePicker.showImagePicker(options, (response: ImagePickerResponse) => {
-      console.log(response.path)
+    // /**
+    //  * Open gallery
+    //  */
+    // ImagePicker.showImagePicker(options, (response: ImagePickerResponse) => {
+    //   console.log(response.path)
+    //   const imageState = JSON.parse(JSON.stringify(this.state.images))
+    //   imageState.push({
+    //     uri: Platform.OS === 'ios' ? response.uri : 'file://' + response.path,
+    //     name: response.fileName!,
+    //     type: response.type!,
+    //   })
+    //   this.setState({
+    //     images: imageState,
+    //   })
+    // })
+
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      multiple: true,
+      cropping: true,
+    }).then((image) => {
+      // console.log('AppLog', image)
+
       const imageState = JSON.parse(JSON.stringify(this.state.images))
-      imageState.push({
-        uri: Platform.OS === 'ios' ? response.uri : 'file://' + response.path,
-        name: response.fileName!,
-        type: response.type!,
+
+      image.forEach((element) => {
+        const arr = element.path.split('/')
+        const name = arr[arr.length - 1]
+        imageState.push({
+          uri: element.path,
+          name: name,
+          type: image.mime,
+        })
       })
+
       this.setState({
         images: imageState,
       })
