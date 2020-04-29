@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[44],{867:function(p,t,a){"use strict";a.r(t),t.default=a.p+"static/media/avt.effffb31.jpg"}}]);

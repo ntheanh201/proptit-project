@@ -1,11 +1,13 @@
 import * as Actions from '../action-types'
 
-import { SignInService, fetchUserDataService } from 'services'
+import { SignInService, fetchUserDataService, updateAccessTokenService } from 'services'
 
 // export const
 
 export const updatePreloader = () => {
   return (dispatch) => {
+    //todo: check if current refresh token is active or not, if it's not active (return null), user need to login again
+    
     let isLogged = false
     if (
       localStorage &&
