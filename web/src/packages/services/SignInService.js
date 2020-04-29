@@ -27,7 +27,7 @@ export const updateAccessTokenService = () => {
     .then((response) => {
       const authToken = {
         refresh: refreshToken,
-        access: response.data
+        access: response.data.access
       }
       localStorage.setItem('authToken', JSON.stringify(authToken))
       return response.data
