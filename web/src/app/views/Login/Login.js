@@ -45,6 +45,12 @@ const LoginPage = (props) => {
     })
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onSubmit()
+    }
+  }
+
   if (isLogged) {
     return <Redirect to='/' />
   }
@@ -76,6 +82,7 @@ const LoginPage = (props) => {
             strings.passwordPlaceholder || defaultStrings.passwordPlaceholder
           }
           onChange={onChangePassword}
+          onKeyDown={handleKeyDown}
           onBlur={onBlur}
           value={password}
           error={errors}
