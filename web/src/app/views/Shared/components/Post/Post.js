@@ -40,15 +40,15 @@ export const Post = (props) => {
             <Span>{content}</Span>
           </div>
 
-          <div className='tickPoll'>
-            {type === 1 && (
-              <TickPoll
-                onCreatePoll={onCreatePoll}
-                listPoll={listPoll}
-                postId={id}
-              />
-            )}
-          </div>
+          {/*<div className='tickPoll'>*/}
+          {/*  {type === 1 && (*/}
+          {/*    <TickPoll*/}
+          {/*      onCreatePoll={onCreatePoll}*/}
+          {/*      listPoll={listPoll}*/}
+          {/*      postId={id}*/}
+          {/*    />*/}
+          {/*  )}*/}
+          {/*</div>*/}
           <div>
             {type === 0 && (
               <ImageWrapper>
