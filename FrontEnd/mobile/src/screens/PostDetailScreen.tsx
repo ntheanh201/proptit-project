@@ -23,7 +23,8 @@ import { postService } from '../services'
 import { ActivityIndicator } from 'react-native-paper'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { Post, Reaction, Comment } from '../core'
-import { convertToPostType } from '../configs/Function'
+import { convertToPostType, convertCommentsArray } from '../configs/Function'
+import { commentService } from '../services/CommentService'
 
 interface PostDetailScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -33,9 +34,11 @@ interface PostDetailScreenProps {
 interface PostDetailScreenState {
   padding: number
   isLoadingPost: boolean
+  isSendingComment: boolean
   post?: Post
-  reactions?: Reaction[]
-  comments?: Comment[]
+  reactions: Reaction[]
+  comments: Comment[]
+  newComment: string
 }
 
 class PostDetailScreen extends React.Component<
@@ -47,6 +50,10 @@ class PostDetailScreen extends React.Component<
     this.state = {
       padding: 0,
       isLoadingPost: true,
+      isSendingComment: false,
+      reactions: [],
+      comments: [],
+      newComment: '',
     }
     this.props.navigation.setOptions({
       title: 'Post',
@@ -74,14 +81,35 @@ class PostDetailScreen extends React.Component<
       this.props.route.params.params!.postId,
     )
     const post = convertToPostType(data.post)
-    console.log(data)
+    const comments = convertCommentsArray(data.comments_info)
     if (data) {
       this.setState({
         isLoadingPost: false,
         post,
         reactions: data.reactions_info,
-        comments: data.comments_info,
+        comments,
       })
+    }
+  }
+
+  async reloadComment() {
+    const comments = await commentService.getByPostId(
+      this.props.route.params.params?.postId!,
+    )
+    if (comments) {
+      this.setState({ comments })
+    }
+  }
+
+  onPressSend = async () => {
+    this.setState({ isSendingComment: true })
+    const status = await commentService.addComment(
+      this.props.route.params.params?.postId!,
+      this.state.newComment,
+    )
+    if (status === 'success') {
+      this.setState({ isSendingComment: false, newComment: '' })
+      this.reloadComment()
     }
   }
 
@@ -134,13 +162,15 @@ class PostDetailScreen extends React.Component<
             }}>
             <Text style={{ marginLeft: 20, color: 'gray' }}>Comment</Text>
           </View>
-          {[
-            'Good! dddddddddddddddddddddddddddddddd d d d d d  d d d d d d d d d d d d d ',
-            'Nice! Bro',
-            'Awesome!',
-          ].map((content) => (
-            <ItemComment content={content} urlAvatar="" />
-          ))}
+          {this.state.comments.map((comment) => {
+            return (
+              <ItemComment
+                content={comment.content}
+                urlAvatar={comment.authorAvatar}
+                name={comment.authorName}
+              />
+            )
+          })}
           <View
             style={{
               width: '100%',
@@ -193,20 +223,26 @@ class PostDetailScreen extends React.Component<
           />
           <TextInput
             placeholder="Leave Reply"
+            value={this.state.newComment}
             multiline={true}
             style={{ flex: 1, fontSize: 20, marginLeft: 10 }}
+            onChangeText={(text) => {
+              this.setState({ newComment: text })
+            }}
           />
           <TouchableOpacity
             style={{ width: 30, height: 30 }}
             onPress={() => this.onPressSend()}>
-            <IonIcon name="md-send" size={30} />
+            {this.state.isSendingComment ? (
+              <ActivityIndicator animating={true} />
+            ) : (
+              <IonIcon name="md-send" size={30} />
+            )}
           </TouchableOpacity>
         </View>
       </View>
     )
   }
-
-  onPressSend = () => {}
 }
 
 export default PostDetailScreen

@@ -36,4 +36,10 @@ export interface ImageFormData {
 }
 
 export interface Reaction {}
-export interface Comment {}
+export interface Comment {
+  content: string
+  authorAvatar: string
+  authorId: number
+  authorName: string
+  postId: number
+}

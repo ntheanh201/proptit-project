@@ -1,5 +1,5 @@
 import { Dimensions, Platform, StatusBar } from 'react-native'
-import { User, Post } from '../core'
+import { User, Post, Comment } from '../core'
 
 const { width, height } = Dimensions.get('screen')
 const baseURL = 'http://apis.aiforce.xyz'
@@ -70,5 +70,21 @@ export const convertToPostType = (data: any): Post => {
 export const convertPostsArray = (data: any[]): Post[] => {
   return data.map((post: any) => {
     return convertToPostType(post)
+  })
+}
+
+export const convertCommentType = (data: any): Comment => {
+  return {
+    authorAvatar: data.assigned_user_avatar,
+    authorId: data.assigned_user_id,
+    authorName: data.assigned_user_display_name,
+    content: data.content,
+    postId: data.assigned_post,
+  }
+}
+
+export const convertCommentsArray = (data: any[]): Comment[] => {
+  return data.map((comment: any) => {
+    return convertCommentType(comment)
   })
 }

@@ -6,41 +6,35 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 interface ItemCommentProps {
   urlAvatar: string
   content: string
+  name: string
 }
 
-const ItemComment = ({ content }: ItemCommentProps) => {
+const ItemComment = (props: ItemCommentProps) => {
   return (
     <View
       style={{
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'space-between',
         flexDirection: 'row',
         padding: 10,
         borderColor: 'rgb(203, 204, 204)',
         borderTopWidth: 1,
         backgroundColor: 'white',
       }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'flex-start',
-          width: '60%',
-        }}>
-        <Image
-          source={require('../../assets/images/avt_batman.png')}
-          style={{ height: 40, width: 40, borderRadius: 100 }}
-        />
-        <Text style={{ marginLeft: 10 }}>{content}</Text>
+      <Image
+        source={{ uri: props.urlAvatar }}
+        style={{ height: 40, width: 40, borderRadius: 20 }}
+      />
+      <View style={{ marginLeft: 10, flex: 1 }}>
+        <Text style={{ fontWeight: 'bold' }}>{props.name}</Text>
+        <Text>{props.content}</Text>
       </View>
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity style={{ marginHorizontal: 10 }}>
-          <Icon name="back" style={{ color: 'gray' }} size={20} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name="hearto" style={{ color: 'gray' }} size={20} />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={{ marginHorizontal: 10 }}>
+        <Icon name="back" style={{ color: 'gray' }} size={20} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Icon name="hearto" style={{ color: 'gray' }} size={20} />
+      </TouchableOpacity>
     </View>
   )
 }
