@@ -266,7 +266,7 @@ class NewsFeedScreen extends Component<
               }}>
               <TouchableOpacity
                 onPress={() => {
-                  console.log('AppLog', 'On Press Edit')
+                  // console.log('AppLog', 'On Press Edit')
                   this.onPressEditNewFeed(this.currentPostFocus)
                 }}
                 style={styles.option_button}>

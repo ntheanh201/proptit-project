@@ -4,6 +4,7 @@ import {
   Image,
   Text,
   TouchableWithoutFeedback,
+  Animated,
 } from 'react-native'
 import { Post } from '../core'
 import React, { Component } from 'react'
@@ -34,9 +35,11 @@ interface ItemNewFeedState {
 
 class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   animLike = React.createRef<LottieView>()
+  canPressLike = true
 
   constructor(props: ItemNewsFeedProps) {
     super(props)
+    // console.log('AppLog', props.post.isLiked)
     this.state = {
       liked: this.props.post.isLiked!,
       animating: false,
@@ -119,13 +122,26 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   }
 
   onPressReaction = async () => {
-    this.animLike.current?.play()
-    this.setState({ animating: true })
+    if (!this.canPressLike) return
+    this.canPressLike = false
+    this.setState(
+      {
+        liked: !this.state.liked,
+      },
+      () => {
+        console.log('AppLog', `After Render: ${this.state.liked}`)
+        if (this.state.liked) this.animLike.current?.play(0, 100)
+        else this.animLike.current?.play(100, 0)
+      },
+    )
   }
 
   render() {
     const { post, onPress, reactionNumber, commentNumber } = this.props
     const timeago = moment(post.time).fromNow()
+
+    console.log('AppLog', `On render: ${this.state.liked}`)
+
     return (
       <View
         style={{
@@ -193,40 +209,36 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             flexDirection: 'row',
             width: '100%',
           }}>
-          <TouchableOpacity
-            onPress={this.state.animating ? undefined : this.onPressReaction}
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingVertical: 15,
-            }}>
-            {/* <IonIcons
+          <TouchableOpacity onPress={this.onPressReaction} style={{ flex: 1 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                paddingVertical: 15,
+              }}>
+              {/* <IonIcons
                 name={this.state.liked ? 'ios-heart' : 'ios-heart-empty'}
                 size={30}
                 color={this.state.liked ? 'red' : 'black'}
               /> */}
-            <LottieView
-              ref={this.animLike}
-              onAnimationFinish={() => {
-                this.setState({
-                  animating: false,
-                  liked: !this.state.liked,
-                })
-
-                //TODO: request here!!
-              }}
-              loop={false}
-              progress={this.state.liked ? 1 : 0}
-              resizeMode="cover"
-              speed={this.state.liked ? -1 : 1.5}
-              source={require('../assets/anim/heart.json')}
-              enableMergePathsAndroidForKitKatAndAbove
-            />
-            <Text style={{ marginLeft: 50 }}>
-              {reactionNumber ?? post.reactionNumber}
-            </Text>
+              <LottieView
+                ref={this.animLike}
+                loop={false}
+                speed={2}
+                onAnimationFinish={() => {
+                  this.canPressLike = true
+                }}
+                resizeMode="cover"
+                progress={this.state.liked ? 1 : 0}
+                source={require('../assets/anim/heart.json')}
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+              <Text style={{ marginLeft: 50 }}>
+                {reactionNumber ?? post.reactionNumber}
+              </Text>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
