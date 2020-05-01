@@ -17,6 +17,7 @@ import { WIDTH } from '../configs/Function'
 import moment from 'moment'
 import { postService } from '../services'
 import LottieView from 'lottie-react-native'
+import { reactionService } from '../services/ReactionService'
 
 interface ItemNewsFeedProps {
   post: Post
@@ -121,17 +122,23 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     }
   }
 
-  onPressReaction = async () => {
-    if (!this.canPressLike) return
+  onPressReaction = () => {
+    if (!this.canPressLike) {
+      return
+    }
     this.canPressLike = false
     this.setState(
       {
         liked: !this.state.liked,
       },
-      () => {
-        console.log('AppLog', `After Render: ${this.state.liked}`)
-        if (this.state.liked) this.animLike.current?.play(0, 100)
-        else this.animLike.current?.play(100, 0)
+      async () => {
+        if (this.state.liked) {
+          this.animLike.current?.play(0, 100)
+          const status = await reactionService.addReaction(this.props.post.id!)
+        } else {
+          this.animLike.current?.play(100, 0)
+          const status = await reactionService.delete(this.props.post.id!)
+        }
       },
     )
   }
@@ -139,8 +146,6 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   render() {
     const { post, onPress, reactionNumber, commentNumber } = this.props
     const timeago = moment(post.time).fromNow()
-
-    console.log('AppLog', `On render: ${this.state.liked}`)
 
     return (
       <View
