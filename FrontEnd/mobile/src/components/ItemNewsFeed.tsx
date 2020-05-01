@@ -123,15 +123,16 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
 
   onPressReaction = async () => {
     if (!this.canPressLike) return
-    this.canPressLike = false
     this.setState(
       {
         liked: !this.state.liked,
       },
       () => {
         console.log('AppLog', `After Render: ${this.state.liked}`)
-        if (this.state.liked) this.animLike.current?.play(0, 100)
-        else this.animLike.current?.play(100, 0)
+        if (this.state.liked) {
+          this.canPressLike = false
+          this.animLike.current?.play(0, 100)
+        }
       },
     )
   }
@@ -230,10 +231,12 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 onAnimationFinish={() => {
                   this.canPressLike = true
                 }}
+                cacheStrategy={'none'}
                 resizeMode="cover"
                 progress={this.state.liked ? 1 : 0}
                 source={require('../assets/anim/heart.json')}
-                enableMergePathsAndroidForKitKatAndAbove
+                hardwareAccelerationAndroid={false}
+                enableMergePathsAndroidForKitKatAndAbove={true}
               />
               <Text style={{ marginLeft: 50 }}>
                 {reactionNumber ?? post.reactionNumber}
