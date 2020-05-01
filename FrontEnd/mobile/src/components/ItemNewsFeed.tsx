@@ -17,6 +17,7 @@ import { WIDTH } from '../configs/Function'
 import moment from 'moment'
 import { postService } from '../services'
 import LottieView from 'lottie-react-native'
+import { reactionService } from '../services/ReactionService'
 
 interface ItemNewsFeedProps {
   post: Post
@@ -121,17 +122,23 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     }
   }
 
-  onPressReaction = async () => {
-    if (!this.canPressLike) return
+  onPressReaction = () => {
+    if (!this.canPressLike) {
+      return
+    }
     this.setState(
       {
         liked: !this.state.liked,
       },
-      () => {
-        console.log('AppLog', `After Render: ${this.state.liked}`)
+      async () => {
+        this.canPressLike = false
         if (this.state.liked) {
-          this.canPressLike = false
           this.animLike.current?.play(0, 100)
+          const status = await reactionService.addReaction(this.props.post.id!)
+          this.canPressLike = true
+        } else {
+          const status = await reactionService.delete(this.props.post.id!)
+          this.canPressLike = true
         }
       },
     )
@@ -140,8 +147,6 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   render() {
     const { post, onPress, reactionNumber, commentNumber } = this.props
     const timeago = moment(post.time).fromNow()
-
-    console.log('AppLog', `On render: ${this.state.liked}`)
 
     return (
       <View
@@ -228,15 +233,10 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 ref={this.animLike}
                 loop={false}
                 speed={2}
-                onAnimationFinish={() => {
-                  this.canPressLike = true
-                }}
                 cacheStrategy={'none'}
                 resizeMode="cover"
                 progress={this.state.liked ? 1 : 0}
                 source={require('../assets/anim/heart.json')}
-                hardwareAccelerationAndroid={false}
-                enableMergePathsAndroidForKitKatAndAbove={true}
               />
               <Text style={{ marginLeft: 50 }}>
                 {reactionNumber ?? post.reactionNumber}
