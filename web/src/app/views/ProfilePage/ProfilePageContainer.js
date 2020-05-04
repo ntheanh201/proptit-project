@@ -28,11 +28,10 @@ export const ProfilePageContainer = () => {
     email,
     description,
     gender: '',
-    grade: '',
+    grade: 'D18',
     address: '',
     quotes: '',
     position: 'Ban Sự kiện',
-    tab: false,
     facebook: '',
     missions: [
       {
@@ -45,7 +44,9 @@ export const ProfilePageContainer = () => {
         content: 'Học tiếng Anh',
         completed: true
       }
-    ]
+    ],
+    showMenu: 1, /*to show menu*/
+    generation: 6 /*thế hệ*/
   }
   const [state, setState] = useState(initialValues)
   const props = {
