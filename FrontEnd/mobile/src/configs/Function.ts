@@ -59,12 +59,12 @@ export const convertToPostType = (data: any): Post => {
     groupId: data.assigned_group_id,
     groupName: data.assigned_group_name,
     content: data.content,
-    isLiked: data.is_liked,
     commentNumber: data.comment_number,
     reactionNumber: data.reaction_number,
     time: data.time,
     type: data.type,
     photos: data.photos,
+    reactionId: data.reaction_id,
   }
 }
 

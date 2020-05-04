@@ -9,14 +9,14 @@ class ReactionService extends BaseService<Reaction> {
     this.baseURL += 'reactions/'
   }
 
-  addReaction(postId: number): Promise<string> {
+  addReaction(postId: number): Promise<number> {
     return Axios.post(this.baseURL, { post_id: postId })
       .then((res) => {
-        return 'success'
+        return res.data.reaction_id
       })
       .catch((err) => {
         console.log(err)
-        return 'error'
+        return null
       })
   }
 }

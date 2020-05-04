@@ -30,8 +30,10 @@ interface ItemNewsFeedProps {
 }
 
 interface ItemNewFeedState {
-  liked: boolean
   animating: boolean
+  reactionId: number
+  isLiked: boolean
+  reactionNumber: number
 }
 
 class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
@@ -42,8 +44,11 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     super(props)
     // console.log('AppLog', props.post.isLiked)
     this.state = {
-      liked: this.props.post.isLiked!,
       animating: false,
+      reactionId: this.props.post.reactionId,
+      isLiked: this.props.post.reactionId === -1 ? false : true,
+      reactionNumber:
+        this.props.reactionNumber ?? this.props.post.reactionNumber!,
     }
   }
 
@@ -122,26 +127,28 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     }
   }
 
-  onPressReaction = () => {
+  onPressReaction = async () => {
     if (!this.canPressLike) {
       return
     }
-    this.setState(
-      {
-        liked: !this.state.liked,
-      },
-      async () => {
-        this.canPressLike = false
-        if (this.state.liked) {
-          this.animLike.current?.play(0, 100)
-          const status = await reactionService.addReaction(this.props.post.id!)
-          this.canPressLike = true
-        } else {
-          const status = await reactionService.delete(this.props.post.id!)
-          this.canPressLike = true
-        }
-      },
-    )
+    this.canPressLike = false
+    if (this.state.reactionId === -1) {
+      this.animLike.current?.play(0, 100)
+      const reactionId = await reactionService.addReaction(this.props.post.id!)
+      reactionId &&
+        this.setState({
+          reactionId,
+          reactionNumber: this.state.reactionNumber + 1,
+        })
+    } else {
+      this.animLike.current?.play(100, 0)
+      const status = await reactionService.delete(this.state.reactionId)
+      status === 'success' &&
+        this.setState({
+          reactionId: -1,
+          reactionNumber: this.state.reactionNumber - 1,
+        })
+    }
   }
 
   render() {
@@ -224,22 +231,22 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 width: '100%',
                 paddingVertical: 15,
               }}>
-              {/* <IonIcons
-                name={this.state.liked ? 'ios-heart' : 'ios-heart-empty'}
-                size={30}
-                color={this.state.liked ? 'red' : 'black'}
-              /> */}
               <LottieView
                 ref={this.animLike}
                 loop={false}
                 speed={2}
                 cacheStrategy={'none'}
                 resizeMode="cover"
-                progress={this.state.liked ? 1 : 0}
+                progress={this.state.isLiked ? 1 : 0}
                 source={require('../assets/anim/heart.json')}
+                onAnimationFinish={() => {
+                  this.setState({ isLiked: !this.state.isLiked }, () => {
+                    this.canPressLike = true
+                  })
+                }}
               />
               <Text style={{ marginLeft: 50 }}>
-                {reactionNumber ?? post.reactionNumber}
+                {this.state.reactionNumber}
               </Text>
             </View>
           </TouchableOpacity>

@@ -10,16 +10,25 @@ import {
   Platform,
   StatusBar,
   StatusBarIOS,
+  FlatList,
 } from 'react-native'
-import { AppState, SignInState } from '../core'
+import { AppState, SignInState, Post } from '../core'
 import { connect } from 'react-redux'
 import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
-import { WIDTH, HEIGHT, getStatusBarHeight } from '../configs/Function'
+import {
+  WIDTH,
+  HEIGHT,
+  getStatusBarHeight,
+  convertPostsArray,
+} from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
+import { ActivityIndicator } from 'react-native-paper'
+import colors from '../values/colors'
+import { postService } from '../services'
 
 interface ProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -29,50 +38,9 @@ interface ProfileScreenProps {
 interface ProfileScreenState {
   index: number
   routes: Route[]
+  isLoadingPost: boolean
+  posts: Post[]
 }
-
-const ActivityRoute = () => (
-  <ScrollView>{/* <ItemNewsFeed />
-    <ItemNewsFeed /> */}</ScrollView>
-)
-
-const ImageRoute = () => (
-  <ScrollView>
-    <View style={styles.rowImageContainer}>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-    </View>
-    <View style={styles.rowImageContainer}>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-    </View>
-    <View style={styles.rowImageContainer}>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image style={styles.gridImage} source={images.BGR_BATMAN} />
-      </TouchableOpacity>
-    </View>
-  </ScrollView>
-)
 
 class ProfileScreen extends React.Component<
   ProfileScreenProps,
@@ -86,13 +54,81 @@ class ProfileScreen extends React.Component<
         { key: 'first', title: 'Hoạt động' },
         { key: 'second', title: 'Ảnh' },
       ],
+      isLoadingPost: true,
+      posts: [],
     }
+    this.getUserPost()
   }
+
+  getUserPost = async () => {
+    const data = await postService.getAllwParams(
+      'user',
+      this.props.signInState.currentUser?.id!,
+    )
+    const posts = convertPostsArray(data)
+    this.setState({ posts, isLoadingPost: false })
+  }
+
+  ActivityRoute = () => {
+    return (
+      <>
+        <ActivityIndicator
+          animating={this.state.isLoadingPost}
+          color={colors.mainBlue}
+          style={{ marginTop: 10 }}
+        />
+        <FlatList
+          data={this.state.posts}
+          renderItem={({ item }) => {
+            return <ItemNewsFeed post={item} />
+          }}
+        />
+      </>
+    )
+  }
+
+  ImageRoute = () => (
+    <ScrollView>
+      <View style={styles.rowImageContainer}>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.rowImageContainer}>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.rowImageContainer}>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image style={styles.gridImage} source={images.BGR_BATMAN} />
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  )
 
   render() {
     const renderScene = SceneMap({
-      first: ActivityRoute,
-      second: ImageRoute,
+      first: this.ActivityRoute,
+      second: this.ImageRoute,
     })
     return (
       <View style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}>
