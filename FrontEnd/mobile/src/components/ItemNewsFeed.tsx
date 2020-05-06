@@ -141,13 +141,18 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
           reactionNumber: this.state.reactionNumber + 1,
         })
     } else {
-      this.animLike.current?.play(100, 0)
       const status = await reactionService.delete(this.state.reactionId)
       status === 'success' &&
-        this.setState({
-          reactionId: -1,
-          reactionNumber: this.state.reactionNumber - 1,
-        })
+        this.setState(
+          {
+            reactionId: -1,
+            reactionNumber: this.state.reactionNumber - 1,
+            isLiked: !this.state.isLiked,
+          },
+          () => {
+            this.canPressLike = true
+          },
+        )
     }
   }
 
