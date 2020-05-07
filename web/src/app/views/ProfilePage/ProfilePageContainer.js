@@ -9,24 +9,22 @@ import avt from './assets/avt.jpg'
 
 export const ProfilePageContainer = () => {
   const { user } = useSelector((state) => state.homeReducer)
-  const {
-    id,
-    display_name: displayName,
-    username,
-    date_of_birth: dateOfBrith,
-    description,
-    email,
-    phone_number: phoneNumber
-  } = user
+  // const {
+  //   id,
+  //   username,
+  //   displayName,
+  //   avatar,
+  //   dateOfBirth,
+  //   description,
+  //   className,
+  //   email,
+  //   facebook,
+  //   phoneNumber,
+  //   regDate,
+  //   gender
+  // } = user
   const initialValues = {
-    displayName,
-    username,
-    avt,
-    cover,
-    dateOfBrith,
-    phoneNumber,
-    email,
-    description,
+    ...user,
     gender: '',
     grade: 'D18',
     address: '',
@@ -45,7 +43,7 @@ export const ProfilePageContainer = () => {
         completed: true
       }
     ],
-    showMenu: 1, /*to show menu*/
+    showMenu: 1 /*to show menu*/,
     generation: 6 /*thế hệ*/
   }
   const [state, setState] = useState(initialValues)
