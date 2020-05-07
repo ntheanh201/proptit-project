@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{876:function(e,t,a){"use strict";a.r(t);var o=a(0),r=a.n(o),n=a(829),c=a(67),u=a(118);t.default=function(){var e=Object(c.useDispatch)();return localStorage.removeItem("authToken"),localStorage.removeItem("userData"),e(u.b(!1)),r.a.createElement(n.Redirect,{to:"/"})}}}]);

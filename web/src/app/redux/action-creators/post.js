@@ -1,10 +1,10 @@
 import * as Actions from '../action-types'
-import { GetAllPostsService } from 'services'
+import { GetAllPostsService, addPostService, updatePostService } from 'services'
 
-export const getAllPosts = () => {
+export const getAllPosts = (type = 'group', id = 1) => {
   return async (dispatch) => {
     // eslint-disable-next-line new-cap
-    const payload = await GetAllPostsService()
+    const payload = await GetAllPostsService(type, id)
     dispatch({
       type: Actions.GET_ALL_POSTS,
       payload
@@ -20,18 +20,26 @@ export const getPostById = (payload) => {
     })
 }
 
-export const getPostsByGroupId = (payload) => {
-  return (dispatch) =>
-    dispatch({
-      type: Actions.GET_POSTS_BY_GROUP,
-      payload
-    })
+export const createPost = (post, images) => {
+  return (dispatch) => {
+    const post = addPostService(post, images)
+    if (post === 'success') {
+      dispatch({
+        type: Actions.CREATE_POST,
+        payload: post
+      })
+      return 'success'
+    }
+    return 'error'
+  }
 }
 
-export const createPost = (payload) => {
-  return (dispatch) =>
+export const updatePost = (post, images) => {
+  return (dispatch) => {
+    const post = updatePostService(post, images)
     dispatch({
-      type: Actions.CREATE_POST,
-      payload
+      type: Actions.UPDATE_POST,
+      payload: post
     })
+  }
 }

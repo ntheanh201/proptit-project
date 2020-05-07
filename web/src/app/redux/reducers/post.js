@@ -2,7 +2,7 @@
 import * as Actions from '../action-types'
 
 const STATE_INIT = {
-  posts: null,
+  posts: [],
   post: null
 }
 
@@ -15,7 +15,7 @@ export default (state = STATE_INIT, { type, payload }) => {
     case Actions.GET_POSTS_BY_GROUP:
       return { ...state, posts: payload }
     case Actions.CREATE_POST:
-      return { ...state, posts: payload }
+      return { ...state, posts: [payload, ...state.posts] }
     case Actions.UPDATE_POST:
       return { ...state, posts: payload }
     case Actions.DELETE_POST:

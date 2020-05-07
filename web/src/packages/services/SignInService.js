@@ -1,6 +1,6 @@
 import axios from 'axios'
 import environments from 'environments'
-import { getAccessKey } from './util'
+import { getAccessKey, getRefreshToken } from './util'
 
 export const SignInService = (username, password) => {
   return axios
@@ -18,8 +18,23 @@ export const SignInService = (username, password) => {
 }
 
 export const updateAccessTokenService = () => {
-  // todo: get new access token if the current access token is expired
-  return null
+  // get new access token if the current access token is expired
+  const refreshToken = getRefreshToken()
+  return axios
+    .post(`${environments.BASE_URL}auth/jwt/refresh/`, {
+      refresh: refreshToken
+    })
+    .then((response) => {
+      const authToken = {
+        refresh: refreshToken,
+        access: response.data.access
+      }
+      localStorage.setItem('authToken', JSON.stringify(authToken))
+      return response.data
+    })
+    .catch((error) => {
+      return null
+    })
 }
 
 export const fetchUserDataService = () => {

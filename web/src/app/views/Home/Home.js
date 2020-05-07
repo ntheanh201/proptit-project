@@ -13,10 +13,7 @@ export const Home = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      await dispatch(PostActions.getAllPosts())
-    }
-    fetchPosts()
+    dispatch(PostActions.getAllPosts())
   }, [])
 
   return (

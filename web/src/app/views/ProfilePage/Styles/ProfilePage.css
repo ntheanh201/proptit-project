@@ -1,0 +1,129 @@
+.top-profile {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+
+.avt {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    background-size: cover;
+    border: 3px solid #ffffff;
+    margin-top: -100px;
+}
+
+@media screen and (max-width: 768px) {
+    .avt {
+        width: 100px;
+        height: 100px;
+        margin-top: -68px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .avt {
+        width: 70px;
+        height: 70px;
+        margin-top: -48px;
+    }
+}
+
+.description {
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
+}
+
+.menu-profile .nav-item a{
+    font-weight: bold;
+    color: black;
+}
+
+.body-profile {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100%;
+}
+
+.top-profile {
+    margin-bottom: 10px;
+}
+
+.title-body {
+    margin: 10px 0px;
+}
+
+.show-false {
+    display: none;
+}
+
+.left-status {
+    background-color: #ffffff;
+    border-radius: 10px;
+    flex: 1;
+    margin-right: 10px;
+    padding: 5px;
+}
+.right-status {
+    background-color: #ffffff;
+    border-radius: 10px;
+    flex: 2;
+    padding: 5px;
+}
+
+.display-body {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.more-menu {
+    display: none;
+    text-align: center;
+    border: none;
+    background-color: #ffffff;
+}
+.more-menu i {
+    color: rgb(59, 59, 59);
+}
+.more-menu i:hover {
+    color: #000000;
+}
+.view-item {
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    .display-body {
+        flex-flow: column wrap;
+    }
+    .left-status {
+        flex: 1;
+        margin-right: 0px;
+    }
+    .right-status {
+        flex: 1;
+    }
+    .hidden-menu {
+        display: none;
+    }
+    .more-menu {
+        display: block;
+    }
+    .view-item {
+        display: list-item;
+    }
+}
+
+.edit-profile {
+    margin-left: 5px;
+}
+.edit-profile:hover {
+    color: #000000;
+    cursor: pointer;
+}
+
+

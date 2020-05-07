@@ -12,10 +12,10 @@ import ngocmai from '../../../../assets/ngocmai.jpg'
 
 export const CreatePost = () => {
   const dispatch = useDispatch()
-  const { posts } = useSelector(state => state.postReducer)
+  const { posts } = useSelector((state) => state.postReducer)
   const [state, setState] = useState({ value: '' })
 
-  const onChangeValue = event => {
+  const onChangeValue = (event) => {
     setState({ value: event.target.value })
   }
 
@@ -92,7 +92,7 @@ export const CreatePost = () => {
   ])
   //todo: get all groups
 
-  const onCreatePost = post => {
+  const onCreatePost = (post) => {
     //todo: createPost, update redux
     dispatch(
       // eslint-disable-next-line camelcase

@@ -1,24 +1,32 @@
 import * as Actions from '../action-types'
 
-import { SignInService, fetchUserDataService } from 'services'
+import {
+  SignInService,
+  fetchUserDataService,
+  updateAccessTokenService
+} from 'services'
 
 // export const
 
 export const updatePreloader = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
+    // check if current refresh token is active or not, if it's not active (return null), user need to login again
+    const updateToken = await updateAccessTokenService()
     let isLogged = false
-    if (
-      localStorage &&
-      localStorage.getItem('authToken') &&
-      localStorage.getItem('userData')
-    ) {
-      // const authToken = JSON.parse(localStorage.getItem('authToken'))
-      const userInfo = JSON.parse(localStorage.getItem('userData'))
-      isLogged = true
-      dispatch({
-        type: Actions.USER_INFO,
-        payload: userInfo
-      })
+    if (updateToken) {
+      if (
+        localStorage &&
+        localStorage.getItem('authToken') &&
+        localStorage.getItem('userData')
+      ) {
+        // const authToken = JSON.parse(localStorage.getItem('authToken'))
+        const userInfo = JSON.parse(localStorage.getItem('userData'))
+        isLogged = true
+        dispatch({
+          type: Actions.USER_INFO,
+          payload: userInfo
+        })
+      }
     }
     dispatch({
       type: Actions.IS_LOGGED,

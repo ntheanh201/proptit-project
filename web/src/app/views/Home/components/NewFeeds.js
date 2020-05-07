@@ -21,7 +21,6 @@ const ShowNewFeeds = ({ children }) => {
 
 export const NewFeeds = () => {
   const { posts } = useSelector((state) => state.postReducer)
-
   const onCreatePoll = (poll, postId) => {
     posts[postId - 1].listPoll.push(poll)
   }
