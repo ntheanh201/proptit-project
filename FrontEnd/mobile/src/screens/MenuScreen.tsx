@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  AppState,
 } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
@@ -16,9 +17,14 @@ import styles from '../values/styles'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import ItemGroup from '../components/itemgroup/ItemGroup'
+import { Dispatch, AnyAction, bindActionCreators } from 'redux'
+import { signInAction } from '../core/actions'
+import { connect } from 'react-redux'
+import { signOut } from '../core'
 
 interface MenuScreenProps {
   navigation: StackNavigationProp<RootStackParams>
+  signOut: typeof signOut
 }
 
 interface Group {
@@ -145,10 +151,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.onPressLogout()
-            }}>
+          <TouchableOpacity onPress={this.onPressLogout}>
             <View
               style={{
                 borderBottomColor: 'gray',
@@ -173,7 +176,10 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
       </SafeAreaView>
     )
   }
-  onPressLogout() {}
+  onPressLogout = async () => {
+    await this.props.signOut()
+    this.props.navigation.navigate('SignIn')
+  }
   onPressSetting() {}
   onPressGroup() {
     this.setState({
@@ -193,4 +199,9 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
   onPressItemGroup(): void {}
 }
 
-export default MenuScreen
+const mapStateToProps = (state: AppState) => ({})
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(signInAction, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen)

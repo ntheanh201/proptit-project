@@ -6,6 +6,9 @@ import {
   SignInState,
   SignInAction,
   SIGN_OUT,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
+  UPDATE_USER_PROGRESS,
 } from '../types/signin.types'
 
 let initialState: SignInState = {
@@ -13,6 +16,8 @@ let initialState: SignInState = {
   isSignIn: false,
   isSignOut: true,
   isOpeningApp: true,
+  isUpdatingUser: false,
+  updateUserSuccess: false,
 }
 
 export default (
@@ -45,6 +50,24 @@ export default (
         ...state,
         isSignIn: false,
         isSignOut: true,
+      }
+    case UPDATE_USER_PROGRESS:
+      return {
+        ...state,
+        isUpdatingUser: true,
+      }
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        currentUser: { ...state.currentUser, ...action.currentUser },
+        isUpdatingUser: false,
+        updateUserSuccess: true,
+      }
+    case UPDATE_USER_FAILED:
+      return {
+        ...state,
+        isUpdatingUser: false,
+        updateUserSuccess: false,
       }
     default:
       return state

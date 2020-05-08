@@ -4,7 +4,7 @@ import { User } from '../core'
 class UserService extends BaseService<User> {
   constructor() {
     super()
-    this.baseURL += '/accounts'
+    this.baseURL += 'auth/users/me/'
   }
 }
 

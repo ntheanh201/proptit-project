@@ -23,22 +23,28 @@ export default class BaseService<T> {
       .catch((err) => console.log(err))
   }
 
-  add(item: T): Promise<void> {
+  add(item: T): Promise<string> {
     return Axios.post(this.baseURL, item)
       .then((res) => {
         console.log(res.status)
-        return
+        return 'success'
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        return 'error'
+      })
   }
 
-  update(item: T): Promise<void> {
+  update(item: T): Promise<string> {
     return Axios.patch(this.baseURL, item)
       .then((res) => {
         console.log(res.status)
-        return
+        return 'success'
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        return 'error'
+      })
   }
 
   delete(id: number): Promise<string> {

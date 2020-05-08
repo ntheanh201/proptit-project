@@ -14,7 +14,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native'
-import { AppState, User } from '../core'
+import { AppState, User, updateUser } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
@@ -31,10 +31,14 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 import { RadioButton } from 'react-native-paper'
 import { Picker } from '@react-native-community/picker'
+import { userService } from '../services'
 
 interface EditProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   currentUser?: User
+  updateUser: typeof updateUser
+  isUpdatingUser: boolean
+  updateUserSuccess: boolean
 }
 
 interface EditProfileScreenState {
@@ -42,7 +46,12 @@ interface EditProfileScreenState {
   isShowingDatePicker: boolean
   isShowingGenderPicker: boolean
   birthday: Date
-  gender: string
+  gender: number
+  displayName: string
+  phoneNumber: string
+  email: string
+  facebook: string
+  description: string
 }
 
 class EditProfileScreen extends React.Component<
@@ -58,14 +67,29 @@ class EditProfileScreen extends React.Component<
       isShowingDatePicker: false,
       isShowingGenderPicker: false,
       birthday: moment(this.props.currentUser?.dateOfBirth!).toDate(),
-      gender: 'Male',
+      gender: this.props.currentUser?.gender ?? 1,
+      description: this.props.currentUser?.description ?? '',
+      displayName: this.props.currentUser?.displayName ?? '',
+      email: this.props.currentUser?.email ?? '',
+      facebook: this.props.currentUser?.facebook ?? '',
+      phoneNumber: this.props.currentUser?.phoneNumber ?? '',
     }
     this.props.navigation.setOptions({
       title: 'Edit Profile',
       headerBackTitleVisible: false,
       headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 10 }}>
-          <Text style={{ fontSize: 16, color: colors.mainBlue }}>Save</Text>
+        <TouchableOpacity
+          style={{ marginRight: 10 }}
+          onPress={this.onPressSave}
+          disabled={this.props.isUpdatingUser}>
+          <Text
+            style={{
+              fontSize: 16,
+              color: colors.mainBlue,
+              fontWeight: 'bold',
+            }}>
+            Save
+          </Text>
         </TouchableOpacity>
       ),
     })
@@ -88,6 +112,25 @@ class EditProfileScreen extends React.Component<
     )
   }
 
+  onPressSave = async () => {
+    const userData: User = {
+      displayName: this.state.displayName,
+      phoneNumber: this.state.phoneNumber,
+      email: this.state.email,
+      facebook: this.state.facebook,
+      description: this.state.description,
+      dateOfBirth: this.state.birthday.toISOString(),
+      gender: this.state.gender,
+    }
+    await this.props.updateUser(userData)
+    if (this.props.updateUserSuccess) {
+      console.log(this.props.currentUser)
+      this.props.navigation.goBack()
+    } else {
+      console.log('error')
+    }
+  }
+
   onKeyboardShow = (e: any) => {
     this.setState({
       padding: e.endCoordinates.height,
@@ -98,6 +141,17 @@ class EditProfileScreen extends React.Component<
     this.setState({
       padding: 0,
     })
+  }
+
+  convertGenderType = (gender: number) => {
+    switch (gender) {
+      case 1:
+        return 'Male'
+      case 2:
+        return 'Female'
+      case 3:
+        return 'Other'
+    }
   }
 
   render() {
@@ -113,14 +167,17 @@ class EditProfileScreen extends React.Component<
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
+            onTextChange={(text) => {
+              this.setState({ displayName: text })
+            }}
           />
           <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <TouchableOpacity
               style={{
                 flex: 1,
                 marginHorizontal: 10,
-                borderBottomWidth: 0.5,
-                borderColor: 'gray',
+                borderBottomWidth: 1,
+                borderColor: '#aaa',
               }}
               onPress={() => {
                 this.setState({
@@ -142,8 +199,8 @@ class EditProfileScreen extends React.Component<
               style={{
                 flex: 1,
                 marginHorizontal: 10,
-                borderBottomWidth: 0.5,
-                borderColor: 'gray',
+                borderBottomWidth: 1,
+                borderColor: '#aaa',
               }}
               onPress={() => {
                 this.setState({
@@ -153,29 +210,43 @@ class EditProfileScreen extends React.Component<
                   this.setState({ isShowingDatePicker: false })
               }}>
               <Text>Gender </Text>
-              <Text
-                style={{
-                  fontSize: 18,
-                  marginTop: 5,
-                }}>
-                {this.state.gender}
-              </Text>
+              {Platform.OS === 'ios' ? (
+                <Text
+                  style={{
+                    fontSize: 18,
+                    marginTop: 5,
+                  }}>
+                  {this.convertGenderType(this.state.gender)}
+                </Text>
+              ) : (
+                <Picker
+                  selectedValue={this.convertGenderType(this.state.gender)}
+                  onValueChange={(value, index) => {
+                    this.setState({ gender: index + 1 })
+                  }}>
+                  <Picker.Item label={'Male'} value={'Male'} />
+                  <Picker.Item label={'Female'} value={'Female'} />
+                  <Picker.Item label={'Other'} value={'Other'} />
+                </Picker>
+              )}
             </TouchableOpacity>
           </View>
-          {this.state.isShowingDatePicker && (
+          {Platform.OS === 'ios' && this.state.isShowingDatePicker && (
             <DateTimePicker
               value={this.state.birthday}
               mode={'date'}
               onChange={(event, date) => {
-                this.setState({ birthday: date! })
+                Platform.OS === 'android' &&
+                  this.setState({ isShowingDatePicker: false })
+                date && this.setState({ birthday: date })
               }}
             />
           )}
           {this.state.isShowingGenderPicker && (
             <Picker
-              selectedValue={this.state.gender}
+              selectedValue={this.convertGenderType(this.state.gender)}
               onValueChange={(value, index) => {
-                this.setState({ gender: value.toString() })
+                this.setState({ gender: index + 1 })
               }}>
               <Picker.Item label={'Male'} value={'Male'} />
               <Picker.Item label={'Female'} value={'Female'} />
@@ -188,6 +259,9 @@ class EditProfileScreen extends React.Component<
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
+            onTextChange={(text) => {
+              this.setState({ phoneNumber: text })
+            }}
           />
           <FloatingLabelInput
             label={'Email'}
@@ -195,6 +269,9 @@ class EditProfileScreen extends React.Component<
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
+            onTextChange={(text) => {
+              this.setState({ email: text })
+            }}
           />
           <FloatingLabelInput
             label={'Facebook'}
@@ -202,6 +279,9 @@ class EditProfileScreen extends React.Component<
             borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
+            onTextChange={(text) => {
+              this.setState({ facebook: text })
+            }}
           />
           <FloatingLabelInput
             label={'Description'}
@@ -210,6 +290,9 @@ class EditProfileScreen extends React.Component<
             containerStyle={styles.textField}
             multiline={true}
             scrollView={this.scrollViewRef}
+            onTextChange={(text) => {
+              this.setState({ description: text })
+            }}
           />
         </KeyboardAwareScrollView>
       </SafeAreaView>
@@ -226,6 +309,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: AppState) => ({
   currentUser: state.signin.currentUser,
+  isUpdatingUser: state.signin.isUpdatingUser,
+  updateUserSuccess: state.signin.updateUserSuccess,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
