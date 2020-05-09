@@ -10,28 +10,34 @@ export const Post = (props) => {
 
   const {
     id,
-    assigned_user_display_name: name,
+    authorName,
+    groupId,
+    authorAvatar,
+    groupName,
     content,
     img,
-    assigned_user_id: userId,
+    authorId,
     profileHref = '',
     username = '',
-    assigned_user_avatar: avatarImg,
-    reaction_number: reactionCount,
-    commentCount,
+    avatarImg,
+    reactionNumber,
+    commentNumber,
     type,
-    listPoll
+    photos,
+    listPoll,
+    reactionId,
+    time
   } = post
 
   return (
     <Card key={id}>
       <div className='d-flex pt-5 mt-auto pl-5'>
         <div className='avatar avatar-md mr-3' style={{ overflow: 'hidden' }}>
-          <img src={avatarImg} />
+          <img src={authorAvatar} />
         </div>
         <div>
           <a href={profileHref} className='text-default'>
-            {name}
+            {authorName}
           </a>
           <small className='d-block text-muted'>
             <strong>{username}</strong>
@@ -59,10 +65,10 @@ export const Post = (props) => {
 
           <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
             <div className='icon d-none d-md-inline-block ml-3'>
-              <Icon prefix='fe' name={'heart'} /> {reactionCount}
+              <Icon prefix='fe' name={'heart'} /> {reactionNumber}
             </div>
             <div className='icon d-none d-md-inline-block ml-3'>
-              <Icon prefix='fa' name={'comment-o'} /> {commentCount}
+              <Icon prefix='fa' name={'comment-o'} /> {commentNumber}
             </div>
             <div className='icon d-none d-md-inline-block ml-3'>
               <Icon prefix='fe' name={'external-link'} />

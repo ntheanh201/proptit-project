@@ -14,24 +14,22 @@ import {
 } from 'tabler-react'
 
 import { Card, CardBody, CardHeader, CardOptions, CardTitle } from 'ui'
+<<<<<<< HEAD
 import { ImageView } from '../../../packages/ui/components/Post/ImageView/ImageView'
+=======
+import CreateMission from './CreateMission'
+>>>>>>> 13f93d3c8eea1c96291b20dc4097c4cd91d282e6
 
 export const ProfilePage = ({ state, setState }) => {
   const {
-    displayName,
-    username,
     avt,
     cover,
-    dateOfBirth,
-    gender,
     grade,
     address,
-    description,
     position,
-    email,
-    phoneNumber,
     missions,
     showMenu,
+<<<<<<< HEAD
     generation,
     showModal = false // show image check
   } = state
@@ -46,6 +44,51 @@ export const ProfilePage = ({ state, setState }) => {
     setState({showModal: false})
   }
 
+=======
+    id,
+    username,
+    displayName,
+    avatar,
+    dateOfBirth,
+    description,
+    className,
+    email,
+    facebook,
+    phoneNumber,
+    regDate,
+    gender,
+    generation
+  } = state
+  const showTableMission = 
+      missions.map((mission,index) => (
+        <tr
+          key={index} 
+          className={mission.completed ? "table-success" : mission.deadline.getTime() < Date.now() ? 'table-danger' : 'table-warning'}
+        >
+          <td>{index + 1}</td>
+          <td>{ mission.content }</td>
+          <td>{ mission.deadline.toLocaleString('vi') }</td>
+          <td>
+          <Form.Group>
+            <Form.Checkbox
+              label={mission.completed ? "Đã hoàn thành" : mission.deadline.getTime() < Date.now() ? 'Quá Deadline' : 'Chưa hoàn thành'}
+              name="completed"
+              checked = {mission.completed}
+              onChange = {
+                (event) => {
+                  const target = event.target
+                  const value = target.type === 'checkbox' ? target.checked : target.value
+                  setState({missions: [...missions,{...mission, completed: value}]})
+                }
+              }
+            />
+          </Form.Group>
+          </td>
+          <td>
+          </td>
+        </tr>
+      ))
+>>>>>>> 13f93d3c8eea1c96291b20dc4097c4cd91d282e6
   const RenderInformation = () => {
     return (
       <Timeline>
@@ -57,7 +100,10 @@ export const ProfilePage = ({ state, setState }) => {
         />
         <Timeline.Item title={'Giới tính: ' + gender} badgeColor='yellow' />
         <Timeline.Item title={'Khoá: ' + grade} badgeColor='wheat' />
-        <Timeline.Item title={'Làm việc tại: ' + position  + " Gen " + generation} badgeColor='orange' />
+        <Timeline.Item
+          title={'Làm việc tại: ' + position + ' Gen ' + generation}
+          badgeColor='orange'
+        />
         <Timeline.Item title={'Quê quán: ' + address} badge />
         {phoneNumber && (
           <Timeline.Item
@@ -80,44 +126,34 @@ export const ProfilePage = ({ state, setState }) => {
 
   const RenderMissions = () => {
     return (
-      <Table
-        responsive
-        highlightRowOnHover
-        hasOutline
-        verticalAlign='center'
-        cards
-        className='text-nowrap'
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColHeader>Tên nhiệm vụ</Table.ColHeader>
-            <Table.ColHeader>Trạng thái</Table.ColHeader>
-            <Table.ColHeader alignContent='center'>
-              <i className='icon-settings' />
-            </Table.ColHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {missions.map(({ id, content, completed }) => (
-            <Table.Row key={id}>
-              <Table.Col>
-                <div>{content}</div>
-              </Table.Col>
-              <Table.Col>
-                <strong>{completed ? 'Hoàn thành' : 'Chưa hoàn thành'}</strong>
-              </Table.Col>
-              <Table.Col alignContent='center'>
-                <Icon link name='check' />
-              </Table.Col>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      <div className="table-responsive">
+        <table className="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tên nhiệm vụ</th>
+              <th>Deadline</th>
+              <th>Trạng thái</th>
+              <th>Công cụ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {showTableMission}
+          </tbody>
+        </table>
+      </div>
     )
+  }
+  const addNewMission = (mission) => {
+    var index = 1
+    mission.id = index
+    index++
+    setState({missions: [...missions, mission]})
   }
   return (
     <div>
       <Page>
+<<<<<<< HEAD
         <div className="top-profile">
           <Cover src={cover}  />
           <div
@@ -143,37 +179,65 @@ export const ProfilePage = ({ state, setState }) => {
               >Dòng thời gian</a>
             </li>
             <li className="nav-item view-item">
+=======
+        <div className='top-profile'>
+          <Cover src={cover} />
+          <div
+            className='avt'
+            style={{ backgroundImage: 'url(' + avt + ')' }}
+          ></div>
+          <h3 className='name'>{displayName}</h3>
+          <p className='description'>{description}</p>
+          <ul className='nav nav-tabs nav-stacked menu-profile'>
+            <li className='nav-item hidden-menu'>
+>>>>>>> 13f93d3c8eea1c96291b20dc4097c4cd91d282e6
               <a
-                className="nav-link active"
+                onClick={() => setState({ showMenu: 1 })}
+                className={showMenu === 1 ? 'nav-link active' : 'nav-link'}
               >
-                {
-                  showMenu === 1 ? "Dòng thời gian" : showMenu === 2 ? "Giới thiệu" : "Nhiệu vụ hàng tháng"
-                }
+                Dòng thời gian
               </a>
             </li>
-            <li className="nav-item hidden-menu">
-              <a
-                onClick={() => setState({showMenu: 2})}
-                className={showMenu === 2 ? "nav-link active" : "nav-link"}
-              >Giới thiệu</a>
+            <li className='nav-item view-item'>
+              <a className='nav-link active'>
+                {showMenu === 1
+                  ? 'Dòng thời gian'
+                  : showMenu === 2
+                  ? 'Giới thiệu'
+                  : 'Nhiệu vụ hàng tháng'}
+              </a>
             </li>
-            <li className="nav-item hidden-menu">
+            <li className='nav-item hidden-menu'>
               <a
-                onClick={() => setState({showMenu: 3})}
-                className={showMenu === 3 ? "nav-link active" : "nav-link"}
-              >Nhiệm vụ hàng tháng</a>
+                onClick={() => setState({ showMenu: 2 })}
+                className={showMenu === 2 ? 'nav-link active' : 'nav-link'}
+              >
+                Giới thiệu
+              </a>
+            </li>
+            <li className='nav-item hidden-menu'>
+              <a
+                onClick={() => setState({ showMenu: 3 })}
+                className={showMenu === 3 ? 'nav-link active' : 'nav-link'}
+              >
+                Nhiệm vụ hàng tháng
+              </a>
             </li>
           </ul>
           <button
               className="more-menu"
-              type="button" id="triggerId"
+              type="button"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i className="fas fa-ellipsis-h"></i>
+              {showMenu === 1
+                ? 'Giới thiệu'
+                : showMenu === 2
+                ? 'Nhiệu vụ hàng tháng'
+                : 'Dòng thời gian'}
             </button>
-            <div className="dropdown-menu" aria-labelledby="triggerId">
+            <div className="dropdown-menu">
               <button
                 className="dropdown-item"
                 onClick = {() => {
@@ -210,22 +274,20 @@ export const ProfilePage = ({ state, setState }) => {
         </div>
       </Page>
       <Page>
-        <div className="display-body">
-          <div
-            className={showMenu === 1 ? 'left-status' : 'show-false'}
-          >
-            <h3 className="title-body">
-              Giới thiệu
-            </h3>
+        <div className='display-body'>
+          <div className={showMenu === 1 ? 'left-status' : 'show-false'}>
+            <h3 className='title-body'>Giới thiệu</h3>
             <p>
-              <i className="far fa-user"></i>
-              {" "+"Khóa: "}
+              <i className='far fa-user'></i>
+              {' ' + 'Khóa: '}
               <strong>{grade}</strong>
             </p>
             <p>
-              <i className="fas fa-briefcase"></i>
-              {" "+"Làm việc tại: "}
-              <strong>{generation && position ? position + " Gen " + generation : ''}</strong>
+              <i className='fas fa-briefcase'></i>
+              {' ' + 'Làm việc tại: '}
+              <strong>
+                {generation && position ? position + ' Gen ' + generation : ''}
+              </strong>
             </p>
           </div>
           <div
@@ -244,10 +306,7 @@ export const ProfilePage = ({ state, setState }) => {
                 </div>
               : 
                 <div>
-                  <h3 className="title-body">
-                    Nhiệm vụ
-                    <i className="fas fa-edit edit-profile"></i>
-                  </h3>
+                  <CreateMission addNewMission = {addNewMission}/>
                   <RenderMissions />
                 </div>
             }

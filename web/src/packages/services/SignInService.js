@@ -1,6 +1,7 @@
 import axios from 'axios'
 import environments from 'environments'
 import { getAccessKey, getRefreshToken } from './util'
+import { convertToUserType } from '../helpers'
 
 export const SignInService = (username, password) => {
   return axios
@@ -46,8 +47,9 @@ export const fetchUserDataService = () => {
       }
     })
     .then((response) => {
-      localStorage.setItem('userData', JSON.stringify(response.data))
-      return response.data
+      const user = convertToUserType(response.data)
+      localStorage.setItem('userData', JSON.stringify(user))
+      return user
     })
     .catch((error) => {
       if (error.response) {

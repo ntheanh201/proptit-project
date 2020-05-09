@@ -1,5 +1,7 @@
 import axios from 'axios'
 import environments from 'environments'
+import { convertToPostArray } from 'helpers'
+
 import { getAccessKey } from './util'
 
 export const GetAllPostsService = (type, id) => {
@@ -12,7 +14,7 @@ export const GetAllPostsService = (type, id) => {
       }
     })
     .then((response) => {
-      return response.data
+      return convertToPostArray(response.data)
     })
     .catch((error) => {
       if (error.response) {
