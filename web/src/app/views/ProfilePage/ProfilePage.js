@@ -14,11 +14,7 @@ import {
 } from 'tabler-react'
 
 import { Card, CardBody, CardHeader, CardOptions, CardTitle } from 'ui'
-<<<<<<< HEAD
 import { ImageView } from '../../../packages/ui/components/Post/ImageView/ImageView'
-=======
-import CreateMission from './CreateMission'
->>>>>>> 13f93d3c8eea1c96291b20dc4097c4cd91d282e6
 
 export const ProfilePage = ({ state, setState }) => {
   const {
@@ -29,7 +25,6 @@ export const ProfilePage = ({ state, setState }) => {
     position,
     missions,
     showMenu,
-<<<<<<< HEAD
     generation,
     showModal = false // show image check
   } = state
@@ -44,51 +39,6 @@ export const ProfilePage = ({ state, setState }) => {
     setState({showModal: false})
   }
 
-=======
-    id,
-    username,
-    displayName,
-    avatar,
-    dateOfBirth,
-    description,
-    className,
-    email,
-    facebook,
-    phoneNumber,
-    regDate,
-    gender,
-    generation
-  } = state
-  const showTableMission = 
-      missions.map((mission,index) => (
-        <tr
-          key={index} 
-          className={mission.completed ? "table-success" : mission.deadline.getTime() < Date.now() ? 'table-danger' : 'table-warning'}
-        >
-          <td>{index + 1}</td>
-          <td>{ mission.content }</td>
-          <td>{ mission.deadline.toLocaleString('vi') }</td>
-          <td>
-          <Form.Group>
-            <Form.Checkbox
-              label={mission.completed ? "Đã hoàn thành" : mission.deadline.getTime() < Date.now() ? 'Quá Deadline' : 'Chưa hoàn thành'}
-              name="completed"
-              checked = {mission.completed}
-              onChange = {
-                (event) => {
-                  const target = event.target
-                  const value = target.type === 'checkbox' ? target.checked : target.value
-                  setState({missions: [...missions,{...mission, completed: value}]})
-                }
-              }
-            />
-          </Form.Group>
-          </td>
-          <td>
-          </td>
-        </tr>
-      ))
->>>>>>> 13f93d3c8eea1c96291b20dc4097c4cd91d282e6
   const RenderInformation = () => {
     return (
       <Timeline>
@@ -153,7 +103,6 @@ export const ProfilePage = ({ state, setState }) => {
   return (
     <div>
       <Page>
-<<<<<<< HEAD
         <div className="top-profile">
           <Cover src={cover}  />
           <div
@@ -179,18 +128,6 @@ export const ProfilePage = ({ state, setState }) => {
               >Dòng thời gian</a>
             </li>
             <li className="nav-item view-item">
-=======
-        <div className='top-profile'>
-          <Cover src={cover} />
-          <div
-            className='avt'
-            style={{ backgroundImage: 'url(' + avt + ')' }}
-          ></div>
-          <h3 className='name'>{displayName}</h3>
-          <p className='description'>{description}</p>
-          <ul className='nav nav-tabs nav-stacked menu-profile'>
-            <li className='nav-item hidden-menu'>
->>>>>>> 13f93d3c8eea1c96291b20dc4097c4cd91d282e6
               <a
                 onClick={() => setState({ showMenu: 1 })}
                 className={showMenu === 1 ? 'nav-link active' : 'nav-link'}
