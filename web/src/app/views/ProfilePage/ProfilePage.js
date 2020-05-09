@@ -14,6 +14,7 @@ import {
 } from 'tabler-react'
 
 import { Card, CardBody, CardHeader, CardOptions, CardTitle } from 'ui'
+import { ImageView } from '../../../packages/ui/components/Post/ImageView/ImageView'
 
 export const ProfilePage = ({ state, setState }) => {
   const {
@@ -31,8 +32,20 @@ export const ProfilePage = ({ state, setState }) => {
     phoneNumber,
     missions,
     showMenu,
-    generation
+    generation,
+    showModal = false // show image check
   } = state
+
+  // show image
+  const onShowImg = (image) => {
+    setState({showModal: true})
+  }
+
+  // close image
+  const onCloseImg = () => {
+    setState({showModal: false})
+  }
+
   const RenderInformation = () => {
     return (
       <Timeline>
@@ -106,11 +119,20 @@ export const ProfilePage = ({ state, setState }) => {
     <div>
       <Page>
         <div className="top-profile">
-          <Cover src={cover} />
+          <Cover src={cover}  />
           <div
             className="avt"
-            style={{ backgroundImage: 'url(' + avt + ')' }}
-          ></div>
+            style={{ backgroundImage: 'url(' + avt + ')' }} 
+            onClick={()=>{onShowImg()}}
+          >
+          </div>
+
+          <ImageView 
+            img={avt} 
+            show={showModal}
+            close={onCloseImg}
+          />
+          
           <h3 className="name">{displayName}</h3>
           <p className="description">{description}</p>
           <ul className="nav nav-tabs nav-stacked menu-profile">
