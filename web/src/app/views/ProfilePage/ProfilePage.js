@@ -14,6 +14,7 @@ import {
 } from 'tabler-react'
 
 import { Card, CardBody, CardHeader, CardOptions, CardTitle } from 'ui'
+import CreateMission from './CreateMission'
 
 export const ProfilePage = ({ state, setState }) => {
   const {
@@ -38,6 +39,35 @@ export const ProfilePage = ({ state, setState }) => {
     gender,
     generation
   } = state
+  const showTableMission = 
+      missions.map((mission,index) => (
+        <tr
+          key={index} 
+          className={mission.completed ? "table-success" : mission.deadline.getTime() < Date.now() ? 'table-danger' : 'table-warning'}
+        >
+          <td>{index + 1}</td>
+          <td>{ mission.content }</td>
+          <td>{ mission.deadline.toLocaleString('vi') }</td>
+          <td>
+          <Form.Group>
+            <Form.Checkbox
+              label={mission.completed ? "Đã hoàn thành" : mission.deadline.getTime() < Date.now() ? 'Quá Deadline' : 'Chưa hoàn thành'}
+              name="completed"
+              checked = {mission.completed}
+              onChange = {
+                (event) => {
+                  const target = event.target
+                  const value = target.type === 'checkbox' ? target.checked : target.value
+                  setState({missions: [...missions,{...mission, completed: value}]})
+                }
+              }
+            />
+          </Form.Group>
+          </td>
+          <td>
+          </td>
+        </tr>
+      ))
   const RenderInformation = () => {
     return (
       <Timeline>
@@ -75,40 +105,29 @@ export const ProfilePage = ({ state, setState }) => {
 
   const RenderMissions = () => {
     return (
-      <Table
-        responsive
-        highlightRowOnHover
-        hasOutline
-        verticalAlign='center'
-        cards
-        className='text-nowrap'
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColHeader>Tên nhiệm vụ</Table.ColHeader>
-            <Table.ColHeader>Trạng thái</Table.ColHeader>
-            <Table.ColHeader alignContent='center'>
-              <i className='icon-settings' />
-            </Table.ColHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {missions.map(({ id, content, completed }) => (
-            <Table.Row key={id}>
-              <Table.Col>
-                <div>{content}</div>
-              </Table.Col>
-              <Table.Col>
-                <strong>{completed ? 'Hoàn thành' : 'Chưa hoàn thành'}</strong>
-              </Table.Col>
-              <Table.Col alignContent='center'>
-                <Icon link name='check' />
-              </Table.Col>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      <div className="table-responsive">
+        <table className="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tên nhiệm vụ</th>
+              <th>Deadline</th>
+              <th>Trạng thái</th>
+              <th>Công cụ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {showTableMission}
+          </tbody>
+        </table>
+      </div>
     )
+  }
+  const addNewMission = (mission) => {
+    var index = 1
+    mission.id = index
+    index++
+    setState({missions: [...missions, mission]})
   }
   return (
     <div>
@@ -157,25 +176,11 @@ export const ProfilePage = ({ state, setState }) => {
             </li>
           </ul>
           <button
-            className='more-menu'
-            type='button'
-            id='triggerId'
-            data-toggle='dropdown'
-            aria-haspopup='true'
-            aria-expanded='false'
-          >
-            <i className='fas fa-ellipsis-h'></i>
-          </button>
-          <div className='dropdown-menu' aria-labelledby='triggerId'>
-            <button
-              className='dropdown-item'
-              onClick={() => {
-                if (showMenu === 1) {
-                  setState({ showMenu: 2 })
-                } else if (showMenu === 2) {
-                  setState({ showMenu: 3 })
-                } else setState({ showMenu: 1 })
-              }}
+              className="more-menu"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
               {showMenu === 1
                 ? 'Giới thiệu'
@@ -183,23 +188,40 @@ export const ProfilePage = ({ state, setState }) => {
                 ? 'Nhiệu vụ hàng tháng'
                 : 'Dòng thời gian'}
             </button>
-            <button
-              onClick={() => {
-                if (showMenu === 1) {
-                  setState({ showMenu: 3 })
-                } else if (showMenu === 2) {
-                  setState({ showMenu: 1 })
-                } else setState({ showMenu: 2 })
-              }}
-              className='dropdown-item'
-            >
-              {showMenu === 1
-                ? 'Nhiệu vụ hàng tháng'
-                : showMenu === 2
-                ? 'Dòng thời gian'
-                : 'Giới thiệu'}
-            </button>
-          </div>
+            <div className="dropdown-menu">
+              <button
+                className="dropdown-item"
+                onClick = {() => {
+                  if (showMenu === 1) {
+                    setState({showMenu: 2})
+                  }
+                  else if (showMenu === 2) {
+                    setState({showMenu: 3})
+                  }
+                  else setState({showMenu: 1})
+                }}
+              >
+                {
+                  showMenu === 1 ? "Giới thiệu" : showMenu === 2 ? "Nhiệu vụ hàng tháng" : "Dòng thời gian"
+                }
+              </button>
+              <button
+                onClick = {() => {
+                  if (showMenu === 1) {
+                    setState({showMenu: 3})
+                  }
+                  else if (showMenu === 2) {
+                    setState({showMenu: 1})
+                  }
+                  else setState({showMenu: 2})
+                }}
+                className="dropdown-item"
+              >
+                {
+                  showMenu === 1 ? "Nhiệu vụ hàng tháng" : showMenu === 2 ? "Dòng thời gian" : "Giới thiệu"
+                }
+              </button>
+            </div>
         </div>
       </Page>
       <Page>
@@ -219,26 +241,26 @@ export const ProfilePage = ({ state, setState }) => {
               </strong>
             </p>
           </div>
-          <div className={showMenu === 1 ? 'right-status' : 'body-profile'}>
-            {showMenu === 1 ? (
-              <div>Chỗ này là Post cá nhân</div>
-            ) : showMenu === 2 ? (
-              <div>
-                <h3 className='title-body'>
-                  Giới thiệu
-                  <i className='fas fa-edit edit-profile'></i>
-                </h3>
-                <RenderInformation />
-              </div>
-            ) : (
-              <div>
-                <h3 className='title-body'>
-                  Nhiệm vụ
-                  <i className='fas fa-edit edit-profile'></i>
-                </h3>
-                <RenderMissions />
-              </div>
-            )}
+          <div
+            className={showMenu === 1 ? 'right-status' : 'body-profile'}
+          >
+            {
+              showMenu === 1 ?
+                  <div>Chỗ này là Post cá nhân</div>
+              : showMenu === 2 ?
+                <div>
+                  <h3 className="title-body">
+                    Giới thiệu
+                    <i className="fas fa-edit edit-profile"></i>
+                  </h3>
+                  <RenderInformation />
+                </div>
+              : 
+                <div>
+                  <CreateMission addNewMission = {addNewMission}/>
+                  <RenderMissions />
+                </div>
+            }
           </div>
         </div>
       </Page>

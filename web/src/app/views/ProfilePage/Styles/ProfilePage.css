@@ -56,8 +56,29 @@
 
 .title-body {
     margin: 10px 0px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.title-body .btn-add-mission {
+    width: 30%;
+    overflow: hidden;
+    font-size: 14px;
+    background-color: rgb(83, 83, 253);
+    color: #ffffff;
 }
 
+.title-body .btn-add-mission:hover {
+    background-color: rgb(46, 46, 248);
+    color: #ffffff;
+}
+
+.title-body button i {
+    font-size: 14px;
+    vertical-align: 0;
+    color: #ffffff;
+}
 .show-false {
     display: none;
 }
@@ -125,5 +146,13 @@
     color: #000000;
     cursor: pointer;
 }
-
-
+.table th {
+    font-weight: bold;
+}
+.deadline {
+    margin: 0.5rem 0px;
+}
+.custom-control-label {
+    position: static;
+    vertical-align: 0px;
+}
