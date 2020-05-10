@@ -35,12 +35,20 @@ export const ProfilePageContainer = () => {
       {
         id: 1,
         content: 'Làm app Java',
+        deadline: new Date(),
         completed: false
       },
       {
         id: 2,
         content: 'Học tiếng Anh',
+        deadline: new Date(),
         completed: true
+      },
+      {
+        id: 3,
+        content: 'Học tiếng Anh',
+        deadline: new Date("12:00 6/6/2020"),
+        completed: false
       }
     ],
     showMenu: 1 /*to show menu*/,
@@ -51,6 +59,5 @@ export const ProfilePageContainer = () => {
     state,
     setState
   }
-
-  return <ProfilePage {...props} />
+  return <ProfilePage {...props}/>
 }
