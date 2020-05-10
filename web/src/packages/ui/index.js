@@ -22,3 +22,4 @@ export { default as SiteWrapper } from './components/SiteWrapper/SiteWrapper'
 //post
 export * from './components/Post/Checkbox/Checkbox'
 export * from './components/Post/TickPoll/TickPoll'
+export * from './components/Post/ImageView/ImageView'

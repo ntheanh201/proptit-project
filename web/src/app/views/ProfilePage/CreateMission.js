@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
+
 import 'react-datepicker/dist/react-datepicker.css'
+
 export default function CreateMission(props) {
   const [mission, setMission] = useState({
     id: null,
@@ -40,7 +42,7 @@ export default function CreateMission(props) {
               className='btn btn-success'
               onClick={handleSubmit}
             >
-              <i className='fas fa-save'></i>
+              <i className='fas fa-save' />
               {' Lưu lại'}
             </button>
             <button
@@ -48,7 +50,7 @@ export default function CreateMission(props) {
               className='btn btn-danger'
               onClick={notHandleSubmit}
             >
-              <i className='fa fa-times-circle' aria-hidden='true'></i>
+              <i className='fa fa-times-circle' aria-hidden='true' />
               {' Hủy bỏ'}
             </button>
           </div>
@@ -58,7 +60,7 @@ export default function CreateMission(props) {
             className='btn btn-block btn-add-mission'
             onClick={() => setShowAddMission(true)}
           >
-            <i className='fa fa-plus' aria-hidden='true'></i>
+            <i className='fa fa-plus' aria-hidden='true' />
             {' Thêm nhiệm vụ'}
           </button>
         )}

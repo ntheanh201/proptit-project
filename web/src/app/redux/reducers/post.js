@@ -11,7 +11,7 @@ export default (state = STATE_INIT, { type, payload }) => {
     case Actions.GET_ALL_POSTS:
       return { ...state, posts: payload }
     case Actions.GET_POST_BY_ID:
-      return { ...state, post: payload }
+      return { ...state, post: payload.post }
     case Actions.GET_POSTS_BY_GROUP:
       return { ...state, posts: payload }
     case Actions.CREATE_POST:

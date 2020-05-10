@@ -32,15 +32,15 @@ export const CreatePost = () => {
           url: 'http://apis.aiforce.xyz/auth/users/1/',
           id: 1,
           username: 'proptit',
-          display_name: 'Nguyen The Anh',
-          phone_number: '0123456789',
+          displayName: 'Nguyen The Anh',
+          phoneNumber: '0123456789',
           facebook: 'https://www.facebook.com/ntheanh201',
           role: 0,
-          date_of_birth: '1999-02-03T13:35:56Z',
+          dateOfBirth: '1999-02-03T13:35:56Z',
           description:
             'Ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque massa placerat',
           email: 'ntanh311@gmail.com',
-          participating_group: [
+          participatingGroup: [
             {
               id: 1
             }
@@ -52,14 +52,14 @@ export const CreatePost = () => {
           url: 'http://apis.aiforce.xyz/auth/users/2/',
           id: 2,
           username: 'hanhnguyenduc999',
-          display_name: null,
-          phone_number: null,
+          displayName: null,
+          phoneNumber: null,
           facebook: null,
           role: 0,
-          date_of_birth: null,
+          dateOfBirth: null,
           description: null,
           email: '',
-          participating_group: [
+          participatingGroup: [
             {
               id: 1
             }
@@ -73,15 +73,15 @@ export const CreatePost = () => {
           url: 'http://apis.aiforce.xyz/auth/users/1/',
           id: 1,
           username: 'proptit',
-          display_name: 'Nguyen The Anh',
-          phone_number: '0123456789',
+          displayName: 'Nguyen The Anh',
+          phoneNumber: '0123456789',
           facebook: 'https://www.facebook.com/ntheanh201',
           role: 0,
-          date_of_birth: '1999-02-03T13:35:56Z',
+          dateOfBirth: '1999-02-03T13:35:56Z',
           description:
             'Ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque massa placerat',
           email: 'ntanh311@gmail.com',
-          participating_group: [
+          participatingGroup: [
             {
               id: 1
             }

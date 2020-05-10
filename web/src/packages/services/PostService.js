@@ -24,7 +24,7 @@ export const getPostByIdService = (postId) => {
     .get(`${environments.BASE_URL}posts/${postId}/`)
     .then((response) => {
       const { post, reactions_info, comments_info } = response.data
-      console.log(response.data)
+
       return {
         post: { ...convertPostType(post), isLiked: post.is_liked },
         reactionsInfo: reactions_info,

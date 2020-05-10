@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import './Styles/ProfilePage.css'
 
 import { Page, Timeline } from 'tabler-react'
 
-import { ImageView } from '../../../packages/ui/components/Post/ImageView/ImageView'
+import { ImageView } from 'ui'
+import './Styles/ProfilePage.css'
+
+import CreateMission from './CreateMission'
 
 export const ProfilePage = ({ state, setState }) => {
   const {
+    displayName,
+    username,
+    dateOfBirth,
+    gender,
+    phoneNumber,
+    email,
+    description,
     avt,
     cover,
     grade,
@@ -77,7 +86,7 @@ export const ProfilePage = ({ state, setState }) => {
               <th>Công cụ</th>
             </tr>
           </thead>
-          <tbody>{showTableMission}</tbody>
+          {/*<tbody>{showTableMission}</tbody>*/}
         </table>
       </div>
     )
@@ -85,7 +94,7 @@ export const ProfilePage = ({ state, setState }) => {
   const addNewMission = (mission) => {
     var index = 1
     mission.id = index
-    index++
+    index += 1
     setState({ missions: [...missions, mission] })
   }
   return (
@@ -202,12 +211,12 @@ export const ProfilePage = ({ state, setState }) => {
           <div className={showMenu === 1 ? 'left-status' : 'show-false'}>
             <h3 className='title-body'>Giới thiệu</h3>
             <p>
-              <i className='far fa-user'></i>
+              <i className='far fa-user' />
               {' ' + 'Khóa: '}
               <strong>{grade}</strong>
             </p>
             <p>
-              <i className='fas fa-briefcase'></i>
+              <i className='fas fa-briefcase' />
               {' ' + 'Làm việc tại: '}
               <strong>
                 {generation && position ? position + ' Gen ' + generation : ''}
@@ -221,7 +230,7 @@ export const ProfilePage = ({ state, setState }) => {
               <div>
                 <h3 className='title-body'>
                   Giới thiệu
-                  <i className='fas fa-edit edit-profile'></i>
+                  <i className='fas fa-edit edit-profile' />
                 </h3>
                 <RenderInformation />
               </div>

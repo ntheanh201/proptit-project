@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 
 import { Comment } from 'tabler-react'
 
@@ -7,6 +8,8 @@ import { Icon, Card, TickPoll } from 'ui'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 
 export const Post = ({ post, onCreatePoll }) => {
+  const history = useHistory()
+
   const {
     id,
     authorName,
@@ -40,9 +43,12 @@ export const Post = ({ post, onCreatePoll }) => {
           <small className='d-block text-muted'>
             <strong>{username}</strong>
           </small>
-          <div className='d-flex flex-column pt-5 pb-5'>
+          <Content
+            className='d-flex flex-column pt-5 pb-5'
+            onClick={() => history.push(`/post/${id}`)}
+          >
             <Span>{content}</Span>
-          </div>
+          </Content>
 
           {/*<div className='tickPoll'>*/}
           {/*  {type === 1 && (*/}
@@ -102,4 +108,8 @@ const ImageWrapper = styled.div`
 
 const CardBottom = styled.div`
   justify-content: space-evenly;
+`
+
+const Content = styled.div`
+  cursor: pointer;
 `

@@ -68,7 +68,7 @@ export const routes = [
   {
     path: '/post/:id',
     exact: true,
-    component: <AsyncPage component='Post' />,
+    component: () => <AsyncPage component='Post' />,
     isPrivate: true
   }
 ]
