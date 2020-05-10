@@ -56,7 +56,7 @@ export const addPostService = (post, images) => {
       return 'success'
     })
     .catch((err) => {
-      return 'error'
+      return null
     })
 }
 
@@ -77,7 +77,7 @@ export const updatePostService = (post, images) => {
       return 'success'
     })
     .catch((err) => {
-      return 'error'
+      return null
     })
 }
 
@@ -89,6 +89,6 @@ export const deletePostService = (postId) => {
       return 'success'
     })
     .catch((err) => {
-      return 'error'
+      return null
     })
 }

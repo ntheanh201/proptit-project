@@ -1,45 +1,49 @@
 const convertCommentType = (data) => {
   return {
+    ...data,
     authorAvatar: data.assigned_user_avatar,
     authorId: data.assigned_user_id,
     authorName: data.assigned_user_display_name,
-    content: data.content,
     postId: data.assigned_post
   }
 }
 
 export const convertPostType = (data) => {
   return {
-    id: data.id,
+    ...data,
     authorId: data.assigned_user_id,
     authorAvatar: data.assigned_user_avatar,
     authorName: data.assigned_user_display_name,
     groupId: data.assigned_group_id,
     groupName: data.assigned_group_name,
-    content: data.content,
     commentNumber: data.comment_number,
     reactionNumber: data.reaction_number,
-    time: data.time,
-    type: data.type,
-    photos: data.photos,
     reactionId: data.reaction_id
   }
 }
 
 export const convertToUserType = (data) => {
   return {
-    id: data.id,
-    username: data.username,
+    ...data,
     displayName: data.display_name,
-    avatar: data.avatar,
     dateOfBirth: data.date_of_birth,
-    description: data.description,
     className: data.class_name,
-    email: data.email,
-    facebook: data.facebook,
     phoneNumber: data.phone_number,
-    regDate: data.reg_date,
-    gender: data.gender
+    regDate: data.reg_date
+  }
+}
+
+export const convertToGroupType = (data) => {
+  const { members, admin } = data
+  return {
+    ...data,
+    members: {
+      ...members,
+      displayName: members.display_name,
+      phoneNumber: members.phone_number,
+      dateOfBirth: members.date_of_birth,
+      participatingGroup: members.participating_group
+    }
   }
 }
 
@@ -49,4 +53,8 @@ export const convertToCommentArray = (data) => {
 
 export const convertToPostArray = (data) => {
   return data.map((post) => convertPostType(post))
+}
+
+export const convertToGroupArray = (data) => {
+  return data.map((group) => convertToGroupType(group))
 }

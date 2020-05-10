@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { ImageView } from 'ui'
@@ -18,7 +18,7 @@ export const ImageViewer = ({ src }) => {
 }
 
 const Wrapper = styled.div`
-    cursor: pointer;
+  cursor: pointer;
 `
 
 const Img = styled.img`
