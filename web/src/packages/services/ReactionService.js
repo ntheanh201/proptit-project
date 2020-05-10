@@ -18,12 +18,12 @@ export const addReactionService = (postId, type = 1) => {
 }
 
 export const deleteReactionService = (reactionId) => {
-    return axios
-        .delete(`${environments.BASE_URL}reactions/${reactionId}/`)
-        .then((response) => {
-            return response.data
-        })
-        .catch((error) => {
-            return null
-        })
+  return axios
+    .delete(`${environments.BASE_URL}reactions/${reactionId}/`)
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      return null
+    })
 }

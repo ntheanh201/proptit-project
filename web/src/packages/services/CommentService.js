@@ -15,27 +15,27 @@ export const getCommentsByPostIdService = (postId) => {
 }
 
 export const addCommentService = (postId, content) => {
-    return axios
-        .post(`${environments.BASE_URL}comments/`, {
-            // eslint-disable-next-line camelcase
-            post_id: postId,
-            content
-        })
-        .then((response) => {
-            return 'success'
-        })
-        .catch((error) => {
-            return null
-        })
+  return axios
+    .post(`${environments.BASE_URL}comments/`, {
+      // eslint-disable-next-line camelcase
+      post_id: postId,
+      content
+    })
+    .then((response) => {
+      return 'success'
+    })
+    .catch((error) => {
+      return null
+    })
 }
 
 export const deleteCommentService = (commentId) => {
-    return axios
-        .delete(`${environments.BASE_URL}comments/${commentId}`)
-        .then((response) => {
-            return 'success'
-        })
-        .catch((error) => {
-            return null
-        })
+  return axios
+    .delete(`${environments.BASE_URL}comments/${commentId}`)
+    .then((response) => {
+      return 'success'
+    })
+    .catch((error) => {
+      return null
+    })
 }

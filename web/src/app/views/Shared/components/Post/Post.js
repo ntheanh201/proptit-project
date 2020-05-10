@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Comment } from 'tabler-react'
 
 import { Icon, Card, TickPoll } from 'ui'
+import { ImageViewer } from '../ImageViewer/ImageViewer'
 
 export const Post = (props) => {
   const { post, onCreatePoll } = props
@@ -15,7 +16,6 @@ export const Post = (props) => {
     authorAvatar,
     groupName,
     content,
-    img,
     authorId,
     profileHref = '',
     username = '',
@@ -56,11 +56,11 @@ export const Post = (props) => {
           {/*  )}*/}
           {/*</div>*/}
           <div>
-            {type === 0 && (
-              <ImageWrapper>
-                <Img className='card-img-top' src={img} alt={username} />
-              </ImageWrapper>
-            )}
+            <ImageWrapper>
+              {photos.map((photo) => (
+                <ImageViewer src={photo} alt={username} />
+              ))}
+            </ImageWrapper>
           </div>
 
           <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
@@ -96,11 +96,6 @@ export const Post = (props) => {
 
 const Span = styled.span`
   max-width: 550px;
-`
-
-const Img = styled.img`
-  max-width: 550px;
-  max-height: 550px;
 `
 
 const ImageWrapper = styled.div`

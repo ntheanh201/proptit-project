@@ -59,5 +59,5 @@ export const ProfilePageContainer = () => {
     state,
     setState
   }
-  return <ProfilePage {...props}/>
+  return <ProfilePage {...props} />
 }

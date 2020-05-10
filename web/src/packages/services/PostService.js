@@ -80,12 +80,12 @@ export const updatePostService = (post, images) => {
 
 export const deletePostService = (post) => {
   return axios
-      .delete(`${environments.BASE_URL}posts/${post.id}/`)
-      .then((res) => {
-        console.log(res.data)
-        return 'success'
-      })
-      .catch((err) => {
-        return 'error'
-      })
+    .delete(`${environments.BASE_URL}posts/${post.id}/`)
+    .then((res) => {
+      console.log(res.data)
+      return 'success'
+    })
+    .catch((err) => {
+      return 'error'
+    })
 }
