@@ -187,9 +187,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                 ))}
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {
-                  this.navigateToInvite()
-                }}
+                onPress={() => {}}
                 style={{
                   height: 40,
                   width: 100,
@@ -212,14 +210,14 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
               </TouchableOpacity>
             </View>
           </View>
-          {this.state.listItems.map(() => (
+          {/* {this.state.listItems.map(() => (
             <ItemNewsFeed
               onPress={() => {
                 console.log('AppLog', this.props)
                 this.props.navigation.navigate('PostDetail')
               }}
             />
-          ))}
+          ))} */}
           {this.state.isLoadingMore ? (
             <ActivityIndicator
               animating={this.state.isLoadingMore}
@@ -235,11 +233,11 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
       </SafeAreaView>
     )
   }
-  navigateToInvite() {
+  navigateToInvite = () => {
     throw new Error('Method not implemented.')
   }
 
-  navigateToMember() {}
+  navigateToMember = () => {}
 }
 
 export default GroupScreen

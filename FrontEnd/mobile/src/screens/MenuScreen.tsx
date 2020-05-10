@@ -34,7 +34,7 @@ interface Group {
 }
 
 interface MenuScreenState {
-  isExpened: boolean
+  isExpandedGroup: boolean
   listGroup: Group[]
 }
 
@@ -43,7 +43,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
     super(props)
 
     this.state = {
-      isExpened: false,
+      isExpandedGroup: false,
       listGroup: [
         {
           id: '1',
@@ -113,14 +113,16 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
                 Group
               </Text>
               <Ionicon
-                name={this.state.isExpened ? 'ios-arrow-up' : 'ios-arrow-down'}
+                name={
+                  this.state.isExpandedGroup ? 'ios-arrow-up' : 'ios-arrow-down'
+                }
                 size={20}
               />
             </View>
           </TouchableOpacity>
           <View style={{ paddingLeft: 20 }}>
-            {this.state.isExpened
-              ? this.state.listGroup.map((v) => this.renderItemGroup(v))
+            {this.state.isExpandedGroup
+              ? this.state.listGroup.map((group) => this.renderItemGroup(group))
               : null}
           </View>
           <TouchableOpacity
@@ -146,7 +148,9 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
                 Setting
               </Text>
               <Ionicon
-                name={this.state.isExpened ? 'ios-arrow-up' : 'ios-arrow-down'}
+                name={
+                  this.state.isExpandedGroup ? 'ios-arrow-up' : 'ios-arrow-down'
+                }
                 size={20}
               />
             </View>
@@ -183,7 +187,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
   onPressSetting() {}
   onPressGroup() {
     this.setState({
-      isExpened: !this.state.isExpened,
+      isExpandedGroup: !this.state.isExpandedGroup,
     })
   }
 
@@ -192,11 +196,13 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
       <ItemGroup
         name={item.name}
         imgUrl={item.imgUrl}
-        onPress={() => this.onPressItemGroup()}
+        onPress={this.onPressItemGroup}
       />
     )
   }
-  onPressItemGroup(): void {}
+  onPressItemGroup = () => {
+    this.props.navigation.navigate('Group')
+  }
 }
 
 const mapStateToProps = (state: AppState) => ({})

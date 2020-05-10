@@ -69,24 +69,6 @@ class ProfileScreen extends React.Component<
     this.setState({ posts, isLoadingPost: false })
   }
 
-  ActivityRoute = () => {
-    return (
-      <>
-        <ActivityIndicator
-          animating={this.state.isLoadingPost}
-          color={colors.mainBlue}
-          style={{ marginTop: 10 }}
-        />
-        <FlatList
-          data={this.state.posts}
-          renderItem={({ item }) => {
-            return <ItemNewsFeed post={item} />
-          }}
-        />
-      </>
-    )
-  }
-
   ImageRoute = () => (
     <ScrollView>
       <View style={styles.rowImageContainer}>
@@ -127,7 +109,12 @@ class ProfileScreen extends React.Component<
 
   render() {
     const renderScene = SceneMap({
-      first: this.ActivityRoute,
+      first: () => (
+        <ActivityRoute
+          posts={this.state.posts}
+          loading={this.state.isLoadingPost}
+        />
+      ),
       second: this.ImageRoute,
     })
     return (
@@ -178,6 +165,42 @@ class ProfileScreen extends React.Component<
           )}
         />
       </View>
+    )
+  }
+}
+
+interface ActivityRouteProps {
+  posts: Post[]
+  loading: boolean
+}
+interface ActivityRouteState {}
+
+class ActivityRoute extends React.Component<
+  ActivityRouteProps,
+  ActivityRouteState
+> {
+  constructor(props: ActivityRouteProps) {
+    super(props)
+  }
+
+  render() {
+    console.log(this.props.loading)
+    if (this.props.loading) {
+      return (
+        <ActivityIndicator
+          animating={true}
+          color={colors.mainBlue}
+          style={{ marginTop: 10 }}
+        />
+      )
+    }
+    return (
+      <FlatList
+        data={this.props.posts}
+        renderItem={({ item }) => {
+          return <ItemNewsFeed post={item} />
+        }}
+      />
     )
   }
 }
