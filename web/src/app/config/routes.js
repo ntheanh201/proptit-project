@@ -14,49 +14,62 @@ export const routes = [
     isPrivate: true
   },
   {
-    isPrivate: true,
     path: '/profile/:id',
     exact: true,
-    component: () => <AsyncPage component='ProfilePage' />
+    component: () => <AsyncPage component='ProfilePage' />,
+    isPrivate: true
   },
   {
     path: '/profile',
     exact: true,
     component: () => <AsyncPage component='AllAccounts' />,
-    title: 'Profile'
+    title: 'Profile',
+    isPrivate: true
   },
   {
     path: '/login',
     exact: true,
     component: () => <AsyncPage component='Login' />,
-    withoutNormalLayout: true
+    withoutNormalLayout: true,
+    isPrivate: true
   },
   {
     path: '/logout',
     exact: true,
     component: () => <AsyncPage component='Logout' />,
-    withoutNormalLayout: true
+    withoutNormalLayout: true,
+    isPrivate: true
   },
   {
     path: '/groups',
     exact: true,
-    component: () => <AsyncPage component='Groups' />
+    component: () => <AsyncPage component='Groups' />,
+    isPrivate: true
   },
   {
     path: '/groups/:id',
     exact: true,
     component: () => <AsyncPage component='GroupPage' />,
-    title: 'Group'
+    title: 'Group',
+    isPrivate: true
   },
   {
     path: '/404',
     exact: true,
-    component: () => <AsyncPage component='404' />
+    component: () => <AsyncPage component='404' />,
+    isPrivate: true
   },
   {
     path: '/about',
     exact: true,
-    component: () => <AsyncPage component='AboutUs' />
+    component: () => <AsyncPage component='AboutUs' />,
+    isPrivate: true
+  },
+  {
+    path: '/post/:id',
+    exact: true,
+    component: <AsyncPage component='Post' />,
+    isPrivate: true
   }
 ]
 export default routes

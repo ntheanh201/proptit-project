@@ -2,18 +2,8 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import './Styles/ProfilePage.css'
 
-import {
-  Grid,
-  Button,
-  Profile,
-  Page,
-  Timeline,
-  Table,
-  Icon,
-  Form
-} from 'tabler-react'
+import { Page, Timeline } from 'tabler-react'
 
-import { Card, CardBody, CardHeader, CardOptions, CardTitle } from 'ui'
 import { ImageView } from '../../../packages/ui/components/Post/ImageView/ImageView'
 
 export const ProfilePage = ({ state, setState }) => {
@@ -109,7 +99,7 @@ export const ProfilePage = ({ state, setState }) => {
             onClick={() => {
               onShowImg()
             }}
-          ></div>
+          />
 
           <ImageView img={avt} show={showModal} close={onCloseImg} />
 

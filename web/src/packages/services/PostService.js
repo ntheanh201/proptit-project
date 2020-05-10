@@ -1,11 +1,10 @@
+/* eslint-disable camelcase */
+
 import axios from 'axios'
 import environments from 'environments'
-import { convertToPostArray } from 'helpers'
-
-import { getAccessKey } from './util'
+import { convertToPostArray, convertPostType } from 'helpers'
 
 export const GetAllPostsService = (type, id) => {
-  const accessKey = getAccessKey()
   const method = type === 'group' ? 'byGroup' : 'byUser'
   return axios
     .get(`${environments.BASE_URL}posts/?method=${method}&id=${id}`)
@@ -21,11 +20,16 @@ export const GetAllPostsService = (type, id) => {
 }
 
 export const getPostByIdService = (postId) => {
-  const accessKey = getAccessKey()
   return axios
     .get(`${environments.BASE_URL}posts/${postId}/`)
     .then((response) => {
-      return response.data
+      const { post, reactions_info, comments_info } = response.data
+      console.log(response.data)
+      return {
+        post: { ...convertPostType(post), isLiked: post.is_liked },
+        reactionsInfo: reactions_info,
+        commentsInfo: comments_info
+      }
     })
     .catch((error) => {
       if (error.response) {
@@ -33,7 +37,6 @@ export const getPostByIdService = (postId) => {
       }
       return null
     })
-  // todo: return post, reactions_info, comments_info
 }
 
 export const addPostService = (post, images) => {
@@ -78,9 +81,9 @@ export const updatePostService = (post, images) => {
     })
 }
 
-export const deletePostService = (post) => {
+export const deletePostService = (postId) => {
   return axios
-    .delete(`${environments.BASE_URL}posts/${post.id}/`)
+    .delete(`${environments.BASE_URL}posts/${postId}/`)
     .then((res) => {
       console.log(res.data)
       return 'success'

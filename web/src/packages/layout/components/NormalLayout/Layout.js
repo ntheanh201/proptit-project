@@ -66,8 +66,7 @@ const navBarItems = [
 
 const Container = ({ history, children }) => {
   const { isLogged, user } = useSelector((state) => state.homeReducer)
-
-  const { display_name: displayName, username, id: userId } = user
+  const { displayName, username, id: userId } = user
 
   const accountDropdownProps = {
     avatarLogo: User,

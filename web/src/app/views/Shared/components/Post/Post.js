@@ -6,9 +6,7 @@ import { Comment } from 'tabler-react'
 import { Icon, Card, TickPoll } from 'ui'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 
-export const Post = (props) => {
-  const { post, onCreatePoll } = props
-
+export const Post = ({ post, onCreatePoll }) => {
   const {
     id,
     authorName,

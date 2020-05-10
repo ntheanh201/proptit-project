@@ -8,7 +8,7 @@ const convertCommentType = (data) => {
   }
 }
 
-const convertPostType = (data) => {
+export const convertPostType = (data) => {
   return {
     id: data.id,
     authorId: data.assigned_user_id,

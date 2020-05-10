@@ -1,5 +1,10 @@
 import * as Actions from '../action-types'
-import { GetAllPostsService, addPostService, updatePostService } from 'services'
+import {
+  GetAllPostsService,
+  addPostService,
+  updatePostService,
+  getPostByIdService
+} from 'services'
 
 export const getAllPosts = (type = 'group', id = 1) => {
   return async (dispatch) => {
@@ -12,12 +17,14 @@ export const getAllPosts = (type = 'group', id = 1) => {
   }
 }
 
-export const getPostById = (payload) => {
-  return (dispatch) =>
+export const getPostById = (id) => {
+  return async (dispatch) => {
+    const payload = await getPostByIdService(id)
     dispatch({
       type: Actions.GET_POST_BY_ID,
       payload
     })
+  }
 }
 
 export const createPost = (post, images) => {
