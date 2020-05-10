@@ -29,7 +29,8 @@ export const convertToUserType = (data) => {
     dateOfBirth: data.date_of_birth,
     className: data.class_name,
     phoneNumber: data.phone_number,
-    regDate: data.reg_date
+    regDate: data.reg_date,
+    participatingGroup: data.participating_group
   }
 }
 
