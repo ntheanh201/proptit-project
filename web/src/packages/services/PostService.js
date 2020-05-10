@@ -8,11 +8,7 @@ export const GetAllPostsService = (type, id) => {
   const accessKey = getAccessKey()
   const method = type === 'group' ? 'byGroup' : 'byUser'
   return axios
-    .get(`${environments.BASE_URL}posts/?method=${method}&id=${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessKey}`
-      }
-    })
+    .get(`${environments.BASE_URL}posts/?method=${method}&id=${id}`)
     .then((response) => {
       return convertToPostArray(response.data)
     })
@@ -27,11 +23,7 @@ export const GetAllPostsService = (type, id) => {
 export const getPostByIdService = (postId) => {
   const accessKey = getAccessKey()
   return axios
-    .get(`${environments.BASE_URL}posts/${postId}/`, {
-      headers: {
-        Authorization: `Bearer ${accessKey}`
-      }
-    })
+    .get(`${environments.BASE_URL}posts/${postId}/`)
     .then((response) => {
       return response.data
     })
@@ -84,4 +76,16 @@ export const updatePostService = (post, images) => {
     .catch((err) => {
       return 'error'
     })
+}
+
+export const deletePostService = (post) => {
+  return axios
+      .delete(`${environments.BASE_URL}posts/${post.id}/`)
+      .then((res) => {
+        console.log(res.data)
+        return 'success'
+      })
+      .catch((err) => {
+        return 'error'
+      })
 }

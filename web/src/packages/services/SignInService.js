@@ -8,6 +8,7 @@ export const SignInService = (username, password) => {
     .post(`${environments.BASE_URL}auth/jwt/create/`, { username, password })
     .then((response) => {
       localStorage.setItem('authToken', JSON.stringify(response.data))
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`
       return response.data
     })
     .catch((error) => {
@@ -30,6 +31,7 @@ export const updateAccessTokenService = () => {
         refresh: refreshToken,
         access: response.data.access
       }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
       localStorage.setItem('authToken', JSON.stringify(authToken))
       return response.data
     })

@@ -47,7 +47,7 @@ export const ProfilePageContainer = () => {
       {
         id: 3,
         content: 'Học tiếng Anh',
-        deadline: new Date("12:00 6/6/2020"),
+        deadline: new Date('12:00 6/6/2020'),
         completed: false
       }
     ],
