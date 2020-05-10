@@ -92,6 +92,13 @@ class CreatePostScreen extends Component<
 
   render() {
     const { isHaveTickPoll, images } = this.state
+    Keyboard.addListener('keyboardDidShow', (e) => {
+      this.onFocusEditText()
+    })
+
+    Keyboard.addListener('keyboardDidHide', (e) => {
+      this.onUnfocusEditText()
+    })
 
     const menuStyle = {
       zIndex: 10,
@@ -125,8 +132,6 @@ class CreatePostScreen extends Component<
             />
             <TextInput
               defaultValue={this.state.defaultContent}
-              onFocus={() => this.onFocusEditText()}
-              onBlur={() => this.onUnfocusEditText()}
               style={styles.textinput}
               placeholder="Share something!"
               multiline={true}
