@@ -2,22 +2,13 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import CreateMission from './CreateMission'
 
-import { Page, Timeline } from 'tabler-react'
+import { Page, Timeline, Form } from 'tabler-react'
 
 import { ImageView } from 'ui'
 import './Styles/ProfilePage.css'
 
-import CreateMission from './CreateMission'
-
 export const ProfilePage = ({ state, setState }) => {
   const {
-    displayName,
-    username,
-    dateOfBirth,
-    gender,
-    phoneNumber,
-    email,
-    description,
     avt,
     cover,
     grade,
@@ -94,7 +85,9 @@ export const ProfilePage = ({ state, setState }) => {
               <th>Công cụ</th>
             </tr>
           </thead>
-          {/*<tbody>{showTableMission}</tbody>*/}
+          <tbody>
+            {showTableMission}
+          </tbody>
         </table>
       </div>
     )
@@ -208,11 +201,7 @@ export const ProfilePage = ({ state, setState }) => {
             aria-haspopup='true'
             aria-expanded='false'
           >
-            {showMenu === 1
-              ? 'Giới thiệu'
-              : showMenu === 2
-              ? 'Nhiệu vụ hàng tháng'
-              : 'Dòng thời gian'}
+            <i className='fas fa-ellipsis-h'></i>
           </button>
           <div className='dropdown-menu'>
             <button
@@ -225,7 +214,11 @@ export const ProfilePage = ({ state, setState }) => {
                 } else setState({ showMenu: 1 })
               }}
             >
-              <i className='fas fa-ellipsis-h'></i>
+              {showMenu === 1
+              ? 'Giới thiệu'
+              : showMenu === 2
+              ? 'Nhiệu vụ hàng tháng'
+              : 'Dòng thời gian'}
             </button>
             <button
               onClick={() => {
