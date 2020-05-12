@@ -21,6 +21,7 @@ import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { signOut } from '../core'
+import { images } from '../assets'
 
 interface MenuScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -84,10 +85,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
               alignItems: 'center',
               flexDirection: 'row',
             }}>
-            <Image
-              source={require('../assets/images/avt_batman.png')}
-              style={styles.normal_icon}
-            />
+            <Image source={images.AVT_BATMAN} style={styles.normal_icon} />
             <Text style={[styles.bold_text, { marginLeft: 10 }]}>Batman</Text>
           </View>
           <TouchableOpacity

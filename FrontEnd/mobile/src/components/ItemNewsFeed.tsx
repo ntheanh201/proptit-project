@@ -45,7 +45,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     // console.log('AppLog', props.post.isLiked)
     this.state = {
       animating: false,
-      reactionId: this.props.post.reactionId,
+      reactionId: this.props.post.reactionId!,
       isLiked: this.props.post.reactionId === -1 ? false : true,
       reactionNumber:
         this.props.reactionNumber ?? this.props.post.reactionNumber!,

@@ -26,7 +26,7 @@ export interface Post {
   time?: Date
   type: Number
   photos: string[]
-  reactionId: number
+  reactionId?: number
 }
 
 export interface ImageFormData {

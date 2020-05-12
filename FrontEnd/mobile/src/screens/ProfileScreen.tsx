@@ -198,7 +198,7 @@ class ActivityRoute extends React.Component<
       <FlatList
         data={this.props.posts}
         renderItem={({ item }) => {
-          return <ItemNewsFeed post={item} />
+          return <ItemNewsFeed post={item} onPressImage={() => {}} />
         }}
       />
     )

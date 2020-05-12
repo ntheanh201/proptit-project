@@ -218,7 +218,7 @@ class PostDetailScreen extends React.Component<
             alignItems: 'center',
           }}>
           <Image
-            source={require('../assets/images/avt_batman.png')}
+            source={images.AVT_BATMAN}
             style={{ height: 60, width: 60, borderRadius: 100 }}
           />
           <TextInput

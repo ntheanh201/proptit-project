@@ -36,10 +36,11 @@ import { HomeTabParams } from '../navigations/HomeNavigator'
 import { convertToPostType } from '../configs/Function'
 
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
+import { images } from '../assets'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
-  images: ImageFormData[]
+  imagesData: ImageFormData[]
   padding: number
   content: string
   defaultContent?: string
@@ -60,7 +61,7 @@ class CreatePostScreen extends Component<
     super(props)
     this.state = {
       isHaveTickPoll: false,
-      images: [],
+      imagesData: [],
       padding: 0,
       content: '',
       defaultContent: '',
@@ -88,10 +89,6 @@ class CreatePostScreen extends Component<
     if (this.props.route.params) {
       this.getContentIfEditPost()
     }
-  }
-
-  render() {
-    const { isHaveTickPoll, images } = this.state
     Keyboard.addListener('keyboardDidShow', (e) => {
       this.onFocusEditText()
     })
@@ -99,7 +96,10 @@ class CreatePostScreen extends Component<
     Keyboard.addListener('keyboardDidHide', (e) => {
       this.onUnfocusEditText()
     })
+  }
 
+  render() {
+    const { isHaveTickPoll, imagesData } = this.state
     const menuStyle = {
       zIndex: 10,
       paddingBottom: 50,
@@ -126,10 +126,7 @@ class CreatePostScreen extends Component<
       <View style={styles.wrapper}>
         <View style={styles.wrapperTextInput}>
           <View style={{ flexDirection: 'row' }}>
-            <Image
-              source={require('../assets/images/avt_batman.png')}
-              style={styles.avatar}
-            />
+            <Image source={images.AVT_BATMAN} style={styles.avatar} />
             <TextInput
               defaultValue={this.state.defaultContent}
               style={styles.textinput}
@@ -165,7 +162,7 @@ class CreatePostScreen extends Component<
                 height: 100,
                 marginBottom: 10,
               }}
-              data={images}
+              data={imagesData}
               renderItem={({ item, index }) => {
                 // console.log("Render:", listUrlPicture?.length)
                 return (
@@ -173,7 +170,7 @@ class CreatePostScreen extends Component<
                     urlPicture={item.uri}
                     onClose={() => {
                       const imageState: ImageFormData[] = JSON.parse(
-                        JSON.stringify(this.state.images),
+                        JSON.stringify(this.state.imagesData),
                       )
                       const newImageState = imageState.filter(
                         (image, index1) => {
@@ -182,7 +179,7 @@ class CreatePostScreen extends Component<
                       )
                       console.log(newImageState)
                       this.setState({
-                        images: newImageState,
+                        imagesData: newImageState,
                       })
                     }}
                   />
@@ -220,7 +217,7 @@ class CreatePostScreen extends Component<
     if (id) {
       const data = await postService.getFullPostById(id)
       const post = convertToPostType(data.post)
-      const imageState = JSON.parse(JSON.stringify(this.state.images))
+      const imageState = JSON.parse(JSON.stringify(this.state.imagesData))
       post.photos.forEach((v) => {
         imageState.push({
           uri: v,
@@ -228,7 +225,7 @@ class CreatePostScreen extends Component<
       })
       this.setState({
         defaultContent: post.content,
-        images: imageState,
+        imagesData: imageState,
       })
     }
   }
@@ -267,7 +264,7 @@ class CreatePostScreen extends Component<
     }).then((res) => {
       // console.log('AppLog', image)
       const image = res as ImageP[]
-      const imageState = JSON.parse(JSON.stringify(this.state.images))
+      const imageState = JSON.parse(JSON.stringify(this.state.imagesData))
       image.forEach((element) => {
         const arr = element.path.split('/')
         const name = arr[arr.length - 1]
@@ -278,7 +275,7 @@ class CreatePostScreen extends Component<
         })
       })
       this.setState({
-        images: imageState,
+        imagesData: imageState,
       })
     })
   }
@@ -320,15 +317,17 @@ class CreatePostScreen extends Component<
         photos: [],
       }
       // console.log(this.state.images)
-      const status = await postService.updatePost(post, this.state.images)
+      const status = await postService.updatePost(post)
+      status === 'success' && this.props.navigation.goBack()
     } else {
       const post: Post = {
         content: this.state.content,
         groupId: 1,
-        type: 1,
+        type: this.state.isHaveTickPoll ? 2 : 1,
         photos: [],
       }
-      const status = await postService.addPost(post, this.state.images)
+      const status = await postService.addPost(post, this.state.imagesData)
+      status === 'success' && this.props.navigation.goBack()
     }
     // this.props.navigation.goBack()
   }

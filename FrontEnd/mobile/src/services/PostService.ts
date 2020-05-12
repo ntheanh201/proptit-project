@@ -55,17 +55,13 @@ class PostService extends BaseService<Post> {
       })
   }
 
-  updatePost(post: Post, images: ImageFormData[]): Promise<string> {
-    const data = new FormData()
-    images.forEach((image) => {
-      data.append('files', image)
-    })
-    data.append('group_id', post.groupId)
-    data.append('type', post.type)
-    data.append('content', post.content)
-    return Axios.patch(this.baseURL + `${post.id}/`, data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+  updatePost(post: Post): Promise<string> {
+    const data = {
+      group_id: post.groupId,
+      content: post.content,
+      type: post.type,
+    }
+    return Axios.patch(this.baseURL + `${post.id}/`, data)
       .then((res) => {
         console.log(res.data)
         return 'success'

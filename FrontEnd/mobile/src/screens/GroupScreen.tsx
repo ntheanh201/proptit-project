@@ -18,6 +18,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { color, Value } from 'react-native-reanimated'
 import colors from '../values/colors'
 import Icon from 'react-native-vector-icons/AntDesign'
+import { images } from '../assets'
 
 interface Item {
   key: string
@@ -119,7 +120,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                       alignItems: 'center',
                     }}>
                     <Image
-                      source={require('../assets/images/avt_batman.png')}
+                      source={images.AVT_BATMAN}
                       style={{ height: 30, width: 30, borderRadius: 5 }}
                     />
                     <Text style={[styles.bold_text, { marginLeft: 10 }]}>
@@ -150,7 +151,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
               justifyContent: 'flex-end',
             }}>
             <Image
-              source={require('../assets/images/avt_batman.png')}
+              source={images.AVT_BATMAN}
               style={{ width: '100%', height: 200 }}
             />
             <Text style={[styles.bold_text, { marginTop: 20 }]}>
@@ -182,7 +183,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                       top: 0,
                       left: 0,
                     }}
-                    source={require('../assets/images/avt_batman.png')}
+                    source={images.AVT_BATMAN}
                   />
                 ))}
               </TouchableOpacity>
