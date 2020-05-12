@@ -9,7 +9,10 @@ export const ImageView = ({ show, close, img }) => {
     <React.Fragment>
       <Modal show={show} onHide={close} size='lg'>
         <Modal.Header>
-          <button onClick={close}>
+          <button
+            className = "btn-modal"
+            onClick={close}
+          >
             <Icon prefix='fe' name={'x'} />
           </button>
         </Modal.Header>

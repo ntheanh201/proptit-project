@@ -124,6 +124,7 @@
     .left-status {
         flex: 1;
         margin-right: 0px;
+        margin-bottom: 10px;
     }
     .right-status {
         flex: 1;
@@ -156,3 +157,7 @@
     position: static;
     vertical-align: 0px;
 }
+.btn i {
+    vertical-align: 0px;
+}
+

@@ -1,16 +1,37 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'core'
-
+import cover1 from './assets/cover.jpg'
+import avt1 from './assets/avt.jpg'
 import { ProfilePage } from './ProfilePage'
 
-import cover from './assets/cover.jpg'
-import avt from './assets/avt.jpg'
+
 
 export const ProfilePageContainer = () => {
   const { user } = useSelector((state) => state.homeReducer)
+  const {
+    id,
+    username,
+    displayName,
+    avatar,
+    dateOfBirth,
+    description,
+    className,
+    email,
+    facebook,
+    phoneNumber,
+    regDate,
+    gender,
+    showModal,
+    showMenu,
+    generation,
+    avt,
+    cover
+  } = user
   const initialValues = {
     ...user,
+    avt: avt1,
+    cover: cover1,
     gender: '',
     grade: 'D18',
     address: '',
@@ -37,8 +58,9 @@ export const ProfilePageContainer = () => {
         completed: false
       }
     ],
-    showMenu: 1 /*to show menu*/,
-    generation: 6 /*thế hệ*/
+    showMenu: 1, /*to show menu*/
+    generation: 6, /*thế hệ*/
+    showModal: false
   }
   const [state, setState] = useState(initialValues)
   const props = {

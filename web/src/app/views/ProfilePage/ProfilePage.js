@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import CreateMission from './CreateMission'
 
 import { Page, Timeline } from 'tabler-react'
 
@@ -20,12 +21,19 @@ export const ProfilePage = ({ state, setState }) => {
     avt,
     cover,
     grade,
+    gender,
     address,
+    email,
     position,
     missions,
     showMenu,
+    username,
+    displayName,
+    dateOfBirth,
+    description,
+    phoneNumber,
     generation,
-    showModal = false // show image check
+    showModal // show image check
   } = state
 
   // show image
@@ -97,6 +105,51 @@ export const ProfilePage = ({ state, setState }) => {
     index += 1
     setState({ missions: [...missions, mission] })
   }
+  const showTableMission = 
+      missions.map((mission,index) => (
+        <tr
+          key={index} 
+          className={mission.completed ? "table-success" : mission.deadline.getTime() < Date.now() ? 'table-danger' : 'table-warning'}
+        >
+          <td>{index + 1}</td>
+          <td>{ mission.content }</td>
+          <td>{ mission.deadline.toLocaleString('vi') }</td>
+          <td>
+          <Form.Group>
+            <Form.Checkbox
+              label={mission.completed ? "Đã hoàn thành" : mission.deadline.getTime() < Date.now() ? 'Quá Deadline' : 'Chưa hoàn thành'}
+              name="completed"
+              checked = {mission.completed}
+              onChange = {
+                (event) => {
+                  const target = event.target
+                  const value = target.type === 'checkbox' ? target.checked : target.value
+                  setState({missions: [...missions,{...mission, completed: value}]})
+                }
+              }
+            />
+          </Form.Group>
+          </td>
+          <td>
+            <div className="btn-group">
+                <button
+                    type="button"
+                    className="btn btn-warning"
+                >
+                    <i className="fas fa-edit"></i>
+                    {" Sửa"}
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-danger"
+                >
+                    <i className="fas fa-trash-alt"></i>
+                    {" Xóa"}
+                </button>
+            </div>
+          </td>
+        </tr>
+      ))
   return (
     <div>
       <Page>
@@ -109,28 +162,11 @@ export const ProfilePage = ({ state, setState }) => {
               onShowImg()
             }}
           />
-
           <ImageView img={avt} show={showModal} close={onCloseImg} />
-
-          <h3 className='name'>{displayName}</h3>
-          <p className='description'>{description}</p>
-          <ul className='nav nav-tabs nav-stacked menu-profile'>
-            <li className='nav-item hidden-menu'>
-              <a
-                onClick={() => setState({ showMenu: 1 })}
-                className={showMenu === 1 ? 'nav-link active' : 'nav-link'}
-              >
-                Dòng thời gian
-              </a>
-            </li>
-            <li className='nav-item view-item'>
-              <a
-                onClick={() => setState({ showMenu: 1 })}
-                className={showMenu === 1 ? 'nav-link active' : 'nav-link'}
-              >
-                Dòng thời gian
-              </a>
-            </li>
+          
+          <h3 className="name">{displayName}</h3>
+          <p className="description">{description}</p>
+          <ul className="nav nav-tabs nav-stacked menu-profile">
             <li className='nav-item view-item'>
               <a className='nav-link active'>
                 {showMenu === 1
@@ -138,6 +174,14 @@ export const ProfilePage = ({ state, setState }) => {
                   : showMenu === 2
                   ? 'Giới thiệu'
                   : 'Nhiệu vụ hàng tháng'}
+              </a>
+            </li>
+            <li className="nav-item hidden-menu">
+              <a
+                onClick={() => setState({ showMenu: 1 })}
+                className={showMenu === 1 ? 'nav-link active' : 'nav-link'}
+              >
+                Dòng thời gian
               </a>
             </li>
             <li className='nav-item hidden-menu'>
@@ -181,11 +225,7 @@ export const ProfilePage = ({ state, setState }) => {
                 } else setState({ showMenu: 1 })
               }}
             >
-              {showMenu === 1
-                ? 'Giới thiệu'
-                : showMenu === 2
-                ? 'Nhiệu vụ hàng tháng'
-                : 'Dòng thời gian'}
+              <i className='fas fa-ellipsis-h'></i>
             </button>
             <button
               onClick={() => {
