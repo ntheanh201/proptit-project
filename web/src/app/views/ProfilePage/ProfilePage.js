@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import CreateMission from './CreateMission'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 import { Page, Timeline, Form } from 'tabler-react'
 
@@ -24,7 +26,8 @@ export const ProfilePage = ({ state, setState }) => {
     description,
     phoneNumber,
     generation,
-    showModal // show image check
+    showModal, // show image check
+    editingMission
   } = state
 
   // show image
@@ -98,6 +101,15 @@ export const ProfilePage = ({ state, setState }) => {
     index += 1
     setState({ missions: [...missions, mission] })
   }
+  const findIndex = (array, id) => {
+    var result = -1
+    array.forEach((array, index) => {
+      if (array.id === id) {
+        result = index
+      }
+    })
+    return result
+  }
   const showTableMission = 
       missions.map((mission,index) => (
         <tr
@@ -106,7 +118,24 @@ export const ProfilePage = ({ state, setState }) => {
         >
           <td>{index + 1}</td>
           <td>{ mission.content }</td>
-          <td>{ mission.deadline.toLocaleString('vi') }</td>
+          <td>
+            { mission.editMission ?
+              <DatePicker
+              selected={editingMission}
+              onChange={(date) => {
+                setState({
+                  editingMission: date
+                })
+              }}
+              showTimeSelect
+              placeholderText = {mission.deadline.toLocaleString('vi')}
+              dateFormat='hh:mm dd/MM/yyyy'
+              className='form-control'
+              showYearDropdown
+            />
+            :
+              mission.deadline.toLocaleString('vi') }
+          </td>
           <td>
           <Form.Group>
             <Form.Checkbox
@@ -117,7 +146,17 @@ export const ProfilePage = ({ state, setState }) => {
                 (event) => {
                   const target = event.target
                   const value = target.type === 'checkbox' ? target.checked : target.value
-                  setState({missions: [...missions,{...mission, completed: value}]})
+                  const list = missions.map((item) => {
+                    if (item.id === mission.id) {
+                      item.completed = value;
+                      return item;
+                    } else {
+                      return item;
+                    }
+                  });
+                  setState({
+                      missions: list
+                  });
                 }
               }
             />
@@ -125,20 +164,89 @@ export const ProfilePage = ({ state, setState }) => {
           </td>
           <td>
             <div className="btn-group">
-                <button
+                { mission.editMission === false ?
+                  <button
                     type="button"
                     className="btn btn-warning"
-                >
+                    onClick = {() => {
+                      const list = missions.map((item) => {
+                        if (item.id === mission.id) {
+                          item.editMission = true;
+                          return item;
+                        } else {
+                          return item;
+                        }
+                      });
+                      setState({
+                          missions: list
+                      });
+                    }}
+                  >
                     <i className="fas fa-edit"></i>
                     {" Sửa"}
-                </button>
-                <button
+                  </button>
+                  :
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick = {() => {
+                      let date = editingMission
+                      const list = missions.map((item) => {
+                        if (item.id === mission.id) {
+                          item.deadline = date;
+                          item.editMission = false;
+                          return item;
+                        } else {
+                          return item;
+                        }
+                      });
+                      setState({
+                          missions: list,
+                          editingMission: null
+                      });
+                    }}
+                  >
+                    <i className='fas fa-save' />
+                    {' Lưu lại'}
+                  </button>
+                }
+                { mission.editMission === false ?
+                  <button
                     type="button"
                     className="btn btn-danger"
-                >
+                    onClick={() => {
+                      const list = missions.filter(item => item.id !== mission.id);
+                      setState({
+                        missions: list
+                      });
+                    }}
+                  >
                     <i className="fas fa-trash-alt"></i>
                     {" Xóa"}
-                </button>
+                  </button>
+                  :
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick = {() => {
+                      const list = missions.map((item) => {
+                        if (item.id === mission.id) {
+                          item.editMission = false;
+                          return item;
+                        } else {
+                          return item;
+                        }
+                      });
+                      setState({
+                          missions: list,
+                          editingMission: null
+                      });
+                    }}
+                  >
+                    <i className='fa fa-times-circle' aria-hidden='true' />
+                    {' Hủy bỏ'}
+                  </button>
+                }
             </div>
           </td>
         </tr>
@@ -270,6 +378,24 @@ export const ProfilePage = ({ state, setState }) => {
             ) : (
               <div>
                 <CreateMission addNewMission={addNewMission} />
+                <form>
+                  <button type="button" className="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+                    Sort
+                  </button>
+                  <div className="dropdown-menu">
+                    <a className="dropdown-item">Theo tên</a>
+                    <a className="dropdown-item">Theo tiến độ</a>
+                    <a className="dropdown-item">Theo Deadline</a>
+                  </div>
+                  <div className="input-group mt-3 mb-3">
+                    <div className='input-group-prepend'>
+                      <span className='input-group-text'>
+                        <i className='fa fa-search' />
+                      </span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Tìm kiếm nhiệm vụ" />
+                  </div>
+                </form>
                 <RenderMissions />
               </div>
             )}

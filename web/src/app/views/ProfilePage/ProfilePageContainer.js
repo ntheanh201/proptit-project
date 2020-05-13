@@ -26,7 +26,9 @@ export const ProfilePageContainer = () => {
     showMenu,
     generation,
     avt,
-    cover
+    cover,
+    editMission,
+    editingMission
   } = user
   const initialValues = {
     ...user,
@@ -38,26 +40,7 @@ export const ProfilePageContainer = () => {
     quotes: '',
     position: 'Ban Sự kiện',
     facebook: '',
-    missions: [
-      {
-        id: 1,
-        content: 'Làm app Java',
-        deadline: new Date(),
-        completed: false
-      },
-      {
-        id: 2,
-        content: 'Học tiếng Anh',
-        deadline: new Date(),
-        completed: true
-      },
-      {
-        id: 3,
-        content: 'Học tiếng Anh',
-        deadline: new Date('12:00 6/6/2020'),
-        completed: false
-      }
-    ],
+    missions: [],
     showMenu: 1, /*to show menu*/
     generation: 6, /*thế hệ*/
     showModal: false

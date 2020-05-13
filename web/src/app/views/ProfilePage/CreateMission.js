@@ -8,7 +8,8 @@ export default function CreateMission(props) {
     id: null,
     content: '',
     deadline: null,
-    completed: false
+    completed: false,
+    editMission: false
   })
   const [showAddMission, setShowAddMission] = useState(false)
   const notHandleSubmit = () => {
@@ -28,7 +29,8 @@ export default function CreateMission(props) {
       id: null,
       content: '',
       deadline: null,
-      completed: false
+      completed: false,
+      editMission: false
     })
   }
   return (
