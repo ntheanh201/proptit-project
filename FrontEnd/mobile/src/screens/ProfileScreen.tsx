@@ -29,6 +29,8 @@ import { RootStackParams } from '../navigations/AppNavigator'
 import { ActivityIndicator } from 'react-native-paper'
 import colors from '../values/colors'
 import { postService } from '../services'
+import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
+import Icon from 'react-native-vector-icons/Entypo'
 
 interface ProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -40,6 +42,7 @@ interface ProfileScreenState {
   routes: Route[]
   isLoadingPost: boolean
   posts: Post[]
+  imageUrl: string
 }
 
 class ProfileScreen extends React.Component<
@@ -54,6 +57,8 @@ class ProfileScreen extends React.Component<
         { key: 'first', title: 'Hoạt động' },
         { key: 'second', title: 'Ảnh' },
       ],
+      imageUrl:
+        'https://interactive-examples.mdn.mozilla.net/media/examples/grapefruit-slice-332-332.jpg',
       isLoadingPost: true,
       posts: [],
     }
@@ -133,7 +138,27 @@ class ProfileScreen extends React.Component<
               </TouchableOpacity>
             </View>
           </LinearGradient>
-          <Image source={images.AVT_BATMAN} style={styles.avatar} />
+          <View style={styles.avatar}>
+            <Image
+              source={{ uri: this.state.imageUrl }}
+              style={styles.avatar}
+            />
+            <TouchableOpacity
+              onPress={() => this.onPressAvartar()}
+              style={{
+                position: 'absolute',
+                bottom: 10,
+                right: 10,
+                height: 40,
+                width: 40,
+                alignItems: 'center',
+                borderRadius: 100,
+                justifyContent: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              }}>
+              <Icon name="camera" style={{ fontSize: 20 }} />
+            </TouchableOpacity>
+          </View>
           <View style={styles.nameContainer}>
             <Text style={{ fontSize: 27 }}>
               {this.props.signInState.currentUser!.displayName}
@@ -166,6 +191,22 @@ class ProfileScreen extends React.Component<
         />
       </View>
     )
+  }
+
+  onPressAvartar() {
+    console.log('AppLog', 'On press avartar')
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      writeTempFile: true,
+      includeExif: true,
+      multiple: false,
+      cropping: true,
+    }).then((res) => {
+      const image = res as ImageP
+      this.setState({
+        imageUrl: image.path,
+      })
+    })
   }
 }
 
