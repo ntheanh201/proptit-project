@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
-
 import 'react-datepicker/dist/react-datepicker.css'
+import {Modal, Button} from 'react-bootstrap'
 
 export default function CreateMission(props) {
   const [mission, setMission] = useState({
@@ -11,20 +11,20 @@ export default function CreateMission(props) {
     completed: false,
     editMission: false
   })
-  const [showAddMission, setShowAddMission] = useState(false)
   const notHandleSubmit = () => {
-    setShowAddMission(false)
+    props.closeAddMission();
     setMission({
       id: null,
       content: '',
       deadline: null,
-      completed: false
+      completed: false,
+      editMission: false
     })
   }
   const handleSubmit = (event) => {
     event.preventDefault()
     props.addNewMission(mission)
-    setShowAddMission(false)
+    props.closeAddMission();
     setMission({
       id: null,
       content: '',
@@ -35,72 +35,55 @@ export default function CreateMission(props) {
   }
   return (
     <div>
-      <h3 className='title-body'>
-        Nhiệm vụ
-        {showAddMission ? (
-          <div className='btn-group'>
-            <button
-              type='button'
-              className='btn btn-success'
-              onClick={handleSubmit}
-            >
-              <i className='fas fa-save' />
-              {' Lưu lại'}
-            </button>
-            <button
-              type='button'
-              className='btn btn-danger'
-              onClick={notHandleSubmit}
-            >
-              <i className='fa fa-times-circle' aria-hidden='true' />
-              {' Hủy bỏ'}
-            </button>
-          </div>
-        ) : (
-          <button
-            type='button'
-            className='btn btn-block btn-add-mission'
-            onClick={() => setShowAddMission(true)}
-          >
-            <i className='fa fa-plus' aria-hidden='true' />
-            {' Thêm nhiệm vụ'}
-          </button>
-        )}
-      </h3>
-      {showAddMission ? (
-        <div className='add-mission'>
-          <div className='form-group'>
-            <label>Tên nhiệm vụ</label>
-            <input
-              type='text'
-              className='form-control'
-              onChange={(event) => {
-                setMission({
-                  ...mission,
-                  content: event.target.value
-                })
-              }}
-              placeholder='Bạn muốn làm gì vậy?'
-            />
-            <label className='deadline'>Deadline</label>
-            <br />
-            <DatePicker
-              selected={mission.deadline}
-              onChange={(date) => {
-                setMission({
-                  ...mission,
-                  deadline: date
-                })
-              }}
-              placeholderText={'Chọn Deadline'}
-              showTimeSelect
-              dateFormat='hh:mm dd/MM/yyyy'
-              className='form-control'
-              showYearDropdown
-            />
-          </div>
-        </div>
-      ) : null}
+      <Modal show={props.showAddMission} onHide={props.closeAddMission} size='lg'>
+        <Modal.Header>
+            <Modal.Title>Thêm nhiệm vụ mới</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className='add-mission'>
+            <div className='form-group'>
+                <label>Tên nhiệm vụ</label>
+                <input
+                type='text'
+                className='form-control'
+                onChange={(event) => {
+                    setMission({
+                    ...mission,
+                    content: event.target.value
+                    })
+                }}
+                placeholder='Bạn muốn làm gì vậy?'
+                />
+                <label className='deadline'>Deadline</label>
+                <br />
+                <DatePicker
+                selected={mission.deadline}
+                onChange={(date) => {
+                    setMission({
+                    ...mission,
+                    deadline: date
+                    })
+                }}
+                placeholderText={'Chọn Deadline'}
+                showTimeSelect
+                dateFormat='hh:mm dd/MM/yyyy'
+                className='form-control'
+                showYearDropdown
+                />
+            </div>
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="danger" onClick={notHandleSubmit}>
+                <i className='fa fa-times-circle' aria-hidden='true' />
+                {' Hủy bỏ'}
+            </Button>
+            <Button variant="success" onClick={handleSubmit}>
+                <i className='fas fa-save' />
+                {' Lưu lại'}
+            </Button>
+            </Modal.Footer>
+        </Modal>
     </div>
   )
 }

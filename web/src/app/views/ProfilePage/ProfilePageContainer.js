@@ -28,7 +28,9 @@ export const ProfilePageContainer = () => {
     avt,
     cover,
     editMission,
-    editingMission
+    editingMission,
+    editInfo,
+    idChoose
   } = user
   const initialValues = {
     ...user,
@@ -43,7 +45,9 @@ export const ProfilePageContainer = () => {
     missions: [],
     showMenu: 1, /*to show menu*/
     generation: 6, /*thế hệ*/
-    showModal: false
+    showModal: false,
+    editInfo: false, /*to show to edit inforamtion*/
+    idChoose: []
   }
   const [state, setState] = useState(initialValues)
   const props = {

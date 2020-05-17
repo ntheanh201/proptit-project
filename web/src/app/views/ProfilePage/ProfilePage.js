@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import CreateMission from './CreateMission'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { Modal, Button } from 'react-bootstrap'
 
 import { Page, Timeline, Form } from 'tabler-react'
 
@@ -27,7 +28,9 @@ export const ProfilePage = ({ state, setState }) => {
     phoneNumber,
     generation,
     showModal, // show image check
-    editingMission
+    editingMission, // save mission edit
+    editInfo,
+    idChoose
   } = state
 
   // show image
@@ -39,84 +42,257 @@ export const ProfilePage = ({ state, setState }) => {
   const onCloseImg = () => {
     setState({ showModal: false })
   }
-
-  const RenderInformation = () => {
+  const ShowEditInfo = () => { 
+    const handleClose = () => setState({editInfo: false});
+  
     return (
-      <Timeline>
-        <Timeline.Item title={'Họ và tên: ' + displayName} badgeColor='red' />
-        <Timeline.Item title={'Username: ' + username} badge />
-        <Timeline.Item
-          title={'Ngày tháng năm sinh: ' + dateOfBirth}
-          badgeColor='blue'
-        />
-        <Timeline.Item title={'Giới tính: ' + gender} badgeColor='yellow' />
-        <Timeline.Item title={'Khoá: ' + grade} badgeColor='wheat' />
-        <Timeline.Item
-          title={'Làm việc tại: ' + position + ' Gen ' + generation}
-          badgeColor='orange'
-        />
-        <Timeline.Item title={'Quê quán: ' + address} badge />
-        {phoneNumber && (
-          <Timeline.Item
-            title={'Số điện thoại: ' + phoneNumber}
-            badgeColor={'pink'}
-          />
-        )}
-        {email && (
-          <Timeline.Item title={'Email: ' + email} badgeColor='yellow' />
-        )}
-        {description && (
-          <Timeline.Item
-            title={'Châm ngôn yêu thích: ' + description}
-            badgeColor='green'
-          />
-        )}
-      </Timeline>
-    )
+      <>
+        <Modal show={editInfo} size="lg">
+          <Modal.Header>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+  const [showAddMission, setShowAddMission] = useState(false)
+  const [showEditMission, setShowEditMission] = useState(false)
+  const openAddMission = () => {
+    setShowAddMission(true);
   }
 
-  const RenderMissions = () => {
+  const closeAddMission = () => {
+    setShowAddMission(false);
+  }
+  const RenderMissions = () => {  
     return (
-      <div className='table-responsive'>
-        <table className='table table-hover table-bordered'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tên nhiệm vụ</th>
-              <th>Deadline</th>
-              <th>Trạng thái</th>
-              <th>Công cụ</th>
-            </tr>
-          </thead>
-          <tbody>
-            {showTableMission}
-          </tbody>
-        </table>
+    <div>
+      <div className="card">
+        <div className="header-table-mission">
+            <div>
+              <button type="button"
+                className="btn btn-circle btn-sm px-2"
+                onClick={openAddMission}
+              >
+                <i className="fas fa-plus mt-0"></i>
+              </button>
+              <button type="button"
+                className="btn btn-circle btn-sm px-2"
+                data-toggle='dropdown'
+                aria-haspopup='true'
+                aria-expanded='false'  
+              >
+                <i className="fas fa-search mt-0"></i>
+              </button>
+              <div className='dropdown-menu'>
+                <input
+                  type='text'
+                  className='dropdown-item form-control'
+                  placeholder="Search"
+                />
+              </div>
+            </div>
+            <h4>Nhiệm vụ hàng tháng</h4>
+            <div>
+              <button type="button" className="btn btn-circle btn-sm px-2">
+                <i className="fas fa-check mt-0"></i>
+              </button>
+              <button type="button"
+                className="btn btn-circle btn-sm px-2"
+                onClick = {() => {
+                  setShowEditMission(true);
+                    idChoose.forEach(choose => {
+                        const list = missions.map((item) => {
+                          if (item.id === choose) {
+                            item.editMission = true;
+                            return item;
+                          } else {
+                            return item;
+                          }
+                        });
+                        setState({
+                          missions: list
+                        });
+                      });
+                      console.log(missions);
+                    }}
+              >
+                <i className="fas fa-pencil-alt mt-0"></i>
+                <Modal show={showEditMission} size="lg">
+                  <Modal.Header>
+                    <Modal.Title>Chỉnh sửa nhiệm vụ</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary"
+                    // onClick={() => {
+
+                    // }}
+                    >
+                      Close
+                    </Button>
+                    <Button variant="primary"
+                      // onClick={() => {
+
+                      // }}
+                    
+                    >
+                      Save Changes
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </button>
+              <button type="button"
+                className="btn btn-circle btn-last btn-sm px-2"
+                onClick = {() => {
+                  idChoose.forEach(choose => {
+                    const list = missions.filter(item => item.id !== choose);
+                    setState({
+                      missions: list
+                    });
+                    });
+                    console.log(missions);
+                  }}
+              >
+                <i className="far fa-trash-alt mt-0"></i>
+              </button>
+            </div>
+        </div>
+        <div className="table-wrapper table-responsive">
+          <table className="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th>
+                  Chọn
+                </th>
+                <th className="th-lg">
+                  <a>Tên nhiệm vụ
+                    <i className="fas fa-sort ml-1"></i>
+                  </a>
+                </th>
+                <th className="th-lg">
+                  <a>Deadline
+                    <i className="fas fa-sort ml-1"></i>
+                  </a>
+                </th>
+                <th className="th-lg">
+                  <a>Trạng thái
+                    <i className="fas fa-sort ml-1"></i>
+                  </a>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {showTableMission}
+            </tbody>
+          </table>
+        </div>
+        {missions.length && missions ? null : 'Bạn đang không có nhiệm vụ nào!'}
       </div>
+      <div className="page-month">
+        <ul className="menu-month">
+          <li className="month"><a href="#">
+          <i className="fas fa-angle-left"></i>
+          </a></li>
+          <li className="month"><a href="#">2</a></li>
+          <li className="month"><a href="#">3</a></li>
+          <li className="month"><a href="#">4</a></li>
+          <li className="month"><a href="#">
+          <i className="fas fa-angle-right"></i>
+          </a></li>
+        </ul>
+        <div
+            className='year'
+            type='button'
+            data-toggle='dropdown'
+            aria-haspopup='true'
+            aria-expanded='false'
+        >
+        <p>
+          {"2020 "}
+          <i className="fas fa-caret-down"></i>
+        </p>
+        </div>
+        <div className='dropdown-menu'>
+          <button className='dropdown-item'>2021</button>
+          <button className='dropdown-item'>2022</button>
+        </div>
+      </div>
+    </div>
+    )
+  }
+  const s4 = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1)
+  }
+
+  const createID = () => {
+    return (
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4()
     )
   }
   const addNewMission = (mission) => {
-    var index = 1
-    mission.id = index
-    index += 1
-    setState({ missions: [...missions, mission] })
-  }
-  const findIndex = (array, id) => {
-    var result = -1
-    array.forEach((array, index) => {
-      if (array.id === id) {
-        result = index
-      }
-    })
-    return result
+    mission.id = createID();
+    setState({ missions: [...missions, mission] });
   }
   const showTableMission = 
-      missions.map((mission,index) => (
+      missions.map(mission => (
         <tr
-          key={index} 
+          key={mission.id} 
           className={mission.completed ? "table-success" : mission.deadline.getTime() < Date.now() ? 'table-danger' : 'table-warning'}
         >
-          <td>{index + 1}</td>
+          <th scope="row">
+            <input
+              className="form-check-input check-mission"
+              type="checkbox"
+              id="checkbox1"
+              name="choose"
+              onChange={(event) => {
+                const target = event.target;
+                const value = target.name === 'choose' ? target.checked : target.value;
+                if (value === true) {
+                  idChoose.push(mission.id);
+                  console.log(idChoose);
+                }
+                else {
+                  var index1;
+                  idChoose.forEach((item,index) => {
+                    if (item === mission.id) {
+                      index1 = index;
+                    }
+                  });
+                  idChoose.splice(index1,1);
+                }
+              }}
+            />
+            <label className="form-check-label" for="checkbox1"></label>
+          </th>
           <td>{ mission.content }</td>
           <td>
             { mission.editMission ?
@@ -137,117 +313,7 @@ export const ProfilePage = ({ state, setState }) => {
               mission.deadline.toLocaleString('vi') }
           </td>
           <td>
-          <Form.Group>
-            <Form.Checkbox
-              label={mission.completed ? "Đã hoàn thành" : mission.deadline.getTime() < Date.now() ? 'Quá Deadline' : 'Chưa hoàn thành'}
-              name="completed"
-              checked = {mission.completed}
-              onChange = {
-                (event) => {
-                  const target = event.target
-                  const value = target.type === 'checkbox' ? target.checked : target.value
-                  const list = missions.map((item) => {
-                    if (item.id === mission.id) {
-                      item.completed = value;
-                      return item;
-                    } else {
-                      return item;
-                    }
-                  });
-                  setState({
-                      missions: list
-                  });
-                }
-              }
-            />
-          </Form.Group>
-          </td>
-          <td>
-            <div className="btn-group">
-                { mission.editMission === false ?
-                  <button
-                    type="button"
-                    className="btn btn-warning"
-                    onClick = {() => {
-                      const list = missions.map((item) => {
-                        if (item.id === mission.id) {
-                          item.editMission = true;
-                          return item;
-                        } else {
-                          return item;
-                        }
-                      });
-                      setState({
-                          missions: list
-                      });
-                    }}
-                  >
-                    <i className="fas fa-edit"></i>
-                    {" Sửa"}
-                  </button>
-                  :
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick = {() => {
-                      let date = editingMission
-                      const list = missions.map((item) => {
-                        if (item.id === mission.id) {
-                          item.deadline = date;
-                          item.editMission = false;
-                          return item;
-                        } else {
-                          return item;
-                        }
-                      });
-                      setState({
-                          missions: list,
-                          editingMission: null
-                      });
-                    }}
-                  >
-                    <i className='fas fa-save' />
-                    {' Lưu lại'}
-                  </button>
-                }
-                { mission.editMission === false ?
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => {
-                      const list = missions.filter(item => item.id !== mission.id);
-                      setState({
-                        missions: list
-                      });
-                    }}
-                  >
-                    <i className="fas fa-trash-alt"></i>
-                    {" Xóa"}
-                  </button>
-                  :
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick = {() => {
-                      const list = missions.map((item) => {
-                        if (item.id === mission.id) {
-                          item.editMission = false;
-                          return item;
-                        } else {
-                          return item;
-                        }
-                      });
-                      setState({
-                          missions: list,
-                          editingMission: null
-                      });
-                    }}
-                  >
-                    <i className='fa fa-times-circle' aria-hidden='true' />
-                    {' Hủy bỏ'}
-                  </button>
-                }
-            </div>
+          {mission.completed ? "Đã hoàn thành" : mission.deadline.getTime() < Date.now() ? 'Quá Deadline' : 'Chưa hoàn thành'}
           </td>
         </tr>
       ))
@@ -371,31 +437,23 @@ export const ProfilePage = ({ state, setState }) => {
               <div>
                 <h3 className='title-body'>
                   Giới thiệu
-                  <i className='fas fa-edit edit-profile' />
+                  <i
+                    className='fas fa-edit edit-profile'
+                    onClick = {() => {
+                      setState({editInfo: true})
+                    }}
+                  />
                 </h3>
+                <ShowEditInfo />
                 <RenderInformation />
               </div>
             ) : (
               <div>
-                <CreateMission addNewMission={addNewMission} />
-                <form>
-                  <button type="button" className="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
-                    Sort
-                  </button>
-                  <div className="dropdown-menu">
-                    <a className="dropdown-item">Theo tên</a>
-                    <a className="dropdown-item">Theo tiến độ</a>
-                    <a className="dropdown-item">Theo Deadline</a>
-                  </div>
-                  <div className="input-group mt-3 mb-3">
-                    <div className='input-group-prepend'>
-                      <span className='input-group-text'>
-                        <i className='fa fa-search' />
-                      </span>
-                    </div>
-                    <input type="text" className="form-control" placeholder="Tìm kiếm nhiệm vụ" />
-                  </div>
-                </form>
+                <CreateMission
+                  addNewMission={addNewMission}
+                  showAddMission = {showAddMission}
+                  closeAddMission = {closeAddMission}
+                />
                 <RenderMissions />
               </div>
             )}
