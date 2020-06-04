@@ -4,7 +4,7 @@ export default class BaseService<T> {
   protected baseURL = ''
 
   constructor() {
-    this.baseURL = 'http://apis.aiforce.xyz/'
+    this.baseURL = 'http://103.130.218.26:6960/'
   }
 
   getAll(): Promise<T[]> {

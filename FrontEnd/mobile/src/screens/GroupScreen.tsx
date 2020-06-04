@@ -112,7 +112,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
             // console.log('AppLog', y)
             if (y >= 300) {
               this.props.navigation.setOptions({
-                headerTitle: (prop) => (
+                headerTitle: () => (
                   <View
                     style={{
                       flexDirection: 'row',
@@ -131,7 +131,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
               })
             } else {
               this.props.navigation.setOptions({
-                headerTitle: (prop) => null,
+                headerTitle: () => null,
               })
             }
           }}
