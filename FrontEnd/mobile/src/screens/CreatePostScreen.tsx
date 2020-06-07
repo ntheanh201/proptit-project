@@ -30,13 +30,14 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import colors from '../values/colors'
 import { postService } from '../services'
-import { Post, ImageFormData } from '../core'
+import { Post, ImageFormData, AppState, SignInState } from '../core'
 import { RouteProp } from '@react-navigation/native'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { convertToPostType } from '../configs/Function'
 
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
 import { images } from '../assets'
+import { connect } from 'react-redux'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
@@ -49,6 +50,7 @@ interface CreatePostScreenState {
 interface CreatePostScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   route: RouteProp<HomeTabParams, 'CreatePost'>
+  signInState: SignInState
 }
 
 class CreatePostScreen extends Component<
@@ -126,7 +128,10 @@ class CreatePostScreen extends Component<
       <View style={styles.wrapper}>
         <View style={styles.wrapperTextInput}>
           <View style={{ flexDirection: 'row' }}>
-            <Image source={images.AVT_BATMAN} style={styles.avatar} />
+            <Image
+              source={{ uri: this.props.signInState.currentUser?.avatar }}
+              style={styles.avatar}
+            />
             <TextInput
               defaultValue={this.state.defaultContent}
               style={styles.textinput}
@@ -368,4 +373,8 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CreatePostScreen
+const mapStateToProps = (state: AppState) => ({
+  signInState: state.signin,
+})
+
+export default connect(mapStateToProps)(CreatePostScreen)
