@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 
 import { Icon } from '../../Icon/Icon'
 import { Checkbox } from '../Checkbox/Checkbox'
@@ -8,9 +8,11 @@ import './TickPoll.css'
 export const TickPoll = ({ listPoll, postId, check = '', onCreatePoll }) => {
   const [state, setState] = useState({ value: '' })
 
-  const onChangeValue = (event) => {
+  const onChangeValue = event => {
     setState({ value: event.target.value })
   }
+
+  if (!listPoll) return null
 
   return (
     <div className='d-flex pt-5 mt-auto pl-5'>

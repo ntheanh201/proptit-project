@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
@@ -9,6 +9,9 @@ import { Icon, Card, TickPoll } from 'ui'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 
 export const Post = ({ post, postId }) => {
+  //todo: comment, react post, remove, edit post
+  const [menuVisible, setMenuVisible] = useState(false)
+
   const history = useHistory()
   moment.locale('vi')
 
@@ -20,7 +23,6 @@ export const Post = ({ post, postId }) => {
     groupName,
     content,
     authorId,
-    profileHref = '',
     avatarImg,
     reactionNumber,
     commentNumber,
@@ -32,43 +34,51 @@ export const Post = ({ post, postId }) => {
   } = post
 
   return (
-    <Card key={id}>
+    <Card>
       <div className='d-flex pt-5 mt-auto pl-5'>
-        <div className='avatar avatar-md mr-3' style={{ overflow: 'hidden' }}>
+        <Wrapper
+          className='avatar avatar-md mr-3'
+          style={{ overflow: 'hidden' }}
+        >
           <img src={authorAvatar} />
-        </div>
+        </Wrapper>
         <div>
-          <a href={profileHref} className='text-default'>
+          <CursorLink
+            className='text-default'
+            onClick={() => history.push(`/profile/${authorId}`)}
+          >
             {authorName}
-          </a>
+          </CursorLink>
           <small className='d-block text-muted'>
             <strong>{moment(time).fromNow()}</strong>
           </small>
-          <Content
+          <PostWrapper
             className='d-flex flex-column pt-5 pb-5'
             onClick={() => history.push(`/post/${id || postId}`)}
           >
             <Span>{content}</Span>
-          </Content>
+          </PostWrapper>
 
-          {/*<div className='tickPoll'>*/}
-          {/*  {type === 1 && (*/}
-          {/*    <TickPoll*/}
-          {/*      onCreatePoll={onCreatePoll}*/}
-          {/*      listPoll={listPoll}*/}
-          {/*      postId={id}*/}
-          {/*    />*/}
-          {/*  )}*/}
-          {/*</div>*/}
-          <div>
-            <ImageWrapper>
-              {photos &&
-                photos.map((photo, index) => (
+          {type === 1 && (
+            <div className='tickPoll'>
+              {type === 1 && (
+                <TickPoll
+                  // onCreatePoll={onCreatePoll}
+                  // listPoll={listPoll}
+                  postId={id}
+                />
+              )}
+            </div>
+          )}
+          {photos && (
+            <div>
+              <ImageWrapper>
+                {photos.map((photo, index) => (
                   <ImageViewer key={index} src={photo} />
                 ))}
-            </ImageWrapper>
-          </div>
-
+              </ImageWrapper>
+            </div>
+          )}
           <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
             <div className='icon d-none d-md-inline-block ml-3'>
               <Icon prefix='fe' name={'heart'} /> {reactionNumber}
@@ -81,6 +91,17 @@ export const Post = ({ post, postId }) => {
             </div>
           </CardBottom>
         </div>
+        <ActionBar>
+          <CursorLink onClick={() => setMenuVisible(true)}>...</CursorLink>
+          {menuVisible && (
+            <ActionMenu>
+              <ActionList>
+                <ActionItem>Sửa bài viết</ActionItem>
+                <DeletePost>Xóa bài viết</DeletePost>
+              </ActionList>
+            </ActionMenu>
+          )}
+        </ActionBar>
       </div>
       {/*{commentCount > 0 && (*/}
       {/*  <CardFooter>*/}
@@ -104,6 +125,10 @@ const Span = styled.span`
   max-width: 550px;
 `
 
+const Wrapper = styled.div`
+  position: relative;
+`
+
 const ImageWrapper = styled.div`
   margin: auto;
 `
@@ -112,6 +137,32 @@ const CardBottom = styled.div`
   justify-content: space-evenly;
 `
 
-const Content = styled.div`
+const PostWrapper = styled.div`
   cursor: pointer;
+`
+
+const CursorLink = styled.span`
+  cursor: pointer;
+  position: relative;
+`
+
+const ActionBar = styled.div`
+  position: absolute;
+  right: 2%;
+`
+
+const ActionMenu = styled.div`
+  position: absolute;
+  width: 150px;
+`
+const ActionList = styled.ul`
+  list-style: none;
+  padding: 0;
+`
+
+const ActionItem = styled.li`
+  cursor: pointer;
+`
+const DeletePost = styled(ActionItem)`
+  color: red;
 `

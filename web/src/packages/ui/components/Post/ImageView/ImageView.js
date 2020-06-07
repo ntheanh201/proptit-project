@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import styled from 'styled-components'
+import { Modal } from 'react-bootstrap'
 import { Icon } from 'tabler-react'
 
 import './ImageView.css'
@@ -9,9 +10,9 @@ export const ImageView = ({ onShowing, onClose, img }) => {
     <React.Fragment>
       <Modal show={onShowing} onHide={onClose} size='lg'>
         <Modal.Header>
-          <button className='btn-modal' onClick={onClose}>
+          <CloseButton className='btn-modal' onClick={onClose}>
             <Icon prefix='fe' name={'x'} />
-          </button>
+          </CloseButton>
         </Modal.Header>
         <Modal.Body>
           <img src={img} />
@@ -20,3 +21,9 @@ export const ImageView = ({ onShowing, onClose, img }) => {
     </React.Fragment>
   )
 }
+
+const CloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
