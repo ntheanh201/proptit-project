@@ -2,28 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Button } from 'tabler-react'
+import { useState } from 'core'
+import { Card, CardBody, Icon } from 'ui'
 
 import * as Actions from '../../../../redux/action-creators/post'
-import { useState } from 'core'
-import { Card, CardHeader, CardBody, CardTitle, Icon } from 'ui'
 
 import img from '../../../../assets/imgChucTet.jpg'
 import ngocmai from '../../../../assets/ngocmai.jpg'
 
-export const CreatePost = () => {
+export const CreatePost = ({ groupId = 1 }) => {
   const dispatch = useDispatch()
-  const { posts } = useSelector(state => state.postReducer)
-  const [state, setState] = useState({ value: '' })
+  const { user } = useSelector(state => state.homeReducer)
+  const [content, setContent] = useState(null)
+  const [type, setType] = useState(0)
 
   const onChangeValue = event => {
-    setState({ value: event.target.value })
+    setContent(event.target.value)
   }
 
-  const onCreatePost = post => {
-    //todo: createPost, update redux
+  const onCreatePost = () => {
+    //todo: createPost, backend needs to response post
     dispatch(
-      // eslint-disable-next-line camelcase
-      Actions.createPost([{ ...post, assigned_user_avatar: ngocmai }, ...posts])
+      Actions.createPost({
+        content,
+        type,
+        authorId: user.id,
+        groupId
+      })
     )
   }
 
@@ -42,24 +47,13 @@ export const CreatePost = () => {
             <Icon prefix='fa' name={'file-picture-o'} />
           </div>
           <div className='icon d-none d-md-inline-block ml-3'>
-            <Icon prefix='fa' name={'list-ul'} />
+            <Icon prefix='fa' name={'list-ul'} onClick={() => setType(1)} />
           </div>
           <div className='icon d-none d-md-inline-block ml-3'>
             <Icon prefix='fa' name={'smile'} />
           </div>
           <div className='text-right'>
-            <Button
-              type='submit'
-              color='primary'
-              onClick={() =>
-                onCreatePost({
-                  content: state.value,
-                  name: 'Bùi Phương Ngọc Mai',
-                  username: 'ngocmai.buiphuong',
-                  img
-                })
-              }
-            >
+            <Button type='submit' color='primary' onClick={onCreatePost}>
               Đăng bài
             </Button>
           </div>

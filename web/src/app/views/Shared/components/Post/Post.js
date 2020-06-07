@@ -7,7 +7,7 @@ import { Comment } from 'tabler-react'
 import { Icon, Card, TickPoll } from 'ui'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 
-export const Post = ({ post, onCreatePoll }) => {
+export const Post = ({ post }) => {
   const history = useHistory()
 
   const {
@@ -61,9 +61,10 @@ export const Post = ({ post, onCreatePoll }) => {
           {/*</div>*/}
           <div>
             <ImageWrapper>
-              {photos.map((photo, index) => (
-                <ImageViewer key={index} src={photo} alt={username} />
-              ))}
+              {photos &&
+                photos.map((photo, index) => (
+                  <ImageViewer key={index} src={photo} alt={username} />
+                ))}
             </ImageWrapper>
           </div>
 

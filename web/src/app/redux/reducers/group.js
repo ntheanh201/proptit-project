@@ -1,7 +1,8 @@
 import * as Actions from '../action-types'
 
 const STATE_INIT = {
-  groups: null
+  groups: null,
+  groupId: null
 }
 
 export default (state = STATE_INIT, { type, payload }) => {

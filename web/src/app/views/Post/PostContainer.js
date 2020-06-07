@@ -12,7 +12,7 @@ export const PostContainer = () => {
     dispatch(Actions.getPostById(id))
   }, [])
 
-  const { post } = useSelector((state) => state.postReducer)
+  const { post } = useSelector(state => state.postReducer)
 
   if (!post) {
     return null

@@ -33,26 +33,11 @@ export const convertPostType = data => {
 }
 
 export const convertToServerPostType = data => {
-  const {
-    authorId,
-    authorAvatar,
-    authorName,
-    groupId,
-    groupName,
-    commentNumber,
-    reactionNumber,
-    reactionId
-  } = data
+  const { authorId, groupId } = data
   return {
     ...data,
     assigned_user_id: authorId,
-    assigned_user_avatar: authorAvatar,
-    assigned_user_display_name: authorName,
-    assigned_group_id: groupId,
-    assigned_group_name: groupName,
-    comment_number: commentNumber,
-    reaction_number: reactionNumber,
-    reaction_id: reactionId
+    assigned_group_id: groupId
   }
 }
 
