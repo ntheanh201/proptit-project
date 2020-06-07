@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
-  AppState,
 } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
@@ -20,12 +19,13 @@ import ItemGroup from '../components/itemgroup/ItemGroup'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
-import { signOut } from '../core'
+import { signOut, AppState, SignInState } from '../core'
 import { images } from '../assets'
 
 interface MenuScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   signOut: typeof signOut
+  currentUserStat: SignInState
 }
 
 interface Group {
@@ -35,6 +35,8 @@ interface Group {
 }
 
 interface MenuScreenState {
+  name?: string
+  avartarUrl?: string
   isExpandedGroup: boolean
   listGroup: Group[]
 }
@@ -44,6 +46,8 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
     super(props)
 
     this.state = {
+      name: this.props.currentUserStat.currentUser?.displayName,
+      avartarUrl: this.props.currentUserStat.currentUser?.avatar,
       isExpandedGroup: false,
       listGroup: [
         {
@@ -85,8 +89,13 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
               alignItems: 'center',
               flexDirection: 'row',
             }}>
-            <Image source={images.AVT_BATMAN} style={styles.normal_icon} />
-            <Text style={[styles.bold_text, { marginLeft: 10 }]}>Batman</Text>
+            <Image
+              source={{ uri: this.state.avartarUrl }}
+              style={styles.normal_icon}
+            />
+            <Text style={[styles.bold_text, { marginLeft: 10 }]}>
+              {this.state.name}
+            </Text>
           </View>
           <TouchableOpacity
             onPress={() => {
@@ -203,7 +212,9 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({})
+const mapStateToProps = (state: AppState) => ({
+  currentUserStat: state.signin,
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
   bindActionCreators(signInAction, dispatch)
