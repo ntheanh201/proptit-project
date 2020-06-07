@@ -4,9 +4,9 @@ import { User, AuthToken } from '../core'
 import { convertToUserType } from '../configs/Function'
 
 class SignInService {
-  protected authURL = 'http://apis.aiforce.xyz/auth/jwt/create/'
-  protected userAuthURL = 'http://apis.aiforce.xyz/auth/users/me/'
-  protected refreshTokenURL = 'http://apis.aiforce.xyz/auth/jwt/refresh/'
+  protected authURL = 'http://103.130.218.26:6960/auth/jwt/create/'
+  protected userAuthURL = 'http://103.130.218.26:6960/auth/users/me/'
+  protected refreshTokenURL = 'http://103.130.218.26:6960/auth/jwt/refresh/'
 
   requestSignIn(username: string, password: string): Promise<AuthToken> {
     return Axios.post(this.authURL, { username: username, password: password })

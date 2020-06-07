@@ -57,8 +57,7 @@ class ProfileScreen extends React.Component<
         { key: 'first', title: 'Hoạt động' },
         { key: 'second', title: 'Ảnh' },
       ],
-      imageUrl:
-        'https://interactive-examples.mdn.mozilla.net/media/examples/grapefruit-slice-332-332.jpg',
+      imageUrl: this.props.signInState.currentUser?.avatar!,
       isLoadingPost: true,
       posts: [],
     }
@@ -124,7 +123,9 @@ class ProfileScreen extends React.Component<
     })
     return (
       <View style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}>
-        <ImageBackground source={images.BGR_BATMAN} style={styles.coverImage}>
+        <ImageBackground
+          source={{ uri: this.props.signInState.currentUser?.cover }}
+          style={styles.coverImage}>
           <LinearGradient
             colors={['transparent', '#fff']}
             style={styles.coverImage}>

@@ -47,6 +47,7 @@ export const convertToUserType = (data: any): User => {
     phoneNumber: data.phone_number,
     regDate: data.reg_date,
     gender: data.user_gender,
+    cover: data.cover,
   }
 }
 
