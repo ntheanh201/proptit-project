@@ -20,19 +20,6 @@ export const Home = () => {
     <Page>
       <Page.Main>
         <Grid.Row>
-          <Grid.Col lg={4}>
-            <StickyCard statusColor='green'>
-              <CardHeader>
-                <CardTitle>Các nhóm của bạn</CardTitle>
-                <CardOptions>
-                  <Icon link name='settings' />
-                </CardOptions>
-              </CardHeader>
-              <CardBody>
-                <Groups />
-              </CardBody>
-            </StickyCard>
-          </Grid.Col>
           <NewFeeds />
         </Grid.Row>
       </Page.Main>

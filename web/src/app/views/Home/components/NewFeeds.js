@@ -8,7 +8,7 @@ import { Post } from '../../Shared/components/Post/Post'
 import { CreatePost } from '../../Shared/components/Post/CreatePost'
 
 const ShowNewFeeds = ({ children }) => {
-  const { isLogged } = useSelector((state) => state.homeReducer)
+  const { isLogged } = useSelector(state => state.homeReducer)
   return isLogged ? (
     <Grid.Col lg={8}>
       <CreatePost />
@@ -20,7 +20,7 @@ const ShowNewFeeds = ({ children }) => {
 }
 
 export const NewFeeds = () => {
-  const { posts } = useSelector((state) => state.postReducer)
+  const { posts } = useSelector(state => state.postReducer)
   const onCreatePoll = (poll, postId) => {
     posts[postId - 1].listPoll.push(poll)
   }
@@ -37,8 +37,8 @@ export const NewFeeds = () => {
         </CardHeader>
         <CardBody>
           {posts &&
-            posts.map((post) => (
-              <Post post={post} onCreatePoll={onCreatePoll} />
+            posts.map((post, index) => (
+              <Post key={index} post={post} onCreatePoll={onCreatePoll} />
             ))}
         </CardBody>
       </Card>

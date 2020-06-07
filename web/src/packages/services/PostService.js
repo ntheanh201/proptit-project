@@ -8,10 +8,10 @@ export const GetAllPostsService = (type, id) => {
   const method = type === 'group' ? 'byGroup' : 'byUser'
   return axios
     .get(`${environments.BASE_URL}posts/?method=${method}&id=${id}`)
-    .then((response) => {
+    .then(response => {
       return convertToPostArray(response.data)
     })
-    .catch((error) => {
+    .catch(error => {
       if (error.response) {
         return error.response.status
       }
@@ -19,10 +19,10 @@ export const GetAllPostsService = (type, id) => {
     })
 }
 
-export const getPostByIdService = (postId) => {
+export const getPostByIdService = postId => {
   return axios
     .get(`${environments.BASE_URL}posts/${postId}/`)
-    .then((response) => {
+    .then(response => {
       const { post, reactions_info, comments_info } = response.data
 
       return {
@@ -31,7 +31,7 @@ export const getPostByIdService = (postId) => {
         commentsInfo: comments_info
       }
     })
-    .catch((error) => {
+    .catch(error => {
       if (error.response) {
         return error.response.status
       }
@@ -41,9 +41,10 @@ export const getPostByIdService = (postId) => {
 
 export const addPostService = (post, images) => {
   const data = new FormData()
-  images.forEach((image) => {
-    data.append('files', image)
-  })
+  images &&
+    images.map(image => {
+      data.append('files', image)
+    })
   data.append('group_id', post.groupId)
   data.append('type', post.type)
   data.append('content', post.content)
@@ -51,18 +52,18 @@ export const addPostService = (post, images) => {
     .post(`${environments.BASE_URL}posts/`, data, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
-    .then((res) => {
+    .then(res => {
       console.log(res.data)
       return 'success'
     })
-    .catch((err) => {
+    .catch(err => {
       return null
     })
 }
 
 export const updatePostService = (post, images) => {
   const data = new FormData()
-  images.forEach((image) => {
+  images.forEach(image => {
     data.append('files', image)
   })
   data.append('group_id', post.groupId)
@@ -72,23 +73,23 @@ export const updatePostService = (post, images) => {
     .patch(`${environments.BASE_URL}posts/${post.id}/`, data, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
-    .then((res) => {
+    .then(res => {
       console.log(res.data)
       return 'success'
     })
-    .catch((err) => {
+    .catch(err => {
       return null
     })
 }
 
-export const deletePostService = (postId) => {
+export const deletePostService = postId => {
   return axios
     .delete(`${environments.BASE_URL}posts/${postId}/`)
-    .then((res) => {
+    .then(res => {
       console.log(res.data)
       return 'success'
     })
-    .catch((err) => {
+    .catch(err => {
       return null
     })
 }

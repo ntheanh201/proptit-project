@@ -61,8 +61,8 @@ export const Post = ({ post, onCreatePoll }) => {
           {/*</div>*/}
           <div>
             <ImageWrapper>
-              {photos.map((photo) => (
-                <ImageViewer src={photo} alt={username} />
+              {photos.map((photo, index) => (
+                <ImageViewer key={index} src={photo} alt={username} />
               ))}
             </ImageWrapper>
           </div>
