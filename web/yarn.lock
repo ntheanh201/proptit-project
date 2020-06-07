@@ -7132,10 +7132,10 @@ react-component-managers@^3.1.0:
     prop-types "^15.6.1"
     spy-on-component "^1.1.0"
 
-react-datepicker@^2.14.1:
-  version "2.15.0"
-  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-2.15.0.tgz#1e182699f1fd96b96080d0b6c294c6dc383117a0"
-  integrity sha512-IZU3izNcP7UFFsaKGpPW1bej6CVF0oL/wgisjDiuy8FZk9wdcFDcrk1/FFY2UinrYSGzgafc4jdOmgVj/7YrJA==
+react-datepicker@^2.15.0:
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-2.16.0.tgz#6bd68de94f5fb38c8f6a4370f3c612837c700e4e"
+  integrity sha512-TvcmSY27rn0JKvuJuIXNNS+niGQNdgtuG/CsBttVYhPOA9KmSw7c2PvQBPVEvzkyV+QPNJ8jN/KVJNj9uvopqA==
   dependencies:
     classnames "^2.2.6"
     date-fns "^2.0.1"
@@ -9517,3 +9517,8 @@ yargs@^7.0.0:
     which-module "^1.0.0"
     y18n "^3.2.1"
     yargs-parser "^5.0.0"
+
+yarn@^1.22.4:
+  version "1.22.4"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.4.tgz#01c1197ca5b27f21edc8bc472cd4c8ce0e5a470e"
+  integrity sha512-oYM7hi/lIWm9bCoDMEWgffW8aiNZXCWeZ1/tGy0DWrN6vmzjCXIKu2Y21o8DYVBUtiktwKcNoxyGl/2iKLUNGA==
