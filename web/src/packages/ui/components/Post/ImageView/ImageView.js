@@ -4,15 +4,12 @@ import { Icon } from 'tabler-react'
 
 import './ImageView.css'
 
-export const ImageView = ({ show, close, img }) => {
+export const ImageView = ({ onShowing, onClose, img }) => {
   return (
     <React.Fragment>
-      <Modal show={show} onHide={close} size='lg'>
+      <Modal show={onShowing} onHide={onClose} size='lg'>
         <Modal.Header>
-          <button
-            className = "btn-modal"
-            onClick={close}
-          >
+          <button className='btn-modal' onClick={onClose}>
             <Icon prefix='fe' name={'x'} />
           </button>
         </Modal.Header>

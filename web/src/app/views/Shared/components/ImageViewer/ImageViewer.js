@@ -12,7 +12,11 @@ export const ImageViewer = ({ src }) => {
         src={src}
         onClick={() => setShowing(true)}
       />
-      {showing && <ImageView img={src} />}
+      <ImageView
+        img={src}
+        onShowing={showing}
+        onClose={() => setShowing(false)}
+      />
     </Wrapper>
   )
 }
