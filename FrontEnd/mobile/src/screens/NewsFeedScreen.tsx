@@ -194,6 +194,12 @@ class NewsFeedScreen extends Component<
             renderItem={({ item, index }) => {
               return (
                 <ItemNewsFeed
+                  onPressComment={() => {
+                    this.props.navigation.navigate('PostDetail', {
+                      screen: 'PostDetail',
+                      params: { postId: item.id },
+                    })
+                  }}
                   onPressImage={() =>
                     this.props.navigation.navigate('ImageView', {
                       screen: 'ImageView',

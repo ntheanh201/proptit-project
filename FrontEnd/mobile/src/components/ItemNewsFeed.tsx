@@ -25,6 +25,7 @@ interface ItemNewsFeedProps {
   commentNumber?: number
   onPress?: () => void
   onPressMore?: () => void
+  onPressComment: () => void
   isShowMore?: boolean
   onPressImage: () => void
 }
@@ -256,6 +257,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => this.props.onPressComment()}
             style={{
               flex: 1,
               flexDirection: 'row',
