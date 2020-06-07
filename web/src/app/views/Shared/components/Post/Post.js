@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import moment from 'moment'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 
@@ -7,8 +8,9 @@ import { Comment } from 'tabler-react'
 import { Icon, Card, TickPoll } from 'ui'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 
-export const Post = ({ post }) => {
+export const Post = ({ post, postId }) => {
   const history = useHistory()
+  moment.locale('vi')
 
   const {
     id,
@@ -19,7 +21,6 @@ export const Post = ({ post }) => {
     content,
     authorId,
     profileHref = '',
-    username = '',
     avatarImg,
     reactionNumber,
     commentNumber,
@@ -41,11 +42,11 @@ export const Post = ({ post }) => {
             {authorName}
           </a>
           <small className='d-block text-muted'>
-            <strong>{username}</strong>
+            <strong>{moment(time).fromNow()}</strong>
           </small>
           <Content
             className='d-flex flex-column pt-5 pb-5'
-            onClick={() => history.push(`/post/${id}`)}
+            onClick={() => history.push(`/post/${id || postId}`)}
           >
             <Span>{content}</Span>
           </Content>
@@ -63,7 +64,7 @@ export const Post = ({ post }) => {
             <ImageWrapper>
               {photos &&
                 photos.map((photo, index) => (
-                  <ImageViewer key={index} src={photo} alt={username} />
+                  <ImageViewer key={index} src={photo} />
                 ))}
             </ImageWrapper>
           </div>
