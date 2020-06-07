@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-import { Page, Grid, Icon } from 'tabler-react'
-
-import { Card, CardBody, CardHeader, CardTitle, CardOptions } from 'ui'
+import { Page, Grid } from 'tabler-react'
 
 import * as PostActions from '../../redux/action-creators/post'
-import { Groups } from './components/Groups'
 import { NewFeeds } from './components/NewFeeds'
 
 export const Home = () => {
@@ -26,8 +22,3 @@ export const Home = () => {
     </Page>
   )
 }
-
-const StickyCard = styled(Card)`
-  position: sticky;
-  top: 0;
-`
