@@ -141,8 +141,8 @@ export const Post = ({ post, postId }) => {
       </Card>
       <EditPostModal
         modalVisible={editPostVisible}
-        onClose={() => setEditPostVisible(!editPostVisible)}
         post={post}
+        setEditPostVisible={setEditPostVisible}
       />
     </>
   )

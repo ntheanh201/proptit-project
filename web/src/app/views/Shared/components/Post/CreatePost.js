@@ -7,7 +7,7 @@ import { Card, CardBody, Icon, CardFooter } from 'ui'
 
 import * as Actions from '../../../../redux/action-creators/post'
 
-const PostInput = ({ isEdit = false, groupId, post }) => {
+const PostInput = ({ isEdit = false, groupId, post, setEditPostVisible }) => {
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.homeReducer)
   const [content, setContent] = useState((isEdit && post.content) || null)
@@ -31,13 +31,14 @@ const PostInput = ({ isEdit = false, groupId, post }) => {
   const onEditPost = () => {
     dispatch(
       Actions.updatePost({
-        id: post.id,
+        ...post,
         content,
         type,
         authorId: user.id,
         groupId
       })
     )
+    setEditPostVisible(false)
   }
   return (
     <>
@@ -73,9 +74,19 @@ const PostInput = ({ isEdit = false, groupId, post }) => {
   )
 }
 
-export const CreatePost = ({ groupId = 1, post = null, isEdit = false }) => {
+export const CreatePost = ({
+  groupId = 1,
+  post = null,
+  isEdit = false,
+  setEditPostVisible
+}) => {
   return isEdit ? (
-    <PostInput isEdit post={post} groupId={groupId} />
+    <PostInput
+      isEdit
+      post={post}
+      groupId={groupId}
+      setEditPostVisible={setEditPostVisible}
+    />
   ) : (
     <Card statusColor='blue'>
       <CardBody>

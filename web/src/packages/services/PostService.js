@@ -74,7 +74,6 @@ export const updatePostService = (post, images) => {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
     .then(res => {
-      console.log(res.data)
       return 'success'
     })
     .catch(err => {
