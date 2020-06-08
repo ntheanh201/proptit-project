@@ -2,16 +2,19 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { Comment } from 'tabler-react'
 
 import { Icon, Card, TickPoll } from 'ui'
+
+import * as Actions from '../../../../redux/action-creators/post'
+
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 
 export const Post = ({ post, postId }) => {
   //todo: comment, react post, remove, edit post
   const [menuVisible, setMenuVisible] = useState(false)
-
+  const dispatch = useDispatch()
   const history = useHistory()
   moment.locale('vi')
 
@@ -32,6 +35,16 @@ export const Post = ({ post, postId }) => {
     reactionId,
     time
   } = post
+
+  const onEditPost = () => {
+    console.log('edit post ', id)
+    setMenuVisible(false)
+  }
+
+  const onDeletePost = () => {
+    dispatch(Actions.deletePost(id))
+    setMenuVisible(false)
+  }
 
   return (
     <Card>
@@ -92,12 +105,14 @@ export const Post = ({ post, postId }) => {
           </CardBottom>
         </div>
         <ActionBar>
-          <CursorLink onClick={() => setMenuVisible(true)}>...</CursorLink>
+          <CursorLink onClick={() => setMenuVisible(!menuVisible)}>
+            ...
+          </CursorLink>
           {menuVisible && (
             <ActionMenu>
               <ActionList>
-                <ActionItem>Sửa bài viết</ActionItem>
-                <DeletePost>Xóa bài viết</DeletePost>
+                <ActionItem onClick={onEditPost}>Sửa bài viết</ActionItem>
+                <DeletePost onClick={onDeletePost}>Xóa bài viết</DeletePost>
               </ActionList>
             </ActionMenu>
           )}

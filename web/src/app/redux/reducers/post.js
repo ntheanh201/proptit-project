@@ -19,7 +19,7 @@ export default (state = STATE_INIT, { type, payload }) => {
     case Actions.UPDATE_POST:
       return { ...state, posts: payload }
     case Actions.DELETE_POST:
-      return { ...state, posts: payload }
+      return { ...state, posts: state.posts.filter(({ id }) => id !== payload) }
     default:
       return state
   }

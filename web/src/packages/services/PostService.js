@@ -85,7 +85,6 @@ export const deletePostService = postId => {
   return axios
     .delete(`${environments.BASE_URL}posts/${postId}/`)
     .then(res => {
-      console.log(res.data)
       return 'success'
     })
     .catch(err => {

@@ -3,7 +3,8 @@ import {
   GetAllPostsService,
   addPostService,
   updatePostService,
-  getPostByIdService
+  getPostByIdService,
+  deletePostService
 } from 'services'
 import { convertToServerPostType } from 'helpers'
 
@@ -47,6 +48,16 @@ export const updatePost = (post, images) => {
     dispatch({
       type: Actions.UPDATE_POST,
       payload: post
+    })
+  }
+}
+
+export const deletePost = id => {
+  return async dispatch => {
+    const response = deletePostService(id)
+    dispatch({
+      type: Actions.DELETE_POST,
+      payload: id
     })
   }
 }
