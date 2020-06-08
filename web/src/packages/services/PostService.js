@@ -53,7 +53,7 @@ export const addPostService = (post, images) => {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
     .then(res => {
-      return res
+      return convertPostType(res.data)
     })
     .catch(err => {
       return null
