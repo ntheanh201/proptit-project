@@ -17,7 +17,10 @@ export default (state = STATE_INIT, { type, payload }) => {
     case Actions.CREATE_POST:
       return { ...state, posts: [payload, ...state.posts] }
     case Actions.UPDATE_POST:
-      return { ...state, posts: payload }
+      const postIndex = state.posts.findIndex(({ id }) => id === payload.id)
+      let posts = state.posts
+      posts[postIndex] = payload
+      return { ...state, posts }
     case Actions.DELETE_POST:
       return { ...state, posts: state.posts.filter(({ id }) => id !== payload) }
     default:

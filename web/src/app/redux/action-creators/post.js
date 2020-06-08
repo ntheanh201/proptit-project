@@ -6,7 +6,7 @@ import {
   getPostByIdService,
   deletePostService
 } from 'services'
-import { convertToServerPostType } from 'helpers'
+import { convertToServerPostType, convertPostType } from 'helpers'
 
 export const getAllPosts = (type = 'group', id = 1) => {
   return async dispatch => {
@@ -44,7 +44,7 @@ export const createPost = (post, images) => {
 
 export const updatePost = (post, images) => {
   return async dispatch => {
-    const post = await updatePostService(post, images)
+    await updatePostService(post, images)
     dispatch({
       type: Actions.UPDATE_POST,
       payload: post

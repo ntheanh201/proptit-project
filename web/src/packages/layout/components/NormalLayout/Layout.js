@@ -66,7 +66,6 @@ const navBarItems = [
 
 const Container = ({ history, children }) => {
   const { isLogged, user } = useSelector(state => state.homeReducer)
-  console.log(user)
   const { displayName, username, id: userId } = user
 
   const accountDropdownProps = {

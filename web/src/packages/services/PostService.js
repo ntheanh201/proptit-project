@@ -62,9 +62,10 @@ export const addPostService = (post, images) => {
 
 export const updatePostService = (post, images) => {
   const data = new FormData()
-  images.forEach(image => {
-    data.append('files', image)
-  })
+  images &&
+    images.map(image => {
+      data.append('files', image)
+    })
   data.append('group_id', post.groupId)
   data.append('type', post.type)
   data.append('content', post.content)

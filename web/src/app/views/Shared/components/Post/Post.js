@@ -10,10 +10,13 @@ import { Icon, Card, TickPoll } from 'ui'
 import * as Actions from '../../../../redux/action-creators/post'
 
 import { ImageViewer } from '../ImageViewer/ImageViewer'
+import { EditPostModal } from './EditPostModal'
 
 export const Post = ({ post, postId }) => {
   //todo: comment, react post, remove, edit post
   const [menuVisible, setMenuVisible] = useState(false)
+  const [editPostVisible, setEditPostVisible] = useState(false)
+
   const dispatch = useDispatch()
   const history = useHistory()
   moment.locale('vi')
@@ -37,7 +40,7 @@ export const Post = ({ post, postId }) => {
   } = post
 
   const onEditPost = () => {
-    console.log('edit post ', id)
+    setEditPostVisible(true)
     setMenuVisible(false)
   }
 
@@ -47,92 +50,101 @@ export const Post = ({ post, postId }) => {
   }
 
   return (
-    <Card>
-      <div className='d-flex pt-5 mt-auto pl-5'>
-        <Wrapper
-          className='avatar avatar-md mr-3'
-          style={{ overflow: 'hidden' }}
-        >
-          <img src={authorAvatar} />
-        </Wrapper>
-        <div>
-          <CursorLink
-            className='text-default'
-            onClick={() => history.push(`/profile/${authorId}`)}
+    <>
+      <Card>
+        <div className='d-flex pt-5 mt-auto pl-5'>
+          <Wrapper
+            className='avatar avatar-md mr-3'
+            style={{ overflow: 'hidden' }}
           >
-            {authorName}
-          </CursorLink>
-          <small className='d-block text-muted'>
-            <strong>{moment(time).fromNow()}</strong>
-          </small>
-          <PostWrapper
-            className='d-flex flex-column pt-5 pb-5'
-            onClick={() => history.push(`/post/${id || postId}`)}
-          >
-            <Span>{content}</Span>
-          </PostWrapper>
+            <img src={authorAvatar} />
+          </Wrapper>
+          <div>
+            <CursorLink
+              className='text-default'
+              onClick={() => history.push(`/profile/${authorId}`)}
+            >
+              {authorName}
+            </CursorLink>
+            <small className='d-block text-muted'>
+              <strong>{moment(time).fromNow()}</strong>
+            </small>
+            <PostWrapper
+              className='d-flex flex-column pt-5 pb-5'
+              onClick={() => history.push(`/post/${id || postId}`)}
+            >
+              <Span>{content}</Span>
+            </PostWrapper>
 
-          {type === 1 && (
-            <div className='tickPoll'>
-              {type === 1 && (
-                <TickPoll
-                  // onCreatePoll={onCreatePoll}
-                  // listPoll={listPoll}
-                  postId={id}
-                />
-              )}
-            </div>
-          )}
-          {photos && (
-            <div>
-              <ImageWrapper>
-                {photos.map((photo, index) => (
-                  <ImageViewer key={index} src={photo} />
-                ))}
-              </ImageWrapper>
-            </div>
-          )}
-          <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
-            <div className='icon d-none d-md-inline-block ml-3'>
-              <Icon prefix='fe' name={'heart'} /> {reactionNumber}
-            </div>
-            <div className='icon d-none d-md-inline-block ml-3'>
-              <Icon prefix='fa' name={'comment-o'} /> {commentNumber}
-            </div>
-            <div className='icon d-none d-md-inline-block ml-3'>
-              <Icon prefix='fe' name={'external-link'} />
-            </div>
-          </CardBottom>
+            {type === 1 && (
+              <div className='tickPoll'>
+                {type === 1 && (
+                  <TickPoll
+                    // onCreatePoll={onCreatePoll}
+                    // listPoll={listPoll}
+                    postId={id}
+                  />
+                )}
+              </div>
+            )}
+            {photos && (
+              <div>
+                <ImageWrapper>
+                  {photos.map((photo, index) => (
+                    <ImageViewer key={index} src={photo} />
+                  ))}
+                </ImageWrapper>
+              </div>
+            )}
+            <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
+              <div className='icon d-none d-md-inline-block ml-3'>
+                <Icon prefix='fe' name={'heart'} /> {reactionNumber}
+              </div>
+              <div className='icon d-none d-md-inline-block ml-3'>
+                <Icon prefix='fa' name={'comment-o'} /> {commentNumber}
+              </div>
+              <div className='icon d-none d-md-inline-block ml-3'>
+                <Icon prefix='fe' name={'external-link'} />
+              </div>
+            </CardBottom>
+          </div>
+          <ActionBar>
+            <CursorLink onClick={() => setMenuVisible(!menuVisible)}>
+              ...
+            </CursorLink>
+            {menuVisible && (
+              <ActionMenu>
+                <ActionList>
+                  <ActionItem onClick={onEditPost}>Sửa bài viết</ActionItem>
+                  <DeletePost onClick={onDeletePost}>Xóa bài viết</DeletePost>
+                </ActionList>
+              </ActionMenu>
+            )}
+          </ActionBar>
         </div>
-        <ActionBar>
-          <CursorLink onClick={() => setMenuVisible(!menuVisible)}>
-            ...
-          </CursorLink>
-          {menuVisible && (
-            <ActionMenu>
-              <ActionList>
-                <ActionItem onClick={onEditPost}>Sửa bài viết</ActionItem>
-                <DeletePost onClick={onDeletePost}>Xóa bài viết</DeletePost>
-              </ActionList>
-            </ActionMenu>
-          )}
-        </ActionBar>
-      </div>
-      {/*{commentCount > 0 && (*/}
-      {/*  <CardFooter>*/}
-      {/*    <Comment.List>*/}
-      {/*      {comments.map(({ name, date, text, avatarURL }) => (*/}
-      {/*        <Comment*/}
-      {/*          avatarURL={avatarURL}*/}
-      {/*          name={name}*/}
-      {/*          date={date}*/}
-      {/*          text={text}*/}
-      {/*        />*/}
-      {/*      ))}*/}
-      {/*    </Comment.List>*/}
-      {/*  </CardFooter>*/}
-      {/*)}*/}
-    </Card>
+        {/* todo {postId && show comments} */}
+
+        {/*{commentCount > 0 && (*/}
+        {/*  <CardFooter>*/}
+        {/*    <Comment.List>*/}
+        {/*      {comments.map(({ name, date, text, avatarURL }) => (*/}
+        {/*        <Comment*/}
+        {/*          avatarURL={avatarURL}*/}
+        {/*          name={name}*/}
+        {/*          date={date}*/}
+        {/*          text={text}*/}
+        {/*        />*/}
+        {/*      ))}*/}
+        {/*    </Comment.List>*/}
+        {/*  </CardFooter>*/}
+        {/*)}*/}
+      </Card>
+      <EditPostModal
+        modalVisible={editPostVisible}
+        onClose={() => setEditPostVisible(!editPostVisible)}
+        post={post}
+      />
+    </>
   )
 }
 
