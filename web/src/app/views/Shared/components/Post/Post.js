@@ -13,7 +13,7 @@ import { EditPostModal } from './components/EditPostModal'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 import { TickPoll } from './components/TickPoll/TickPoll'
 
-export const Post = ({ post, postId }) => {
+export const Post = ({ post, postId, cursor = false }) => {
   //todo: comment, react post
   const [menuVisible, setMenuVisible] = useState(false)
   const [editPostVisible, setEditPostVisible] = useState(false)
@@ -50,6 +50,10 @@ export const Post = ({ post, postId }) => {
     setMenuVisible(false)
   }
 
+  const onClickPost = () => {
+    cursor && history.push(`/post/${id || postId}`)
+  }
+
   return (
     <>
       <Card>
@@ -71,8 +75,9 @@ export const Post = ({ post, postId }) => {
               <strong>{moment(time).fromNow()}</strong>
             </small>
             <PostWrapper
+              cursor
               className='d-flex flex-column pt-5 pb-5'
-              onClick={() => history.push(`/post/${id || postId}`)}
+              onClick={onClickPost}
             >
               <Span>{content}</Span>
             </PostWrapper>
@@ -166,7 +171,7 @@ const CardBottom = styled.div`
 `
 
 const PostWrapper = styled.div`
-  cursor: pointer;
+  cursor: ${props => (!!props.cursor ? 'pointer' : 'auto')};
 `
 
 const CursorLink = styled.span`

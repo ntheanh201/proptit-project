@@ -6,7 +6,7 @@ import { Icon } from 'tabler-react'
 
 import './ImageView.css'
 
-export const ImageViewer = ({ src }) => {
+export const ImageViewer = ({ src, circleBorder = false }) => {
   const [showing, setShowing] = useState(false)
   return (
     <Wrapper>
@@ -14,6 +14,7 @@ export const ImageViewer = ({ src }) => {
         className='card-img-top'
         src={src}
         onClick={() => setShowing(true)}
+        circleBorder
       />
       <Modal show={showing} onHide={() => setShowing(false)} size='lg'>
         <Modal.Header>
@@ -36,6 +37,7 @@ const Wrapper = styled.div`
 const Img = styled.img`
   max-width: 550px;
   max-height: 550px;
+  border-radius: ${props => (props.circleBorder ? '50%' : '0')};
 `
 
 const CloseButton = styled.button`

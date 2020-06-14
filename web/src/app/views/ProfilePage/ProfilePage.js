@@ -1,18 +1,63 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import CreateMission from './CreateMission'
+import { CreateMission } from './components/CreateMission'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Modal, Button } from 'react-bootstrap'
 
 import { Page, Timeline, Form } from 'tabler-react'
 
-import { ImageView } from 'ui'
-import './Styles/ProfilePage.css'
-import { RenderInformation } from './RenderInformation'
+import './ProfilePage.css'
+import { ImageViewer } from '../Shared/components/ImageViewer/ImageViewer'
+
+export const RenderInformation = ({
+  displayName,
+  username,
+  dateOfBirth,
+  gender,
+  grade,
+  position,
+  generation,
+  address,
+  phoneNumber,
+  email,
+  description
+}) => {
+  return (
+    <Timeline>
+      <Timeline.Item title={'Họ và tên: ' + displayName} badgeColor='red' />
+      <Timeline.Item title={'Username: ' + username} badge />
+      <Timeline.Item
+        title={'Ngày tháng năm sinh: ' + dateOfBirth}
+        badgeColor='blue'
+      />
+      <Timeline.Item title={'Giới tính: ' + gender} badgeColor='yellow' />
+      <Timeline.Item title={'Khoá: ' + grade} badgeColor='wheat' />
+      <Timeline.Item
+        title={'Làm việc tại: ' + position + ' Gen ' + generation}
+        badgeColor='orange'
+      />
+      <Timeline.Item title={'Quê quán: ' + address} badge />
+      {phoneNumber && (
+        <Timeline.Item
+          title={'Số điện thoại: ' + phoneNumber}
+          badgeColor={'pink'}
+        />
+      )}
+      {email && <Timeline.Item title={'Email: ' + email} badgeColor='yellow' />}
+      {description && (
+        <Timeline.Item
+          title={'Châm ngôn yêu thích: ' + description}
+          badgeColor='green'
+        />
+      )}
+    </Timeline>
+  )
+}
 
 export const ProfilePage = ({ state, setState }) => {
   const {
+    id,
     avt,
     cover,
     grade,
@@ -345,14 +390,9 @@ export const ProfilePage = ({ state, setState }) => {
       <Page>
         <div className='top-profile'>
           <Cover src={cover} />
-          <div
-            className='avt'
-            style={{ backgroundImage: 'url(' + avt + ')' }}
-            onClick={() => {
-              onShowImg()
-            }}
-          />
-          <ImageView img={avt} show={showModal} close={onCloseImg} />
+          <div className='avt'>
+            <ImageViewer circleBorder key={id} src={avt} />
+          </div>
 
           <h3 className='name'>{displayName}</h3>
           <p className='description'>{description}</p>

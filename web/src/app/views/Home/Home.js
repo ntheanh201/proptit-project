@@ -1,16 +1,14 @@
 import React from 'react'
-import { Page, Grid } from 'tabler-react'
+import styled from 'styled-components'
 
 import { Posts } from '../Shared/components/Posts/Posts'
 
 export const Home = () => {
   return (
-    <Page>
-      <Page.Main>
-        <Grid.Row>
-          <Posts />
-        </Grid.Row>
-      </Page.Main>
-    </Page>
+    <Wrapper>
+      <Posts />
+    </Wrapper>
   )
 }
+
+const Wrapper = styled.div``

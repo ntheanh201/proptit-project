@@ -5,10 +5,8 @@ import cover1 from './assets/cover.jpg'
 import avt1 from './assets/avt.jpg'
 import { ProfilePage } from './ProfilePage'
 
-
-
 export const ProfilePageContainer = () => {
-  const { user } = useSelector((state) => state.homeReducer)
+  const { user } = useSelector(state => state.homeReducer)
   const {
     id,
     username,
@@ -43,10 +41,10 @@ export const ProfilePageContainer = () => {
     position: 'Ban Sự kiện',
     facebook: '',
     missions: [],
-    showMenu: 1, /*to show menu*/
-    generation: 6, /*thế hệ*/
+    showMenu: 1 /*to show menu*/,
+    generation: 6 /*thế hệ*/,
     showModal: false,
-    editInfo: false, /*to show to edit inforamtion*/
+    editInfo: false /*to show to edit inforamtion*/,
     idChoose: []
   }
   const [state, setState] = useState(initialValues)

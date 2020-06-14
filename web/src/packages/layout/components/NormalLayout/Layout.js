@@ -44,23 +44,6 @@ const navBarItems = [
     icon: 'info',
     LinkComponent: withRouter(NavLink)
   }
-  // {
-  //   value: 'Interface',
-  //   icon: 'box',
-  //   subItems: [
-  //     {
-  //       value: 'Cards Design',
-  //       to: '/cards',
-  //       LinkComponent: withRouter(NavLink)
-  //     },
-  //     { value: 'Charts', to: '/charts', LinkComponent: withRouter(NavLink) },
-  //     {
-  //       value: 'Pricing Cards',
-  //       to: '/pricing-cards',
-  //       LinkComponent: withRouter(NavLink)
-  //     }
-  //   ]
-  // }
 ]
 
 const Container = ({ history, children }) => {

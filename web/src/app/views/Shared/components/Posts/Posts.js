@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { Grid } from 'tabler-react'
-import { Card, CardTitle, CardHeader, CardBody, LoadingIndicator } from 'ui'
+import { LoadingIndicator } from 'ui'
 
 import { Post } from '../Post/Post'
 import { CreatePost } from '../Post/components/CreatePost'
@@ -11,12 +11,12 @@ import * as PostActions from '../../../../redux/action-creators/post'
 const ShowCreatePost = ({ children }) => {
   const { isLogged } = useSelector(state => state.homeReducer)
   return isLogged ? (
-    <Grid.Col lg={8}>
+    <>
       <CreatePost />
       {children}
-    </Grid.Col>
+    </>
   ) : (
-    <Grid.Col>{children}</Grid.Col>
+    <>{children}</>
   )
 }
 
@@ -39,17 +39,13 @@ export const Posts = ({ groupId = 1 }) => {
 
   return (
     <ShowCreatePost>
-      <Card statusColor='blue'>
-        <CardHeader>
-          <CardTitle>Bảng tin</CardTitle>
-        </CardHeader>
-        <CardBody>
-          {posts &&
-            posts.map((post, index) => (
-              <Post key={index} post={post} onCreatePoll={onCreatePoll} />
-            ))}
-        </CardBody>
-      </Card>
+      <Title>Bảng tin</Title>
+      {posts &&
+        posts.map((post, index) => (
+          <Post key={index} post={post} onCreatePoll={onCreatePoll} cursor />
+        ))}
     </ShowCreatePost>
   )
 }
+
+const Title = styled.h1``
