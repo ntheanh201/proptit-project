@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-export default function TaskManager(props) {
+
+export const TaskManager = props => {
   const inIDGroup = () => {
     props.inGroupTrue(true)
     props.inIDGroup(props.groups.id)

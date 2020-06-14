@@ -13,7 +13,7 @@ import { ImageViewer } from '../ImageViewer/ImageViewer'
 import { EditPostModal } from './EditPostModal'
 
 export const Post = ({ post, postId }) => {
-  //todo: comment, react post, remove, edit post
+  //todo: comment, react post
   const [menuVisible, setMenuVisible] = useState(false)
   const [editPostVisible, setEditPostVisible] = useState(false)
 

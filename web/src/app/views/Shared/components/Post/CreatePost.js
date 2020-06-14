@@ -17,7 +17,6 @@ const PostInput = ({ isEdit = false, groupId, post, setEditPostVisible }) => {
   }
 
   const onCreatePost = () => {
-    //todo: createPost, backend needs to response post
     dispatch(
       Actions.createPost({
         content,

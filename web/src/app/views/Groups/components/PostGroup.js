@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Post } from '../../Shared/components/Post/Post'
 import CreatingGroup from './CreatingGroup'
 
-export default function PostGroup(props) {
+export const PostGroup = props => {
   var show = props.showCreate ? (
     <div>
       <CreatingGroup

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './../styles/CreatingGroup.css'
 
-const CreatingGroup = (props) => {
+const CreatingGroup = props => {
   const [groups, setGroups] = useState({
     id: '',
     nameGroup: '',
@@ -12,15 +12,13 @@ const CreatingGroup = (props) => {
   useEffect(() => {
     return () => {
       setGroups({
-        id: '',
-        nameGroup: '',
-        description: '',
+        name: '',
         isAdmin: true
       })
     }
   }, [props.exitCreate])
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     var target = event.target
     var name = target.name
     var value = target.value
@@ -30,7 +28,7 @@ const CreatingGroup = (props) => {
     })
   }
 
-  const createGroup = (event) => {
+  const createGroup = event => {
     event.preventDefault()
     props.inGroupTrue(true)
     props.createGroup(groups)
