@@ -7,21 +7,15 @@ import { Comment } from 'tabler-react'
 
 import { Icon, Card } from 'ui'
 
-import * as Actions from '../../../../redux/action-creators/post'
+import * as postActions from '../../../../redux/action-creators/post'
+import * as reactionActions from '../../../../redux/action-creators/reaction'
 
 import { EditPostModal } from './components/EditPostModal'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 import { TickPoll } from './components/TickPoll/TickPoll'
 
 export const Post = ({ post, postId, cursor = false }) => {
-  //todo: comment, react post
-  const [menuVisible, setMenuVisible] = useState(false)
-  const [editPostVisible, setEditPostVisible] = useState(false)
-
-  const dispatch = useDispatch()
-  const history = useHistory()
-  moment.locale('vi')
-
+  //todo: comment
   const {
     id,
     authorName,
@@ -36,9 +30,20 @@ export const Post = ({ post, postId, cursor = false }) => {
     type,
     photos,
     listPoll,
-    reactionId,
     time
   } = post
+
+  const [redHeartVisible, setRedHeartVisible] = useState(
+    post?.reactionId === -1 ? false : true
+  )
+  const [reactNumber, setReactNumber] = useState(reactionNumber)
+  const [commentVisible, setCommentVisible] = useState(false)
+  const [menuVisible, setMenuVisible] = useState(false)
+  const [editPostVisible, setEditPostVisible] = useState(false)
+
+  const dispatch = useDispatch()
+  const history = useHistory()
+  moment.locale('vi')
 
   const onEditPost = () => {
     setEditPostVisible(true)
@@ -46,12 +51,28 @@ export const Post = ({ post, postId, cursor = false }) => {
   }
 
   const onDeletePost = () => {
-    dispatch(Actions.deletePost(id))
+    dispatch(postActions.deletePost(id))
     setMenuVisible(false)
   }
 
   const onClickPost = () => {
     cursor && history.push(`/post/${id || postId}`)
+  }
+
+  const onReactPost = () => {
+    dispatch(reactionActions.reactPost(id))
+    setRedHeartVisible(true)
+    setReactNumber(reactNumber + 1)
+  }
+
+  const onDeleteReactionPost = () => {
+    dispatch(reactionActions.deleteReaction(post?.reactionId))
+    setRedHeartVisible(false)
+    setReactNumber(reactNumber - 1)
+  }
+
+  const onClickReaction = () => {
+    redHeartVisible ? onDeleteReactionPost() : onReactPost()
   }
 
   return (
@@ -75,7 +96,7 @@ export const Post = ({ post, postId, cursor = false }) => {
               <strong>{moment(time).fromNow()}</strong>
             </small>
             <PostWrapper
-              cursor
+              cursor={cursor}
               className='d-flex flex-column pt-5 pb-5'
               onClick={onClickPost}
             >
@@ -104,7 +125,15 @@ export const Post = ({ post, postId, cursor = false }) => {
             )}
             <CardBottom className='d-flex ml-auto text-muted pt-2 pb-5'>
               <div className='icon d-none d-md-inline-block ml-3'>
-                <Icon prefix='fe' name={'heart'} /> {reactionNumber}
+                <Icon
+                  className={redHeartVisible && 'red-heart'}
+                  onClick={onClickReaction}
+                  prefix='fe'
+                  name={'heart'}
+                />{' '}
+                {/* onClick={() => this.setState({fade: true})} */}
+                {/* onAnimationEnd={() => this.setState({fade: false})} */}
+                {reactNumber}
               </div>
               <div className='icon d-none d-md-inline-block ml-3'>
                 <Icon prefix='fa' name={'comment-o'} /> {commentNumber}

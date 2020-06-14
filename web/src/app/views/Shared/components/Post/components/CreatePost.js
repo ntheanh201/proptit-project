@@ -22,7 +22,8 @@ const PostInput = ({ isEdit = false, groupId, post, setEditPostVisible }) => {
         content,
         type,
         authorId: user.id,
-        groupId
+        groupId,
+        reactionNumber: -1
       })
     )
   }

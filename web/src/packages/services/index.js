@@ -1,3 +1,5 @@
 export * from './SignInService'
 export * from './PostService'
 export * from './GroupService'
+export * from './ReactionService'
+export * from './CommentService'

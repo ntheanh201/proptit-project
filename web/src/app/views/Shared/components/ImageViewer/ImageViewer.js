@@ -14,7 +14,7 @@ export const ImageViewer = ({ src, circleBorder = false }) => {
         className='card-img-top'
         src={src}
         onClick={() => setShowing(true)}
-        circleBorder
+        circleBorder={circleBorder}
       />
       <Modal show={showing} onHide={() => setShowing(false)} size='lg'>
         <Modal.Header>

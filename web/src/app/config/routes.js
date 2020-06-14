@@ -1,5 +1,6 @@
 import React from 'react'
 import loadable from '@loadable/component'
+
 import { LoadingIndicator } from 'ui'
 import { Group } from '../views/Groups/Group'
 
@@ -22,10 +23,8 @@ export const routes = [
   },
   {
     path: '/profile',
-    exact: true,
-    component: () => <AsyncPage component='AllAccounts' />,
-    title: 'Profile',
-    isPrivate: true
+    redirect: true,
+    to: '/'
   },
   {
     path: '/login',

@@ -24,7 +24,7 @@ export const Group = () => {
   return (
     <Wrapper>
       <MyGroup name={group.name} isAdmin={group.is_admin} />
-      <Posts groupId='2' />
+      <Posts groupId={id} />
     </Wrapper>
   )
 }

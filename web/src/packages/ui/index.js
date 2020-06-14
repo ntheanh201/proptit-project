@@ -3,6 +3,7 @@ export { SearchBar } from './components/SearchBar/SearchBar'
 export { LoadingIndicator } from './components/LoadingIndicator/LoadingIndicator'
 
 export { Icon } from './components/Icon/Icon'
+export { Heart } from './components/AnimatedHeart/AnimatedHeart'
 
 //card
 export { Card } from './components/Card/Card'

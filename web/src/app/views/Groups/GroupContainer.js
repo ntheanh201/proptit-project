@@ -92,9 +92,9 @@ export const GroupContainer = () => {
 
   return (
     <div>
-      {groups.map(({ id, name }) => (
-        <Group key={id} id={id} name={name} />
-      ))}
+      {groups.map(
+        ({ id, name }) => id !== 1 && <Group key={id} id={id} name={name} />
+      )}
     </div>
   )
 }
