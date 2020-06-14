@@ -5,7 +5,7 @@ import { Form, Button } from 'tabler-react'
 import { useState } from 'core'
 import { Card, CardBody, Icon, CardFooter } from 'ui'
 
-import * as Actions from '../../../../redux/action-creators/post'
+import * as Actions from '../../../../../redux/action-creators/post'
 
 const PostInput = ({ isEdit = false, groupId, post, setEditPostVisible }) => {
   const dispatch = useDispatch()

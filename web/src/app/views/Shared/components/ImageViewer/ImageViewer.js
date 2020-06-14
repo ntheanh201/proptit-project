@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { ImageView } from 'ui'
+import { Modal } from 'react-bootstrap'
+import { Icon } from 'tabler-react'
+
+import './ImageView.css'
 
 export const ImageViewer = ({ src }) => {
   const [showing, setShowing] = useState(false)
@@ -12,11 +15,16 @@ export const ImageViewer = ({ src }) => {
         src={src}
         onClick={() => setShowing(true)}
       />
-      <ImageView
-        img={src}
-        onShowing={showing}
-        onClose={() => setShowing(false)}
-      />
+      <Modal show={showing} onHide={() => setShowing(false)} size='lg'>
+        <Modal.Header>
+          <CloseButton className='btn-modal' onClick={() => setShowing(false)}>
+            <Icon prefix='fe' name={'x'} />
+          </CloseButton>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={src} />
+        </Modal.Body>
+      </Modal>
     </Wrapper>
   )
 }
@@ -28,4 +36,10 @@ const Wrapper = styled.div`
 const Img = styled.img`
   max-width: 550px;
   max-height: 550px;
+`
+
+const CloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `

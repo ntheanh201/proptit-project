@@ -7,7 +7,7 @@ import {
   deletePostService
 } from 'services'
 
-export const getAllPosts = (type = 'group', id = 1) => {
+export const getAllPosts = (id = 1, type = 'group') => {
   return async dispatch => {
     // eslint-disable-next-line new-cap
     const payload = await GetAllPostsService(type, id)

@@ -5,12 +5,13 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Comment } from 'tabler-react'
 
-import { Icon, Card, TickPoll } from 'ui'
+import { Icon, Card } from 'ui'
 
 import * as Actions from '../../../../redux/action-creators/post'
 
+import { EditPostModal } from './components/EditPostModal'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
-import { EditPostModal } from './EditPostModal'
+import { TickPoll } from './components/TickPoll/TickPoll'
 
 export const Post = ({ post, postId }) => {
   //todo: comment, react post

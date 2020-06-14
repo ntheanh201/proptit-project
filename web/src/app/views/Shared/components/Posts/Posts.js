@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { Grid } from 'tabler-react'
 import { Card, CardTitle, CardHeader, CardBody, LoadingIndicator } from 'ui'
 
-import { Post } from '../../Shared/components/Post/Post'
-import { CreatePost } from '../../Shared/components/Post/CreatePost'
+import { Post } from '../Post/Post'
+import { CreatePost } from '../Post/components/CreatePost'
+import * as PostActions from '../../../../redux/action-creators/post'
 
-const ShowNewFeeds = ({ children }) => {
+const ShowCreatePost = ({ children }) => {
   const { isLogged } = useSelector(state => state.homeReducer)
   return isLogged ? (
     <Grid.Col lg={8}>
@@ -19,8 +20,15 @@ const ShowNewFeeds = ({ children }) => {
   )
 }
 
-export const NewFeeds = () => {
+export const Posts = ({ groupId = 1 }) => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(PostActions.getAllPosts(groupId))
+  }, [])
+
   const { posts } = useSelector(state => state.postReducer)
+
   const onCreatePoll = (poll, postId) => {
     posts[postId - 1].listPoll.push(poll)
   }
@@ -30,7 +38,7 @@ export const NewFeeds = () => {
   }
 
   return (
-    <ShowNewFeeds>
+    <ShowCreatePost>
       <Card statusColor='blue'>
         <CardHeader>
           <CardTitle>Bảng tin</CardTitle>
@@ -42,6 +50,6 @@ export const NewFeeds = () => {
             ))}
         </CardBody>
       </Card>
-    </ShowNewFeeds>
+    </ShowCreatePost>
   )
 }

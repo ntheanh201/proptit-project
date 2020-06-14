@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LoadingIndicator } from 'ui'
 import * as groupActions from '../../redux/action-creators/group'
 import { MyGroup } from './MyGroup/MyGroup'
+import { Posts } from '../Shared/components/Posts/Posts'
 
 export const Group = () => {
   const dispatch = useDispatch()
@@ -23,6 +24,7 @@ export const Group = () => {
   return (
     <Wrapper>
       <MyGroup name={group.name} isAdmin={group.is_admin} />
+      <Posts groupId='2' />
     </Wrapper>
   )
 }

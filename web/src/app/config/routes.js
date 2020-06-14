@@ -50,7 +50,7 @@ export const routes = [
   {
     path: '/group/:id',
     exact: true,
-    component: () => <Group />,
+    component: Group,
     title: 'Group',
     isPrivate: true
   },

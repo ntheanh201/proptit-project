@@ -1,22 +1,14 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 import { Page, Grid } from 'tabler-react'
 
-import * as PostActions from '../../redux/action-creators/post'
-import { NewFeeds } from './components/NewFeeds'
+import { Posts } from '../Shared/components/Posts/Posts'
 
 export const Home = () => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(PostActions.getAllPosts())
-  }, [])
-
   return (
     <Page>
       <Page.Main>
         <Grid.Row>
-          <NewFeeds />
+          <Posts />
         </Grid.Row>
       </Page.Main>
     </Page>

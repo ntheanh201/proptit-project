@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import { Icon } from '../../Icon/Icon'
-import { Checkbox } from '../Checkbox/Checkbox'
+import { Icon } from 'ui'
+import { Checkbox } from '../../../Checkbox/Checkbox'
 
 import './TickPoll.css'
 
