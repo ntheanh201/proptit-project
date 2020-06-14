@@ -19,6 +19,10 @@ import { color, Value } from 'react-native-reanimated'
 import colors from '../values/colors'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { images } from '../assets'
+import { groupService } from '../services/GroupService'
+import { RouteProp } from '@react-navigation/native'
+import { Group, Post } from '../core'
+import { postService } from '../services'
 
 interface Item {
   key: string
@@ -30,56 +34,54 @@ interface Member {
 
 interface GroupScreenProps {
   navigation: StackNavigationProp<RootStackParams>
+  route: RouteProp<RootStackParams, 'Group'>
 }
 
 interface GroupScreenState {
   refreshing: boolean
   isLoadingMore: boolean
+  isLoading: boolean
+  isLoadingPost: boolean
   isBottom: boolean
-  listItems: Item[]
-  listMember: Member[]
+  groupData?: Group
+  postData: Post[]
 }
 
 class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
   constructor(props: GroupScreenProps) {
     super(props)
     this.state = {
+      isLoading: true,
       refreshing: false,
       isLoadingMore: false,
+      isLoadingPost: true,
       isBottom: false,
-      listItems: [
-        {
-          key: '1',
-        },
-        {
-          key: '2',
-        },
-        {
-          key: '3',
-        },
-      ],
-      listMember: [
-        {
-          key: '1',
-        },
-        {
-          key: '2',
-        },
-        {
-          key: '3',
-        },
-        {
-          key: '4',
-        },
-        {
-          key: '5',
-        },
-      ],
+      postData: [],
     }
     this.props.navigation.setOptions({
       title: '',
-      headerBackTitle: 'Back',
+      headerBackTitleVisible: false,
+      headerTintColor: 'black',
     })
+    this.loadGroupData()
+    this.loadPostGroup()
+  }
+
+  componentDidMount() {}
+
+  loadGroupData = async () => {
+    const groupData = await groupService.getGroupById(
+      this.props.route.params.groupId,
+    )
+    this.setState({ groupData, isLoading: false })
+  }
+
+  loadPostGroup = async () => {
+    const postData = await postService.getAllwParams(
+      'group',
+      this.props.route.params.groupId,
+    )
+    this.setState({ postData, isLoadingPost: false })
   }
 
   onRefresh = () => {
@@ -103,6 +105,9 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <ActivityIndicator animating={true} />
+    }
     return (
       <SafeAreaView>
         <ScrollView
@@ -120,11 +125,11 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                       alignItems: 'center',
                     }}>
                     <Image
-                      source={images.AVT_BATMAN}
+                      source={{ uri: this.state.groupData?.cover }}
                       style={{ height: 30, width: 30, borderRadius: 5 }}
                     />
                     <Text style={[styles.bold_text, { marginLeft: 10 }]}>
-                      Mobile Group
+                      {this.state.groupData?.name}
                     </Text>
                   </View>
                 ),
@@ -151,11 +156,11 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
               justifyContent: 'flex-end',
             }}>
             <Image
-              source={images.AVT_BATMAN}
+              source={{ uri: this.state.groupData?.cover }}
               style={{ width: '100%', height: 200 }}
             />
             <Text style={[styles.bold_text, { marginTop: 20 }]}>
-              Mobile ProPTIT
+              {this.state.groupData?.name}
             </Text>
             <Text style={{ color: 'gray' }}>11 members</Text>
             <View
@@ -173,19 +178,20 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                 style={{
                   flexDirection: 'row',
                 }}>
-                {this.state.listMember.map((member, index) => (
-                  <Image
-                    style={{
-                      height: 40,
-                      width: 40,
-                      borderRadius: 25,
-                      position: 'relative',
-                      top: 0,
-                      left: 0,
-                    }}
-                    source={images.AVT_BATMAN}
-                  />
-                ))}
+                {this.state.groupData &&
+                  this.state.groupData.members.map((member, index) => (
+                    <Image
+                      style={{
+                        height: 40,
+                        width: 40,
+                        borderRadius: 25,
+                        position: 'relative',
+                        top: 0,
+                        left: 0,
+                      }}
+                      source={{ uri: member.avatar }}
+                    />
+                  ))}
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {}}
@@ -211,14 +217,32 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
               </TouchableOpacity>
             </View>
           </View>
-          {/* {this.state.listItems.map(() => (
-            <ItemNewsFeed
-              onPress={() => {
-                console.log('AppLog', this.props)
-                this.props.navigation.navigate('PostDetail')
-              }}
-            />
-          ))} */}
+          {this.state.isLoadingPost ? (
+            <ActivityIndicator animating={true} />
+          ) : (
+            this.state.postData.map((post) => (
+              <ItemNewsFeed
+                post={post}
+                currentGroup={post.groupId}
+                onPressProfile={() => {
+                  this.props.navigation.navigate('Profile', {
+                    userId: post.authorId,
+                  })
+                }}
+                onPressGroup={() => {}}
+                onPressImage={() => {
+                  this.props.navigation.navigate('ImageView', {
+                    listImage: post.photos,
+                  })
+                }}
+                onPress={() => {
+                  this.props.navigation.navigate('PostDetail', {
+                    postId: post.id,
+                  })
+                }}
+              />
+            ))
+          )}
           {this.state.isLoadingMore ? (
             <ActivityIndicator
               animating={this.state.isLoadingMore}

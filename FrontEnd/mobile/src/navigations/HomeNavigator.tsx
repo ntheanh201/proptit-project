@@ -22,10 +22,6 @@ import ImageViewScreen from '../screens/ImageViewScreen'
 export type HomeTabParams = {
   Newsfeed: undefined
   Notification: undefined
-  Profile: undefined
-  CreatePost: SubNavigator<RootStackParams, 'CreatePost'>
-  PostDetail: SubNavigator<RootStackParams, 'PostDetail'>
-  ImageView: SubNavigator<RootStackParams, 'ImageView'>
 }
 
 const Tab = createMaterialBottomTabNavigator()
@@ -51,9 +47,6 @@ export const HomeNavigator = () => {
             case 'Notification':
               iconName = 'ios-notifications'
               break
-            case 'Profile':
-              iconName = 'ios-contact'
-              break
             case 'Menu':
               iconName = 'ios-menu'
               break
@@ -67,16 +60,11 @@ export const HomeNavigator = () => {
       <Tab.Screen
         name={'Newsfeed'}
         component={NewsFeedScreen}
-        options={{ tabBarColor: '#6200ee' }}
+        options={{ tabBarColor: '#2962ff' }}
       />
       <Tab.Screen
         name={'Notification'}
         component={NotificationScreen}
-        options={{ tabBarColor: '#2962ff' }}
-      />
-      <Tab.Screen
-        name={'Profile'}
-        component={ProfileScreen}
         options={{ tabBarColor: '#00796b' }}
       />
       <Tab.Screen

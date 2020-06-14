@@ -25,9 +25,11 @@ interface ItemNewsFeedProps {
   commentNumber?: number
   onPress?: () => void
   onPressMore?: () => void
-  onPressComment: () => void
   isShowMore?: boolean
   onPressImage: () => void
+  onPressProfile: () => void
+  onPressGroup: () => void
+  currentGroup: number
 }
 
 interface ItemNewFeedState {
@@ -135,7 +137,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     this.canPressLike = false
     if (this.state.reactionId === -1) {
       this.animLike.current?.play(0, 100)
-      const reactionId = await reactionService.addReaction(this.props.post.id!)
+      const reactionId = await reactionService.addReaction(this.props.post.id)
       reactionId &&
         this.setState({
           reactionId,
@@ -158,7 +160,14 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   }
 
   render() {
-    const { post, onPress, reactionNumber, commentNumber } = this.props
+    const {
+      post,
+      onPress,
+      reactionNumber,
+      commentNumber,
+      onPressProfile,
+      onPressGroup,
+    } = this.props
     const timeago = moment(post.time).fromNow()
 
     return (
@@ -178,24 +187,30 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                   justifyContent: 'space-between',
                 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Image
-                    source={{ uri: post.authorAvatar }}
-                    style={{ height: 40, width: 40, borderRadius: 20 }}
-                  />
+                  <TouchableOpacity onPress={onPressProfile}>
+                    <Image
+                      source={{ uri: post.authorAvatar }}
+                      style={{ height: 40, width: 40, borderRadius: 20 }}
+                    />
+                  </TouchableOpacity>
                   <View style={{ flexDirection: 'column' }}>
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
-                        {post.authorName}
-                      </Text>
-                      {post.groupId !== 0 ? (
+                      <TouchableOpacity onPress={onPressProfile}>
+                        <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
+                          {post.authorName}
+                        </Text>
+                      </TouchableOpacity>
+                      {post.groupId !== this.props.currentGroup ? (
                         <>
                           <AntDesign
                             name={'caretright'}
                             style={{ marginLeft: 5 }}
                           />
-                          <Text style={{ marginLeft: 5, fontWeight: 'bold' }}>
-                            {post.groupName}
-                          </Text>
+                          <TouchableOpacity onPress={onPressGroup}>
+                            <Text style={{ marginLeft: 5, fontWeight: 'bold' }}>
+                              {post.groupName}
+                            </Text>
+                          </TouchableOpacity>
                         </>
                       ) : null}
                     </View>
@@ -257,7 +272,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.props.onPressComment()}
+            onPress={onPress}
             style={{
               flex: 1,
               flexDirection: 'row',

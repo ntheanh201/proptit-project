@@ -52,6 +52,7 @@ interface EditProfileScreenState {
   email: string
   facebook: string
   description: string
+  className: string
 }
 
 class EditProfileScreen extends React.Component<
@@ -68,6 +69,7 @@ class EditProfileScreen extends React.Component<
       isShowingGenderPicker: false,
       birthday: moment(this.props.currentUser?.dateOfBirth!).toDate(),
       gender: this.props.currentUser?.gender ?? 1,
+      className: this.props.currentUser?.className ?? '',
       description: this.props.currentUser?.description ?? '',
       displayName: this.props.currentUser?.displayName ?? '',
       email: this.props.currentUser?.email ?? '',
@@ -261,6 +263,16 @@ class EditProfileScreen extends React.Component<
             scrollView={this.scrollViewRef}
             onTextChange={(text) => {
               this.setState({ phoneNumber: text })
+            }}
+          />
+          <FloatingLabelInput
+            label={'Class'}
+            value={currentUser?.className}
+            borderColor={colors.mainBlue}
+            containerStyle={styles.textField}
+            scrollView={this.scrollViewRef}
+            onTextChange={(text) => {
+              this.setState({ className: text })
             }}
           />
           <FloatingLabelInput

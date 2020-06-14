@@ -1,3 +1,5 @@
+import { Group } from './group.types'
+
 export interface User {
   id?: number
   username?: string
@@ -12,4 +14,5 @@ export interface User {
   facebook?: string
   phoneNumber?: string
   regDate?: Date
+  participatingGroup?: Pick<Group, 'cover' | 'id' | 'isAdmin' | 'name'>[]
 }

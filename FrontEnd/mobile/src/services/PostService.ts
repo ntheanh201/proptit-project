@@ -1,6 +1,7 @@
 import BaseService from './BaseService'
 import { Post, Reaction, Comment, ImageFormData } from '../core'
 import Axios from 'axios'
+import { convertToPostsArray } from '../configs/Function'
 
 class PostService extends BaseService<Post> {
   constructor() {
@@ -12,11 +13,12 @@ class PostService extends BaseService<Post> {
     const method = type === 'group' ? 'byGroup' : 'byUser'
     return Axios.get(this.baseURL + `?method=${method}&id=${id}`)
       .then((res) => {
-        return res.data
+        const posts = convertToPostsArray(res.data)
+        return posts
       })
       .catch((err) => {
         console.log(err)
-        return null
+        throw err
       })
   }
 

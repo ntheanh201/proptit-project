@@ -32,9 +32,8 @@ export const autoSignIn = () => {
       const refreshToken = JSON.parse(tokenStr).refresh
       const authToken = await signInService.refreshToken(refreshToken)
       if (authToken) {
-        const userDataStr = await AsyncStorage.getItem('userData')
-        const userData: User = userDataStr && JSON.parse(userDataStr)
-        dispatch({ type: SIGN_IN_SUCCESS, currentUser: userData, authToken })
+        const userData = await signInService.getUserAfterAuth(authToken.access)
+        dispatch({ type: SIGN_IN_SUCCESS, currentUser: userData!, authToken })
       } else {
         dispatch({ type: SIGN_IN_ERROR })
       }

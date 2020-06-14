@@ -25,6 +25,8 @@ import styles from '../values/styles'
 import BottomSheet from 'react-native-raw-bottom-sheet'
 import AIcon from 'react-native-vector-icons/AntDesign'
 import { postService } from '../services'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from '../navigations/AppNavigator'
 
 interface Item {
   key: string
@@ -39,7 +41,7 @@ interface NewsFeedScreenState {
 }
 
 interface NewsFeedScreenProps {
-  navigation: BottomTabNavigationProp<HomeTabParams>
+  navigation: StackNavigationProp<RootStackParams>
   getNewfeeds: typeof getNewfeeds
   postsState: NewFeedState
   currentUserState: SignInState
@@ -194,18 +196,21 @@ class NewsFeedScreen extends Component<
             renderItem={({ item, index }) => {
               return (
                 <ItemNewsFeed
-                  onPressComment={() => {
-                    this.props.navigation.navigate('PostDetail', {
-                      screen: 'PostDetail',
-                      params: { postId: item.id },
+                  post={item}
+                  currentGroup={1}
+                  onPressProfile={() => {
+                    this.props.navigation.navigate('Profile', {
+                      userId: item.authorId,
+                    })
+                  }}
+                  onPressGroup={() => {
+                    this.props.navigation.navigate('Group', {
+                      groupId: item.groupId,
                     })
                   }}
                   onPressImage={() =>
                     this.props.navigation.navigate('ImageView', {
-                      screen: 'ImageView',
-                      params: {
-                        listImage: item.photos,
-                      },
+                      listImage: item.photos,
                     })
                   }
                   isShowMore={
@@ -216,11 +221,9 @@ class NewsFeedScreen extends Component<
                     this.currentPostFocus = item
                     this.bottomSheetRef.current?.open()
                   }}
-                  post={item}
                   onPress={() => {
                     this.props.navigation.navigate('PostDetail', {
-                      screen: 'PostDetail',
-                      params: { postId: item.id! },
+                      postId: item.id,
                     })
                   }}
                   key={index}
@@ -311,10 +314,7 @@ class NewsFeedScreen extends Component<
     this.bottomSheetRef.current?.close()
     if (post) {
       this.props.navigation.navigate('CreatePost', {
-        screen: 'CreatePost',
-        params: {
-          postId: this.currentPostFocus?.id!,
-        },
+        postId: this.currentPostFocus?.id!,
       })
     }
   }

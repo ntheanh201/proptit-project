@@ -23,12 +23,12 @@ import { postService } from '../services'
 import { ActivityIndicator } from 'react-native-paper'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { Post, Reaction, Comment } from '../core'
-import { convertToPostType, convertCommentsArray } from '../configs/Function'
+import { convertToPostType, convertToCommentsArray } from '../configs/Function'
 import { commentService } from '../services/CommentService'
 
 interface PostDetailScreenProps {
   navigation: StackNavigationProp<RootStackParams>
-  route: RouteProp<HomeTabParams, 'PostDetail'>
+  route: RouteProp<RootStackParams, 'PostDetail'>
 }
 
 interface PostDetailScreenState {
@@ -57,7 +57,8 @@ class PostDetailScreen extends React.Component<
     }
     this.props.navigation.setOptions({
       title: 'Post',
-      headerBackTitle: 'Back',
+      headerBackTitleVisible: false,
+      headerTintColor: 'black',
       headerRight: () => (
         <MCIcons name="magnify" size={25} style={{ marginRight: 10 }} />
       ),
@@ -78,10 +79,10 @@ class PostDetailScreen extends React.Component<
 
   getPosts = async () => {
     const data = await postService.getFullPostById(
-      this.props.route.params.params!.postId,
+      this.props.route.params.postId,
     )
     const post = convertToPostType(data.post)
-    const comments = convertCommentsArray(data.comments_info)
+    const comments = convertToCommentsArray(data.comments_info)
     if (data) {
       this.setState({
         isLoadingPost: false,
@@ -94,7 +95,7 @@ class PostDetailScreen extends React.Component<
 
   async reloadComment() {
     const comments = await commentService.getByPostId(
-      this.props.route.params.params?.postId!,
+      this.props.route.params.postId,
     )
     if (comments) {
       this.setState({ comments })
@@ -104,7 +105,7 @@ class PostDetailScreen extends React.Component<
   onPressSend = async () => {
     this.setState({ isSendingComment: true })
     const status = await commentService.addComment(
-      this.props.route.params.params?.postId!,
+      this.props.route.params.postId,
       this.state.newComment,
     )
     if (status === 'success') {
@@ -143,6 +144,17 @@ class PostDetailScreen extends React.Component<
           }}>
           <ItemNewsFeed
             post={this.state.post!}
+            currentGroup={1}
+            onPressProfile={() => {
+              this.props.navigation.navigate('Profile', {
+                userId: this.state.post!.authorId,
+              })
+            }}
+            onPressGroup={() => {
+              this.props.navigation.navigate('Group', {
+                groupId: this.state.post!.groupId,
+              })
+            }}
             reactionNumber={this.state.reactions?.length}
             commentNumber={this.state.comments?.length}
             onPressImage={() => {

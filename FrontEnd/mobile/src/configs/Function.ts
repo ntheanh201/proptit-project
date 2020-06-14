@@ -1,5 +1,5 @@
 import { Dimensions, Platform, StatusBar } from 'react-native'
-import { User, Post, Comment } from '../core'
+import { User, Post, Comment, Group } from '../core'
 
 const { width, height } = Dimensions.get('screen')
 const baseURL = 'http://apis.aiforce.xyz'
@@ -48,7 +48,14 @@ export const convertToUserType = (data: any): User => {
     regDate: data.reg_date,
     gender: data.user_gender,
     cover: data.cover,
+    participatingGroup: data.participating_group,
   }
+}
+
+export const convertToUserArray = (data: any[]): User[] => {
+  return data.map((user: any) => {
+    return convertToUserType(user)
+  })
 }
 
 export const convertToPostType = (data: any): Post => {
@@ -69,13 +76,13 @@ export const convertToPostType = (data: any): Post => {
   }
 }
 
-export const convertPostsArray = (data: any[]): Post[] => {
+export const convertToPostsArray = (data: any[]): Post[] => {
   return data.map((post: any) => {
     return convertToPostType(post)
   })
 }
 
-export const convertCommentType = (data: any): Comment => {
+export const convertToCommentType = (data: any): Comment => {
   return {
     authorAvatar: data.assigned_user_avatar,
     authorId: data.assigned_user_id,
@@ -85,8 +92,18 @@ export const convertCommentType = (data: any): Comment => {
   }
 }
 
-export const convertCommentsArray = (data: any[]): Comment[] => {
+export const convertToCommentsArray = (data: any[]): Comment[] => {
   return data.map((comment: any) => {
-    return convertCommentType(comment)
+    return convertToCommentType(comment)
   })
+}
+
+export const convertToGroupType = (data: any): Group => {
+  return {
+    cover: data.cover,
+    id: data.id,
+    name: data.name,
+    admins: convertToUserArray(data.admins),
+    members: convertToUserArray(data.members),
+  }
 }

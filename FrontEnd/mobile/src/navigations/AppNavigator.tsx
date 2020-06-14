@@ -2,7 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import SplashScreen from '../screens/SplashScreen'
 import SignInScreen from '../screens/SignInScreen'
-import { HomeNavigator } from './HomeNavigator'
+import { HomeNavigator, HomeTabParams } from './HomeNavigator'
 import { NavigationContainer, ParamListBase } from '@react-navigation/native'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
@@ -17,19 +17,20 @@ import GroupScreen from '../screens/GroupScreen'
 import { Text, View, Image, SafeAreaView } from 'react-native'
 import styles from '../values/styles'
 import ImageViewScreen from '../screens/ImageViewScreen'
+import ProfileScreen from '../screens/ProfileScreen'
 
-export type SubNavigator<T extends ParamListBase, K extends keyof T> = {
-  screen: K
-  params?: T[K]
-}
+export type SubNavigator<T extends ParamListBase> = {
+  [K in keyof T]: { screen: K; params?: T[K] }
+}[keyof T]
 
 export type RootStackParams = {
   SignIn: undefined
-  HomeStack: undefined
+  HomeStack: SubNavigator<HomeTabParams>
   PostDetail: { postId: number }
   CreatePost: { postId: number }
+  Profile: { userId: number }
   EditProfile: undefined
-  Group: undefined
+  Group: { groupId: number }
   ImageView: { listImage: string[] }
 }
 
@@ -60,6 +61,7 @@ const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
         <RootStack.Screen name={'PostDetail'} component={PostDetailScreen} />
         <RootStack.Screen name={'CreatePost'} component={CreatePostScreen} />
         <RootStack.Screen name={'EditProfile'} component={EditProfileScreen} />
+        <RootStack.Screen name={'Profile'} component={ProfileScreen} />
         <RootStack.Screen
           name={'ImageView'}
           component={ImageViewScreen}

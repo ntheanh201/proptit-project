@@ -19,26 +19,21 @@ import ItemGroup from '../components/itemgroup/ItemGroup'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
-import { signOut, AppState, SignInState } from '../core'
+import { signOut, AppState, SignInState, Group, User, MiniGroup } from '../core'
 import { images } from '../assets'
+import { groupService } from '../services/GroupService'
 
 interface MenuScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   signOut: typeof signOut
-  currentUserStat: SignInState
-}
-
-interface Group {
-  id: string
-  imgUrl: string
-  name: string
+  currentUser: User
 }
 
 interface MenuScreenState {
   name?: string
   avartarUrl?: string
   isExpandedGroup: boolean
-  listGroup: Group[]
+  listGroup?: MiniGroup[]
 }
 
 class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
@@ -46,23 +41,10 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
     super(props)
 
     this.state = {
-      name: this.props.currentUserStat.currentUser?.displayName,
-      avartarUrl: this.props.currentUserStat.currentUser?.avatar,
+      name: this.props.currentUser?.displayName,
+      avartarUrl: this.props.currentUser?.avatar,
       isExpandedGroup: false,
-      listGroup: [
-        {
-          id: '1',
-          imgUrl:
-            'https://cellphones.com.vn/sforum/wp-content/uploads/2019/08/Android-new.jpg',
-          name: 'Android',
-        },
-        {
-          id: '2',
-          imgUrl:
-            'https://pbs.twimg.com/profile_images/1110319067280269312/iEqpsbUA_400x400.png',
-          name: 'Ios',
-        },
-      ],
+      listGroup: this.props.currentUser?.participatingGroup,
     }
   }
 
@@ -84,10 +66,15 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
               <Ionicon name="md-search" size={30} />
             </TouchableOpacity>
           </View>
-          <View
+          <TouchableOpacity
             style={{
               alignItems: 'center',
               flexDirection: 'row',
+            }}
+            onPress={() => {
+              this.props.navigation.navigate('Profile', {
+                userId: this.props.currentUser.id!,
+              })
             }}>
             <Image
               source={{ uri: this.state.avartarUrl }}
@@ -96,7 +83,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
             <Text style={[styles.bold_text, { marginLeft: 10 }]}>
               {this.state.name}
             </Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               this.onPressGroup()
@@ -128,8 +115,12 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
             </View>
           </TouchableOpacity>
           <View style={{ paddingLeft: 20 }}>
-            {this.state.isExpandedGroup
-              ? this.state.listGroup.map((group) => this.renderItemGroup(group))
+            {this.state.isExpandedGroup && this.state.listGroup
+              ? this.state.listGroup.map((group) => {
+                  if (group.id !== 1) {
+                    this.renderItemGroup(group)
+                  }
+                })
               : null}
           </View>
           <TouchableOpacity
@@ -198,22 +189,21 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
     })
   }
 
-  renderItemGroup(item: Group) {
+  renderItemGroup(item: MiniGroup) {
     return (
       <ItemGroup
         name={item.name}
-        imgUrl={item.imgUrl}
-        onPress={this.onPressItemGroup}
+        cover={item.cover}
+        onPress={() => {
+          this.props.navigation.navigate('Group', { groupId: item.id })
+        }}
       />
     )
-  }
-  onPressItemGroup = () => {
-    this.props.navigation.navigate('Group')
   }
 }
 
 const mapStateToProps = (state: AppState) => ({
-  currentUserStat: state.signin,
+  currentUser: state.signin.currentUser!,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>

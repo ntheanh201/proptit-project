@@ -9,9 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 
 interface ImageViewScreenProps {
-  route:
-    | RouteProp<HomeTabParams, 'ImageView'>
-    | RouteProp<RootStackParams, 'ImageView'>
+  route: RouteProp<RootStackParams, 'ImageView'>
   navigation: StackNavigationProp<RootStackParams>
 }
 
@@ -41,9 +39,7 @@ class ImageViewScreen extends React.Component<
   }
 
   render() {
-    const photos = this.props.route.params.params
-      ? this.props.route.params.params.listImage
-      : this.props.route.params.listImage
+    const photos = this.props.route.params.listImage
 
     return (
       <SafeAreaView

@@ -9,13 +9,13 @@ import {
 } from 'react-native'
 
 interface ItemGroupProps {
-  imgUrl: string
+  cover: string
   name: string
   onPress: () => void
   style?: StyleProp<ViewStyle>
 }
 
-const ItemGroup = ({ imgUrl, name, onPress, style }: ItemGroupProps) => {
+const ItemGroup = ({ cover, name, onPress, style }: ItemGroupProps) => {
   return (
     <TouchableOpacity
       onPress={() => onPress()}
@@ -29,7 +29,7 @@ const ItemGroup = ({ imgUrl, name, onPress, style }: ItemGroupProps) => {
         },
       ]}>
       <Image
-        source={{ uri: imgUrl }}
+        source={{ uri: cover }}
         style={{ width: 35, height: 35, borderRadius: 10 }}
       />
       <Text style={{ marginLeft: 10 }}>{name}</Text>

@@ -14,8 +14,8 @@ export interface NewFeedAction extends Action<string> {
 }
 
 export interface Post {
-  id?: number
-  authorId?: number
+  id: number
+  authorId: number
   authorAvatar?: string
   authorName?: string
   groupId: number
@@ -35,7 +35,10 @@ export interface ImageFormData {
   name: string
 }
 
-export interface Reaction {}
+export interface Reaction {
+  id: number
+  authorId: number
+}
 export interface Comment {
   content: string
   authorAvatar: string
