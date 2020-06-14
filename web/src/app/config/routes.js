@@ -1,8 +1,9 @@
 import React from 'react'
 import loadable from '@loadable/component'
 import { LoadingIndicator } from 'ui'
+import { Group } from '../views/Groups/Group'
 
-const AsyncPage = loadable((props) => import(`../views/${props.component}`), {
+const AsyncPage = loadable(props => import(`../views/${props.component}`), {
   fallback: LoadingIndicator
 })
 
@@ -47,9 +48,9 @@ export const routes = [
     isPrivate: true
   },
   {
-    path: '/groups/:id',
+    path: '/group/:id',
     exact: true,
-    component: () => <AsyncPage component='GroupPage' />,
+    component: () => <Group />,
     title: 'Group',
     isPrivate: true
   },

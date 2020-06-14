@@ -21,12 +21,12 @@ export const getAllGroups = () => {
     const payload = await getAllGroupsService()
     if (payload) {
       dispatch({
-        type: Actions.GET_ALL_GROUPS_SUCCESS,
+        type: GET_ALL_GROUPS_SUCCESS,
         payload
       })
     } else {
       dispatch({
-        type: Actions.GET_ALL_GROUPS_FAIL,
+        type: GET_ALL_GROUPS_FAIL,
         payload: null
       })
     }
@@ -35,15 +35,15 @@ export const getAllGroups = () => {
 
 export const getGroupById = id => {
   return async dispatch => {
-    const payload = await getGroupByIdService()
+    const payload = await getGroupByIdService(id)
     if (payload) {
       dispatch({
-        type: Actions.GET_GROUP_BY_ID_SUCCESS,
+        type: GET_GROUP_BY_ID_SUCCESS,
         payload
       })
     } else {
       dispatch({
-        type: Actions.GET_GROUP_BY_ID_FAIL,
+        type: GET_GROUP_BY_ID_FAIL,
         payload: `Can't get the information about this group`
       })
     }
@@ -55,12 +55,12 @@ export const updateGroup = id => {
     const payload = await updateGroupService()
     if (payload) {
       dispatch({
-        type: Actions.UPDATE_GROUP_SUCCESS,
+        type: UPDATE_GROUP_SUCCESS,
         payload
       })
     } else {
       dispatch({
-        type: Actions.UPDATE_GROUP_FAIL,
+        type: UPDATE_GROUP_FAIL,
         payload: `Can't get the information about this group`
       })
     }

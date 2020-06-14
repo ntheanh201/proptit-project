@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
-
+import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+
 import { LoadingIndicator } from 'ui'
 
-import * as groupActions from '../../redux/action-creators/group'
-import * as useActions from '../../redux/action-creators/home'
+const Group = ({ id, name }) => {
+  const history = useHistory()
 
-import SettingGroup from './MyGroup/SettingGroup'
-import MyGroup from './MyGroup/MyGroup'
-import { ManageGroup } from './components/ManageGroup'
-import { PostGroup } from './components/PostGroup'
+  return (
+    <Wrapper>
+      <Content onClick={() => history.push(`/group/${id}`)}>{name}</Content>
+    </Wrapper>
+  )
+}
 
 export const GroupContainer = () => {
   const dispatch = useDispatch()
@@ -88,9 +92,15 @@ export const GroupContainer = () => {
 
   return (
     <div>
-      {groups.map(({ id, cover, name, is_admin }) => (
-        <MyGroup key={id} cover={cover} name={name} isAdmin={is_admin} />
+      {groups.map(({ id, name }) => (
+        <Group key={id} id={id} name={name} />
       ))}
     </div>
   )
 }
+
+const Wrapper = styled.div``
+
+const Content = styled.div`
+  cursor: pointer;
+`
