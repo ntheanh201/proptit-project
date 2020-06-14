@@ -1,13 +1,12 @@
 /* eslint-disable id-length */
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink, withRouter, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { RouterContextProvider, Grid, List, Nav, Button } from 'tabler-react'
 
-import { useState } from 'core'
-import { SiteWrapper } from 'ui'
+import { SiteWrapper, LoadingIndicator } from 'ui'
 
 import User from '../../assets/user.svg'
 
@@ -65,7 +64,8 @@ const navBarItems = [
 ]
 
 const Container = ({ history, children }) => {
-  const { isLogged, user } = useSelector(state => state.homeReducer)
+  const { isLogged } = useSelector(state => state.homeReducer)
+  const user = JSON.parse(localStorage.getItem('userData'))
   const { displayName, username, id: userId } = user
 
   const accountDropdownProps = {
@@ -141,6 +141,10 @@ const Container = ({ history, children }) => {
     (a, v) => a || v.unread,
     false
   )
+
+  if (!user) {
+    return <LoadingIndicator />
+  }
 
   return (
     <SiteWrapper

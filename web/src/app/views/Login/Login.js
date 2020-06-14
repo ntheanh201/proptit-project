@@ -48,7 +48,6 @@ const LoginPage = props => {
   const handleKeyDown = event => {
     if (event.key === 'Enter') {
       onSubmit()
-      window.location.reload()
     }
   }
 
