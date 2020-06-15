@@ -18,5 +18,5 @@ export const PostContainer = () => {
     return null
   }
 
-  return <Post post={post} postId={id} />
+  return <Post post={post} postId={id} commentVisible />
 }

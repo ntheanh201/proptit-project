@@ -3,7 +3,9 @@ import * as Actions from '../action-types'
 
 const STATE_INIT = {
   posts: [],
-  post: null
+  post: null,
+  comments: null,
+  reactions: null
 }
 
 export default (state = STATE_INIT, { type, payload }) => {
@@ -11,7 +13,12 @@ export default (state = STATE_INIT, { type, payload }) => {
     case Actions.GET_ALL_POSTS:
       return { ...state, posts: payload }
     case Actions.GET_POST_BY_ID:
-      return { ...state, post: payload.post }
+      return {
+        ...state,
+        post: payload.post,
+        comments: payload?.commentsInfo,
+        reactions: payload?.reactionsInfo
+      }
     case Actions.GET_POSTS_BY_GROUP:
       return { ...state, posts: payload }
     case Actions.CREATE_POST:

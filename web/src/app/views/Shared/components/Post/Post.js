@@ -14,7 +14,12 @@ import { EditPostModal } from './components/EditPostModal'
 import { ImageViewer } from '../ImageViewer/ImageViewer'
 import { TickPoll } from './components/TickPoll/TickPoll'
 
-export const Post = ({ post, postId, cursor = false }) => {
+export const Post = ({
+  post,
+  postId,
+  cursor = false,
+  commentVisible: showComment = false
+}) => {
   //todo: comment
   const {
     id,
@@ -24,7 +29,6 @@ export const Post = ({ post, postId, cursor = false }) => {
     groupName,
     content,
     authorId,
-    avatarImg,
     reactionNumber,
     commentNumber,
     type,
@@ -37,7 +41,7 @@ export const Post = ({ post, postId, cursor = false }) => {
     post?.reactionId === -1 ? false : true
   )
   const [reactNumber, setReactNumber] = useState(reactionNumber)
-  const [commentVisible, setCommentVisible] = useState(false)
+  const [commentVisible, setCommentVisible] = useState(showComment)
   const [menuVisible, setMenuVisible] = useState(false)
   const [editPostVisible, setEditPostVisible] = useState(false)
 
@@ -157,22 +161,21 @@ export const Post = ({ post, postId, cursor = false }) => {
             )}
           </ActionBar>
         </div>
-        {/* todo {postId && show comments} */}
 
-        {/*{commentCount > 0 && (*/}
-        {/*  <CardFooter>*/}
-        {/*    <Comment.List>*/}
-        {/*      {comments.map(({ name, date, text, avatarURL }) => (*/}
-        {/*        <Comment*/}
-        {/*          avatarURL={avatarURL}*/}
-        {/*          name={name}*/}
-        {/*          date={date}*/}
-        {/*          text={text}*/}
-        {/*        />*/}
-        {/*      ))}*/}
-        {/*    </Comment.List>*/}
-        {/*  </CardFooter>*/}
-        {/*)}*/}
+        {commentNumber > 0 && commentVisible && (
+          <CardFooter>
+            <Comment.List>
+              {comments.map(({ name, date, text, avatarURL }) => (
+                <Comment
+                  avatarURL={avatarURL}
+                  name={name}
+                  date={date}
+                  text={text}
+                />
+              ))}
+            </Comment.List>
+          </CardFooter>
+        )}
       </Card>
       <EditPostModal
         modalVisible={editPostVisible}

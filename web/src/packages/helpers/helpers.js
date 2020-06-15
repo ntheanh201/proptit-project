@@ -28,7 +28,10 @@ export const convertPostType = data => {
     groupName: data?.assigned_group_name,
     commentNumber: data?.comment_number,
     reactionNumber: data?.reaction_number,
-    reactionId: data?.reaction_id
+    reactionId: data?.reaction_id,
+    commentsInfo: data?.comments_info,
+    pollsInfo: data?.poll_info,
+    reactionsInfo: data?.reactions_info
   }
 }
 
