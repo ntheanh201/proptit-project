@@ -55,11 +55,12 @@ export default (
       return {
         ...state,
         isUpdatingUser: true,
+        updateUserSuccess: false,
       }
     case UPDATE_USER_SUCCESS:
       return {
         ...state,
-        currentUser: { ...state.currentUser, ...action.currentUser },
+        currentUser: action.currentUser,
         isUpdatingUser: false,
         updateUserSuccess: true,
       }

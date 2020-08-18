@@ -12,7 +12,14 @@ import {
   StatusBarIOS,
   FlatList,
 } from 'react-native'
-import { AppState, SignInState, Post, User } from '../core'
+import {
+  AppState,
+  SignInState,
+  Post,
+  User,
+  ImageFormData,
+  updateAvatarUser,
+} from '../core'
 import { connect } from 'react-redux'
 import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
@@ -32,11 +39,14 @@ import { postService, userService } from '../services'
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
 import Icon from 'react-native-vector-icons/Entypo'
 import { RouteProp } from '@react-navigation/native'
+import { bindActionCreators, Dispatch, AnyAction } from 'redux'
+import { signInAction } from '../core/actions'
 
 interface ProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   route: RouteProp<RootStackParams, 'Profile'>
   signInState: SignInState
+  updateAvatarUser: typeof updateAvatarUser
 }
 
 interface ProfileScreenState {
@@ -62,13 +72,28 @@ class ProfileScreen extends React.Component<
       posts: [],
     }
     this.props.navigation.setOptions({
-      header: () => null,
+      headerShown: false,
     })
   }
 
   async componentDidMount() {
     await this.getUserData()
     await this.getUserPost()
+  }
+
+  // componentWillReceiveProps(nextProps: ProfileScreenProps) {
+  //   if (nextProps.signInState.updateUserSuccess) {
+  //     this.getUserPost()
+  //   }
+  // }
+
+  componentDidUpdate(prevProps: ProfileScreenProps) {
+    if (
+      !prevProps.signInState.updateUserSuccess &&
+      this.props.signInState.updateUserSuccess
+    ) {
+      this.getUserPost()
+    }
   }
 
   getUserData = async () => {
@@ -83,6 +108,7 @@ class ProfileScreen extends React.Component<
   }
 
   getUserPost = async () => {
+    this.setState({ isLoadingPost: true })
     const posts = await postService.getAllwParams('user', this.state.user?.id!)
     this.setState({ posts, isLoadingPost: false })
   }
@@ -93,7 +119,39 @@ class ProfileScreen extends React.Component<
     }
     return (
       <ScrollView
-        style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}>
+        style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}
+        scrollEventThrottle={16}
+        onScroll={(e) => {
+          const y = e.nativeEvent.contentOffset.y
+          // console.log('AppLog', y)
+          if (y >= 200) {
+            this.props.navigation.setOptions({
+              headerShown: true,
+              headerTitle: () => (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={{ uri: this.state.user?.avatar }}
+                    style={{ height: 30, width: 30, borderRadius: 5 }}
+                  />
+                  <Text style={[styles.bold_text, { marginLeft: 10 }]}>
+                    {this.state.user?.displayName}
+                  </Text>
+                </View>
+              ),
+              headerBackTitleVisible: false,
+              headerTintColor: 'black',
+            })
+          } else {
+            this.props.navigation.setOptions({
+              headerShown: false,
+            })
+          }
+        }}>
         <ImageBackground
           source={{ uri: this.state.user?.cover }}
           style={styles.coverImage}>
@@ -128,7 +186,11 @@ class ProfileScreen extends React.Component<
           </LinearGradient>
           <View style={styles.avatar}>
             <Image
-              source={{ uri: this.state.user?.avatar }}
+              source={{
+                uri: this.state.isMyProfile
+                  ? this.props.signInState.currentUser?.avatar
+                  : this.state.user?.avatar,
+              }}
               style={styles.avatar}
             />
             {this.state.isMyProfile && (
@@ -215,12 +277,24 @@ class ProfileScreen extends React.Component<
       includeExif: true,
       multiple: false,
       cropping: true,
-    }).then((res) => {
-      const image = res as ImageP
-      this.setState((prevState) => {
-        return { user: { ...prevState, avatar: image.path } }
-      })
     })
+      .then((res) => {
+        const image = res as ImageP
+        const arr = image.path.split('/')
+        const name = arr[arr.length - 1]
+        const formData: ImageFormData = {
+          name,
+          type: image.mime,
+          uri: image.path,
+        }
+        this.props.updateAvatarUser(
+          this.props.signInState.currentUser!,
+          formData,
+        )
+      })
+      .catch((reason) => {
+        console.log(reason)
+      })
   }
 }
 
@@ -289,4 +363,7 @@ const mapStateToProps = (state: AppState) => ({
   signInState: state.signin,
 })
 
-export default connect(mapStateToProps)(ProfileScreen)
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(signInAction, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)

@@ -49,7 +49,7 @@ interface CreatePostScreenState {
 
 interface CreatePostScreenProps {
   navigation: StackNavigationProp<RootStackParams>
-  route: RouteProp<HomeTabParams, 'CreatePost'>
+  route: RouteProp<RootStackParams, 'CreatePost'>
   signInState: SignInState
 }
 
@@ -218,7 +218,7 @@ class CreatePostScreen extends Component<
   ]
 
   async getContentIfEditPost() {
-    const id = this.props.route.params.params?.postId
+    const id = this.props.route.params?.postId
     if (id) {
       const data = await postService.getFullPostById(id)
       const post = convertToPostType(data.post)
@@ -315,7 +315,7 @@ class CreatePostScreen extends Component<
     // console.log(this.state.images)
     if (this.props.route.params) {
       const post: Post = {
-        id: this.props.route.params.params?.postId,
+        id: this.props.route.params?.postId,
         content: this.state.content,
         groupId: 1,
         type: 1,

@@ -30,8 +30,6 @@ interface MenuScreenProps {
 }
 
 interface MenuScreenState {
-  name?: string
-  avartarUrl?: string
   isExpandedGroup: boolean
   listGroup?: MiniGroup[]
 }
@@ -41,8 +39,6 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
     super(props)
 
     this.state = {
-      name: this.props.currentUser?.displayName,
-      avartarUrl: this.props.currentUser?.avatar,
       isExpandedGroup: false,
       listGroup: this.props.currentUser?.participatingGroup,
     }
@@ -77,11 +73,11 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
               })
             }}>
             <Image
-              source={{ uri: this.state.avartarUrl }}
+              source={{ uri: this.props.currentUser.avatar }}
               style={styles.normal_icon}
             />
             <Text style={[styles.bold_text, { marginLeft: 10 }]}>
-              {this.state.name}
+              {this.props.currentUser.displayName}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

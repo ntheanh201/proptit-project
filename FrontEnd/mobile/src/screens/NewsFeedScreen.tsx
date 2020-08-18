@@ -44,7 +44,7 @@ interface NewsFeedScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   getNewfeeds: typeof getNewfeeds
   postsState: NewFeedState
-  currentUserState: SignInState
+  signInState: SignInState
 }
 
 class NewsFeedScreen extends Component<
@@ -82,6 +82,15 @@ class NewsFeedScreen extends Component<
     this.props.getNewfeeds(1)
   }
 
+  componentDidUpdate(prevProps: NewsFeedScreenProps) {
+    if (
+      !prevProps.signInState.updateUserSuccess &&
+      this.props.signInState.updateUserSuccess
+    ) {
+      this.props.getNewfeeds(1)
+    }
+  }
+
   onRefresh = () => {
     this.setState({
       refreshing: true,
@@ -101,10 +110,6 @@ class NewsFeedScreen extends Component<
     setTimeout(() => {
       this.setState({ isLoadingMore: false })
     }, 1000)
-  }
-
-  componentDidUpdate() {
-    // console.log(this.props.postsState.currentNewFeed)
   }
 
   render() {
@@ -214,8 +219,7 @@ class NewsFeedScreen extends Component<
                     })
                   }
                   isShowMore={
-                    item.authorId ===
-                    this.props.currentUserState.currentUser?.id
+                    item.authorId === this.props.signInState.currentUser?.id
                   }
                   onPressMore={() => {
                     this.currentPostFocus = item
@@ -332,7 +336,7 @@ class NewsFeedScreen extends Component<
 
 const mapStateToProps = (state: AppState) => ({
   postsState: state.newfeed,
-  currentUserState: state.signin,
+  signInState: state.signin,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>

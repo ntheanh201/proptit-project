@@ -124,7 +124,7 @@ class EditProfileScreen extends React.Component<
       dateOfBirth: this.state.birthday.toISOString(),
       gender: this.state.gender,
     }
-    await this.props.updateUser(userData)
+    await this.props.updateUser(this.props.currentUser!, userData)
     if (this.props.updateUserSuccess) {
       console.log(this.props.currentUser)
       this.props.navigation.goBack()
