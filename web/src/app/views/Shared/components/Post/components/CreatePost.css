@@ -48,6 +48,9 @@
 .create-new-post-button p {
   color: rgb(87, 87, 87);
   text-align: left;
+}
+
+p {
   margin: 0;
 }
 

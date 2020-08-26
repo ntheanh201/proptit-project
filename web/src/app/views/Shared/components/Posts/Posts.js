@@ -23,11 +23,11 @@ const ShowCreatePost = ({ children }) => {
 export const Posts = ({ groupId = 1 }) => {
   const dispatch = useDispatch()
 
+  const { posts } = useSelector(state => state.postReducer)
+
   useEffect(() => {
     dispatch(PostActions.getAllPosts(groupId))
-  }, [])
-
-  const { posts } = useSelector(state => state.postReducer)
+  }, [posts])
 
   const onCreatePoll = (poll, postId) => {
     posts[postId - 1].listPoll.push(poll)

@@ -14,6 +14,7 @@ const PostInput = ({ isEdit = false, groupId, post, setEditPostVisible }) => {
   const { user } = useSelector(state => state.homeReducer)
   const [content, setContent] = useState((isEdit && post.content) || null)
   const [type, setType] = useState((isEdit && post.type) || 0)
+  const [show, setShow] = useState(false)
   const onChangeValue = event => {
     setContent(event.target.value)
   }
@@ -28,6 +29,8 @@ const PostInput = ({ isEdit = false, groupId, post, setEditPostVisible }) => {
         reactionNumber: -1
       })
     )
+    setContent('')
+    setShow(false)
   }
 
   const onEditPost = () => {
@@ -42,7 +45,7 @@ const PostInput = ({ isEdit = false, groupId, post, setEditPostVisible }) => {
     )
     setEditPostVisible(false)
   }
-  const [show, setShow] = useState(false)
+  
   const [polls, setPolls] = useState([
     {
       id: 1,

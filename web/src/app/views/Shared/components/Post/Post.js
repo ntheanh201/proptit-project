@@ -145,11 +145,11 @@ export const Post = ({
       <div className="post-content">
         {type == 0 ?
           <div className="just-text">
-            <p>{content}</p>
+            <p>{content ? content : ''}</p>
           </div> :
           type == 2 ?
           <div className="text-and-poll">
-            <p>{content}</p>
+            <p>{content ? content : ''}</p>
             <div className="form-group form-check">
               <input type="checkbox" className="form-check-input" id="exampleCheck1" />
               <label className="form-check-label" htmlFor="exampleCheck1">Tuyệt vời</label>
@@ -257,7 +257,7 @@ export const Post = ({
             </div>
           </div> :
           <div className="text-and-img"> 
-            <p className="content-of-post">{content}</p>
+            <p className="content-of-post">{content ? content : ''}</p>
             <img
               className="img-post"
               src="https://thuthuatnhanh.com/wp-content/uploads/2019/05/gai-xinh-toc-ngan-facebook.jpg"
@@ -364,11 +364,11 @@ export const Post = ({
                 <div className="post-content">
                 {type == 0 ?
                   <div className="just-text">
-                    <p>{content}</p>
+                    <p>{content ? content : ''}</p>
                   </div> :
                   type == 2 ?
                   <div className="text-and-poll">
-                    <p>{content}</p>
+                    <p>{content ? content : ''}</p>
                     <div className="form-group form-check">
                       <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                       <label className="form-check-label" htmlFor="exampleCheck1">Tuyệt vời</label>
@@ -545,7 +545,7 @@ export const Post = ({
                     className="form-control"
                     placeholder="Add a comment..."
                     onChange={handleChange}
-                    id="write-comment"
+                    id={id}
                   />
                   <button
                     onClick={() => {
@@ -567,7 +567,7 @@ export const Post = ({
           className="form-control"
           placeholder="Add a comment..."
           onChange={handleChange}
-          id={"write-comment-out"+type}
+          id={id}
         />
         <button
           onClick={() => {
