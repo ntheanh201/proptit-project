@@ -2,11 +2,17 @@ html,
 body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 #app {
   position: relative;
   min-height: 100vh;
+}
+
+p, h1, h2, h3, h4, h5, h6, label {
+  margin: 0;
+  padding: 0;
 }
 
 .page-main {
@@ -21,4 +27,16 @@ body {
 
 .red-heart {
   color: red;
+}
+
+.content {
+  width: 70%;
+  margin: 0px auto;
+  padding-top: 100px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .content {
+    width: 100%;
+  }
 }

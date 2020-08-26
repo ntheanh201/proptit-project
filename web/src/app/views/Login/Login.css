@@ -1,0 +1,63 @@
+.login {
+  width: 500px;
+  height: auto;
+  background-color: white;
+  margin: 0px auto;
+  margin-top: 100px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 26px;
+}
+
+.login img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin: 10px;
+}
+
+.login h4 {
+  margin-bottom: 20px;
+}
+
+.login .form-group {
+  width: 60%;
+}
+
+.login-system {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  background-color: #2996f6;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.login-system:focus {
+  outline: none;
+}
+
+.login-system:active {
+  background-color: #1a8ff5;
+}
+
+.show-pass-form {
+  position: relative;
+}
+
+.show-pass {
+  position: absolute;
+  top: 0;
+  right: -30px;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.feedback-login {
+  color: #df4755;
+}

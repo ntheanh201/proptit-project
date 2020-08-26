@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { ErrorBoundary } from 'ui'
 
 import { Layout } from './Layout'
+import { Home } from '../../../../app/views/Home/Home'
 
 export const NormalLayout = ({ title = false, children }) => {
   return (
@@ -18,10 +19,11 @@ export const NormalLayout = ({ title = false, children }) => {
 }
 
 export const withNormalLayout = (WrappedComponent, layoutProps) => {
-  return props => (
-    <NormalLayout {...layoutProps} match={props.match}>
-      <WrappedComponent {...props} />
-    </NormalLayout>
+  return (
+    // <NormalLayout {...layoutProps} match={props.match}>
+    //   <WrappedComponent {...props} />
+    // </NormalLayout>
+    <Home />
   )
 }
 

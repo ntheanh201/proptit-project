@@ -1,0 +1,328 @@
+.post {
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #e2e2e2;
+  margin: 15px 0px;
+}
+
+.post-header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 0px 20px;
+}
+
+.menu-post i {
+  cursor: pointer;
+}
+
+.menu-post .menu-post-item {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.menu-post-item button:not(:last-child) {
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.menu-post-item button {
+  width: 100%;
+  height: 50px;
+}
+
+.menu-post-item button:first-child {
+  color: #ed4955;
+  font-weight: bold;
+} 
+
+.menu-post-item button:active {
+  background-color: #e2e2e2;
+}
+
+.menu-post-item button:focus {
+  outline:none;
+  box-shadow: none;
+}
+
+.post-header .avatar-user {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.post-header .avatar-user .user-ava{
+  width: 35px;
+  height: 35px;
+}
+
+.avatar-user .name-avatar {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  margin-left: 20px;
+}
+
+.post-content .content-of-post {
+  margin: 20px;
+}
+
+.post-content .img-post {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.post-reaction {
+  height: auto;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.post-reaction .like-cmt-share-post {
+  height: 50px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.like-cmt-share-post i {
+  margin-right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.like-cmt-share-post label{
+  margin-bottom: 0px;
+}
+
+.like-post {
+  color: #ed4955;
+}
+
+.post-reaction .count-like {
+  margin: 20px 20px 20px 0px;
+}
+.post-reaction .reply {
+  margin-left: 20px;
+  color: #2996f6;
+}
+
+.post-reaction .view-all {
+  color: #2996f6;
+  cursor: pointer;
+}
+
+.post-reaction .view-all:active {
+  color: #84c3fa;
+}
+
+.you-comment {
+  height: 50px;
+  border-top: 1px solid #e2e2e2;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.you-comment input {
+  flex: 1;
+  height: 100%;
+  border: none;
+}
+
+.you-comment input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.you-comment button {
+  color: #2996f6;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  background-color: white;
+  padding: 0;
+}
+
+.you-comment button:disabled {
+  opacity: 0.3;
+}
+
+.you-comment button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.in-post {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+@media only screen and (max-width: 1024px) {
+  .in-post {
+    flex-flow: column wrap;
+  }
+}
+
+.in-post .content-in-post {
+  flex: 2;
+}
+
+.in-post .comment-in-post {
+  flex: 1;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+}
+
+.comment-in-post .header-comment {
+  height: 50px;
+  border-bottom: 1px solid #e2e2e2;
+  display: flex;
+  padding-left: 10px;
+  align-items: center;
+}
+
+.reaction-cmt {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.reaction-cmt i {
+  margin-right: 5px;
+}
+
+.reaction-cmt label {
+  color: #2996f6;
+  cursor: pointer;
+}
+
+.reaction-cmt .like-in-post {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.reaction-cmt .like-in-post i {
+  color: #ed4955;
+  cursor: pointer;
+}
+
+.react-in-post {
+  border-top: 1px solid #e2e2e2;
+  padding: 10px 10px;
+}
+
+.my-custom-scrollbar {
+  position: relative;
+  max-height: 400px;
+  overflow: scroll;
+}
+
+.my-custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+  margin: 10px;
+}
+
+.your-comment {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+}
+
+.your-comment .avatar-cmt {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;;
+  background-color: aqua;
+  margin-right: 10px;
+}
+
+.your-comment .what-cmt {
+  flex: 1;
+}
+
+.just-text, .text-and-poll {
+  margin: 20px;
+}
+
+.all-member-tick {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 150px;
+}
+
+.member-tick {
+  object-fit: cover;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
+
+.member-tick:not(:first-child), .member-tick-more {
+  margin-left: -5px;
+}
+
+.member-tick-more {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  background-color: #e2e2e2;
+  padding: 5px;
+}
+
+.list-member-tick {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.one-member-tick {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ava-member-tick {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  background-color: steelblue;
+  margin: 0px 10px;
+}
+
+.modal-backdrop {
+  z-index: 100000 !important;
+}
+
+.modal {
+  z-index: 100000 !important;
+}

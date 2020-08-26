@@ -1,0 +1,19 @@
+.in-group {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 360px;
+  padding-top: 72px;
+}
+
+.in-group .recent-post {
+  font-size: 20px;
+  padding-top: 20px;
+  color: rgb(88, 88, 88);
+}
+
+.post-in-group {
+  width: 60%;
+}

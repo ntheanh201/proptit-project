@@ -2,7 +2,8 @@ import React from 'react'
 import loadable from '@loadable/component'
 
 import { LoadingIndicator } from 'ui'
-import { Group } from '../views/Groups/Group'
+
+import Group from './../views/Groups/Group'
 
 const AsyncPage = loadable(props => import(`../views/${props.component}`), {
   fallback: LoadingIndicator

@@ -19,3 +19,4 @@ export { CardTitle } from './components/Card/CardTitle'
 
 //site wrapper
 export { default as SiteWrapper } from './components/SiteWrapper/SiteWrapper'
+export { default as Navbar } from './components/SiteWrapper/Navbar'

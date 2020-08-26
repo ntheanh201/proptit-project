@@ -39,7 +39,6 @@ export const Posts = ({ groupId = 1 }) => {
 
   return (
     <ShowCreatePost>
-      <Title>Bảng tin</Title>
       {posts &&
         posts.map((post, index) => (
           <Post key={index} post={post} onCreatePoll={onCreatePoll} cursor />

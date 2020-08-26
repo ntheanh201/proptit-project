@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 
 import { RouterContextProvider, Grid, List, Nav, Button } from 'tabler-react'
 
-import { SiteWrapper, LoadingIndicator } from 'ui'
+import { SiteWrapper, LoadingIndicator, Navbar } from 'ui'
 
 import User from '../../assets/user.svg'
 
@@ -16,32 +16,22 @@ const navBarItems = [
   {
     value: 'Home',
     to: '/',
-    icon: 'home',
     LinkComponent: withRouter(NavLink),
     useExact: true
   },
   {
     value: 'Groups',
     to: '/groups',
-    icon: 'users',
     LinkComponent: withRouter(NavLink)
   },
   {
     value: 'Gallery',
     to: '/gallery',
-    icon: 'image',
     LinkComponent: withRouter(NavLink)
   },
   {
     value: 'ProPTIT Chat Room',
     to: '/chat',
-    icon: 'message-circle',
-    LinkComponent: withRouter(NavLink)
-  },
-  {
-    value: 'About Us',
-    to: '/about',
-    icon: 'info',
     LinkComponent: withRouter(NavLink)
   }
 ]
@@ -130,63 +120,64 @@ const Container = ({ history, children }) => {
   }
 
   return (
-    <SiteWrapper
-      headerProps={{
-        href: '/',
-        alt: 'ProPTIT',
-        imageURL: logo,
-        navItems: !isLogged ? navItems : null,
-        notificationsTray: isLogged
-          ? {
-              notificationsObjects,
-              markAllAsRead: () =>
-                setState(
-                  () => ({
-                    notificationsObjects: state.notificationsObjects.map(v => ({
-                      ...v,
-                      unread: false
-                    }))
-                  }),
-                  () =>
-                    setTimeout(
-                      () =>
-                        setState({
-                          notificationsObjects: state.notificationsObjects.map(
-                            v => ({ ...v, unread: true })
-                          )
-                        }),
-                      5000
-                    )
-                ),
-              unread: unreadCount
-            }
-          : null,
-        accountDropdown: isLogged ? accountDropdownProps : ''
-      }}
-      footerProps={{
-        copyright: (
-          <React.Fragment>
-            Copyright © 2020
-            <a href='.'> ProPTIT</a>.
-          </React.Fragment>
-        ),
-        nav: (
-          <React.Fragment>
-            <Grid.Col auto>
-              <List className='list-inline list-inline-dots mb-0'>
-                <List.Item className='list-inline-item'>
-                  <Link to='./faq.html'>FAQ</Link>
-                </List.Item>
-              </List>
-            </Grid.Col>
-          </React.Fragment>
-        )
-      }}
-      navProps={{ itemsObjects: navBarItems }}
-      routerContextComponentType={withRouter(RouterContextProvider)}
-    >
-      {children}
-    </SiteWrapper>
+    <Navbar />
+    // <SiteWrapper
+    //   headerProps={{
+    //     href: '/',
+    //     alt: 'ProPTIT',
+    //     imageURL: logo,
+    //     navItems: !isLogged ? navItems : null,
+    //     notificationsTray: isLogged
+    //       ? {
+    //           notificationsObjects,
+    //           markAllAsRead: () =>
+    //             setState(
+    //               () => ({
+    //                 notificationsObjects: state.notificationsObjects.map(v => ({
+    //                   ...v,
+    //                   unread: false
+    //                 }))
+    //               }),
+    //               () =>
+    //                 setTimeout(
+    //                   () =>
+    //                     setState({
+    //                       notificationsObjects: state.notificationsObjects.map(
+    //                         v => ({ ...v, unread: true })
+    //                       )
+    //                     }),
+    //                   5000
+    //                 )
+    //             ),
+    //           unread: unreadCount
+    //         }
+    //       : null,
+    //     accountDropdown: isLogged ? accountDropdownProps : ''
+    //   }}
+    //   footerProps={{
+    //     copyright: (
+    //       <React.Fragment>
+    //         Copyright © 2020
+    //         <a href='.'> ProPTIT</a>.
+    //       </React.Fragment>
+    //     ),
+    //     nav: (
+    //       <React.Fragment>
+    //         <Grid.Col auto>
+    //           <List className='list-inline list-inline-dots mb-0'>
+    //             <List.Item className='list-inline-item'>
+    //               <Link to='./faq.html'>FAQ</Link>
+    //             </List.Item>
+    //           </List>
+    //         </Grid.Col>
+    //       </React.Fragment>
+    //     )
+    //   }}
+    //   navProps={{ itemsObjects: navBarItems }}
+    //   routerContextComponentType={withRouter(RouterContextProvider)}
+    // >
+    //   {children}
+    // </SiteWrapper>
   )
 }
 
