@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[22],{860:function(n,e,t){"use strict";t.r(e),t.d(e,"Home",(function(){return s}));var o=t(0),r=t.n(o),a=t(10),c=t.n(a),i=t(852),s=function(){return r.a.createElement(p,null,r.a.createElement(i.Posts,null))},p=c.a.div.withConfig({displayName:"Home__Wrapper",componentId:"sc-15rbsm5-0"})([""])}}]);

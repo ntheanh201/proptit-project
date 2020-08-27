@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import './../styles/ManagerGroup.css'
 import './../styles/SettingGroup.css'
 
-export default function SettingGroup(props) {
+export const SettingGroup = props => {
   const [addAdmin, setAddAdmin] = useState(false)
   const addAdminTo = () => {
     setAddAdmin(!addAdmin)

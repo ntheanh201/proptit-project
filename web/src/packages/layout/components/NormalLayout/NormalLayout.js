@@ -1,21 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Page } from 'tabler-react'
 
 import { ErrorBoundary } from 'ui'
 
 import { Layout } from './Layout'
 
-export const NormalLayout = ({
-  title = false,
-  children
-  //   ...props
-}) => {
+export const NormalLayout = ({ title = false, children }) => {
   return (
     <ContentContainer>
       <Layout>
         <ErrorBoundary>
-          <Page.Content title={title}>{children}</Page.Content>
+          <PageContent>{children}</PageContent>
         </ErrorBoundary>
       </Layout>
     </ContentContainer>
@@ -23,7 +18,7 @@ export const NormalLayout = ({
 }
 
 export const withNormalLayout = (WrappedComponent, layoutProps) => {
-  return (props) => (
+  return props => (
     <NormalLayout {...layoutProps} match={props.match}>
       <WrappedComponent {...props} />
     </NormalLayout>
@@ -31,3 +26,5 @@ export const withNormalLayout = (WrappedComponent, layoutProps) => {
 }
 
 const ContentContainer = styled.div``
+
+const PageContent = styled.div``

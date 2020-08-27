@@ -3,6 +3,7 @@ export { SearchBar } from './components/SearchBar/SearchBar'
 export { LoadingIndicator } from './components/LoadingIndicator/LoadingIndicator'
 
 export { Icon } from './components/Icon/Icon'
+export { Heart } from './components/AnimatedHeart/AnimatedHeart'
 
 //card
 export { Card } from './components/Card/Card'
@@ -18,7 +19,3 @@ export { CardTitle } from './components/Card/CardTitle'
 
 //site wrapper
 export { default as SiteWrapper } from './components/SiteWrapper/SiteWrapper'
-
-//post
-export * from './components/Post/Checkbox/Checkbox'
-export * from './components/Post/TickPoll/TickPoll'

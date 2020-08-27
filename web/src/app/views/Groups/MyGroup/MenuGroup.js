@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import './../styles/MenuGroup.css'
 
 import { Post } from '../../Shared/components/Post/Post'
-import Description from './Description'
+import { Description } from './Description'
 
-export default function MenuGroup(props) {
+export const MenuGroup = props => {
   const [isDiscuss, setIsDiscuss] = useState(true)
   const handleClickFalse = () => {
     setIsDiscuss(false)

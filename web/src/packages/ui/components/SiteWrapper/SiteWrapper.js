@@ -1,8 +1,8 @@
 /* eslint-disable id-length */
 
 import React from 'react'
+import styled from 'styled-components'
 
-import { Page } from 'tabler-react'
 import { SiteFooter } from './SiteFooter'
 import { SiteNav } from './SiteNav'
 import { SiteHeader } from './SiteHeader'
@@ -13,7 +13,7 @@ class SiteWrapper extends React.PureComponent {
   }
 
   handleCollapseMobileMenu = () => {
-    this.setState((s) => ({ collapseMobileMenu: !s.collapseMobileMenu }))
+    this.setState(s => ({ collapseMobileMenu: !s.collapseMobileMenu }))
   }
 
   render() {
@@ -36,16 +36,16 @@ class SiteWrapper extends React.PureComponent {
     }
 
     return (
-      <Page>
-        <Page.Main>
-          <SiteHeader {...headerPropsWithToggleClick} />
-          <SiteNav {...navPropsWithCollapse} />
-          {children}
-        </Page.Main>
-        <SiteFooter {...footerProps} />
-      </Page>
+      <Wrapper>
+        <SiteHeader {...headerPropsWithToggleClick} />
+        <SiteNav {...navPropsWithCollapse} />
+        {children}
+        {/* <SiteFooter {...footerProps} /> */}
+      </Wrapper>
     )
   }
 }
 
 export default SiteWrapper
+
+const Wrapper = styled.div``

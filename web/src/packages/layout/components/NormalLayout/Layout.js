@@ -1,13 +1,12 @@
 /* eslint-disable id-length */
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink, withRouter, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { RouterContextProvider, Grid, List, Nav, Button } from 'tabler-react'
 
-import { useState } from 'core'
-import { SiteWrapper } from 'ui'
+import { SiteWrapper, LoadingIndicator } from 'ui'
 
 import User from '../../assets/user.svg'
 
@@ -45,29 +44,12 @@ const navBarItems = [
     icon: 'info',
     LinkComponent: withRouter(NavLink)
   }
-  // {
-  //   value: 'Interface',
-  //   icon: 'box',
-  //   subItems: [
-  //     {
-  //       value: 'Cards Design',
-  //       to: '/cards',
-  //       LinkComponent: withRouter(NavLink)
-  //     },
-  //     { value: 'Charts', to: '/charts', LinkComponent: withRouter(NavLink) },
-  //     {
-  //       value: 'Pricing Cards',
-  //       to: '/pricing-cards',
-  //       LinkComponent: withRouter(NavLink)
-  //     }
-  //   ]
-  // }
 ]
 
 const Container = ({ history, children }) => {
-  const { isLogged, user } = useSelector((state) => state.homeReducer)
-
-  const { display_name: displayName, username, id: userId } = user
+  const { isLogged } = useSelector(state => state.homeReducer)
+  const user = JSON.parse(localStorage.getItem('userData'))
+  const { displayName, username, id: userId } = user
 
   const accountDropdownProps = {
     avatarLogo: User,
@@ -143,6 +125,10 @@ const Container = ({ history, children }) => {
     false
   )
 
+  if (!user) {
+    return <LoadingIndicator />
+  }
+
   return (
     <SiteWrapper
       headerProps={{
@@ -156,19 +142,17 @@ const Container = ({ history, children }) => {
               markAllAsRead: () =>
                 setState(
                   () => ({
-                    notificationsObjects: state.notificationsObjects.map(
-                      (v) => ({
-                        ...v,
-                        unread: false
-                      })
-                    )
+                    notificationsObjects: state.notificationsObjects.map(v => ({
+                      ...v,
+                      unread: false
+                    }))
                   }),
                   () =>
                     setTimeout(
                       () =>
                         setState({
                           notificationsObjects: state.notificationsObjects.map(
-                            (v) => ({ ...v, unread: true })
+                            v => ({ ...v, unread: true })
                           )
                         }),
                       5000

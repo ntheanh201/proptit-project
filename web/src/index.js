@@ -10,6 +10,7 @@ import { Preloader } from './app/Preloader'
 
 import './index.css'
 import 'tabler-react/dist/Tabler.css'
+import '../node_modules/font-awesome/css/font-awesome.css'; 
 
 const AppComponent = loadable(() => import('./app'), {
   fallback: LoadingIndicator

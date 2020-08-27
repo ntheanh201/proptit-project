@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import './../styles/Description.css'
 
-export default function Description(props) {
+export const Description = props => {
   const [edit, setEdit] = useState(false)
   const [groups, setGroups] = useState({
     id: '',
@@ -24,7 +24,7 @@ export default function Description(props) {
     setEdit(false)
   }
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     var target = event.target
     var name = target.name
     var value = target.value
@@ -34,7 +34,7 @@ export default function Description(props) {
     })
   }
 
-  const editDescription = (event) => {
+  const editDescription = event => {
     event.preventDefault()
     props.setGroup(groups)
     showEditFalse()

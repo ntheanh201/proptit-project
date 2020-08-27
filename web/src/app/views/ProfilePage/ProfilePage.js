@@ -1,147 +1,162 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { CreateMission } from './components/CreateMission'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { Modal, Button } from 'react-bootstrap'
 
-import {
-  Grid,
-  Button,
-  Profile,
-  Page,
-  Timeline,
-  Table,
-  Icon,
-  Form
-} from 'tabler-react'
+import { Page, Timeline, Form } from 'tabler-react'
 
-import { Card, CardBody, CardHeader, CardOptions, CardTitle } from 'ui'
+import './ProfilePage.css'
+import { ImageViewer } from '../Shared/components/ImageViewer/ImageViewer'
+import { RenderInformation } from './components/Information/Information'
+
 
 export const ProfilePage = ({ state, setState }) => {
   const {
-    displayName,
-    username,
+    id ,
     avt,
     cover,
-    dateOfBirth,
-    gender,
     grade,
+    gender,
     address,
-    description,
-    position,
     email,
-    tab,
+    position,
+    missions,
+    showMenu,
+    username,
+    displayName,
+    dateOfBirth,
+    description,
     phoneNumber,
-    missions
+    generation,
+    showModal, // show image check
+    editingMission, // save mission edit
+    editInfo,
+    idChoose
   } = state
 
-  const RenderInformation = () => {
-    return (
-      <Timeline>
-        <Timeline.Item title={'Họ và tên: ' + displayName} badgeColor='red' />
-        <Timeline.Item title={'Username: ' + username} badge />
-        <Timeline.Item
-          title={'Ngày tháng năm sinh: ' + dateOfBirth}
-          badgeColor='blue'
-        />
-        <Timeline.Item title={'Giới tính: ' + gender} badgeColor='yellow' />
-        <Timeline.Item title={'Khoá: ' + grade} badgeColor='wheat' />
-        <Timeline.Item title={'Quê quán: ' + address} badge />
-        {phoneNumber && (
-          <Timeline.Item
-            title={'Số điện thoại: ' + phoneNumber}
-            badgeColor={'pink'}
-          />
-        )}
-        {email && (
-          <Timeline.Item title={'Email: ' + email} badgeColor='yellow' />
-        )}
-        {description && (
-          <Timeline.Item
-            title={'Châm ngôn yêu thích: ' + description}
-            badgeColor='green'
-          />
-        )}
-      </Timeline>
-    )
+  // show image
+  const onShowImg = image => {
+    setState({ showModal: true })
   }
 
+  // close image
+  const onCloseImg = () => {
+    setState({ showModal: false })
+  }
+  
+  const [showAddMission, setShowAddMission] = useState(false)
+  const [showEditMission, setShowEditMission] = useState(false)
+  const openAddMission = () => {
+    setShowAddMission(true)
+  }
+
+  const closeAddMission = () => {
+    setShowAddMission(false)
+  }
   const RenderMissions = () => {
     return (
-      <Table
-        responsive
-        highlightRowOnHover
-        hasOutline
-        verticalAlign='center'
-        cards
-        className='text-nowrap'
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColHeader>Tên nhiệm vụ</Table.ColHeader>
-            <Table.ColHeader>Trạng thái</Table.ColHeader>
-            <Table.ColHeader alignContent='center'>
-              <i className='icon-settings' />
-            </Table.ColHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {missions.map(({ id, content, completed }) => (
-            <Table.Row key={id}>
-              <Table.Col>
-                <div>{content}</div>
-              </Table.Col>
-              <Table.Col>
-                <strong>{completed ? 'Hoàn thành' : 'Chưa hoàn thành'}</strong>
-              </Table.Col>
-              <Table.Col alignContent='center'>
-                <Icon link name='check' />
-              </Table.Col>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    )
+      <div></div>
+     )
+  }
+  
+  const addNewMission = mission => {
+    mission.id = createID()
+    setState({ missions: [...missions, mission] })
   }
 
+  const handleInfoChange = (change) => {
+    setState({change});
+    console.log(state);
+  }
+ 
   return (
-    <Page>
-      <Page.MapHeader>
-        <Cover src={cover} />
-      </Page.MapHeader>
-      <Page.Main>
-        <Grid.Row>
-          <Grid.Col md={4}>
-            <Profile
-              name={displayName}
-              backgroundURL={cover}
-              avatarURL={avt}
-              twitterURL='ntheanh201'
-            >
-              <strong>{position}</strong>
-              <br />
-              {description}
-            </Profile>
-          </Grid.Col>
-          <Grid.Col md={8}>
-            <Card statusColor='blue'>
-              <CardHeader>
-                <CardTitle>
-                  {!tab ? 'Thông tin cá nhân' : 'Nhiệm vụ hàng tháng'}
-                </CardTitle>
-                <CardOptions>
-                  <Form.Switch
-                    value={tab ? 1 : 0}
-                    className='m-0'
-                    onClick={() => setState({ tab: !tab })}
-                  />
-                </CardOptions>
-              </CardHeader>
-              <CardBody>
-                {!tab ? <RenderInformation /> : <RenderMissions />}
-              </CardBody>
-            </Card>
-          </Grid.Col>
-        </Grid.Row>
-      </Page.Main>
-    </Page>
+    <div>
+      <Page>
+        <div className='top-profile'>
+          <Cover src={cover} />
+          <div className='avt'>
+            <ImageViewer circleBorder key={id} src={avt} />
+          </div>
+
+          <h3 className='name'>{displayName}</h3>
+          <p className='description'>{description}</p>
+          <ul className='nav nav-tabs nav-stacked menu-profile'>
+            <li className='nav-item view-item'>
+              <a className='nav-link active'>
+                {showMenu === 1
+                  ? 'Dòng thời gian'
+                  : showMenu === 2
+                  ? 'Giới thiệu'
+                  : showMenu === 3
+                  ? 'Ảnh'
+                  : 'Nhiệu vụ hàng tháng'}
+              </a>
+            </li>
+
+            <li className='nav-item hidden-menu'>
+              <a
+                onClick={() => setState({ showMenu: 1 })}
+                className={showMenu === 1 ? 'nav-link active' : 'nav-link'}
+              >
+                Dòng thời gian
+              </a>
+            </li>
+            <li className='nav-item hidden-menu'>
+              <a
+                onClick={() => setState({ showMenu: 2 })}
+                className={showMenu === 2 ? 'nav-link active' : 'nav-link'}
+              >
+                Giới thiệu
+              </a>
+            </li>
+            <li className='nav-item hidden-menu'>
+              <a
+                onClick={() => setState({ showMenu: 3 })}
+                className={showMenu === 3 ? 'nav-link active' : 'nav-link'}
+              >
+                Ảnh
+              </a>
+            </li>
+            <li className='nav-item hidden-menu'>
+              <a
+                onClick={() => setState({ showMenu: 4 })}
+                className={showMenu === 4 ? 'nav-link active' : 'nav-link'}
+              >
+                Nhiệm vụ hàng tháng
+              </a>
+            </li>
+            
+          </ul>
+          
+          </div>
+      </Page>
+      
+      <Page>
+        <div className='display-body'>
+          <div className={showMenu === 1 ? 'right-status' : 'body-profile'}>
+            {showMenu === 1 ? (
+              <div>Chỗ này là Post cá nhân</div>
+            ) : showMenu === 2 ? (
+              <RenderInformation {...state}
+                onInfoChange={handleInfoChange}
+              />
+              
+            ) : (
+              <div>
+                <CreateMission
+                  addNewMission={addNewMission}
+                  showAddMission={showAddMission}
+                  closeAddMission={closeAddMission}
+                />
+                <RenderMissions />
+              </div>
+            )}
+          </div>
+        </div>
+      </Page>
+    </div>
   )
 }
 
@@ -149,4 +164,5 @@ const Cover = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 10px;
 `

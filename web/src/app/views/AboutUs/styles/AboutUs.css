@@ -36,6 +36,7 @@
     transition: .5s ease;
     backface-visibility: hidden;
     object-fit: cover;
+    border-radius: 30px;
 }
 
 .view-clb .view-page {
@@ -67,19 +68,24 @@ opacity: 1;
 .sponsor {
     background-color: #ffffff;
     width: 100%;
-    min-height: 600px;
+    min-height: 900px;
 }
 
 .companion {
     background-color:rgb(225, 246, 255);
     width: 100%;
     min-height: 200px;
+    border-radius: 30px;
 }
 
 .companion h3,.sponsor h3 {
     text-align: center;
-    line-height: 15px;
-    margin-bottom: 15px;
+    line-height: 50px;
     text-transform: uppercase;
+    margin-bottom: 0px;
     color: black;
+}
+.about-us {
+    background-color: #ffffff;
+    border-radius: 30px;
 }

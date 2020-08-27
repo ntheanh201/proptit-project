@@ -1,19 +1,17 @@
+/* eslint-disable camelcase */
+
 import axios from 'axios'
 import environments from 'environments'
-import { getAccessKey } from './util'
+import { convertToPostArray, convertPostType } from 'helpers'
 
-export const GetAllPostsService = () => {
-  const accessKey = getAccessKey()
+export const GetAllPostsService = (type, id) => {
+  const method = type === 'group' ? 'byGroup' : 'byUser'
   return axios
-    .get(`${environments.BASE_URL}posts/`, {
-      headers: {
-        Authorization: `Bearer ${accessKey}`
-      }
+    .get(`${environments.BASE_URL}posts/?method=${method}&id=${id}`)
+    .then(response => {
+      return convertToPostArray(response.data)
     })
-    .then((response) => {
-      return response.data
-    })
-    .catch((error) => {
+    .catch(error => {
       if (error.response) {
         return error.response.status
       }
@@ -21,18 +19,19 @@ export const GetAllPostsService = () => {
     })
 }
 
-export const getPostsByGroupIdService = (id) => {
-  const accessKey = getAccessKey()
+export const getPostByIdService = postId => {
   return axios
-    .get(`${environments.BASE_URL}posts/${id}/`, {
-      headers: {
-        Authorization: `Bearer ${accessKey}`
+    .get(`${environments.BASE_URL}posts/${postId}/`)
+    .then(response => {
+      const { post, reactions_info, comments_info } = response.data
+
+      return {
+        post: { ...convertPostType(post), isLiked: post.is_liked },
+        reactionsInfo: reactions_info,
+        commentsInfo: comments_info
       }
     })
-    .then((response) => {
-      return response.data
-    })
-    .catch((error) => {
+    .catch(error => {
       if (error.response) {
         return error.response.status
       }
@@ -40,21 +39,55 @@ export const getPostsByGroupIdService = (id) => {
     })
 }
 
-export const getPostByIdService = (id) => {
-  const accessKey = getAccessKey()
+export const addPostService = (post, images) => {
+  const data = new FormData()
+  images &&
+    images.map(image => {
+      data.append('files', image)
+    })
+  data.append('group_id', post.groupId)
+  data.append('type', post.type)
+  data.append('content', post.content)
   return axios
-    .get(`${environments.BASE_URL}posts/${id}/`, {
-      headers: {
-        Authorization: `Bearer ${accessKey}`
-      }
+    .post(`${environments.BASE_URL}posts/`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
-    .then((response) => {
-      return response.data
+    .then(res => {
+      return convertPostType(res.data)
     })
-    .catch((error) => {
-      if (error.response) {
-        return error.response.status
-      }
+    .catch(err => {
+      return null
+    })
+}
+
+export const updatePostService = (post, images) => {
+  const data = new FormData()
+  images &&
+    images.map(image => {
+      data.append('files', image)
+    })
+  data.append('group_id', post.groupId)
+  data.append('type', post.type)
+  data.append('content', post.content)
+  return axios
+    .patch(`${environments.BASE_URL}posts/${post.id}/`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    .then(res => {
+      return 'success'
+    })
+    .catch(err => {
+      return null
+    })
+}
+
+export const deletePostService = postId => {
+  return axios
+    .delete(`${environments.BASE_URL}posts/${postId}/`)
+    .then(res => {
+      return 'success'
+    })
+    .catch(err => {
       return null
     })
 }

@@ -1,8 +1,10 @@
 import React from 'react'
 import loadable from '@loadable/component'
-import { LoadingIndicator } from 'ui'
 
-const AsyncPage = loadable((props) => import(`../views/${props.component}`), {
+import { LoadingIndicator } from 'ui'
+import { Group } from '../views/Groups/Group'
+
+const AsyncPage = loadable(props => import(`../views/${props.component}`), {
   fallback: LoadingIndicator
 })
 
@@ -14,49 +16,60 @@ export const routes = [
     isPrivate: true
   },
   {
-    isPrivate: true,
     path: '/profile/:id',
     exact: true,
-    component: () => <AsyncPage component='ProfilePage' />
+    component: () => <AsyncPage component='ProfilePage' />,
+    isPrivate: true
   },
   {
     path: '/profile',
-    exact: true,
-    component: () => <AsyncPage component='AllAccounts' />,
-    title: 'Profile'
+    redirect: true,
+    to: '/'
   },
   {
     path: '/login',
     exact: true,
     component: () => <AsyncPage component='Login' />,
-    withoutNormalLayout: true
+    withoutNormalLayout: true,
+    isPrivate: true
   },
   {
     path: '/logout',
     exact: true,
     component: () => <AsyncPage component='Logout' />,
-    withoutNormalLayout: true
+    withoutNormalLayout: true,
+    isPrivate: true
   },
   {
     path: '/groups',
     exact: true,
-    component: () => <AsyncPage component='Groups' />
+    component: () => <AsyncPage component='Groups' />,
+    isPrivate: true
   },
   {
-    path: '/groups/:id',
+    path: '/group/:id',
     exact: true,
-    component: () => <AsyncPage component='GroupPage' />,
-    title: 'Group'
+    component: Group,
+    title: 'Group',
+    isPrivate: true
   },
   {
     path: '/404',
     exact: true,
-    component: () => <AsyncPage component='404' />
+    component: () => <AsyncPage component='404' />,
+    isPrivate: true
   },
   {
     path: '/about',
     exact: true,
-    component: () => <AsyncPage component='AboutUs' />
+    component: () => <AsyncPage component='AboutUs' />,
+    isPrivate: true
+  },
+  {
+    path: '/post/:id',
+    exact: true,
+    component: () => <AsyncPage component='Post' />,
+    isPrivate: true
   }
 ]
 export default routes

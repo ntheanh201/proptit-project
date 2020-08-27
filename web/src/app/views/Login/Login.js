@@ -19,30 +19,36 @@ const defaultStrings = {
   passwordPlaceholder: 'Password'
 }
 
-const LoginPage = (props) => {
+const LoginPage = props => {
   const dispatch = useDispatch()
 
-  const { isLogged } = useSelector((state) => state.homeReducer)
+  const { isLogged } = useSelector(state => state.homeReducer)
 
   const { onBlur, strings = {} } = props
   const [username, setUsername] = useState(null)
   const [password, setPassword] = useState(null)
   const [errors, setErrors] = useState(null)
 
-  const onChangeUsername = (event) => {
+  const onChangeUsername = event => {
     setUsername(event.target.value)
   }
 
-  const onChangePassword = (event) => {
+  const onChangePassword = event => {
     setPassword(event.target.value)
   }
 
   const onSubmit = () => {
-    dispatch(Actions.updateLogin({ username, password })).then((result) => {
+    dispatch(Actions.updateLogin({ username, password })).then(result => {
       if (result === 401) {
         setErrors('Wrong username or password')
       }
     })
+  }
+
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      onSubmit()
+    }
   }
 
   if (isLogged) {
@@ -76,6 +82,7 @@ const LoginPage = (props) => {
             strings.passwordPlaceholder || defaultStrings.passwordPlaceholder
           }
           onChange={onChangePassword}
+          onKeyDown={handleKeyDown}
           onBlur={onBlur}
           value={password}
           error={errors}

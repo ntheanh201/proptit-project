@@ -1,57 +1,56 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'core'
-
+import cover1 from './assets/cover.jpg'
+import avt1 from './assets/avt.jpg'
 import { ProfilePage } from './ProfilePage'
 
-import cover from './assets/cover.jpg'
-import avt from './assets/avt.jpg'
-
 export const ProfilePageContainer = () => {
-  const { user } = useSelector((state) => state.homeReducer)
+  const { user } = useSelector(state => state.homeReducer)
   const {
     id,
-    display_name: displayName,
     username,
-    date_of_birth: dateOfBrith,
-    description,
-    email,
-    phone_number: phoneNumber
-  } = user
-  const initialValues = {
     displayName,
-    username,
+    avatar,
+    dateOfBirth,
+    description,
+    className,
+    email,
+    facebook,
+    phoneNumber,
+    regDate,
+    gender,
+    showModal,
+    showMenu,
+    generation,
     avt,
     cover,
-    dateOfBrith,
-    phoneNumber,
-    email,
-    description,
+    editMission,
+    editingMission,
+    editInfo,
+    idChoose
+  } = user
+  const initialValues = {
+    ...user,
+    avt: avt1,
+    cover: cover1,
     gender: '',
-    grade: '',
+    grade: 'D18',
     address: '',
     quotes: '',
     position: 'Ban Sự kiện',
-    tab: false,
     facebook: '',
-    missions: [
-      {
-        id: 1,
-        content: 'Làm app Java',
-        completed: false
-      },
-      {
-        id: 2,
-        content: 'Học tiếng Anh',
-        completed: true
-      }
-    ]
+    missions: [],
+    showMenu: 1 /*to show menu*/,
+    generation: 6 /*thế hệ*/,
+    showModal: false,
+    editInfo: false /*to show to edit inforamtion*/,
+    idChoose: []
   }
   const [state, setState] = useState(initialValues)
   const props = {
     state,
     setState
   }
-
   return <ProfilePage {...props} />
 }

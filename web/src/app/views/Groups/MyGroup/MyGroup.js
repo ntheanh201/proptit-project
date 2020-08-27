@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import './../styles/CreatingGroup.css'
 import './../styles/MyGroup.css'
 
-import MenuGroup from './MenuGroup'
+import { MenuGroup } from './MenuGroup'
 
-const MyGroup = (props) => {
+export const MyGroup = ({ isAdmin, name }) => {
   const [addMember, setAddMember] = useState(false)
   const addMemberTo = () => {
     setAddMember(!addMember)
@@ -27,20 +27,20 @@ const MyGroup = (props) => {
           type='button'
           name=''
           className='btn btn-block btn-change'
-          disabled={!props.getGroup.isAdmin}
+          disabled={!isAdmin}
         >
           <i className='fa fa-camera' />
           Chỉnh sửa
         </button>
       </div>
-      <h2>{props.getGroup.nameGroup}</h2>
+      <h2>{name}</h2>
       <small className='amount'>14k thành viên</small>
       <div className='flex-container'>
         <button
           type='button'
           name=''
           className='btn btn-block btn-add'
-          disabled={!props.getGroup.isAdmin}
+          disabled={!isAdmin}
           onClick={addMemberTo}
         >
           <i className='fa fa-plus' />
@@ -50,9 +50,7 @@ const MyGroup = (props) => {
         <div className='me'></div>
         <div className='number-member'>+34</div>
       </div>
-      <MenuGroup setGroup={props.setGroup} getGroup={props.getGroup} />
+      {/* <MenuGroup setGroup={props.setGroup} getGroup={props.getGroup} /> */}
     </div>
   )
 }
-
-export default MyGroup
