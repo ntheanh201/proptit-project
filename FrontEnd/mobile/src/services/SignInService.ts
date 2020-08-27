@@ -1,7 +1,6 @@
 import Axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 import { User, AuthToken } from '../core'
-import { convertToUserType } from '../configs/Function'
 
 class SignInService {
   protected authURL = 'http://apis.aiforce.xyz/auth/jwt/create/'
@@ -32,11 +31,14 @@ class SignInService {
       },
     })
       .then(async (res) => {
-        const user = convertToUserType(res.data)
-        await AsyncStorage.setItem('userData', JSON.stringify(user), (err) => {
-          console.log(err)
-        })
-        return user
+        await AsyncStorage.setItem(
+          'userData',
+          JSON.stringify(res.data),
+          (err) => {
+            console.log(err)
+          },
+        )
+        return res.data
       })
       .catch((err) => {
         console.log(err)

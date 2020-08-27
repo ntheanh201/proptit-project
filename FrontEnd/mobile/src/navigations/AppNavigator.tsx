@@ -27,7 +27,7 @@ export type RootStackParams = {
   SignIn: undefined
   HomeStack: SubNavigator<HomeTabParams>
   PostDetail: { postId: number }
-  CreatePost: { postId: number }
+  CreatePost: { postId?: number; groupId: number; groupName: string }
   Profile: { userId: number }
   EditProfile: undefined
   Group: { groupId: number }

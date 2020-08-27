@@ -6,7 +6,7 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native'
-import { AppState } from '../core'
+import { AppState, Notification } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
@@ -19,14 +19,17 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { HomeTabParams } from '../navigations/HomeNavigator'
+import { RootStackParams } from '../navigations/AppNavigator'
+import { notificationService } from '../services/NotificationService'
+import { ActivityIndicator } from 'react-native-paper'
 
 interface NotificationScreenProps {
-  navigation: BottomTabNavigationProp<HomeTabParams>
+  navigation: StackNavigationProp<RootStackParams>
 }
 
 interface NotificationScreenState {
   refreshing: boolean
-  listNoti: ItemNotificationProps[]
+  listNoti?: Notification[]
 }
 
 class NotificationScreen extends Component<
@@ -37,18 +40,11 @@ class NotificationScreen extends Component<
     super(props)
     this.state = {
       refreshing: false,
-      listNoti: [
-        { type: 'like', createTime: '2020-03-19 14:00' },
-        { type: 'comment', createTime: '2020-03-20 13:00' },
-        { type: 'poll-ticked', createTime: '2020-03-20 14:00' },
-        { type: 'confirm', createTime: '2020-03-20 14:00' },
-        { type: 'like', createTime: '2020-03-20 14:00' },
-      ],
     }
   }
 
   handleOnPressProfile = () => {
-    this.props.navigation.navigate('Profile')
+    // this.props.navigation.navigate('Profile')
   }
 
   onRefresh = () => {
@@ -60,7 +56,18 @@ class NotificationScreen extends Component<
     }, 1000)
   }
 
+  async loadNoti() {
+    const listNoti = await notificationService.getAll()
+    this.setState({ listNoti })
+  }
+
   render() {
+    this.props.navigation.addListener('focus', () => {
+      this.loadNoti()
+    })
+    if (!this.state.listNoti) {
+      return <ActivityIndicator animating={true} />
+    }
     return (
       <SafeAreaView
         style={{ backgroundColor: 'white', width: '100%', height: '100%' }}>
@@ -69,9 +76,12 @@ class NotificationScreen extends Component<
           renderItem={({ item }) => {
             return (
               <ItemNotification
-                type={item.type}
-                createTime={item.createTime}
-                onPress={() => this.props.navigation.navigate('PostDetail')}
+                noti={item}
+                onPress={() =>
+                  this.props.navigation.navigate('PostDetail', {
+                    postId: item.assignedPost.id,
+                  })
+                }
               />
             )
           }}

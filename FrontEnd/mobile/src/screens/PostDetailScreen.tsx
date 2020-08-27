@@ -23,7 +23,6 @@ import { postService } from '../services'
 import { ActivityIndicator } from 'react-native-paper'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { Post, Reaction, Comment } from '../core'
-import { convertToPostType, convertToCommentsArray } from '../configs/Function'
 import { commentService } from '../services/CommentService'
 
 interface PostDetailScreenProps {
@@ -81,14 +80,12 @@ class PostDetailScreen extends React.Component<
     const data = await postService.getFullPostById(
       this.props.route.params.postId,
     )
-    const post = convertToPostType(data.post)
-    const comments = convertToCommentsArray(data.comments_info)
     if (data) {
       this.setState({
         isLoadingPost: false,
-        post,
-        reactions: data.reactions_info,
-        comments,
+        post: data.post,
+        reactions: data.reactionsInfo,
+        comments: data.commentsInfo,
       })
     }
   }
@@ -147,12 +144,12 @@ class PostDetailScreen extends React.Component<
             currentGroup={1}
             onPressProfile={() => {
               this.props.navigation.navigate('Profile', {
-                userId: this.state.post!.authorId,
+                userId: this.state.post!.assignedUserId,
               })
             }}
             onPressGroup={() => {
               this.props.navigation.navigate('Group', {
-                groupId: this.state.post!.groupId,
+                groupId: this.state.post!.assignedGroupId,
               })
             }}
             reactionNumber={this.state.reactions?.length}

@@ -3,44 +3,52 @@ import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { images } from '../assets'
 import colors from '../values/colors'
 import moment from 'moment'
+import { Notification } from '../core'
 
 export interface ItemNotificationProps {
-  postId?: string
-  type?: 'like' | 'comment' | 'confirm' | 'poll-ticked'
-  userId?: string
-  createTime?: string
+  noti: Notification
   onPress?: () => void
 }
 
 export const ItemNotification = (props: ItemNotificationProps) => {
   let content = ''
-  switch (props.type) {
-    case 'like':
-      content = ' đã thích bài viết của bạn.'
+  switch (props.noti.type) {
+    case 0:
+      content = ' đã đăng bài trong '
       break
-    case 'comment':
+    case 1:
       content = ' đã bình luận về bài viết.'
       break
-    case 'confirm':
+    case 2:
       content = ' đã xác nhận bài viết.'
       break
-    case 'poll-ticked':
+    case 3:
       content = ' đã bầu chọn trong bài thăm dò ý kiến.'
       break
   }
 
-  const time = moment(props.createTime, 'YYYY-MM-DD hh:mm').fromNow()
+  const time = moment(props.noti.createdTime).fromNow()
 
   return (
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.5}
       onPress={props.onPress}>
-      <Image source={images.AVT_BATMAN} style={styles.avatar} />
+      <Image
+        source={{ uri: props.noti.assignedUser.avatar }}
+        style={styles.avatar}
+      />
       <View style={styles.contentContainer}>
         <Text>
-          <Text style={styles.txtName}>Batman</Text>
-          <Text>{content}</Text>
+          <Text style={styles.txtName}>
+            {props.noti.assignedUser.displayName}
+          </Text>
+          <Text>
+            <Text>{content}</Text>
+            <Text style={styles.txtGroupName}>
+              {props.noti.assignedPost.assignedGroupName}
+            </Text>
+          </Text>
         </Text>
         <Text style={styles.txtTime}>{time}</Text>
       </View>
@@ -71,5 +79,8 @@ const styles = StyleSheet.create({
   },
   txtTime: {
     color: 'gray',
+  },
+  txtGroupName: {
+    fontWeight: 'bold',
   },
 })

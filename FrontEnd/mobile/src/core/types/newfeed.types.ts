@@ -15,11 +15,11 @@ export interface NewFeedAction extends Action<string> {
 
 export interface Post {
   id: number
-  authorId: number
-  authorAvatar?: string
-  authorName?: string
-  groupId: number
-  groupName?: string
+  assignedUserId: number
+  assignedUserAvatar?: string
+  assignedUserDisplayName?: string
+  assignedGroupId: number
+  assignedGroupName?: string
   content: string
   reactionNumber?: number
   commentNumber?: number

@@ -2,7 +2,6 @@ import React from 'react'
 import BaseService from './BaseService'
 import { Comment } from '../core'
 import Axios from 'axios'
-import { convertToCommentsArray } from '../configs/Function'
 
 class CommentService extends BaseService<Comment> {
   constructor() {
@@ -13,8 +12,7 @@ class CommentService extends BaseService<Comment> {
   getByPostId(postId: number): Promise<Comment[]> {
     return Axios.get(this.baseURL + `?post_id=${postId}`)
       .then((res) => {
-        const comments = convertToCommentsArray(res.data)
-        return comments
+        return res.data
       })
       .catch((err) => {
         console.log(err)

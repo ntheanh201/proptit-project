@@ -1,7 +1,6 @@
 import BaseService from './BaseService'
 import { Post, Reaction, Comment, ImageFormData } from '../core'
 import Axios from 'axios'
-import { convertToPostsArray } from '../configs/Function'
 
 class PostService extends BaseService<Post> {
   constructor() {
@@ -13,8 +12,7 @@ class PostService extends BaseService<Post> {
     const method = type === 'group' ? 'byGroup' : 'byUser'
     return Axios.get(this.baseURL + `?method=${method}&id=${id}`)
       .then((res) => {
-        const posts = convertToPostsArray(res.data)
-        return posts
+        return res.data
       })
       .catch((err) => {
         console.log(err)
@@ -26,8 +24,8 @@ class PostService extends BaseService<Post> {
     postId: number,
   ): Promise<{
     post: Post
-    reactions_info: Reaction[]
-    comments_info: Comment[]
+    reactionsInfo: Reaction[]
+    commentsInfo: Comment[]
   }> {
     return Axios.get(this.baseURL + `${postId}/`)
       .then((res) => {
@@ -36,12 +34,15 @@ class PostService extends BaseService<Post> {
       .catch((err) => console.log(err))
   }
 
-  addPost(post: Post, images: ImageFormData[]): Promise<string> {
+  addPost(
+    post: Pick<Post, 'content' | 'assignedGroupId' | 'type'>,
+    images: ImageFormData[],
+  ): Promise<string> {
     const data = new FormData()
     images.forEach((image) => {
       data.append('files', image)
     })
-    data.append('group_id', post.groupId)
+    data.append('group_id', post.assignedGroupId)
     data.append('type', post.type)
     data.append('content', post.content)
     return Axios.post(this.baseURL, data, {
@@ -57,9 +58,11 @@ class PostService extends BaseService<Post> {
       })
   }
 
-  updatePost(post: Post): Promise<string> {
+  updatePost(
+    post: Pick<Post, 'id' | 'content' | 'assignedGroupId' | 'type'>,
+  ): Promise<string> {
     const data = {
-      group_id: post.groupId,
+      group_id: post.assignedGroupId,
       content: post.content,
       type: post.type,
     }

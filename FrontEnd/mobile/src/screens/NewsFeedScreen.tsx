@@ -205,12 +205,12 @@ class NewsFeedScreen extends Component<
                   currentGroup={1}
                   onPressProfile={() => {
                     this.props.navigation.navigate('Profile', {
-                      userId: item.authorId,
+                      userId: item.assignedUserId,
                     })
                   }}
                   onPressGroup={() => {
                     this.props.navigation.navigate('Group', {
-                      groupId: item.groupId,
+                      groupId: item.assignedGroupId,
                     })
                   }}
                   onPressImage={() =>
@@ -219,7 +219,8 @@ class NewsFeedScreen extends Component<
                     })
                   }
                   isShowMore={
-                    item.authorId === this.props.signInState.currentUser?.id
+                    item.assignedUserId ===
+                    this.props.signInState.currentUser?.id
                   }
                   onPressMore={() => {
                     this.currentPostFocus = item
@@ -249,7 +250,10 @@ class NewsFeedScreen extends Component<
           />
           <FloatingButton
             onPress={() => {
-              this.props.navigation.navigate('CreatePost')
+              this.props.navigation.navigate('CreatePost', {
+                groupId: 1,
+                groupName: '',
+              })
             }}
           />
           <BottomSheet
@@ -319,6 +323,8 @@ class NewsFeedScreen extends Component<
     if (post) {
       this.props.navigation.navigate('CreatePost', {
         postId: this.currentPostFocus?.id!,
+        groupId: this.currentPostFocus?.assignedGroupId!,
+        groupName: this.currentPostFocus?.assignedGroupName!,
       })
     }
   }

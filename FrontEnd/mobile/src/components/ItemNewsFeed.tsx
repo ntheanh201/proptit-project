@@ -189,18 +189,18 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TouchableOpacity onPress={onPressProfile}>
                     <Image
-                      source={{ uri: post.authorAvatar }}
+                      source={{ uri: post.assignedUserAvatar }}
                       style={{ height: 40, width: 40, borderRadius: 20 }}
                     />
                   </TouchableOpacity>
-                  <View style={{ flexDirection: 'column' }}>
+                  <View>
                     <View style={{ flexDirection: 'row' }}>
                       <TouchableOpacity onPress={onPressProfile}>
                         <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
-                          {post.authorName}
+                          {post.assignedUserDisplayName}
                         </Text>
                       </TouchableOpacity>
-                      {post.groupId !== this.props.currentGroup ? (
+                      {post.assignedGroupId !== this.props.currentGroup ? (
                         <>
                           <AntDesign
                             name={'caretright'}
@@ -208,7 +208,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                           />
                           <TouchableOpacity onPress={onPressGroup}>
                             <Text style={{ marginLeft: 5, fontWeight: 'bold' }}>
-                              {post.groupName}
+                              {post.assignedGroupName}
                             </Text>
                           </TouchableOpacity>
                         </>

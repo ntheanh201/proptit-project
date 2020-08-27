@@ -7,7 +7,6 @@ import {
   LOAD_NEWFEED_PROGRESS,
 } from '../types/newfeed.types'
 import { postService } from '../../services'
-import { convertToPostsArray } from '../../configs/Function'
 
 export const getNewfeeds = (groupId: number) => {
   return async (dispatch: Dispatch<NewFeedAction>) => {

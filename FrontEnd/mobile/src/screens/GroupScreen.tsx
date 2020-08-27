@@ -70,7 +70,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
   componentDidMount() {}
 
   loadGroupData = async () => {
-    const groupData = await groupService.getGroupById(
+    const groupData = await groupService.getById(
       this.props.route.params.groupId,
     )
     this.setState({ groupData, isLoading: false })
@@ -223,10 +223,10 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
             this.state.postData.map((post) => (
               <ItemNewsFeed
                 post={post}
-                currentGroup={post.groupId}
+                currentGroup={post.assignedGroupId}
                 onPressProfile={() => {
                   this.props.navigation.navigate('Profile', {
-                    userId: post.authorId,
+                    userId: post.assignedUserId,
                   })
                 }}
                 onPressGroup={() => {}}
@@ -252,7 +252,10 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
         </ScrollView>
         <FloatingButton
           onPress={() => {
-            this.props.navigation.navigate('CreatePost')
+            this.props.navigation.navigate('CreatePost', {
+              groupId: this.state.groupData?.id!,
+              groupName: this.state.groupData?.name!,
+            })
           }}
         />
       </SafeAreaView>

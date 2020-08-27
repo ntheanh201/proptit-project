@@ -12,7 +12,7 @@ interface TickPollEditorProps {
 interface ItemTickPoll {
   index: number
   placeHolder: string
-  title: string
+  content: string
 }
 
 interface TickPollEditorState {
@@ -23,6 +23,11 @@ class TickPollEditor extends React.Component<
   TickPollEditorProps,
   TickPollEditorState
 > {
+  public getTickPollData() {
+    const data = JSON.parse(JSON.stringify(this.state.listOptions))
+    return data
+  }
+
   constructor(props: TickPollEditorProps) {
     super(props)
     this.state = {
@@ -30,17 +35,17 @@ class TickPollEditor extends React.Component<
         {
           index: 0,
           placeHolder: 'Option 1',
-          title: '',
+          content: '',
         },
         {
           index: 1,
           placeHolder: 'Option 2',
-          title: '',
+          content: '',
         },
         {
           index: 2,
           placeHolder: 'Add Option',
-          title: '',
+          content: '',
         },
       ],
     }
@@ -67,27 +72,31 @@ class TickPollEditor extends React.Component<
   }
 
   onPressAddOptions() {
-    let lastItem = this.state.listOptions[this.state.listOptions.length - 1]
+    const stateClone = JSON.parse(JSON.stringify(this.state.listOptions))
 
-    this.state.listOptions[this.state.listOptions.length - 1] = {
+    const lastItem = stateClone[stateClone.length - 1]
+
+    stateClone[stateClone.length - 1] = {
       ...lastItem,
       placeHolder: `Option ${lastItem.index + 1}`,
     }
 
-    this.state.listOptions.push({
+    stateClone.push({
       index: this.state.listOptions.length,
       placeHolder: 'Add Option',
-      title: '',
+      content: '',
     })
     this.setState({
-      listOptions: this.state.listOptions,
+      listOptions: stateClone,
     })
   }
 
   validatePlaceHolder(list: ItemTickPoll[]) {
     list.forEach((value, index) => {
       value.index = index
-      if (index == list.length - 1) return
+      if (index === list.length - 1) {
+        return
+      }
       value.placeHolder = `Options ${index + 1}`
     })
   }
@@ -98,31 +107,31 @@ class TickPollEditor extends React.Component<
 
     return (
       <ItemTickPollEditor
-        isShowClose={index != listOptions.length - 1}
+        isShowClose={index !== listOptions.length - 1}
         placeHolder={item.placeHolder}
         onFocus={() => {
-          if (index == listOptions.length - 1) {
+          if (index === listOptions.length - 1) {
             this.onPressAddOptions()
           }
         }}
-        text={item.title}
-        isLast={index == listOptions.length - 1}
+        text={item.content}
+        isLast={index === listOptions.length - 1}
         onTextChange={(text) => {
-          item.title = text
+          item.content = text
         }}
         onClickClose={() => {
-          if (listOptions.length == 2) {
+          if (listOptions.length === 2) {
             onClose()
             return
           }
 
           const _tmp = listOptions.filter((v, i) => {
-            return v.index != item.index
+            return v.index !== item.index
           })
 
           console.log(
             'AppLog',
-            _tmp.map((v, i) => v.title),
+            _tmp.map((v, i) => v.content),
           )
 
           this.validatePlaceHolder(_tmp)

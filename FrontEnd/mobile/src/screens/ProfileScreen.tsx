@@ -23,12 +23,7 @@ import {
 import { connect } from 'react-redux'
 import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
-import {
-  WIDTH,
-  HEIGHT,
-  getStatusBarHeight,
-  convertToPostsArray,
-} from '../configs/Function'
+import { WIDTH, HEIGHT, getStatusBarHeight } from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -102,7 +97,7 @@ class ProfileScreen extends React.Component<
     if (this.props.route.params.userId === currentUser.id) {
       this.setState({ user: currentUser, isLoadingUser: false })
     } else {
-      const user = await userService.getUserById(this.props.route.params.userId)
+      const user = await userService.getById(this.props.route.params.userId)
       this.setState({ user, isLoadingUser: false, isMyProfile: false })
     }
   }
@@ -249,7 +244,7 @@ class ProfileScreen extends React.Component<
                 onPressProfile={() => {}}
                 onPressGroup={() => {
                   this.props.navigation.navigate('Group', {
-                    groupId: post.groupId,
+                    groupId: post.assignedGroupId,
                   })
                 }}
                 onPressImage={() => {

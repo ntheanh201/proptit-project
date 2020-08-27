@@ -31,6 +31,7 @@ interface MenuScreenProps {
 
 interface MenuScreenState {
   isExpandedGroup: boolean
+  isExpandedSetting: boolean
   listGroup?: MiniGroup[]
 }
 
@@ -40,6 +41,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
 
     this.state = {
       isExpandedGroup: false,
+      isExpandedSetting: false,
       listGroup: this.props.currentUser?.participatingGroup,
     }
   }
@@ -110,11 +112,22 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
               />
             </View>
           </TouchableOpacity>
-          <View style={{ paddingLeft: 20 }}>
+          <View style={{ paddingLeft: 30 }}>
             {this.state.isExpandedGroup && this.state.listGroup
               ? this.state.listGroup.map((group) => {
+                  console.log(group.id)
                   if (group.id !== 1) {
-                    this.renderItemGroup(group)
+                    return (
+                      <ItemGroup
+                        name={group.name}
+                        cover={group.cover}
+                        onPress={() => {
+                          this.props.navigation.navigate('Group', {
+                            groupId: group.id,
+                          })
+                        }}
+                      />
+                    )
                   }
                 })
               : null}
@@ -143,7 +156,9 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
               </Text>
               <Ionicon
                 name={
-                  this.state.isExpandedGroup ? 'ios-arrow-up' : 'ios-arrow-down'
+                  this.state.isExpandedSetting
+                    ? 'ios-arrow-up'
+                    : 'ios-arrow-down'
                 }
                 size={20}
               />
@@ -178,23 +193,15 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
     await this.props.signOut()
     this.props.navigation.navigate('SignIn')
   }
-  onPressSetting() {}
+  onPressSetting() {
+    this.setState({
+      isExpandedSetting: !this.state.isExpandedSetting,
+    })
+  }
   onPressGroup() {
     this.setState({
       isExpandedGroup: !this.state.isExpandedGroup,
     })
-  }
-
-  renderItemGroup(item: MiniGroup) {
-    return (
-      <ItemGroup
-        name={item.name}
-        cover={item.cover}
-        onPress={() => {
-          this.props.navigation.navigate('Group', { groupId: item.id })
-        }}
-      />
-    )
   }
 }
 

@@ -17,7 +17,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler'
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 // import ImagePicker, {
 //   ImagePickerOptions,
 //   ImagePickerResponse,
@@ -33,7 +33,7 @@ import { postService } from '../services'
 import { Post, ImageFormData, AppState, SignInState } from '../core'
 import { RouteProp } from '@react-navigation/native'
 import { HomeTabParams } from '../navigations/HomeNavigator'
-import { convertToPostType } from '../configs/Function'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
 import { images } from '../assets'
@@ -58,6 +58,7 @@ class CreatePostScreen extends Component<
   CreatePostScreenState
 > {
   scaleValue: Animated.Value = new Animated.Value(0)
+  tickPollRef = createRef<TickPollEditor>()
 
   constructor(props: CreatePostScreenProps) {
     super(props)
@@ -127,26 +128,50 @@ class CreatePostScreen extends Component<
     return (
       <View style={styles.wrapper}>
         <View style={styles.wrapperTextInput}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', height: '40%' }}>
             <Image
               source={{ uri: this.props.signInState.currentUser?.avatar }}
               style={styles.avatar}
             />
-            <TextInput
-              defaultValue={this.state.defaultContent}
-              style={styles.textinput}
-              placeholder="Share something!"
-              multiline={true}
-              onChangeText={(text) => {
-                this.setState({
-                  content: text,
-                })
-              }}
-            />
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                  {this.props.signInState.currentUser?.displayName}
+                </Text>
+                {this.props.route.params.groupId !== 1 ? (
+                  <>
+                    <AntDesign
+                      name={'caretright'}
+                      style={{ marginLeft: 5, alignSelf: 'center' }}
+                    />
+                    <Text
+                      style={{
+                        marginLeft: 5,
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                      }}>
+                      {this.props.route.params.groupName}
+                    </Text>
+                  </>
+                ) : null}
+              </View>
+              <TextInput
+                defaultValue={this.state.defaultContent}
+                style={styles.textinput}
+                placeholder="Share something!"
+                multiline={true}
+                onChangeText={(text) => {
+                  this.setState({
+                    content: text,
+                  })
+                }}
+              />
+            </View>
           </View>
           {isHaveTickPoll ? (
             <View style={{ width: '100%', alignItems: 'center' }}>
               <TickPollEditor
+                ref={this.tickPollRef}
                 onClose={() =>
                   this.setState({
                     isHaveTickPoll: false,
@@ -221,15 +246,14 @@ class CreatePostScreen extends Component<
     const id = this.props.route.params?.postId
     if (id) {
       const data = await postService.getFullPostById(id)
-      const post = convertToPostType(data.post)
       const imageState = JSON.parse(JSON.stringify(this.state.imagesData))
-      post.photos.forEach((v) => {
+      data.post.photos.forEach((v) => {
         imageState.push({
           uri: v,
         })
       })
       this.setState({
-        defaultContent: post.content,
+        defaultContent: data.post.content,
         imagesData: imageState,
       })
     }
@@ -311,25 +335,24 @@ class CreatePostScreen extends Component<
 
   onPressPost = async () => {
     console.log('Post clicked!')
-
+    // const data = this.tickPollRef.current?.getTickPollData()
+    // console.log(data)
     // console.log(this.state.images)
-    if (this.props.route.params) {
-      const post: Post = {
+    if (this.props.route.params.postId) {
+      const post = {
         id: this.props.route.params?.postId,
         content: this.state.content,
-        groupId: 1,
+        assignedGroupId: this.props.route.params?.groupId,
         type: 1,
-        photos: [],
       }
       // console.log(this.state.images)
       const status = await postService.updatePost(post)
       status === 'success' && this.props.navigation.goBack()
     } else {
-      const post: Post = {
+      const post = {
         content: this.state.content,
-        groupId: 1,
+        assignedGroupId: this.props.route.params?.groupId,
         type: this.state.isHaveTickPoll ? 2 : 1,
-        photos: [],
       }
       const status = await postService.addPost(post, this.state.imagesData)
       status === 'success' && this.props.navigation.goBack()
@@ -347,7 +370,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 20,
     fontSize: 20,
-    marginTop: 16,
+    marginTop: 5,
   },
   wrapperTextInput: {
     width: '100%',
