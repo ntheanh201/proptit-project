@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import moment from 'moment'
+// import moment from 'moment'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -47,7 +47,7 @@ export const Post = ({
 
   const dispatch = useDispatch()
   const history = useHistory()
-  moment.locale('vi')
+  // moment.locale('vi')
 
   const onEditPost = () => {
     setEditPostVisible(true)
@@ -97,7 +97,7 @@ export const Post = ({
               {authorName}
             </CursorLink>
             <small className='d-block text-muted'>
-              <strong>{moment(time).fromNow()}</strong>
+              {/* <strong>{moment(time).fromNow()}</strong> */}
             </small>
             <PostWrapper
               cursor={cursor}
