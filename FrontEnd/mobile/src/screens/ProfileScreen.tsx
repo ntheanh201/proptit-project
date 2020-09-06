@@ -25,17 +25,17 @@ import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
 import { WIDTH, HEIGHT, getStatusBarHeight } from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
-import ItemNewsFeed from '../components/ItemNewsFeed'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { ActivityIndicator } from 'react-native-paper'
 import colors from '../values/colors'
-import { postService, userService } from '../services'
+import { postService, authUserService, userService } from '../services'
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
 import Icon from 'react-native-vector-icons/Entypo'
 import { RouteProp } from '@react-navigation/native'
 import { bindActionCreators, Dispatch, AnyAction } from 'redux'
 import { signInAction } from '../core/actions'
+import ItemNewsFeed from '../components/ItemNewsFeed'
 
 interface ProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -241,22 +241,8 @@ class ProfileScreen extends React.Component<
               <ItemNewsFeed
                 post={post}
                 currentGroup={1}
-                onPressProfile={() => {}}
-                onPressGroup={() => {
-                  this.props.navigation.navigate('Group', {
-                    groupId: post.assignedGroupId,
-                  })
-                }}
-                onPressImage={() => {
-                  this.props.navigation.navigate('ImageView', {
-                    listImage: post.photos,
-                  })
-                }}
-                onPress={() => {
-                  this.props.navigation.navigate('PostDetail', {
-                    postId: post.id,
-                  })
-                }}
+                navigation={this.props.navigation}
+                inProfile={true}
               />
             )
           })

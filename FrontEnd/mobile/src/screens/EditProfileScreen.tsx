@@ -2,36 +2,24 @@ import * as React from 'react'
 import {
   View,
   Text,
-  KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
-  TextInput,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native'
-import { AppState, User, updateUser } from '../core'
+import { AppState, User, updateUser, UserInfo } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
-import ClassicHeader from '../components/header/ClassicHeader'
 import colors from '../values/colors'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
-import {
-  FloatingLabelInput,
-  ScrollViewCustomProps,
-} from '../components/inputtext/FloatingLabelInput'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
-import { RadioButton } from 'react-native-paper'
 import { Picker } from '@react-native-community/picker'
-import { userService } from '../services'
+import { ScrollViewCustomProps, FloatingLabelInput } from '../components'
 
 interface EditProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -115,7 +103,7 @@ class EditProfileScreen extends React.Component<
   }
 
   onPressSave = async () => {
-    const userData: User = {
+    const userData: UserInfo = {
       displayName: this.state.displayName,
       phoneNumber: this.state.phoneNumber,
       email: this.state.email,

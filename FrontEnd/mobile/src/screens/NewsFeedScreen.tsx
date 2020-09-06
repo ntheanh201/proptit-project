@@ -13,11 +13,15 @@ import {
   Alert,
 } from 'react-native'
 import React, { Component } from 'react'
-import ItemNewsFeed from '../components/ItemNewsFeed'
-import FloatingButton from '../components/FloatingButton'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { HomeTabParams } from '../navigations/HomeNavigator'
-import { AppState, getNewfeeds, NewFeedState, SignInState, Post } from '../core'
+import {
+  AppState,
+  getNewsFeed,
+  NewsfeedState,
+  SignInState,
+  Post,
+} from '../core'
 import { newfeedAction } from '../core/actions'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -27,6 +31,8 @@ import AIcon from 'react-native-vector-icons/AntDesign'
 import { postService } from '../services'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
+import { FloatingButton } from '../components'
+import ItemNewsFeed from '../components/ItemNewsFeed'
 
 interface Item {
   key: string
@@ -42,8 +48,8 @@ interface NewsFeedScreenState {
 
 interface NewsFeedScreenProps {
   navigation: StackNavigationProp<RootStackParams>
-  getNewfeeds: typeof getNewfeeds
-  postsState: NewFeedState
+  getNewsFeed: typeof getNewsFeed
+  newsfeedState: NewsfeedState
   signInState: SignInState
 }
 
@@ -79,7 +85,7 @@ class NewsFeedScreen extends Component<
     }
   }
   componentDidMount() {
-    this.props.getNewfeeds(1)
+    this.props.getNewsFeed()
   }
 
   componentDidUpdate(prevProps: NewsFeedScreenProps) {
@@ -87,7 +93,7 @@ class NewsFeedScreen extends Component<
       !prevProps.signInState.updateUserSuccess &&
       this.props.signInState.updateUserSuccess
     ) {
-      this.props.getNewfeeds(1)
+      this.props.getNewsFeed()
     }
   }
 
@@ -113,7 +119,7 @@ class NewsFeedScreen extends Component<
   }
 
   render() {
-    if (!this.props.postsState.currentNewFeed) {
+    if (!this.props.newsfeedState.currentNewsfeed) {
       return <ActivityIndicator animating={true} />
     }
     return (
@@ -197,39 +203,20 @@ class NewsFeedScreen extends Component<
             flexDirection: 'column',
           }}>
           <FlatList
-            data={this.props.postsState.currentNewFeed}
+            data={this.props.newsfeedState.currentNewsfeed}
             renderItem={({ item, index }) => {
               return (
                 <ItemNewsFeed
                   post={item}
                   currentGroup={1}
-                  onPressProfile={() => {
-                    this.props.navigation.navigate('Profile', {
-                      userId: item.assignedUserId,
-                    })
-                  }}
-                  onPressGroup={() => {
-                    this.props.navigation.navigate('Group', {
-                      groupId: item.assignedGroupId,
-                    })
-                  }}
-                  onPressImage={() =>
-                    this.props.navigation.navigate('ImageView', {
-                      listImage: item.photos,
-                    })
-                  }
+                  navigation={this.props.navigation}
                   isShowMore={
-                    item.assignedUserId ===
+                    item.assignedUser.id ===
                     this.props.signInState.currentUser?.id
                   }
                   onPressMore={() => {
                     this.currentPostFocus = item
                     this.bottomSheetRef.current?.open()
-                  }}
-                  onPress={() => {
-                    this.props.navigation.navigate('PostDetail', {
-                      postId: item.id,
-                    })
                   }}
                   key={index}
                 />
@@ -314,7 +301,7 @@ class NewsFeedScreen extends Component<
     }
     const status = await postService.delete(id)
     if (status === 'success') {
-      this.props.getNewfeeds(1)
+      this.props.getNewsFeed()
     }
   }
 
@@ -323,8 +310,8 @@ class NewsFeedScreen extends Component<
     if (post) {
       this.props.navigation.navigate('CreatePost', {
         postId: this.currentPostFocus?.id!,
-        groupId: this.currentPostFocus?.assignedGroupId!,
-        groupName: this.currentPostFocus?.assignedGroupName!,
+        groupId: this.currentPostFocus?.assignedGroup.id!,
+        groupName: this.currentPostFocus?.assignedGroup.name!,
       })
     }
   }
@@ -341,7 +328,7 @@ class NewsFeedScreen extends Component<
 }
 
 const mapStateToProps = (state: AppState) => ({
-  postsState: state.newfeed,
+  newsfeedState: state.newfeed,
   signInState: state.signin,
 })
 

@@ -15,13 +15,12 @@ import colors from '../values/colors'
 import styles from '../values/styles'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
-import ItemGroup from '../components/itemgroup/ItemGroup'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { signOut, AppState, SignInState, Group, User, MiniGroup } from '../core'
 import { images } from '../assets'
-import { groupService } from '../services/GroupService'
+import { ItemGroup } from '../components'
 
 interface MenuScreenProps {
   navigation: StackNavigationProp<RootStackParams>

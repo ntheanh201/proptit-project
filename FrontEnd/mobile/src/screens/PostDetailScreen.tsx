@@ -11,19 +11,18 @@ import {
   Keyboard,
   TouchableOpacity,
 } from 'react-native'
-import ItemNewsFeed from '../components/ItemNewsFeed'
 import { images } from '../assets'
-import ItemComment from '../components/comment/ItemComment'
 import { StackNavigationProp } from '@react-navigation/stack'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { RouteProp } from '@react-navigation/native'
-import { postService } from '../services'
+import { postService, commentService } from '../services'
 import { ActivityIndicator } from 'react-native-paper'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { Post, Reaction, Comment } from '../core'
-import { commentService } from '../services/CommentService'
+import { ItemComment } from '../components'
+import ItemNewsFeed from '../components/ItemNewsFeed'
 
 interface PostDetailScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -35,8 +34,6 @@ interface PostDetailScreenState {
   isLoadingPost: boolean
   isSendingComment: boolean
   post?: Post
-  reactions: Reaction[]
-  comments: Comment[]
   newComment: string
 }
 
@@ -50,8 +47,6 @@ class PostDetailScreen extends React.Component<
       padding: 0,
       isLoadingPost: true,
       isSendingComment: false,
-      reactions: [],
-      comments: [],
       newComment: '',
     }
     this.props.navigation.setOptions({
@@ -81,11 +76,10 @@ class PostDetailScreen extends React.Component<
       this.props.route.params.postId,
     )
     if (data) {
+      console.log(data)
       this.setState({
         isLoadingPost: false,
-        post: data.post,
-        reactions: data.reactionsInfo,
-        comments: data.commentsInfo,
+        post: data,
       })
     }
   }
@@ -94,8 +88,10 @@ class PostDetailScreen extends React.Component<
     const comments = await commentService.getByPostId(
       this.props.route.params.postId,
     )
+    const post = JSON.parse(JSON.stringify(this.state.post))
+    post.comments = comments
     if (comments) {
-      this.setState({ comments })
+      this.setState({ post })
     }
   }
 
@@ -142,23 +138,7 @@ class PostDetailScreen extends React.Component<
           <ItemNewsFeed
             post={this.state.post!}
             currentGroup={1}
-            onPressProfile={() => {
-              this.props.navigation.navigate('Profile', {
-                userId: this.state.post!.assignedUserId,
-              })
-            }}
-            onPressGroup={() => {
-              this.props.navigation.navigate('Group', {
-                groupId: this.state.post!.assignedGroupId,
-              })
-            }}
-            reactionNumber={this.state.reactions?.length}
-            commentNumber={this.state.comments?.length}
-            onPressImage={() => {
-              this.props.navigation.navigate('ImageView', {
-                listImage: this.state.post!.photos,
-              })
-            }}
+            navigation={this.props.navigation}
           />
           <View
             style={{
@@ -171,15 +151,16 @@ class PostDetailScreen extends React.Component<
             }}>
             <Text style={{ marginLeft: 20, color: 'gray' }}>Comment</Text>
           </View>
-          {this.state.comments.map((comment) => {
-            return (
-              <ItemComment
-                content={comment.content}
-                urlAvatar={comment.authorAvatar}
-                name={comment.authorName}
-              />
-            )
-          })}
+          {this.state.post?.comments &&
+            this.state.post?.comments.map((comment) => {
+              return (
+                <ItemComment
+                  content={comment.content}
+                  urlAvatar={comment.assignedUser.avatar}
+                  name={comment.assignedUser.displayName}
+                />
+              )
+            })}
           <View
             style={{
               width: '100%',

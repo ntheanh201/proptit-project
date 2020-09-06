@@ -25,13 +25,6 @@ export type HomeTabParams = {
 }
 
 const Tab = createMaterialBottomTabNavigator()
-const Stack = createStackNavigator()
-
-interface TabBarIconProps {
-  focused: boolean
-  color: string
-  size: number
-}
 
 export const HomeNavigator = () => {
   return (
@@ -73,24 +66,5 @@ export const HomeNavigator = () => {
         options={{ tabBarColor: '#00796b' }}
       />
     </Tab.Navigator>
-  )
-}
-
-const NewsFeedStack = () => {
-  return (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name={'Home'} component={NewsFeedScreen} />
-      <Stack.Screen name={'Detail'} component={PostDetailScreen} />
-      <Stack.Screen name={'CreatePost'} component={CreatePostScreen} />
-    </Stack.Navigator>
-  )
-}
-
-const NotiStack = () => {
-  return (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name={'Notification'} component={NotificationScreen} />
-      <Stack.Screen name={'Detail'} component={PostDetailScreen} />
-    </Stack.Navigator>
   )
 }

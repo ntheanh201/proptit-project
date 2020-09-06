@@ -15,7 +15,7 @@ interface ItemGroupProps {
   style?: StyleProp<ViewStyle>
 }
 
-const ItemGroup = ({ cover, name, onPress, style }: ItemGroupProps) => {
+export const ItemGroup = ({ cover, name, onPress, style }: ItemGroupProps) => {
   return (
     <TouchableOpacity
       onPress={() => onPress()}
@@ -33,5 +33,3 @@ const ItemGroup = ({ cover, name, onPress, style }: ItemGroupProps) => {
     </TouchableOpacity>
   )
 }
-
-export default ItemGroup

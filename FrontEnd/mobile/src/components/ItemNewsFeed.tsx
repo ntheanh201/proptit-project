@@ -6,7 +6,13 @@ import {
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native'
-import { Post } from '../core'
+import {
+  Post,
+  AppState,
+  addReactionNewsfeed,
+  deleteReactionNewsfeed,
+  User,
+} from '../core'
 import React, { Component } from 'react'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -15,28 +21,29 @@ import MIcon from 'react-native-vector-icons/MaterialIcons'
 import { images } from '../assets'
 import { WIDTH } from '../configs/Function'
 import moment from 'moment'
-import { postService } from '../services'
+import { postService, reactionService } from '../services'
 import LottieView from 'lottie-react-native'
-import { reactionService } from '../services/ReactionService'
+import { TickPoll } from './tickpoll'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParams } from '../navigations/AppNavigator'
+import { bindActionCreators, Dispatch, AnyAction } from 'redux'
+import { newfeedAction } from '../core/actions'
+import { connect } from 'react-redux'
 
 interface ItemNewsFeedProps {
   post: Post
-  reactionNumber?: number
-  commentNumber?: number
-  onPress?: () => void
   onPressMore?: () => void
   isShowMore?: boolean
-  onPressImage: () => void
-  onPressProfile: () => void
-  onPressGroup: () => void
   currentGroup: number
+  inProfile?: boolean
+  navigation: StackNavigationProp<RootStackParams>
+  currentUser?: User
+  addReactionNewsfeed: typeof addReactionNewsfeed
+  deleteReactionNewsfeed: typeof deleteReactionNewsfeed
 }
 
 interface ItemNewFeedState {
   animating: boolean
-  reactionId: number
-  isLiked: boolean
-  reactionNumber: number
 }
 
 class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
@@ -48,10 +55,6 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     // console.log('AppLog', props.post.isLiked)
     this.state = {
       animating: false,
-      reactionId: this.props.post.reactionId!,
-      isLiked: this.props.post.reactionId === -1 ? false : true,
-      reactionNumber:
-        this.props.reactionNumber ?? this.props.post.reactionNumber!,
     }
   }
 
@@ -67,16 +70,16 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             flexDirection: 'row',
           }}>
           <Image
-            source={{ uri: post.photos[0] }}
+            source={{ uri: post.photos[0].imgUrl }}
             style={{ width: width / 2, height: width }}
           />
           <View>
             <Image
-              source={{ uri: post.photos[1] }}
+              source={{ uri: post.photos[1].imgUrl }}
               style={{ width: width / 2, height: width / 2 }}
             />
             <Image
-              source={{ uri: post.photos[2] }}
+              source={{ uri: post.photos[2].imgUrl }}
               style={{ width: width / 2, height: width / 2 }}
             />
             {post.photos.length > 3 ? (
@@ -110,11 +113,11 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             flexDirection: 'row',
           }}>
           <Image
-            source={{ uri: post.photos[0] }}
+            source={{ uri: post.photos[0].imgUrl }}
             style={{ width: width / 2, height: width }}
           />
           <Image
-            source={{ uri: post.photos[1] }}
+            source={{ uri: post.photos[1].imgUrl }}
             style={{ width: width / 2, height: width }}
           />
         </View>
@@ -123,11 +126,23 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     if (post.photos.length === 1) {
       return (
         <Image
-          source={{ uri: post.photos[0] }}
+          source={{ uri: post.photos[0].imgUrl }}
           style={{ width, height: width }}
         />
       )
     }
+  }
+
+  checkReaction = (): { isLiked: boolean; reactionId: number } => {
+    let isLiked = false
+    let reactionId = -1
+    this.props.post.reactions!.forEach((reaction) => {
+      if (reaction.assignedUser.id === this.props.currentUser!.id) {
+        isLiked = true
+        reactionId = reaction.id
+      }
+    })
+    return { isLiked, reactionId }
   }
 
   onPressReaction = async () => {
@@ -135,40 +150,17 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
       return
     }
     this.canPressLike = false
-    if (this.state.reactionId === -1) {
-      this.animLike.current?.play(0, 100)
-      const reactionId = await reactionService.addReaction(this.props.post.id)
-      reactionId &&
-        this.setState({
-          reactionId,
-          reactionNumber: this.state.reactionNumber + 1,
-        })
+    if (this.checkReaction().isLiked) {
+      this.animLike.current?.play(100, 0)
     } else {
-      const status = await reactionService.delete(this.state.reactionId)
-      status === 'success' &&
-        this.setState(
-          {
-            reactionId: -1,
-            reactionNumber: this.state.reactionNumber - 1,
-            isLiked: !this.state.isLiked,
-          },
-          () => {
-            this.canPressLike = true
-          },
-        )
+      this.animLike.current?.play(0, 100)
     }
   }
 
   render() {
-    const {
-      post,
-      onPress,
-      reactionNumber,
-      commentNumber,
-      onPressProfile,
-      onPressGroup,
-    } = this.props
+    const { post, currentGroup, inProfile } = this.props
     const timeago = moment(post.time).fromNow()
+    const reactionStatus = this.checkReaction()
 
     return (
       <View
@@ -177,7 +169,12 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
           backgroundColor: 'white',
           paddingBottom: 15,
         }}>
-        <TouchableWithoutFeedback onPress={onPress}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            this.props.navigation.navigate('PostDetail', {
+              postId: post.id,
+            })
+          }}>
           <View style={{ width: '100%', flexDirection: 'column' }}>
             <View style={{ width: '100%', padding: 15 }}>
               <View
@@ -187,37 +184,55 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                   justifyContent: 'space-between',
                 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <TouchableOpacity onPress={onPressProfile}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      !inProfile &&
+                        this.props.navigation.navigate('Profile', {
+                          userId: post.assignedUser.id,
+                        })
+                    }}>
                     <Image
-                      source={{ uri: post.assignedUserAvatar }}
+                      source={{ uri: post.assignedUser.avatar }}
                       style={{ height: 40, width: 40, borderRadius: 20 }}
                     />
                   </TouchableOpacity>
                   <View>
-                    <View style={{ flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={onPressProfile}>
+                    <View
+                      style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          !inProfile &&
+                            this.props.navigation.navigate('Profile', {
+                              userId: post.assignedUser.id,
+                            })
+                        }}>
                         <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
-                          {post.assignedUserDisplayName}
+                          {post.assignedUser.displayName}
                         </Text>
                       </TouchableOpacity>
-                      {post.assignedGroupId !== this.props.currentGroup ? (
+                      {post.assignedGroup.id !== currentGroup && (
                         <>
                           <AntDesign
                             name={'caretright'}
                             style={{ marginLeft: 5 }}
                           />
-                          <TouchableOpacity onPress={onPressGroup}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              this.props.navigation.navigate('Group', {
+                                groupId: post.assignedGroup.id,
+                              })
+                            }}>
                             <Text style={{ marginLeft: 5, fontWeight: 'bold' }}>
-                              {post.assignedGroupName}
+                              {post.assignedGroup.name}
                             </Text>
                           </TouchableOpacity>
                         </>
-                      ) : null}
+                      )}
                     </View>
                     <Text style={{ marginLeft: 10 }}>{timeago}</Text>
                   </View>
                 </View>
-                {this.props.isShowMore ? (
+                {this.props.isShowMore && (
                   <TouchableWithoutFeedback
                     onPress={() => {
                       this.onPressMore()
@@ -225,7 +240,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                     style={{ height: 30, width: 30 }}>
                     <MIcon name="more-horiz" size={20} />
                   </TouchableWithoutFeedback>
-                ) : null}
+                )}
               </View>
               <Text style={{ marginTop: 10 }}>{post.content}</Text>
             </View>
@@ -234,10 +249,19 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => {
-            this.props.onPressImage ? this.props.onPressImage() : null
+            this.props.navigation.navigate('ImageView', {
+              listImage: post.photos,
+            })
           }}>
           {this.renderImage()}
         </TouchableOpacity>
+        {this.props.post.polls && (
+          <TickPoll
+            polls={this.props.post.polls}
+            postId={this.props.post.id}
+            navigation={this.props.navigation}
+          />
+        )}
         <View
           style={{
             flexDirection: 'row',
@@ -258,21 +282,29 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 speed={2}
                 cacheStrategy={'none'}
                 resizeMode="cover"
-                progress={this.state.isLiked ? 1 : 0}
+                progress={reactionStatus.isLiked ? 1 : 0}
                 source={require('../assets/anim/heart.json')}
                 onAnimationFinish={() => {
-                  this.setState({ isLiked: !this.state.isLiked }, () => {
-                    this.canPressLike = true
-                  })
+                  reactionStatus.isLiked
+                    ? this.props.deleteReactionNewsfeed(
+                        reactionStatus.reactionId,
+                        post.id,
+                      )
+                    : this.props.addReactionNewsfeed(post.id)
+                  this.canPressLike = true
                 }}
               />
               <Text style={{ marginLeft: 50 }}>
-                {this.state.reactionNumber}
+                {post.reactionNumber ?? post.reactions?.length}
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={onPress}
+            onPress={() => {
+              this.props.navigation.navigate('PostDetail', {
+                postId: post.id,
+              })
+            }}
             style={{
               flex: 1,
               flexDirection: 'row',
@@ -281,7 +313,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             }}>
             <EvilIcons name="comment" size={30} />
             <Text style={{ marginLeft: 5 }}>
-              {commentNumber ?? post.commentNumber}
+              {post.commentNumber ?? post.comments?.length}
             </Text>
           </TouchableOpacity>
           {/* <TouchableOpacity>
@@ -304,4 +336,10 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   }
 }
 
-export default ItemNewsFeed
+const mapStateToProps = (state: AppState) => ({
+  currentUser: state.signin.currentUser,
+})
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(newfeedAction, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemNewsFeed)

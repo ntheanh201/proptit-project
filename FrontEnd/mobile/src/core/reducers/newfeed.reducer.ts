@@ -1,35 +1,56 @@
 import {
-  NewFeedState,
-  NewFeedAction,
-  LOAD_NEWFEED_SUCCESS,
-  LOAD_NEWFEED_PROGRESS,
-  LOAD_NEWFEED_FAIL,
+  NewsfeedState,
+  NewsfeedAction,
+  LOAD_NEWSFEED_SUCCESS,
+  LOAD_NEWSFEED_PROGRESS,
+  LOAD_NEWSFEED_FAIL,
+  UPDATE_NEWSFEED_PROGRESS,
+  UPDATE_NEWSFEED_SUCCESS,
+  UPDATE_NEWSFEED_FAILED,
 } from '../types/newfeed.types'
 
-let initialState: NewFeedState = {
-  isLoadingNewFeed: false,
+let initialState: NewsfeedState = {
+  isLoadingNewsfeed: false,
+  isUpdatingNewsfeed: false,
+  currentNewsfeed: [],
 }
 
 export default (
-  state: NewFeedState = initialState,
-  action: NewFeedAction,
-): NewFeedState => {
+  state: NewsfeedState = initialState,
+  action: NewsfeedAction,
+): NewsfeedState => {
   switch (action.type) {
-    case LOAD_NEWFEED_PROGRESS:
+    case LOAD_NEWSFEED_PROGRESS:
       return {
         ...state,
-        isLoadingNewFeed: true,
+        isLoadingNewsfeed: true,
       }
-    case LOAD_NEWFEED_SUCCESS:
+    case LOAD_NEWSFEED_SUCCESS:
       return {
         ...state,
-        isLoadingNewFeed: false,
-        currentNewFeed: action.newfeeds,
+        isLoadingNewsfeed: false,
+        currentNewsfeed: action.newsfeed!,
       }
-    case LOAD_NEWFEED_FAIL:
+    case LOAD_NEWSFEED_FAIL:
       return {
         ...state,
-        isLoadingNewFeed: false,
+        isLoadingNewsfeed: false,
+      }
+    case UPDATE_NEWSFEED_PROGRESS:
+      return {
+        ...state,
+        isUpdatingNewsfeed: true,
+      }
+    case UPDATE_NEWSFEED_SUCCESS:
+      return {
+        ...state,
+        isUpdatingNewsfeed: false,
+        currentNewsfeed: action.newsfeed!,
+      }
+    case UPDATE_NEWSFEED_FAILED:
+      return {
+        ...state,
+        isUpdatingNewsfeed: false,
       }
     default:
       return state

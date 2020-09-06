@@ -8,7 +8,7 @@ interface FloatingButtonProps {
   onPress: () => void
 }
 
-class FloatingButton extends React.Component<FloatingButtonProps> {
+export class FloatingButton extends React.Component<FloatingButtonProps> {
   render() {
     return (
       <View style={styles.wrapper}>
@@ -46,5 +46,3 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 })
-
-export default FloatingButton

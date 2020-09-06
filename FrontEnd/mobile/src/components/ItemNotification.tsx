@@ -46,7 +46,7 @@ export const ItemNotification = (props: ItemNotificationProps) => {
           <Text>
             <Text>{content}</Text>
             <Text style={styles.txtGroupName}>
-              {props.noti.assignedPost.assignedGroupName}
+              {props.noti.assignedGroup.name}
             </Text>
           </Text>
         </Text>

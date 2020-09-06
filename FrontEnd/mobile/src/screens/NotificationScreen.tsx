@@ -10,18 +10,14 @@ import { AppState, Notification } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
-import ClassicHeader from '../components/header/ClassicHeader'
 import { images } from '../assets'
-import {
-  ItemNotification,
-  ItemNotificationProps,
-} from '../components/ItemNotification'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { RootStackParams } from '../navigations/AppNavigator'
-import { notificationService } from '../services/NotificationService'
 import { ActivityIndicator } from 'react-native-paper'
+import { notificationService } from '../services'
+import { ItemNotification } from '../components'
 
 interface NotificationScreenProps {
   navigation: StackNavigationProp<RootStackParams>

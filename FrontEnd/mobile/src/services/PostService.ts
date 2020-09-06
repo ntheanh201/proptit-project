@@ -20,13 +20,7 @@ class PostService extends BaseService<Post> {
       })
   }
 
-  getFullPostById(
-    postId: number,
-  ): Promise<{
-    post: Post
-    reactionsInfo: Reaction[]
-    commentsInfo: Comment[]
-  }> {
+  getFullPostById(postId: number): Promise<Post> {
     return Axios.get(this.baseURL + `${postId}/`)
       .then((res) => {
         return res.data
@@ -35,14 +29,14 @@ class PostService extends BaseService<Post> {
   }
 
   addPost(
-    post: Pick<Post, 'content' | 'assignedGroupId' | 'type'>,
+    post: Pick<Post, 'content' | 'assignedGroup' | 'type'>,
     images: ImageFormData[],
   ): Promise<string> {
     const data = new FormData()
     images.forEach((image) => {
       data.append('files', image)
     })
-    data.append('group_id', post.assignedGroupId)
+    data.append('group_id', post.assignedGroup)
     data.append('type', post.type)
     data.append('content', post.content)
     return Axios.post(this.baseURL, data, {
@@ -59,10 +53,10 @@ class PostService extends BaseService<Post> {
   }
 
   updatePost(
-    post: Pick<Post, 'id' | 'content' | 'assignedGroupId' | 'type'>,
+    post: Pick<Post, 'id' | 'content' | 'assignedGroup' | 'type'>,
   ): Promise<string> {
     const data = {
-      group_id: post.assignedGroupId,
+      group_id: post.assignedGroup,
       content: post.content,
       type: post.type,
     }

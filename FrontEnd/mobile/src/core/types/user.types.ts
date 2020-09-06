@@ -1,11 +1,11 @@
 import { Group } from './group.types'
 
 export interface User {
-  id?: number
-  username?: string
-  displayName?: string
-  avatar?: string
-  cover?: string
+  id: number
+  username: string
+  displayName: string
+  avatar: string
+  cover: string
   gender?: number
   className?: string
   dateOfBirth?: string
@@ -16,3 +16,16 @@ export interface User {
   regDate?: Date
   participatingGroup?: Pick<Group, 'cover' | 'id' | 'isAdmin' | 'name'>[]
 }
+
+export type UserInfo = Pick<
+  User,
+  | 'displayName'
+  | 'phoneNumber'
+  | 'email'
+  | 'facebook'
+  | 'description'
+  | 'dateOfBirth'
+  | 'gender'
+>
+
+export type MiniUser = Pick<User, 'id' | 'avatar' | 'displayName'>

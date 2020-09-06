@@ -44,16 +44,14 @@ class ImageViewScreen extends React.Component<
     return (
       <SafeAreaView
         style={{
-          width: '100%',
-          height: '100%',
+          flex: 1,
           padding: 10,
           backgroundColor: 'black',
         }}>
         <View
           style={{
-            width: '100%',
+            flex: 1,
             flexDirection: 'column',
-            height: '100%',
           }}>
           <ViewPager
             ref={this.viewPagerRef}
@@ -64,11 +62,11 @@ class ImageViewScreen extends React.Component<
                 seletedPosition: positon,
               })
             }}>
-            {photos.map((v, i) => (
+            {photos.map((photo, index) => (
               <Image
-                key={i}
+                key={index}
                 style={{ width: '100%', height: '100%' }}
-                source={{ uri: v }}
+                source={{ uri: photo.imgUrl }}
                 resizeMode="contain"
               />
             ))}
@@ -94,7 +92,7 @@ class ImageViewScreen extends React.Component<
                         ? styles.selected_image
                         : styles.normal_image
                     }
-                    source={{ uri: item }}
+                    source={{ uri: item.imgUrl }}
                   />
                 </TouchableWithoutFeedback>
               )}
@@ -108,13 +106,11 @@ class ImageViewScreen extends React.Component<
 
 const styles = StyleSheet.create({
   normal_image: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     borderRadius: 10,
   },
   selected_image: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     borderWidth: 4,
     borderColor: colors.mainBlue,
     borderRadius: 10,

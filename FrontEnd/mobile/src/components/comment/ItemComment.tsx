@@ -9,7 +9,7 @@ interface ItemCommentProps {
   name: string
 }
 
-const ItemComment = (props: ItemCommentProps) => {
+export const ItemComment = (props: ItemCommentProps) => {
   return (
     <View
       style={{
@@ -38,5 +38,3 @@ const ItemComment = (props: ItemCommentProps) => {
     </View>
   )
 }
-
-export default ItemComment

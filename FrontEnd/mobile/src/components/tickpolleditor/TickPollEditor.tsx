@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, FlatList } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import ItemTickPollEditor from './ItemTickPollEditor'
 import colors from '../../values/colors'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ItemTickPollEditor } from './ItemTickPollEditor'
 
 interface TickPollEditorProps {
   onClose: () => void
@@ -19,7 +19,7 @@ interface TickPollEditorState {
   listOptions: Array<ItemTickPoll>
 }
 
-class TickPollEditor extends React.Component<
+export class TickPollEditor extends React.Component<
   TickPollEditorProps,
   TickPollEditorState
 > {
@@ -56,18 +56,11 @@ class TickPollEditor extends React.Component<
     const { onClose } = this.props
 
     return (
-      <View
-        style={{
-          alignItems: 'center',
-          width: '70%',
-          height: '100%',
-        }}>
-        <FlatList
-          style={{ width: '100%', height: '100%' }}
-          renderItem={({ item, index }) => this.renderItem(index, item)}
-          data={listOptions}
-        />
-      </View>
+      <FlatList
+        style={{ width: '100%', height: '80%' }}
+        renderItem={({ item, index }) => this.renderItem(index, item)}
+        data={listOptions}
+      />
     )
   }
 
@@ -144,5 +137,3 @@ class TickPollEditor extends React.Component<
     )
   }
 }
-
-export default TickPollEditor

@@ -1,32 +1,43 @@
 import { Action } from 'redux'
+import { User } from './user.types'
+import { Group } from './group.types'
 
-export const LOAD_NEWFEED_SUCCESS = 'LOAD_NEWFEED_SUCCESS'
-export const LOAD_NEWFEED_PROGRESS = 'LOAD_NEWFEED_PROGRESS'
-export const LOAD_NEWFEED_FAIL = 'LOAD_NEWFEED_FAIL'
+export const LOAD_NEWSFEED_SUCCESS = 'LOAD_NEWSFEED_SUCCESS'
+export const LOAD_NEWSFEED_PROGRESS = 'LOAD_NEWSFEED_PROGRESS'
+export const LOAD_NEWSFEED_FAIL = 'LOAD_NEWSFEED_FAIL'
+export const UPDATE_NEWSFEED_PROGRESS = 'UPDATE_NEWSFEED_PROGRESS'
+export const UPDATE_NEWSFEED_SUCCESS = 'UPDATE_NEWSFEED_SUCCESS'
+export const UPDATE_NEWSFEED_FAILED = 'UPDATE_NEWSFEED_FAILED'
 
-export interface NewFeedState {
-  isLoadingNewFeed: boolean
-  currentNewFeed?: Post[]
+export interface NewsfeedState {
+  isLoadingNewsfeed: boolean
+  isUpdatingNewsfeed: boolean
+  currentNewsfeed: Post[]
 }
 
-export interface NewFeedAction extends Action<string> {
-  newfeeds?: Post[]
+export interface NewsfeedAction extends Action<string> {
+  newsfeed?: Post[]
 }
 
 export interface Post {
   id: number
-  assignedUserId: number
-  assignedUserAvatar?: string
-  assignedUserDisplayName?: string
-  assignedGroupId: number
-  assignedGroupName?: string
+  assignedUser: Pick<User, 'id' | 'avatar' | 'displayName'>
+  assignedGroup: Pick<Group, 'id' | 'name' | 'cover' | 'isAdmin'>
   content: string
   reactionNumber?: number
   commentNumber?: number
-  time?: Date
+  time: Date
   type: Number
-  photos: string[]
+  photos: PostPhoto[]
+  polls: Poll[]
   reactionId?: number
+  reactions: Reaction[]
+  comments?: Comment[]
+}
+
+export interface PostPhoto {
+  id: number
+  imgUrl: string
 }
 
 export interface ImageFormData {
@@ -37,12 +48,23 @@ export interface ImageFormData {
 
 export interface Reaction {
   id: number
-  authorId: number
+  type: number
+  assignedUser: Pick<User, 'id' | 'avatar' | 'displayName'>
 }
+
 export interface Comment {
   content: string
-  authorAvatar: string
-  authorId: number
-  authorName: string
+  assignedUser: Pick<User, 'id' | 'avatar' | 'displayName'>
   postId: number
+}
+
+export interface Poll {
+  id: number
+  question: string
+  ticks: Tick[]
+}
+
+export interface Tick {
+  id: number
+  assignedUser: Pick<User, 'id' | 'avatar' | 'displayName'>
 }

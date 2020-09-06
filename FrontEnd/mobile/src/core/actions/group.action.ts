@@ -1,9 +1,5 @@
 import { Dispatch } from 'redux'
-import {
-  LOAD_NEWFEED_SUCCESS,
-  NewFeedAction,
-  Post,
-} from '../types/newfeed.types'
+import { NewsfeedAction, Post } from '../types/newfeed.types'
 import { GroupAction, LOAD_GROUP_SUCCESS } from '../types/group.types'
 
 export const getGroups = (userID: string) => {

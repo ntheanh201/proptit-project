@@ -1,4 +1,4 @@
-import { User } from './../types/user.types'
+import { User, UserInfo } from './../types/user.types'
 import { Dispatch } from 'redux'
 import {
   SIGN_IN_PROGRESS,
@@ -10,7 +10,7 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_PROGRESS,
 } from '../types/signin.types'
-import { signInService, userService } from '../../services'
+import { signInService, authUserService } from '../../services'
 import AsyncStorage from '@react-native-community/async-storage'
 import { ImageFormData } from '../types'
 
@@ -52,19 +52,10 @@ export const signOut = () => {
   }
 }
 
-export const updateUser = (userState: User, userData: User) => {
+export const updateUser = (userState: User, userData: UserInfo) => {
   return async (dispatch: Dispatch<SignInAction>) => {
     dispatch({ type: UPDATE_USER_PROGRESS })
-    const data = {
-      display_name: userData.displayName,
-      date_of_birth: userData.dateOfBirth,
-      user_gender: userData.gender,
-      email: userData.email,
-      facebook: userData.facebook,
-      description: userData.description,
-      phone_number: userData.phoneNumber,
-    }
-    const status = await userService.update(data)
+    const status = await authUserService.updateUserInfo(userData)
     if (status === 'success') {
       const newUserData = { ...userState, userData }
       await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
@@ -78,7 +69,7 @@ export const updateUser = (userState: User, userData: User) => {
 export const updateAvatarUser = (userState: User, image: ImageFormData) => {
   return async (dispatch: Dispatch<SignInAction>) => {
     dispatch({ type: UPDATE_USER_PROGRESS })
-    const userData = await userService.updateAvatar(image)
+    const userData = await authUserService.updateAvatar(image)
     if (userData) {
       const newUserData = { ...userState, ...userData }
       console.log(newUserData)

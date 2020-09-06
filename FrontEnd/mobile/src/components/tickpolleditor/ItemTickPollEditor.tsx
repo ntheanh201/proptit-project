@@ -13,7 +13,7 @@ interface ItemTickPollEditorProps {
   onFocus: () => void
 }
 
-const ItemTickPollEditor = ({
+export const ItemTickPollEditor = ({
   isLast,
   text,
   placeHolder,
@@ -29,7 +29,7 @@ const ItemTickPollEditor = ({
       style={{
         width: '100%',
         flexDirection: 'row',
-        marginVertical: 3,
+        marginVertical: 5,
         alignItems: 'center',
       }}>
       {isLast ? (
@@ -51,14 +51,14 @@ const ItemTickPollEditor = ({
           onChangeText={onTextChange}
         />
       )}
-      <View style={{ height: 25, width: 25 }}>
+      <View style={{ height: 35, width: 25, justifyContent: 'center' }}>
         {isShowClose ? (
           <TouchableOpacity
             onPress={() => {
               textInput.current?.clear()
               onClickClose()
             }}>
-            <Icon name="close" style={{ fontSize: 20 }} />
+            <Icon name="close" style={{ fontSize: 20 }} color={'gray'} />
           </TouchableOpacity>
         ) : null}
       </View>
@@ -71,10 +71,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: 'gray',
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
     marginHorizontal: 5,
   },
 })
-
-export default ItemTickPollEditor

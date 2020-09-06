@@ -3,26 +3,23 @@ import {
   View,
   ActivityIndicator,
   SafeAreaView,
-  FlatList,
   Text,
   Image,
-  Button,
   ScrollView,
 } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
-import FloatingButton from '../components/FloatingButton'
-import ItemNewsFeed from '../components/ItemNewsFeed'
 import styles from '../values/styles'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { color, Value } from 'react-native-reanimated'
 import colors from '../values/colors'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { images } from '../assets'
-import { groupService } from '../services/GroupService'
 import { RouteProp } from '@react-navigation/native'
 import { Group, Post } from '../core'
-import { postService } from '../services'
+import { postService, groupService } from '../services'
+import { FloatingButton } from '../components'
+import ItemNewsFeed from '../components/ItemNewsFeed'
 
 interface Item {
   key: string
@@ -223,23 +220,8 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
             this.state.postData.map((post) => (
               <ItemNewsFeed
                 post={post}
-                currentGroup={post.assignedGroupId}
-                onPressProfile={() => {
-                  this.props.navigation.navigate('Profile', {
-                    userId: post.assignedUserId,
-                  })
-                }}
-                onPressGroup={() => {}}
-                onPressImage={() => {
-                  this.props.navigation.navigate('ImageView', {
-                    listImage: post.photos,
-                  })
-                }}
-                onPress={() => {
-                  this.props.navigation.navigate('PostDetail', {
-                    postId: post.id,
-                  })
-                }}
+                currentGroup={post.assignedGroup.id}
+                navigation={this.props.navigation}
               />
             ))
           )}
