@@ -6,13 +6,7 @@ import {
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native'
-import {
-  Post,
-  AppState,
-  addReactionNewsfeed,
-  deleteReactionNewsfeed,
-  User,
-} from '../core'
+import { Post, AppState, addReaction, deleteReaction, User } from '../core'
 import React, { Component } from 'react'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -27,7 +21,7 @@ import { TickPoll } from './tickpoll'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { bindActionCreators, Dispatch, AnyAction } from 'redux'
-import { newfeedAction } from '../core/actions'
+import { postsAction } from '../core/actions'
 import { connect } from 'react-redux'
 
 interface ItemNewsFeedProps {
@@ -38,8 +32,8 @@ interface ItemNewsFeedProps {
   inProfile?: boolean
   navigation: StackNavigationProp<RootStackParams>
   currentUser?: User
-  addReactionNewsfeed: typeof addReactionNewsfeed
-  deleteReactionNewsfeed: typeof deleteReactionNewsfeed
+  addReaction: typeof addReaction
+  deleteReaction: typeof deleteReaction
 }
 
 interface ItemNewFeedState {
@@ -259,6 +253,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
           <TickPoll
             polls={this.props.post.polls}
             postId={this.props.post.id}
+            groupId={this.props.currentGroup}
             navigation={this.props.navigation}
           />
         )}
@@ -286,11 +281,12 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 source={require('../assets/anim/heart.json')}
                 onAnimationFinish={() => {
                   reactionStatus.isLiked
-                    ? this.props.deleteReactionNewsfeed(
+                    ? this.props.deleteReaction(
                         reactionStatus.reactionId,
                         post.id,
+                        post.assignedGroup.id,
                       )
-                    : this.props.addReactionNewsfeed(post.id)
+                    : this.props.addReaction(post.id, post.assignedGroup.id)
                   this.canPressLike = true
                 }}
               />
@@ -340,6 +336,6 @@ const mapStateToProps = (state: AppState) => ({
   currentUser: state.signin.currentUser,
 })
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-  bindActionCreators(newfeedAction, dispatch)
+  bindActionCreators(postsAction, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemNewsFeed)

@@ -15,14 +15,8 @@ import {
 import React, { Component } from 'react'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { HomeTabParams } from '../navigations/HomeNavigator'
-import {
-  AppState,
-  getNewsFeed,
-  NewsfeedState,
-  SignInState,
-  Post,
-} from '../core'
-import { newfeedAction } from '../core/actions'
+import { AppState, getNewsFeed, PostsState, SignInState, Post } from '../core'
+import { postsAction } from '../core/actions'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styles from '../values/styles'
@@ -49,7 +43,7 @@ interface NewsFeedScreenState {
 interface NewsFeedScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   getNewsFeed: typeof getNewsFeed
-  newsfeedState: NewsfeedState
+  newsfeedState: PostsState
   signInState: SignInState
 }
 
@@ -97,14 +91,14 @@ class NewsFeedScreen extends Component<
     }
   }
 
-  onRefresh = () => {
+  onRefresh = async () => {
     this.setState({
       refreshing: true,
     })
 
-    setTimeout(() => {
-      this.setState({ refreshing: false })
-    }, 1000)
+    await this.props.getNewsFeed()
+
+    this.setState({ refreshing: false })
   }
 
   loadMore = () => {
@@ -328,11 +322,11 @@ class NewsFeedScreen extends Component<
 }
 
 const mapStateToProps = (state: AppState) => ({
-  newsfeedState: state.newfeed,
+  newsfeedState: state.post,
   signInState: state.signin,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-  bindActionCreators(newfeedAction, dispatch)
+  bindActionCreators(postsAction, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsFeedScreen)

@@ -1,10 +1,11 @@
 import Axios from 'axios'
+import { BASE_URL } from '../values/env'
 
 export default class BaseService<T> {
   protected baseURL = ''
 
   constructor() {
-    this.baseURL = 'http://apis.aiforce.xyz/'
+    this.baseURL = BASE_URL
   }
 
   getAll(): Promise<T[]> {

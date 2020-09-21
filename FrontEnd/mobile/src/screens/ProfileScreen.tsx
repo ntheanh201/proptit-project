@@ -92,7 +92,6 @@ class ProfileScreen extends React.Component<
   }
 
   getUserData = async () => {
-    console.log(this.props.route.params.userId)
     const currentUser = this.props.signInState.currentUser!
     if (this.props.route.params.userId === currentUser.id) {
       this.setState({ user: currentUser, isLoadingUser: false })

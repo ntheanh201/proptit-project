@@ -9,6 +9,7 @@ import {
   Platform,
   Animated,
   Easing,
+  Alert,
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import React, { Component, createRef } from 'react'
@@ -16,7 +17,14 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import colors from '../values/colors'
 import { postService } from '../services'
-import { Post, ImageFormData, AppState, SignInState } from '../core'
+import {
+  Post,
+  ImageFormData,
+  AppState,
+  SignInState,
+  addPost,
+  PostsState,
+} from '../core'
 import { RouteProp } from '@react-navigation/native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -24,11 +32,14 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
 import { connect } from 'react-redux'
 import { ItemPicture, TickPollEditor } from '../components'
+import { AnyAction, bindActionCreators, Dispatch } from 'redux'
+import { postsAction } from '../core/actions'
 
 interface CreatePostScreenState {
   isHaveTickPoll: boolean
   isHavePhoto: boolean
   imagesData: ImageFormData[]
+  listPolls: string[]
   padding: number
   content: string
   defaultContent?: string
@@ -38,15 +49,14 @@ interface CreatePostScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   route: RouteProp<RootStackParams, 'CreatePost'>
   signInState: SignInState
+  postState: PostsState
+  addPost: typeof addPost
 }
 
 class CreatePostScreen extends Component<
   CreatePostScreenProps,
   CreatePostScreenState
 > {
-  scaleValue: Animated.Value = new Animated.Value(0)
-  tickPollRef = createRef<TickPollEditor>()
-
   constructor(props: CreatePostScreenProps) {
     super(props)
     this.state = {
@@ -56,16 +66,18 @@ class CreatePostScreen extends Component<
       padding: 0,
       content: '',
       defaultContent: '',
+      listPolls: ['', ''],
     }
 
     this.props.navigation.setOptions({
       title: '',
       headerBackTitleVisible: false,
       headerRight: () => (
-        <TouchableOpacity onPress={() => this.onPressPost()}>
+        <TouchableOpacity disabled={true} onPress={() => this.onPressPost()}>
           <Text
             style={{
               color: colors.mainBlue,
+              opacity: 0.5,
               marginEnd: 10,
               fontWeight: 'bold',
             }}>
@@ -91,28 +103,8 @@ class CreatePostScreen extends Component<
   }
 
   render() {
-    const { isHaveTickPoll, imagesData } = this.state
-    const menuStyle = {
-      zIndex: 10,
-      paddingBottom: 50,
-      elevation: 4,
-      flexDirection: 'column',
-      alignSelf: 'baseline',
-      width: '100%',
-      position: 'absolute',
-      bottom: 0,
-      paddingHorizontal: 10,
-      transform: [
-        {
-          translateY: this.scaleValue.interpolate({
-            inputRange: [0, 0.5, 1],
-            outputRange: [0, 200, 400],
-          }),
-        },
-      ],
-    }
-
-    // console.log('AppLog', this.state.images)
+    const { isHaveTickPoll, imagesData, isHavePhoto } = this.state
+    this.checkValid()
 
     return (
       <View style={styles.wrapper}>
@@ -160,7 +152,7 @@ class CreatePostScreen extends Component<
                 }}
                 autoFocus={true}
               />
-              {this.state.isHavePhoto && (
+              {isHavePhoto && (
                 <FlatList
                   showsHorizontalScrollIndicator={false}
                   horizontal={true}
@@ -169,7 +161,6 @@ class CreatePostScreen extends Component<
                   }}
                   data={imagesData}
                   renderItem={({ item, index }) => {
-                    // console.log("Render:", listUrlPicture?.length)
                     return (
                       <ItemPicture
                         urlPicture={item.uri}
@@ -196,14 +187,23 @@ class CreatePostScreen extends Component<
                   }}
                 />
               )}
-              {this.state.isHaveTickPoll && (
+              {isHaveTickPoll && (
                 <View
                   style={{
                     width: '100%',
                     marginTop: 10,
                   }}>
                   <TickPollEditor
-                    ref={this.tickPollRef}
+                    listPolls={this.state.listPolls}
+                    deleteItem={this.deleteItem}
+                    onPressAddOptions={this.onPressAddPoll}
+                    onTextChange={(text, index) => {
+                      const newState = JSON.parse(
+                        JSON.stringify(this.state.listPolls),
+                      )
+                      newState[index] = text
+                      this.setState({ listPolls: newState })
+                    }}
                     onClose={() =>
                       this.setState({
                         isHaveTickPoll: false,
@@ -239,7 +239,10 @@ class CreatePostScreen extends Component<
             style={{ padding: 10 }}
             disabled={this.state.isHavePhoto}
             onPress={() => {
-              this.setState({ isHaveTickPoll: true })
+              this.setState({
+                isHaveTickPoll: true,
+                listPolls: ['', ''],
+              })
             }}>
             <MaterialCommunityIcon
               name={this.state.isHaveTickPoll ? 'poll-box' : 'poll'}
@@ -255,14 +258,48 @@ class CreatePostScreen extends Component<
     )
   }
 
+  checkValid() {
+    let valid = true
+    if (this.state.isHaveTickPoll) {
+      const checkBlank = this.state.listPolls.filter((item) => {
+        return item === ''
+      })
+      if (checkBlank.length > 0) {
+        valid = false
+      }
+    }
+
+    if (this.state.content === '') {
+      valid = false
+    }
+
+    this.props.navigation.setOptions({
+      title: '',
+      headerBackTitleVisible: false,
+      headerRight: () => (
+        <TouchableOpacity disabled={!valid} onPress={() => this.onPressPost()}>
+          <Text
+            style={{
+              color: colors.mainBlue,
+              opacity: valid ? 1 : 0.5,
+              marginEnd: 10,
+              fontWeight: 'bold',
+            }}>
+            POST
+          </Text>
+        </TouchableOpacity>
+      ),
+    })
+  }
+
   async getContentIfEditPost() {
     const id = this.props.route.params?.postId
     if (id) {
       const data = await postService.getFullPostById(id)
       const imageState = JSON.parse(JSON.stringify(this.state.imagesData))
-      data.photos.forEach((v) => {
+      data.photos.forEach((photo) => {
         imageState.push({
-          uri: v,
+          uri: photo,
         })
       })
       this.setState({
@@ -304,6 +341,31 @@ class CreatePostScreen extends Component<
       })
   }
 
+  deleteItem = (itemIndex: number) => {
+    const stateClone: string[] = JSON.parse(
+      JSON.stringify(this.state.listPolls),
+    )
+    const newState = stateClone.filter((option, index) => {
+      return index !== itemIndex
+    })
+
+    this.setState({
+      listPolls: newState,
+    })
+  }
+
+  onPressAddPoll = () => {
+    const stateClone: string[] = JSON.parse(
+      JSON.stringify(this.state.listPolls),
+    )
+
+    stateClone.push('')
+
+    this.setState({
+      listPolls: stateClone,
+    })
+  }
+
   onPressChart() {
     this.setState({
       isHaveTickPoll: true,
@@ -326,9 +388,6 @@ class CreatePostScreen extends Component<
 
   onPressPost = async () => {
     console.log('Post clicked!')
-    // const data = this.tickPollRef.current?.getTickPollData()
-    // console.log(data)
-    // console.log(this.state.images)
     if (this.props.route.params.postId) {
       const post = {
         id: this.props.route.params?.postId,
@@ -340,15 +399,26 @@ class CreatePostScreen extends Component<
       // const status = await postService.updatePost(post)
       // status === 'success' && this.props.navigation.goBack()
     } else {
-      const post = {
+      const postData = {
         content: this.state.content,
-        assignedGroupId: this.props.route.params?.groupId,
-        type: this.state.isHaveTickPoll ? 2 : 1,
+        assignedGroup: {
+          id: this.props.route.params?.groupId,
+          name: '',
+          cover: '',
+        },
+        type: this.state.isHaveTickPoll ? 1 : 0,
       }
-      // const status = await postService.addPost(post, this.state.imagesData)
-      // status === 'success' && this.props.navigation.goBack()
+      await this.props.addPost(
+        postData,
+        this.state.imagesData,
+        this.state.listPolls,
+      )
+      if (this.props.postState.postingSuccess) {
+        this.props.navigation.goBack()
+      } else {
+        Alert.alert('Check your Internet connection!')
+      }
     }
-    // this.props.navigation.goBack()
   }
 }
 const styles = StyleSheet.create({
@@ -388,6 +458,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: AppState) => ({
   signInState: state.signin,
+  postState: state.post,
 })
 
-export default connect(mapStateToProps)(CreatePostScreen)
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(postsAction, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePostScreen)

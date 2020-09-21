@@ -154,7 +154,6 @@ class EditProfileScreen extends React.Component<
           <FloatingLabelInput
             label={'Name'}
             value={currentUser?.displayName}
-            borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
             onTextChange={(text) => {
@@ -246,7 +245,6 @@ class EditProfileScreen extends React.Component<
           <FloatingLabelInput
             label={'Phone Number'}
             value={currentUser?.phoneNumber}
-            borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
             onTextChange={(text) => {
@@ -256,7 +254,6 @@ class EditProfileScreen extends React.Component<
           <FloatingLabelInput
             label={'Class'}
             value={currentUser?.className}
-            borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
             onTextChange={(text) => {
@@ -266,7 +263,6 @@ class EditProfileScreen extends React.Component<
           <FloatingLabelInput
             label={'Email'}
             value={currentUser?.email}
-            borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
             onTextChange={(text) => {
@@ -276,7 +272,6 @@ class EditProfileScreen extends React.Component<
           <FloatingLabelInput
             label={'Facebook'}
             value={currentUser?.facebook}
-            borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
             onTextChange={(text) => {
@@ -286,7 +281,6 @@ class EditProfileScreen extends React.Component<
           <FloatingLabelInput
             label={'Description'}
             value={currentUser?.description}
-            borderColor={colors.mainBlue}
             containerStyle={styles.textField}
             multiline={true}
             scrollView={this.scrollViewRef}

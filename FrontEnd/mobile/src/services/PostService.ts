@@ -1,5 +1,5 @@
 import BaseService from './BaseService'
-import { Post, Reaction, Comment, ImageFormData } from '../core'
+import { Post, Reaction, Comment, ImageFormData, Poll } from '../core'
 import Axios from 'axios'
 
 class PostService extends BaseService<Post> {
@@ -31,24 +31,25 @@ class PostService extends BaseService<Post> {
   addPost(
     post: Pick<Post, 'content' | 'assignedGroup' | 'type'>,
     images: ImageFormData[],
-  ): Promise<string> {
+    polls: string[],
+  ): Promise<Post> {
     const data = new FormData()
     images.forEach((image) => {
       data.append('files', image)
     })
-    data.append('group_id', post.assignedGroup)
+    data.append('group_id', post.assignedGroup.id)
     data.append('type', post.type)
     data.append('content', post.content)
+    post.type === 1 && data.append('polls', JSON.stringify(polls))
     return Axios.post(this.baseURL, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
       .then((res) => {
-        console.log(res.data)
-        return 'success'
+        return res.data
       })
       .catch((err) => {
         console.log(err)
-        return 'error'
+        return null
       })
   }
 

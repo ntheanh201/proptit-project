@@ -7,7 +7,6 @@ import { NavigationContainer, ParamListBase } from '@react-navigation/native'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import EditProfileScreen from '../screens/EditProfileScreen'
-import { AuthNavigator } from './AuthNavigator'
 import { images } from '../assets'
 import { store, AppState, SignInState, PostPhoto, MiniUser } from '../core'
 import { connect } from 'react-redux'
@@ -19,6 +18,7 @@ import styles from '../values/styles'
 import ImageViewScreen from '../screens/ImageViewScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import UserListScreen from '../screens/UserListScreen'
+import SignUpScreen from '../screens/SignUpScreen'
 
 export type SubNavigator<T extends ParamListBase> = {
   [K in keyof T]: { screen: K; params?: T[K] }
@@ -26,6 +26,7 @@ export type SubNavigator<T extends ParamListBase> = {
 
 export type RootStackParams = {
   SignIn: undefined
+  SignUp: undefined
   HomeStack: SubNavigator<HomeTabParams>
   PostDetail: { postId: number }
   CreatePost: { postId?: number; groupId: number; groupName: string }
@@ -60,6 +61,7 @@ const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
             options={{ header: () => null }}
           />
         )}
+        <RootStack.Screen name={'SignUp'} component={SignUpScreen} />
         <RootStack.Screen name={'PostDetail'} component={PostDetailScreen} />
         <RootStack.Screen name={'CreatePost'} component={CreatePostScreen} />
         <RootStack.Screen name={'EditProfile'} component={EditProfileScreen} />

@@ -8,4 +8,4 @@ class NewsfeedService extends BaseService<Post> {
   }
 }
 
-export const newfeedService = new NewsfeedService()
+export const newsfeedService = new NewsfeedService()

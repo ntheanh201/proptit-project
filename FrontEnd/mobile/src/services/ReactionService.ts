@@ -10,7 +10,7 @@ class ReactionService extends BaseService<Reaction> {
   }
 
   addReaction(postId: number): Promise<number> {
-    return Axios.post(this.baseURL, { postId, type: 0 })
+    return Axios.post(this.baseURL, { assignedPost: postId, type: 0 })
       .then((res) => {
         return res.data.reactionId
       })

@@ -10,7 +10,7 @@ class TickService extends BaseService<Tick> {
   }
 
   addTick(pollId: number): Promise<Tick> {
-    return Axios.post(this.baseURL, { pollId })
+    return Axios.post(this.baseURL, { assignedPoll: pollId })
       .then((res) => {
         return res.data
       })

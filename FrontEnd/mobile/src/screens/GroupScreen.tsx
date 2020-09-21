@@ -16,10 +16,13 @@ import colors from '../values/colors'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { images } from '../assets'
 import { RouteProp } from '@react-navigation/native'
-import { Group, Post } from '../core'
+import { AppState, getGroupPosts, Group, Post } from '../core'
 import { postService, groupService } from '../services'
 import { FloatingButton } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
+import { AnyAction, bindActionCreators, Dispatch } from 'redux'
+import { postsAction } from '../core/actions'
+import { connect } from 'react-redux'
 
 interface Item {
   key: string
@@ -32,13 +35,15 @@ interface Member {
 interface GroupScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   route: RouteProp<RootStackParams, 'Group'>
+  getGroupPosts: typeof getGroupPosts
+  groupPosts: Post[]
+  isLoadingPosts: boolean
 }
 
 interface GroupScreenState {
   refreshing: boolean
   isLoadingMore: boolean
   isLoading: boolean
-  isLoadingPost: boolean
   isBottom: boolean
   groupData?: Group
   postData: Post[]
@@ -51,7 +56,6 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
       isLoading: true,
       refreshing: false,
       isLoadingMore: false,
-      isLoadingPost: true,
       isBottom: false,
       postData: [],
     }
@@ -74,11 +78,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
   }
 
   loadPostGroup = async () => {
-    const postData = await postService.getAllwParams(
-      'group',
-      this.props.route.params.groupId,
-    )
-    this.setState({ postData, isLoadingPost: false })
+    await this.props.getGroupPosts(this.props.route.params.groupId)
   }
 
   onRefresh = () => {
@@ -214,10 +214,10 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
               </TouchableOpacity>
             </View>
           </View>
-          {this.state.isLoadingPost ? (
+          {this.props.isLoadingPosts ? (
             <ActivityIndicator animating={true} />
           ) : (
-            this.state.postData.map((post) => (
+            this.props.groupPosts.map((post) => (
               <ItemNewsFeed
                 post={post}
                 currentGroup={post.assignedGroup.id}
@@ -250,4 +250,12 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
   navigateToMember = () => {}
 }
 
-export default GroupScreen
+const mapStateToProps = (state: AppState) => ({
+  currentUser: state.signin.currentUser,
+  groupPosts: state.post.groupPosts,
+  isLoadingPosts: state.post.isLoadingPosts,
+})
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(postsAction, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupScreen)

@@ -7,9 +7,11 @@ import ReactNative, {
   ViewStyle,
   Platform,
   ScrollView,
+  KeyboardTypeOptions,
 } from 'react-native'
 import colors from '../../values/colors'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 export interface ScrollViewCustomProps {
   ref?: KeyboardAwareScrollView
@@ -22,14 +24,16 @@ export interface ScrollViewCustomProps {
 interface FloatingLabelInputProps {
   label?: string
   onTextChange?: (text: string) => void
-  borderColor?: string
   textInputColor?: string
   containerStyle?: ViewStyle
   isPassword?: boolean
   value?: string
+  valid?: boolean
   multiline?: boolean
+  keyboardType?: KeyboardTypeOptions
   onFocus?: () => void
   scrollView?: ScrollViewCustomProps
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters'
 }
 
 interface FloatingLabelInputState {
@@ -81,7 +85,6 @@ export class FloatingLabelInput extends React.Component<
     const {
       label,
       onTextChange,
-      borderColor,
       textInputColor,
       containerStyle,
       isPassword,
@@ -89,6 +92,7 @@ export class FloatingLabelInput extends React.Component<
       multiline,
       scrollView,
       onFocus,
+      valid,
       ...props
     } = this.props
     const labelStyle = {
@@ -115,7 +119,11 @@ export class FloatingLabelInput extends React.Component<
           {...props}
           style={{
             borderBottomWidth: 1,
-            borderBottomColor: this.state.isFocused ? borderColor : '#aaa',
+            borderBottomColor: this.state.isFocused
+              ? colors.mainBlue
+              : this.props.valid
+              ? '#aaa'
+              : 'red',
             fontSize: 18,
             color: textInputColor,
           }}
@@ -150,6 +158,14 @@ export class FloatingLabelInput extends React.Component<
           }}
           autoCorrect={false}
         />
+        {!valid && (
+          <MaterialIcons
+            name="error-outline"
+            color="red"
+            size={20}
+            style={{ position: 'absolute', right: 0 }}
+          />
+        )}
       </View>
     )
   }

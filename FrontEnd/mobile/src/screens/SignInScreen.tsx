@@ -8,6 +8,7 @@ import {
   Platform,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
 } from 'react-native'
 import { images } from '../assets'
 import colors from '../values/colors'
@@ -19,6 +20,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { ActivityIndicator } from 'react-native-paper'
 import { FloatingLabelInput } from '../components'
+import { WIDTH, HEIGHT } from '../configs/Function'
 
 interface SignInScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -41,22 +43,26 @@ class SignInScreen extends React.Component<SignInScreenProps> {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{ flex: 1 }}>
+        style={{ width: '100%', height: '100%' }}>
         <View style={styles.container}>
           <Image source={images.APP_ICON_REV} style={styles.logoRev} />
           <FloatingLabelInput
             label="Username"
-            borderColor={colors.mainBlue}
-            containerStyle={styles.textInput}
+            containerStyle={styles.txtUsername}
+            valid={true}
           />
           <FloatingLabelInput
             label="Password"
-            borderColor={colors.mainBlue}
-            containerStyle={styles.textInput}
+            containerStyle={styles.txtPassword}
             isPassword={true}
+            valid={true}
           />
+          {/* <TouchableOpacity
+            style={{ alignSelf: 'flex-start', marginLeft: 15, marginTop: 10 }}>
+            <Text style={styles.txtForgot}>Forgot your password?</Text>
+          </TouchableOpacity> */}
           <TouchableOpacity
-            style={styles.buttonSignIn}
+            style={styles.btnSignIn}
             onPress={() => {
               this.props.signIn('proptit', 'aiforce.proptit')
             }}>
@@ -67,8 +73,26 @@ class SignInScreen extends React.Component<SignInScreenProps> {
                 color={'#fff'}
               />
             ) : (
-              <Text style={styles.textSignIn}>Sign In</Text>
+              <Text style={styles.txtSignIn}>Sign In</Text>
             )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.btnSignUp}
+            onPress={() => {
+              this.props.navigation.push('SignUp')
+            }}>
+            {this.props.signInState.isLoading ? (
+              <ActivityIndicator
+                animating={true}
+                style={{ marginVertical: 10 }}
+                color={'#fff'}
+              />
+            ) : (
+              <Text style={styles.txtSignUp}>Create New Account</Text>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity style={{ marginTop: 10 }}>
+            <Text style={styles.txtForgot}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -85,25 +109,46 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logoRev: {
-    height: 200,
-    width: 200,
+    height: HEIGHT(200),
+    width: WIDTH(200),
   },
-  textInput: {
-    width: 350,
-    height: 50,
-    marginBottom: 10,
+  txtUsername: {
+    width: WIDTH(335),
+    marginBottom: 30,
   },
-  buttonSignIn: {
+  txtPassword: {
+    width: WIDTH(335),
+  },
+  btnSignIn: {
     backgroundColor: colors.mainBlue,
-    width: 250,
+    width: WIDTH(250),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 36,
     marginTop: 25,
   },
-  textSignIn: {
+  btnSignUp: {
+    backgroundColor: 'white',
+    width: WIDTH(250),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.mainBlue,
+    borderRadius: 36,
+    marginTop: 10,
+  },
+  txtSignIn: {
     color: '#fff',
     marginVertical: 15,
+  },
+  txtSignUp: {
+    color: colors.mainBlue,
+    marginVertical: 15,
+  },
+  txtForgot: {
+    color: colors.mainBlue,
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
   },
 })
 

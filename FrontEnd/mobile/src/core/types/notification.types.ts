@@ -1,5 +1,5 @@
 import { User } from './user.types'
-import { Post } from './newfeed.types'
+import { Post } from './post.types'
 import { Group } from './group.types'
 
 export interface Notification {

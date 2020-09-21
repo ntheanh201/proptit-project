@@ -1,20 +1,14 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import * as Progress from 'react-native-progress'
-import {
-  Poll,
-  AppState,
-  User,
-  addTickNewsfeed,
-  deleteTickNewsfeed,
-} from '../../core'
+import { Poll, AppState, User, addTick, deleteTick } from '../../core'
 
 import colors from '../../values/colors'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch, AnyAction } from 'redux'
-import { newfeedAction } from '../../core/actions'
+import { postsAction } from '../../core/actions'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../../navigations/AppNavigator'
 
@@ -22,9 +16,10 @@ interface ItemTickPollProps {
   poll: Poll
   postId: number
   totalTicks: number
+  groupId: number
   currentUser?: User
-  addTickNewsfeed: typeof addTickNewsfeed
-  deleteTickNewsfeed: typeof deleteTickNewsfeed
+  addTick: typeof addTick
+  deleteTick: typeof deleteTick
   navigation: StackNavigationProp<RootStackParams>
 }
 
@@ -46,7 +41,7 @@ class ItemTickPoll extends Component<ItemTickPollProps> {
   }
 
   render() {
-    const { poll, totalTicks, postId } = this.props
+    const { poll, totalTicks, postId, groupId } = this.props
     const result = this.checkPollTicked()
     const listUser = poll.ticks.map((tick) => {
       return tick.assignedUser
@@ -56,8 +51,8 @@ class ItemTickPoll extends Component<ItemTickPollProps> {
         <TouchableOpacity
           onPress={() => {
             result.pollTicked
-              ? this.props.deleteTickNewsfeed(poll.id, result.tickId, postId)
-              : this.props.addTickNewsfeed(poll.id, postId)
+              ? this.props.deleteTick(poll.id, result.tickId, postId, groupId)
+              : this.props.addTick(poll.id, postId, groupId)
           }}>
           <MaterialCommunityIcons
             name={
@@ -117,6 +112,6 @@ const mapStateToProps = (state: AppState) => ({
   currentUser: state.signin.currentUser,
 })
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-  bindActionCreators(newfeedAction, dispatch)
+  bindActionCreators(postsAction, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemTickPoll)

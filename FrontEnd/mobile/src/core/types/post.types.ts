@@ -3,20 +3,31 @@ import { User } from './user.types'
 import { Group } from './group.types'
 
 export const LOAD_NEWSFEED_SUCCESS = 'LOAD_NEWSFEED_SUCCESS'
-export const LOAD_NEWSFEED_PROGRESS = 'LOAD_NEWSFEED_PROGRESS'
-export const LOAD_NEWSFEED_FAIL = 'LOAD_NEWSFEED_FAIL'
-export const UPDATE_NEWSFEED_PROGRESS = 'UPDATE_NEWSFEED_PROGRESS'
-export const UPDATE_NEWSFEED_SUCCESS = 'UPDATE_NEWSFEED_SUCCESS'
-export const UPDATE_NEWSFEED_FAILED = 'UPDATE_NEWSFEED_FAILED'
+export const LOAD_GROUPPOSTS_SUCCESS = 'LOAD_GROUPPOSTS_SUCCESS'
+export const LOAD_POSTS_PROGRESS = 'LOAD_NEWSFEED_PROGRESS'
+export const LOAD_POSTS_FAIL = 'LOAD_NEWSFEED_FAIL'
 
-export interface NewsfeedState {
-  isLoadingNewsfeed: boolean
-  isUpdatingNewsfeed: boolean
+export const UPDATE_POSTS_PROGRESS = 'UPDATE_POSTS_PROGRESS'
+export const UPDATE_NEWSFEED_SUCCESS = 'UPDATE_NEWSFEED_SUCCESS'
+export const UPDATE_GROUPPOSTS_SUCCESS = 'UPDATE_GROUPPOSTS_SUCCESS'
+export const UPDATE_POSTS_FAILED = 'UPDATE_POSTS_FAILED'
+
+export const POST_POST_PROGRESS = 'POST_POST_PROGRESS'
+export const POST_POST_SUCCESS = 'POST_POST_SUCCESS'
+export const POST_POST_FAILED = 'POST_POST_FAILED'
+
+export interface PostsState {
+  isLoadingPosts: boolean
+  isUpdatingPosts: boolean
+  isPostingPost: boolean
+  postingSuccess: boolean
   currentNewsfeed: Post[]
+  groupPosts: Post[]
 }
 
-export interface NewsfeedAction extends Action<string> {
+export interface PostsAction extends Action<string> {
   newsfeed?: Post[]
+  groupPosts?: Post[]
 }
 
 export interface Post {

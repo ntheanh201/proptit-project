@@ -11,6 +11,7 @@ import { RootStackParams } from '../../navigations/AppNavigator'
 interface TickPollProps {
   polls: Poll[]
   postId: number
+  groupId: number
   navigation: StackNavigationProp<RootStackParams>
 }
 
@@ -37,6 +38,7 @@ export class TickPoll extends Component<TickPollProps> {
             totalTicks={totalTicks}
             key={index}
             postId={this.props.postId}
+            groupId={this.props.groupId}
             navigation={this.props.navigation}
           />
         ))}

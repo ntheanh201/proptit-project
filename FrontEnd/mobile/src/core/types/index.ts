@@ -1,5 +1,6 @@
 export * from './user.types'
 export * from './signin.types'
-export * from './newfeed.types'
+export * from './post.types'
 export * from './group.types'
 export * from './notification.types'
+export * from './signup.types'
