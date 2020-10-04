@@ -53,13 +53,9 @@ class PostService extends BaseService<Post> {
       })
   }
 
-  updatePost(
-    post: Pick<Post, 'id' | 'content' | 'assignedGroup' | 'type'>,
-  ): Promise<string> {
+  updatePost(post: Pick<Post, 'id' | 'content'>): Promise<string> {
     const data = {
-      group_id: post.assignedGroup,
       content: post.content,
-      type: post.type,
     }
     return Axios.patch(this.baseURL + `${post.id}/`, data)
       .then((res) => {

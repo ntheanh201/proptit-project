@@ -27,14 +27,14 @@ export const ItemComment = (props: ItemCommentProps) => {
       />
       <View style={{ marginLeft: 10, flex: 1 }}>
         <Text style={{ fontWeight: 'bold' }}>{props.name}</Text>
-        <Text>{props.content}</Text>
+        <Text style={{ fontSize: 16 }}>{props.content}</Text>
       </View>
-      <TouchableOpacity style={{ marginHorizontal: 10 }}>
+      {/* <TouchableOpacity style={{ marginHorizontal: 10 }}>
         <Icon name="back" style={{ color: 'gray' }} size={20} />
       </TouchableOpacity>
       <TouchableOpacity>
         <Icon name="hearto" style={{ color: 'gray' }} size={20} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   )
 }

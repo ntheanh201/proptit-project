@@ -24,6 +24,7 @@ import {
 } from '../../services'
 import store from '../store'
 import { User } from '../types'
+import { Alert } from 'react-native'
 
 export const getNewsFeed = () => {
   return async (dispatch: Dispatch<PostsAction>) => {
@@ -76,6 +77,73 @@ export const addPost = (
           })
     } else {
       dispatch({ type: POST_POST_FAILED })
+      Alert.alert('Check your Internet connection!')
+    }
+  }
+}
+
+export const updatePost = (
+  postId: number,
+  groupId: number,
+  content: string,
+) => {
+  return async (dispatch: Dispatch<PostsAction>) => {
+    dispatch({ type: UPDATE_POSTS_PROGRESS })
+    const response = await postService.updatePost({
+      id: postId,
+      content,
+    })
+    if (response === 'success') {
+      const currentPosts: Post[] = JSON.parse(
+        JSON.stringify(
+          groupId === 1
+            ? store.getState().post.currentNewsfeed
+            : store.getState().post.groupPosts,
+        ),
+      )
+      currentPosts.forEach((post) => {
+        if (post.id === postId) {
+          post.content = content
+        }
+      })
+      groupId === 1
+        ? dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentPosts })
+        : dispatch({
+            type: UPDATE_GROUPPOSTS_SUCCESS,
+            groupPosts: currentPosts,
+          })
+    } else {
+      dispatch({ type: UPDATE_POSTS_FAILED })
+      Alert.alert('Check your Internet connection!')
+    }
+  }
+}
+
+export const deletePost = (postId: number, groupId: number) => {
+  return async (dispatch: Dispatch<PostsAction>) => {
+    dispatch({ type: UPDATE_POSTS_PROGRESS })
+    const response = await postService.delete(postId)
+    if (response === 'success') {
+      let currentPosts: Post[] = JSON.parse(
+        JSON.stringify(
+          groupId === 1
+            ? store.getState().post.currentNewsfeed
+            : store.getState().post.groupPosts,
+        ),
+      )
+      currentPosts = currentPosts.filter((post) => {
+        return post.id !== postId
+      })
+      groupId === 1
+        ? dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentPosts })
+        : dispatch({
+            type: UPDATE_GROUPPOSTS_SUCCESS,
+            groupPosts: currentPosts,
+          })
+      Alert.alert('Delete Successful')
+    } else {
+      dispatch({ type: UPDATE_POSTS_FAILED })
+      Alert.alert('Check your Internet connection!')
     }
   }
 }

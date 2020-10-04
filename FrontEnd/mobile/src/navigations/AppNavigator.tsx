@@ -3,7 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 import SplashScreen from '../screens/SplashScreen'
 import SignInScreen from '../screens/SignInScreen'
 import { HomeNavigator, HomeTabParams } from './HomeNavigator'
-import { NavigationContainer, ParamListBase } from '@react-navigation/native'
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+  ParamListBase,
+} from '@react-navigation/native'
 import PostDetailScreen from '../screens/PostDetailScreen'
 import CreatePostScreen from '../screens/CreatePostScreen'
 import EditProfileScreen from '../screens/EditProfileScreen'
@@ -37,6 +41,8 @@ export type RootStackParams = {
   UserList: { listUser: MiniUser[] }
 }
 
+export const navigationRef = React.createRef<NavigationContainerRef>()
+
 const RootStack = createStackNavigator<RootStackParams>()
 
 const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
@@ -44,7 +50,7 @@ const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
     return <SplashScreen />
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <RootStack.Navigator>
         {signInState.isSignIn ? (
           <RootStack.Screen

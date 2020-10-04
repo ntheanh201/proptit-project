@@ -21,7 +21,7 @@ class CommentService extends BaseService<Comment> {
   }
 
   addComment(postId: number, content: string): Promise<string> {
-    const data = { post_id: postId, content: content }
+    const data = { assignedPost: postId, content: content }
     return Axios.post(this.baseURL, data)
       .then((res) => {
         return 'success'

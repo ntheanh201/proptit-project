@@ -23,13 +23,14 @@ import { RootStackParams } from '../navigations/AppNavigator'
 import { bindActionCreators, Dispatch, AnyAction } from 'redux'
 import { postsAction } from '../core/actions'
 import { connect } from 'react-redux'
+import { actionBottomMenuRef } from '../../App'
 
 interface ItemNewsFeedProps {
   post: Post
-  onPressMore?: () => void
   isShowMore?: boolean
   currentGroup: number
   inProfile?: boolean
+  inPostDetail?: boolean
   navigation: StackNavigationProp<RootStackParams>
   currentUser?: User
   addReaction: typeof addReaction
@@ -148,6 +149,17 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
       this.animLike.current?.play(100, 0)
     } else {
       this.animLike.current?.play(0, 100)
+      if (this.props.inPostDetail) {
+        this.props.post.reactions.push({
+          id: -1,
+          assignedUser: {
+            id: this.props.currentUser!.id,
+            displayName: '',
+            avatar: '',
+          },
+          type: 0,
+        })
+      }
     }
   }
 
@@ -229,7 +241,12 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 {this.props.isShowMore && (
                   <TouchableWithoutFeedback
                     onPress={() => {
-                      this.onPressMore()
+                      actionBottomMenuRef.current &&
+                        actionBottomMenuRef.current.show(
+                          post.id,
+                          post.assignedGroup.id,
+                          post.assignedGroup.name,
+                        )
                     }}
                     style={{ height: 30, width: 30 }}>
                     <MIcon name="more-horiz" size={20} />
@@ -321,14 +338,6 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
         </View>
       </View>
     )
-  }
-  onPressMore() {
-    if (
-      this.props.onPressMore != null &&
-      this.props.onPressMore !== undefined
-    ) {
-      this.props.onPressMore()
-    }
   }
 }
 

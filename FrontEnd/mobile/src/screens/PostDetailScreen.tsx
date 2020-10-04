@@ -20,13 +20,17 @@ import { RouteProp } from '@react-navigation/native'
 import { postService, commentService } from '../services'
 import { ActivityIndicator } from 'react-native-paper'
 import { HomeTabParams } from '../navigations/HomeNavigator'
-import { Post, Reaction, Comment } from '../core'
+import { Post, Reaction, Comment, AppState, User } from '../core'
 import { ItemComment } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
+import { connect } from 'react-redux'
+import { AnyAction, bindActionCreators, Dispatch } from 'redux'
+import { postsAction } from '../core/actions'
 
 interface PostDetailScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   route: RouteProp<RootStackParams, 'PostDetail'>
+  currentUser?: User
 }
 
 interface PostDetailScreenState {
@@ -53,9 +57,6 @@ class PostDetailScreen extends React.Component<
       title: 'Post',
       headerBackTitleVisible: false,
       headerTintColor: 'black',
-      headerRight: () => (
-        <MCIcons name="magnify" size={25} style={{ marginRight: 10 }} />
-      ),
     })
   }
 
@@ -76,7 +77,6 @@ class PostDetailScreen extends React.Component<
       this.props.route.params.postId,
     )
     if (data) {
-      console.log(data)
       this.setState({
         isLoadingPost: false,
         post: data,
@@ -139,18 +139,26 @@ class PostDetailScreen extends React.Component<
             post={this.state.post!}
             currentGroup={1}
             navigation={this.props.navigation}
+            isShowMore={
+              this.state.post!.assignedUser.id === this.props.currentUser?.id
+            }
+            inPostDetail={true}
           />
-          <View
-            style={{
-              width: '100%',
-              height: 30,
-              backgroundColor: 'rgb(245, 245, 245)',
-              borderColor: 'rgb(203, 204, 204)',
-              borderTopWidth: 0.5,
-              justifyContent: 'center',
-            }}>
-            <Text style={{ marginLeft: 20, color: 'gray' }}>Comment</Text>
-          </View>
+          {this.state.post!.reactions.length > 0 ? (
+            <TouchableOpacity
+              style={{
+                width: '100%',
+                height: 30,
+                backgroundColor: 'white',
+                borderColor: 'rgb(203, 204, 204)',
+                borderTopWidth: 0.5,
+                justifyContent: 'center',
+              }}>
+              <Text style={{ marginLeft: 20, fontWeight: 'bold' }}>
+                {this.state.post?.reactions.length} likes
+              </Text>
+            </TouchableOpacity>
+          ) : null}
           {this.state.post?.comments &&
             this.state.post?.comments.map((comment) => {
               return (
@@ -161,35 +169,6 @@ class PostDetailScreen extends React.Component<
                 />
               )
             })}
-          <View
-            style={{
-              width: '100%',
-              height: 30,
-              backgroundColor: 'rgb(245, 245, 245)',
-              borderColor: 'rgb(203, 204, 204)',
-              borderTopWidth: 0.5,
-              justifyContent: 'center',
-            }}>
-            <Text style={{ marginLeft: 20, color: 'gray' }}>Liked</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              backgroundColor: 'white',
-            }}>
-            <FlatList
-              data={[1, 2, 3, 4]}
-              style={{ padding: 5 }}
-              renderItem={({ item }) => (
-                <Image
-                  source={images.AVT_BATMAN}
-                  style={{ height: 40, width: 40, borderRadius: 100 }}
-                />
-              )}
-              horizontal={true}
-            />
-          </View>
         </ScrollView>
         <View
           style={{
@@ -234,5 +213,10 @@ class PostDetailScreen extends React.Component<
     )
   }
 }
+const mapStateToProps = (state: AppState) => ({
+  currentUser: state.signin.currentUser,
+})
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+  bindActionCreators(postsAction, dispatch)
 
-export default PostDetailScreen
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetailScreen)

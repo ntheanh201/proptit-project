@@ -24,6 +24,7 @@ import {
   SignInState,
   addPost,
   PostsState,
+  updatePost,
 } from '../core'
 import { RouteProp } from '@react-navigation/native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -42,7 +43,6 @@ interface CreatePostScreenState {
   listPolls: string[]
   padding: number
   content: string
-  defaultContent?: string
 }
 
 interface CreatePostScreenProps {
@@ -51,6 +51,7 @@ interface CreatePostScreenProps {
   signInState: SignInState
   postState: PostsState
   addPost: typeof addPost
+  updatePost: typeof updatePost
 }
 
 class CreatePostScreen extends Component<
@@ -65,27 +66,8 @@ class CreatePostScreen extends Component<
       imagesData: [],
       padding: 0,
       content: '',
-      defaultContent: '',
       listPolls: ['', ''],
     }
-
-    this.props.navigation.setOptions({
-      title: '',
-      headerBackTitleVisible: false,
-      headerRight: () => (
-        <TouchableOpacity disabled={true} onPress={() => this.onPressPost()}>
-          <Text
-            style={{
-              color: colors.mainBlue,
-              opacity: 0.5,
-              marginEnd: 10,
-              fontWeight: 'bold',
-            }}>
-            POST
-          </Text>
-        </TouchableOpacity>
-      ),
-    })
   }
 
   componentDidMount() {
@@ -100,6 +82,23 @@ class CreatePostScreen extends Component<
       Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
       this.onKeyboardHide,
     )
+  }
+
+  async getContentIfEditPost() {
+    const id = this.props.route.params?.postId
+    if (id) {
+      const data = await postService.getFullPostById(id)
+      const imageState = JSON.parse(JSON.stringify(this.state.imagesData))
+      data.photos.forEach((photo) => {
+        imageState.push({
+          uri: photo,
+        })
+      })
+      this.setState({
+        content: data.content,
+        imagesData: imageState,
+      })
+    }
   }
 
   render() {
@@ -141,7 +140,7 @@ class CreatePostScreen extends Component<
                 ) : null}
               </View>
               <TextInput
-                defaultValue={this.state.defaultContent}
+                defaultValue={this.state.content}
                 style={styles.textinput}
                 placeholder="Share something!"
                 multiline={true}
@@ -224,20 +223,27 @@ class CreatePostScreen extends Component<
           }}>
           <TouchableOpacity
             style={{ padding: 10 }}
-            disabled={this.state.isHaveTickPoll}
+            disabled={
+              this.props.route.params.postId ? false : this.state.isHaveTickPoll
+            }
             onPress={this.onPressAddPicture}>
             <MaterialCommunityIcon
               name={this.state.isHavePhoto ? 'image' : 'image-outline'}
               size={35}
               style={{
                 color: colors.mainBlue,
-                opacity: this.state.isHaveTickPoll ? 0.6 : 1,
+                opacity:
+                  this.props.route.params.postId || this.state.isHaveTickPoll
+                    ? 0.6
+                    : 1,
               }}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={{ padding: 10 }}
-            disabled={this.state.isHavePhoto}
+            disabled={
+              this.props.route.params.postId ? false : this.state.isHavePhoto
+            }
             onPress={() => {
               this.setState({
                 isHaveTickPoll: true,
@@ -249,7 +255,10 @@ class CreatePostScreen extends Component<
               size={this.state.isHaveTickPoll ? 35 : 28}
               style={{
                 color: colors.mainBlue,
-                opacity: this.state.isHavePhoto ? 0.6 : 1,
+                opacity:
+                  this.props.route.params.postId || this.state.isHavePhoto
+                    ? 0.6
+                    : 1,
               }}
             />
           </TouchableOpacity>
@@ -285,28 +294,11 @@ class CreatePostScreen extends Component<
               marginEnd: 10,
               fontWeight: 'bold',
             }}>
-            POST
+            {this.props.route.params.postId ? 'SAVE' : 'POST'}
           </Text>
         </TouchableOpacity>
       ),
     })
-  }
-
-  async getContentIfEditPost() {
-    const id = this.props.route.params?.postId
-    if (id) {
-      const data = await postService.getFullPostById(id)
-      const imageState = JSON.parse(JSON.stringify(this.state.imagesData))
-      data.photos.forEach((photo) => {
-        imageState.push({
-          uri: photo,
-        })
-      })
-      this.setState({
-        defaultContent: data.content,
-        imagesData: imageState,
-      })
-    }
   }
 
   onPressAddPicture = () => {
@@ -389,15 +381,14 @@ class CreatePostScreen extends Component<
   onPressPost = async () => {
     console.log('Post clicked!')
     if (this.props.route.params.postId) {
-      const post = {
-        id: this.props.route.params?.postId,
-        content: this.state.content,
-        assignedGroupId: this.props.route.params?.groupId,
-        type: 1,
+      await this.props.updatePost(
+        this.props.route.params?.postId,
+        this.props.route.params?.groupId,
+        this.state.content,
+      )
+      if (this.props.postState.postingSuccess) {
+        this.props.navigation.goBack()
       }
-      // console.log(this.state.images)
-      // const status = await postService.updatePost(post)
-      // status === 'success' && this.props.navigation.goBack()
     } else {
       const postData = {
         content: this.state.content,
@@ -415,8 +406,6 @@ class CreatePostScreen extends Component<
       )
       if (this.props.postState.postingSuccess) {
         this.props.navigation.goBack()
-      } else {
-        Alert.alert('Check your Internet connection!')
       }
     }
   }

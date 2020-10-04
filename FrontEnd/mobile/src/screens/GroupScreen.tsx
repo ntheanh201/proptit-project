@@ -16,7 +16,7 @@ import colors from '../values/colors'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { images } from '../assets'
 import { RouteProp } from '@react-navigation/native'
-import { AppState, getGroupPosts, Group, Post } from '../core'
+import { AppState, getGroupPosts, Group, Post, User } from '../core'
 import { postService, groupService } from '../services'
 import { FloatingButton } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
@@ -38,6 +38,7 @@ interface GroupScreenProps {
   getGroupPosts: typeof getGroupPosts
   groupPosts: Post[]
   isLoadingPosts: boolean
+  currentUser?: User
 }
 
 interface GroupScreenState {
@@ -222,6 +223,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                 post={post}
                 currentGroup={post.assignedGroup.id}
                 navigation={this.props.navigation}
+                isShowMore={post.assignedUser.id === this.props.currentUser?.id}
               />
             ))
           )}

@@ -242,6 +242,10 @@ class ProfileScreen extends React.Component<
                 currentGroup={1}
                 navigation={this.props.navigation}
                 inProfile={true}
+                isShowMore={
+                  post.assignedUser.id ===
+                  this.props.signInState.currentUser?.id
+                }
               />
             )
           })

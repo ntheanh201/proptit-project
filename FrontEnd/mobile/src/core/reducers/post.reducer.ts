@@ -54,23 +54,27 @@ export default (
       return {
         ...state,
         isUpdatingPosts: true,
+        postingSuccess: false,
       }
     case UPDATE_NEWSFEED_SUCCESS:
       return {
         ...state,
         isUpdatingPosts: false,
+        postingSuccess: true,
         currentNewsfeed: action.newsfeed!,
       }
     case UPDATE_GROUPPOSTS_SUCCESS:
       return {
         ...state,
         isUpdatingPosts: false,
+        postingSuccess: true,
         groupPosts: action.groupPosts!,
       }
     case UPDATE_POSTS_FAILED:
       return {
         ...state,
         isUpdatingPosts: false,
+        postingSuccess: false,
       }
     case POST_POST_PROGRESS:
       return {
