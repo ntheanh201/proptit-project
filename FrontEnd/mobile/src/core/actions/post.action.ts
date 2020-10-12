@@ -21,6 +21,7 @@ import {
   tickService,
   newsfeedService,
   reactionService,
+  commentService,
 } from '../../services'
 import store from '../store'
 import { User } from '../types'
@@ -94,24 +95,29 @@ export const updatePost = (
       content,
     })
     if (response === 'success') {
-      const currentPosts: Post[] = JSON.parse(
-        JSON.stringify(
-          groupId === 1
-            ? store.getState().post.currentNewsfeed
-            : store.getState().post.groupPosts,
-        ),
+      const currentNewsfeed: Post[] = JSON.parse(
+        JSON.stringify(store.getState().post.currentNewsfeed),
       )
-      currentPosts.forEach((post) => {
+      currentNewsfeed.forEach((post) => {
         if (post.id === postId) {
           post.content = content
         }
       })
-      groupId === 1
-        ? dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentPosts })
-        : dispatch({
-            type: UPDATE_GROUPPOSTS_SUCCESS,
-            groupPosts: currentPosts,
-          })
+      dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentNewsfeed })
+      if (groupId !== 1) {
+        const currentGroupPosts: Post[] = JSON.parse(
+          JSON.stringify(store.getState().post.currentNewsfeed),
+        )
+        currentGroupPosts.forEach((post) => {
+          if (post.id === postId) {
+            post.content = content
+          }
+        })
+        dispatch({
+          type: UPDATE_GROUPPOSTS_SUCCESS,
+          groupPosts: currentGroupPosts,
+        })
+      }
     } else {
       dispatch({ type: UPDATE_POSTS_FAILED })
       Alert.alert('Check your Internet connection!')
@@ -152,39 +158,35 @@ export const addReaction = (postId: number, groupId: number) => {
   return async (dispatch: Dispatch<PostsAction>) => {
     dispatch({ type: UPDATE_POSTS_PROGRESS })
     const reactionId = await reactionService.addReaction(postId)
-    const currentPosts: Post[] = JSON.parse(
-      JSON.stringify(
-        groupId === 1
-          ? store.getState().post.currentNewsfeed
-          : store.getState().post.groupPosts,
-      ),
-    )
-    const currentUser: User = JSON.parse(
-      JSON.stringify(store.getState().signin.currentUser),
+    const currentNewsfeed: Post[] = JSON.parse(
+      JSON.stringify(store.getState().post.currentNewsfeed),
     )
     if (reactionId) {
-      currentPosts.forEach((post) => {
+      currentNewsfeed.forEach((post) => {
         if (post.id === postId) {
-          post.reactionNumber! += 1
-          post.reactions.push({
-            id: reactionId,
-            type: 0,
-            assignedUser: {
-              id: currentUser.id,
-              avatar: currentUser.avatar,
-              displayName: currentUser.displayName,
-            },
-          })
+          post.reactionNumber += 1
+          post.reactionId = reactionId
         }
       })
-      groupId === 1
-        ? dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentPosts })
-        : dispatch({
-            type: UPDATE_GROUPPOSTS_SUCCESS,
-            groupPosts: currentPosts,
-          })
+      dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentNewsfeed })
+      if (groupId !== 1) {
+        const currentGroupPosts: Post[] = JSON.parse(
+          JSON.stringify(store.getState().post.groupPosts),
+        )
+        currentGroupPosts.forEach((post) => {
+          if (post.id === postId) {
+            post.reactionNumber += 1
+            post.reactionId = reactionId
+          }
+        })
+        dispatch({
+          type: UPDATE_GROUPPOSTS_SUCCESS,
+          groupPosts: currentGroupPosts,
+        })
+      }
     } else {
       dispatch({ type: UPDATE_POSTS_FAILED })
+      Alert.alert('Check your Internet connection!')
     }
   }
 }
@@ -197,30 +199,74 @@ export const deleteReaction = (
   return async (dispatch: Dispatch<PostsAction>) => {
     dispatch({ type: UPDATE_POSTS_PROGRESS })
     const response = await reactionService.delete(reactionId)
-    const currentPosts: Post[] = JSON.parse(
-      JSON.stringify(
-        groupId === 1
-          ? store.getState().post.currentNewsfeed
-          : store.getState().post.groupPosts,
-      ),
+    const currentNewsfeed: Post[] = JSON.parse(
+      JSON.stringify(store.getState().post.currentNewsfeed),
     )
     if (response === 'success') {
-      currentPosts.forEach((post) => {
+      currentNewsfeed.forEach((post) => {
         if (post.id === postId) {
-          post.reactionNumber! -= 1
-          post.reactions = post.reactions.filter((reaction) => {
-            return reaction.id !== reactionId
-          })
+          post.reactionNumber -= 1
+          post.reactionId = -1
         }
       })
-      groupId === 1
-        ? dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentPosts })
-        : dispatch({
-            type: UPDATE_GROUPPOSTS_SUCCESS,
-            groupPosts: currentPosts,
-          })
+      dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentNewsfeed })
+      if (groupId !== 1) {
+        const currentGroupPosts: Post[] = JSON.parse(
+          JSON.stringify(store.getState().post.groupPosts),
+        )
+        currentGroupPosts.forEach((post) => {
+          if (post.id === postId) {
+            post.reactionNumber -= 1
+            post.reactionId = -1
+          }
+        })
+        dispatch({
+          type: UPDATE_GROUPPOSTS_SUCCESS,
+          groupPosts: currentGroupPosts,
+        })
+      }
     } else {
       dispatch({ type: UPDATE_POSTS_FAILED })
+      Alert.alert('Check your Internet connection!')
+    }
+  }
+}
+
+export const addComment = (
+  content: string,
+  postId: number,
+  groupId: number,
+) => {
+  return async (dispatch: Dispatch<PostsAction>) => {
+    dispatch({ type: UPDATE_POSTS_PROGRESS })
+    const response = await commentService.addComment(postId, content)
+    const currentNewsfeed: Post[] = JSON.parse(
+      JSON.stringify(store.getState().post.currentNewsfeed),
+    )
+    dispatch({ type: UPDATE_NEWSFEED_SUCCESS, newsfeed: currentNewsfeed })
+    if (response === 'success') {
+      currentNewsfeed.forEach((post) => {
+        if (post.id === postId) {
+          post.commentNumber += 1
+        }
+      })
+      if (groupId !== 1) {
+        const currentGroupPosts: Post[] = JSON.parse(
+          JSON.stringify(store.getState().post.groupPosts),
+        )
+        currentGroupPosts.forEach((post) => {
+          if (post.id === postId) {
+            post.commentNumber += 1
+          }
+        })
+        dispatch({
+          type: UPDATE_GROUPPOSTS_SUCCESS,
+          groupPosts: currentGroupPosts,
+        })
+      }
+    } else {
+      dispatch({ type: UPDATE_POSTS_FAILED })
+      Alert.alert('Check your Internet connection!')
     }
   }
 }
@@ -264,6 +310,7 @@ export const addTick = (pollId: number, postId: number, groupId: number) => {
           })
     } else {
       dispatch({ type: UPDATE_POSTS_FAILED })
+      Alert.alert('Check your Internet connection!')
     }
   }
 }
@@ -304,6 +351,7 @@ export const deleteTick = (
           })
     } else {
       dispatch({ type: UPDATE_POSTS_FAILED })
+      Alert.alert('Check your Internet connection!')
     }
   }
 }

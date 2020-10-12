@@ -18,8 +18,9 @@ export const signIn = (username: string, password: string) => {
   return async (dispatch: Dispatch<SignInAction>) => {
     dispatch({ type: SIGN_IN_PROGRESS })
     const authToken = await signInService.requestSignIn(username, password)
-    const userData = await signInService.getUserAfterAuth(authToken.access)
-    if (userData && authToken) {
+    const userData =
+      authToken && (await signInService.getUserAfterAuth(authToken.access))
+    if (userData) {
       dispatch({ type: SIGN_IN_SUCCESS, currentUser: userData, authToken })
     } else {
       dispatch({ type: SIGN_IN_ERROR })

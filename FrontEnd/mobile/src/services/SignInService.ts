@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 import { User, AuthToken } from '../core'
+import { Alert } from 'react-native'
 
 class SignInService {
   protected authURL = 'http://apis.aiforce.xyz/auth/jwt/create/'

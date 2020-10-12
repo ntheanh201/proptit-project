@@ -28,15 +28,25 @@ interface SignInScreenProps {
   signInState: SignInState
 }
 
-class SignInScreen extends React.Component<SignInScreenProps> {
+interface SignInScreenState {
+  username: string
+  password: string
+  valid: boolean
+  signInClicked: boolean
+}
+
+class SignInScreen extends React.Component<
+  SignInScreenProps,
+  SignInScreenState
+> {
   constructor(props: SignInScreenProps) {
     super(props)
-  }
-
-  componentDidUpdate() {
-    // if (this.props.signInState.isSignIn) {
-    //   this.props.navigation.navigate('HomeStack')
-    // }
+    this.state = {
+      username: '',
+      password: '',
+      valid: true,
+      signInClicked: false,
+    }
   }
 
   render() {
@@ -49,22 +59,43 @@ class SignInScreen extends React.Component<SignInScreenProps> {
           <FloatingLabelInput
             label="Username"
             containerStyle={styles.txtUsername}
-            valid={true}
+            valid={this.state.valid}
+            onTextChange={(text) => {
+              this.setState({ username: text })
+            }}
+            autoCapitalize={'none'}
           />
           <FloatingLabelInput
             label="Password"
             containerStyle={styles.txtPassword}
             isPassword={true}
-            valid={true}
+            valid={this.state.valid}
+            onTextChange={(text) => {
+              this.setState({ password: text })
+            }}
           />
           {/* <TouchableOpacity
             style={{ alignSelf: 'flex-start', marginLeft: 15, marginTop: 10 }}>
             <Text style={styles.txtForgot}>Forgot your password?</Text>
           </TouchableOpacity> */}
+          {this.state.signInClicked &&
+          this.props.signInState.isSignIn === false ? (
+            <Text style={{ color: 'red' }}>
+              No active account found with the given credentials
+            </Text>
+          ) : null}
           <TouchableOpacity
             style={styles.btnSignIn}
             onPress={() => {
-              this.props.signIn('proptit', 'aiforce.proptit')
+              if (
+                this.state.username.length === 0 &&
+                this.state.password.length === 0
+              ) {
+                this.setState({ valid: false })
+              } else {
+                this.props.signIn(this.state.username, this.state.password)
+                this.setState({ valid: true, signInClicked: true })
+              }
             }}>
             {this.props.signInState.isLoading ? (
               <ActivityIndicator
@@ -81,15 +112,7 @@ class SignInScreen extends React.Component<SignInScreenProps> {
             onPress={() => {
               this.props.navigation.push('SignUp')
             }}>
-            {this.props.signInState.isLoading ? (
-              <ActivityIndicator
-                animating={true}
-                style={{ marginVertical: 10 }}
-                color={'#fff'}
-              />
-            ) : (
-              <Text style={styles.txtSignUp}>Create New Account</Text>
-            )}
+            <Text style={styles.txtSignUp}>Create New Account</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ marginTop: 10 }}>
             <Text style={styles.txtForgot}>Forgot your password?</Text>

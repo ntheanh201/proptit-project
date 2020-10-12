@@ -20,7 +20,7 @@ import { RouteProp } from '@react-navigation/native'
 import { postService, commentService } from '../services'
 import { ActivityIndicator } from 'react-native-paper'
 import { HomeTabParams } from '../navigations/HomeNavigator'
-import { Post, Reaction, Comment, AppState, User } from '../core'
+import { Post, Reaction, Comment, AppState, User, addComment } from '../core'
 import { ItemComment } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { connect } from 'react-redux'
@@ -31,6 +31,8 @@ interface PostDetailScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   route: RouteProp<RootStackParams, 'PostDetail'>
   currentUser?: User
+  postingSuccess: boolean
+  addComment: typeof addComment
 }
 
 interface PostDetailScreenState {
@@ -84,26 +86,21 @@ class PostDetailScreen extends React.Component<
     }
   }
 
-  async reloadComment() {
-    const comments = await commentService.getByPostId(
-      this.props.route.params.postId,
-    )
-    const post = JSON.parse(JSON.stringify(this.state.post))
-    post.comments = comments
-    if (comments) {
-      this.setState({ post })
-    }
-  }
-
   onPressSend = async () => {
     this.setState({ isSendingComment: true })
-    const status = await commentService.addComment(
-      this.props.route.params.postId,
+    await this.props.addComment(
       this.state.newComment,
+      this.state.post!.id,
+      this.state.post!.assignedGroup.id,
     )
-    if (status === 'success') {
-      this.setState({ isSendingComment: false, newComment: '' })
-      this.reloadComment()
+    if (this.props.postingSuccess) {
+      const post: Post = JSON.parse(JSON.stringify(this.state.post))
+      post.comments?.push({
+        content: this.state.newComment,
+        postId: this.props.route.params.postId,
+        assignedUser: this.props.currentUser!,
+      })
+      this.setState({ post, isSendingComment: false, newComment: '' })
     }
   }
 
@@ -142,9 +139,11 @@ class PostDetailScreen extends React.Component<
             isShowMore={
               this.state.post!.assignedUser.id === this.props.currentUser?.id
             }
-            inPostDetail={true}
+            inPostDetail={() => {
+              this.getPosts()
+            }}
           />
-          {this.state.post!.reactions.length > 0 ? (
+          {this.state.post!.reactionNumber > 0 ? (
             <TouchableOpacity
               style={{
                 width: '100%',
@@ -153,9 +152,15 @@ class PostDetailScreen extends React.Component<
                 borderColor: 'rgb(203, 204, 204)',
                 borderTopWidth: 0.5,
                 justifyContent: 'center',
+              }}
+              onPress={() => {
+                this.props.navigation.navigate('UserList', {
+                  postId: this.state.post?.id,
+                })
               }}>
               <Text style={{ marginLeft: 20, fontWeight: 'bold' }}>
-                {this.state.post?.reactions.length} likes
+                {this.state.post?.reactionNumber}{' '}
+                {this.state.post?.reactionNumber! > 1 ? 'likes' : 'like'}
               </Text>
             </TouchableOpacity>
           ) : null}
@@ -215,6 +220,7 @@ class PostDetailScreen extends React.Component<
 }
 const mapStateToProps = (state: AppState) => ({
   currentUser: state.signin.currentUser,
+  postingSuccess: state.post.postingSuccess,
 })
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
   bindActionCreators(postsAction, dispatch)

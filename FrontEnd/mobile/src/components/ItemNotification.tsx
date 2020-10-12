@@ -17,7 +17,7 @@ export const ItemNotification = (props: ItemNotificationProps) => {
       content = ' đã đăng bài trong '
       break
     case 1:
-      content = ' đã bình luận về bài viết.'
+      content = ' đã thích bài viết của bạn.'
       break
     case 2:
       content = ' đã xác nhận bài viết.'
@@ -46,7 +46,7 @@ export const ItemNotification = (props: ItemNotificationProps) => {
           <Text>
             <Text>{content}</Text>
             <Text style={styles.txtGroupName}>
-              {props.noti.assignedGroup.name}
+              {props.noti.type === 0 ? props.noti.assignedGroup.name : null}
             </Text>
           </Text>
         </Text>

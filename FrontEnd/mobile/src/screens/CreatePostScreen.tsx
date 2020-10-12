@@ -10,6 +10,7 @@ import {
   Animated,
   Easing,
   Alert,
+  ActivityIndicator,
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import React, { Component, createRef } from 'react'
@@ -276,6 +277,9 @@ class CreatePostScreen extends Component<
       if (checkBlank.length > 0) {
         valid = false
       }
+      if (this.state.listPolls.length < 2) {
+        valid = false
+      }
     }
 
     if (this.state.content === '') {
@@ -380,6 +384,9 @@ class CreatePostScreen extends Component<
 
   onPressPost = async () => {
     console.log('Post clicked!')
+    this.props.navigation.setOptions({
+      headerRight: () => <ActivityIndicator animating={true} />,
+    })
     if (this.props.route.params.postId) {
       await this.props.updatePost(
         this.props.route.params?.postId,

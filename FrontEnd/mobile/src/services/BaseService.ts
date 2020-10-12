@@ -19,6 +19,7 @@ export default class BaseService<T> {
   getById(id: number): Promise<T> {
     return Axios.get(this.baseURL + `${id}/`)
       .then((res) => {
+        console.log(res.data)
         return res.data
       })
       .catch((err) => console.log(err))

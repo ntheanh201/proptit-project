@@ -3,7 +3,6 @@ import {
   View,
   Image,
   ActivityIndicator,
-  FlatList,
   Text,
   TouchableOpacity,
   requireNativeComponent,
@@ -28,6 +27,7 @@ import { RootStackParams } from '../navigations/AppNavigator'
 import { FloatingButton } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { actionBottomMenuRef } from '../../App'
+import { FlatList } from 'react-native-gesture-handler'
 
 interface Item {
   key: string
@@ -80,6 +80,9 @@ class NewsFeedScreen extends Component<
   }
   componentDidMount() {
     this.props.getNewsFeed()
+    // const focus = this.props.navigation.addListener('focus', () => {
+    //   this.props.getNewsFeed()
+    // })
   }
 
   componentDidUpdate(prevProps: NewsFeedScreenProps) {
@@ -126,6 +129,8 @@ class NewsFeedScreen extends Component<
             flexDirection: 'column',
           }}>
           <FlatList
+            // style={{ zIndex: 111 }}
+            // contentContainerStyle={{ zIndex: 111 }}
             data={this.props.newsfeedState.currentNewsfeed}
             renderItem={({ item, index }) => {
               return (

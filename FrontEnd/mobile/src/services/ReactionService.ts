@@ -1,6 +1,6 @@
 import React from 'react'
 import BaseService from './BaseService'
-import { Reaction } from '../core'
+import { MiniUser, Reaction } from '../core'
 import Axios from 'axios'
 
 class ReactionService extends BaseService<Reaction> {
@@ -17,6 +17,16 @@ class ReactionService extends BaseService<Reaction> {
       .catch((err) => {
         console.log(err)
         return null
+      })
+  }
+
+  getReactionByPost(postId: number): Promise<Reaction[]> {
+    return Axios.get(this.baseURL + `?postId=${postId}`)
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }
 }

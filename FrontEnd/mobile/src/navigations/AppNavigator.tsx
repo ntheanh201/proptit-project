@@ -38,7 +38,7 @@ export type RootStackParams = {
   EditProfile: undefined
   Group: { groupId: number }
   ImageView: { listImage: PostPhoto[] }
-  UserList: { listUser: MiniUser[] }
+  UserList: { listUser?: MiniUser[]; postId?: number }
 }
 
 export const navigationRef = React.createRef<NavigationContainerRef>()

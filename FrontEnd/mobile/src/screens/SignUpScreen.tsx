@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AppState, SignUpData } from '../core'
+import { AppState, signUp, SignUpData, SignUpState } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction, signUpAction } from '../core/actions'
 import { connect } from 'react-redux'
@@ -13,6 +13,8 @@ import { userService } from '../services'
 
 interface SignUpScreenProps {
   navigation: StackNavigationProp<RootStackParams>
+  signUpState: SignUpState
+  signUp: typeof signUp
 }
 
 interface SignUpScreenState {
@@ -141,6 +143,7 @@ class SignUpScreen extends React.Component<
           }}
           valid={this.state.emailValid}
           keyboardType={'email-address'}
+          autoCapitalize={'none'}
         />
         {!this.state.emailValid && (
           <View style={{ alignSelf: 'flex-start', marginLeft: 15 }}>
@@ -157,11 +160,9 @@ class SignUpScreen extends React.Component<
                 password: this.state.password,
                 email: this.state.email,
               }
-              const response = await userService.addNewUser(data)
-              if (response === 'success') {
+              await this.props.signUp(data)
+              if (this.props.signUpState.success) {
                 this.props.navigation.pop()
-              } else {
-                Alert.alert('Error', response)
               }
             }
           }}>

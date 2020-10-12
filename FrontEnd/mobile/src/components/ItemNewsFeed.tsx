@@ -5,6 +5,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   Animated,
+  Platform,
+  Alert,
 } from 'react-native'
 import { Post, AppState, addReaction, deleteReaction, User } from '../core'
 import React, { Component } from 'react'
@@ -30,7 +32,7 @@ interface ItemNewsFeedProps {
   isShowMore?: boolean
   currentGroup: number
   inProfile?: boolean
-  inPostDetail?: boolean
+  inPostDetail?: () => void
   navigation: StackNavigationProp<RootStackParams>
   currentUser?: User
   addReaction: typeof addReaction
@@ -128,45 +130,21 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     }
   }
 
-  checkReaction = (): { isLiked: boolean; reactionId: number } => {
-    let isLiked = false
-    let reactionId = -1
-    this.props.post.reactions!.forEach((reaction) => {
-      if (reaction.assignedUser.id === this.props.currentUser!.id) {
-        isLiked = true
-        reactionId = reaction.id
-      }
-    })
-    return { isLiked, reactionId }
-  }
-
   onPressReaction = async () => {
     if (!this.canPressLike) {
       return
     }
     this.canPressLike = false
-    if (this.checkReaction().isLiked) {
+    if (this.props.post.reactionId !== -1) {
       this.animLike.current?.play(100, 0)
     } else {
       this.animLike.current?.play(0, 100)
-      if (this.props.inPostDetail) {
-        this.props.post.reactions.push({
-          id: -1,
-          assignedUser: {
-            id: this.props.currentUser!.id,
-            displayName: '',
-            avatar: '',
-          },
-          type: 0,
-        })
-      }
     }
   }
 
   render() {
     const { post, currentGroup, inProfile } = this.props
     const timeago = moment(post.time).fromNow()
-    const reactionStatus = this.checkReaction()
 
     return (
       <View
@@ -241,12 +219,17 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 {this.props.isShowMore && (
                   <TouchableWithoutFeedback
                     onPress={() => {
-                      actionBottomMenuRef.current &&
-                        actionBottomMenuRef.current.show(
-                          post.id,
-                          post.assignedGroup.id,
-                          post.assignedGroup.name,
-                        )
+                      Platform.OS === 'android'
+                        ? Alert.alert(
+                            'Feature Disabled',
+                            'Sorry, this feature is in development.',
+                          )
+                        : actionBottomMenuRef.current &&
+                          actionBottomMenuRef.current.show(
+                            post.id,
+                            post.assignedGroup.id,
+                            post.assignedGroup.name,
+                          )
                     }}
                     style={{ height: 30, width: 30 }}>
                     <MIcon name="more-horiz" size={20} />
@@ -294,21 +277,25 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 speed={2}
                 cacheStrategy={'none'}
                 resizeMode="cover"
-                progress={reactionStatus.isLiked ? 1 : 0}
+                progress={post.reactionId !== -1 ? 1 : 0}
                 source={require('../assets/anim/heart.json')}
-                onAnimationFinish={() => {
-                  reactionStatus.isLiked
-                    ? this.props.deleteReaction(
-                        reactionStatus.reactionId,
+                onAnimationFinish={async () => {
+                  post.reactionId !== -1
+                    ? await this.props.deleteReaction(
+                        post.reactionId,
                         post.id,
                         post.assignedGroup.id,
                       )
-                    : this.props.addReaction(post.id, post.assignedGroup.id)
+                    : await this.props.addReaction(
+                        post.id,
+                        post.assignedGroup.id,
+                      )
+                  this.props.inPostDetail && this.props.inPostDetail()
                   this.canPressLike = true
                 }}
               />
               <Text style={{ marginLeft: 50 }}>
-                {post.reactionNumber ?? post.reactions?.length}
+                {post.reactionNumber > 0 ? post.reactionNumber : null}
               </Text>
             </View>
           </TouchableOpacity>

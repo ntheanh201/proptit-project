@@ -35,14 +35,13 @@ export interface Post {
   assignedUser: Pick<User, 'id' | 'avatar' | 'displayName'>
   assignedGroup: Pick<Group, 'id' | 'name' | 'cover' | 'isAdmin'>
   content: string
-  reactionNumber?: number
-  commentNumber?: number
+  reactionNumber: number
+  commentNumber: number
   time: Date
   type: Number
   photos: PostPhoto[]
   polls: Poll[]
-  reactionId?: number
-  reactions: Reaction[]
+  reactionId: number
   comments?: Comment[]
 }
 
