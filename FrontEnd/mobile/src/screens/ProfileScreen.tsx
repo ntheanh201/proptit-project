@@ -27,7 +27,6 @@ import { WIDTH, HEIGHT, getStatusBarHeight } from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
-import { ActivityIndicator } from 'react-native-paper'
 import colors from '../values/colors'
 import { postService, authUserService, userService } from '../services'
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
@@ -36,6 +35,7 @@ import { RouteProp } from '@react-navigation/native'
 import { bindActionCreators, Dispatch, AnyAction } from 'redux'
 import { signInAction } from '../core/actions'
 import ItemNewsFeed from '../components/ItemNewsFeed'
+import { ActivityIndicator } from 'react-native'
 
 interface ProfileScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
   },
   coverImage: {
     width: WIDTH(360),
-    height: HEIGHT(180),
+    height: HEIGHT(180) + getStatusBarHeight(),
     marginBottom: 10,
   },
   headerContainer: {

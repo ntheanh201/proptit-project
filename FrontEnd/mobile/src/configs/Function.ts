@@ -27,7 +27,7 @@ export const getStatusBarHeight = (): number => {
     }
   }
   return Platform.select({
-    ios: haveNotch ? 44 : 20,
+    ios: haveNotch ? 44 : 30,
     android: StatusBar.currentHeight! > 20 ? StatusBar.currentHeight : 0,
     default: 0,
   })
