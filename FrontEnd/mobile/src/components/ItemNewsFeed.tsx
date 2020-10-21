@@ -7,6 +7,7 @@ import {
   Animated,
   Platform,
   Alert,
+  Modal,
 } from 'react-native'
 import { Post, AppState, addReaction, deleteReaction, User } from '../core'
 import React, { Component } from 'react'
@@ -40,7 +41,7 @@ interface ItemNewsFeedProps {
 }
 
 interface ItemNewFeedState {
-  animating: boolean
+  modalVisible: boolean
 }
 
 class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
@@ -51,7 +52,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
     super(props)
     // console.log('AppLog', props.post.isLiked)
     this.state = {
-      animating: false,
+      modalVisible: false,
     }
   }
 
@@ -219,17 +220,13 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
                 {this.props.isShowMore && (
                   <TouchableWithoutFeedback
                     onPress={() => {
-                      Platform.OS === 'android'
-                        ? Alert.alert(
-                            'Feature Disabled',
-                            'Sorry, this feature is in development.',
-                          )
-                        : actionBottomMenuRef.current &&
-                          actionBottomMenuRef.current.show(
-                            post.id,
-                            post.assignedGroup.id,
-                            post.assignedGroup.name,
-                          )
+                      this.setState({ modalVisible: true })
+                      // actionBottomMenuRef.current &&
+                      //   actionBottomMenuRef.current.show(
+                      //     post.id,
+                      //     post.assignedGroup.id,
+                      //     post.assignedGroup.name,
+                      //   )
                     }}
                     style={{ height: 30, width: 30 }}>
                     <MIcon name="more-horiz" size={20} />
@@ -323,6 +320,30 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
             </View>
           </TouchableOpacity> */}
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.')
+          }}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'black',
+              opacity: 0.5,
+            }}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                marginBottom: 0,
+                height: 30,
+                opacity: 1,
+              }}>
+              <Text>Testing Modal</Text>
+            </View>
+          </View>
+        </Modal>
       </View>
     )
   }
