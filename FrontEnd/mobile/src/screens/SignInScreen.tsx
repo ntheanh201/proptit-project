@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native'
 import { images } from '../assets'
 import colors from '../values/colors'
@@ -18,7 +19,6 @@ import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
-import { ActivityIndicator } from 'react-native-paper'
 import { FloatingLabelInput } from '../components'
 import { WIDTH, HEIGHT } from '../configs/Function'
 
@@ -87,15 +87,15 @@ class SignInScreen extends React.Component<
           <TouchableOpacity
             style={styles.btnSignIn}
             onPress={() => {
-              if (
-                this.state.username.length === 0 &&
-                this.state.password.length === 0
-              ) {
-                this.setState({ valid: false })
-              } else {
-                this.props.signIn(this.state.username, this.state.password)
-                this.setState({ valid: true, signInClicked: true })
-              }
+              // if (
+              //   this.state.username.length === 0 &&
+              //   this.state.password.length === 0
+              // ) {
+              //   this.setState({ valid: false })
+              // } else {
+              this.props.signIn('proptit', 'aiforce.proptit')
+              this.setState({ valid: true, signInClicked: true })
+              // }
             }}>
             {this.props.signInState.isLoading ? (
               <ActivityIndicator

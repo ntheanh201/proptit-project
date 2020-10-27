@@ -10,6 +10,7 @@ import {
   Platform,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native'
 import { images } from '../assets'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -18,7 +19,6 @@ import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { RouteProp } from '@react-navigation/native'
 import { postService, commentService } from '../services'
-import { ActivityIndicator } from 'react-native-paper'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { Post, Reaction, Comment, AppState, User, addComment } from '../core'
 import { ItemComment } from '../components'
@@ -63,7 +63,7 @@ class PostDetailScreen extends React.Component<
   }
 
   componentDidMount() {
-    this.getPosts()
+    this.getPost()
     Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
       this.onKeyboardShow,
@@ -74,7 +74,7 @@ class PostDetailScreen extends React.Component<
     )
   }
 
-  getPosts = async () => {
+  getPost = async () => {
     const data = await postService.getFullPostById(
       this.props.route.params.postId,
     )
@@ -94,13 +94,8 @@ class PostDetailScreen extends React.Component<
       this.state.post!.assignedGroup.id,
     )
     if (this.props.postingSuccess) {
-      const post: Post = JSON.parse(JSON.stringify(this.state.post))
-      post.comments?.push({
-        content: this.state.newComment,
-        postId: this.props.route.params.postId,
-        assignedUser: this.props.currentUser!,
-      })
-      this.setState({ post, isSendingComment: false, newComment: '' })
+      this.getPost()
+      this.setState({ isSendingComment: false, newComment: '' })
     }
   }
 
@@ -140,7 +135,7 @@ class PostDetailScreen extends React.Component<
               this.state.post!.assignedUser.id === this.props.currentUser?.id
             }
             inPostDetail={() => {
-              this.getPosts()
+              this.getPost()
             }}
           />
           {this.state.post!.reactionNumber > 0 ? (
@@ -165,12 +160,16 @@ class PostDetailScreen extends React.Component<
             </TouchableOpacity>
           ) : null}
           {this.state.post?.comments &&
-            this.state.post?.comments.map((comment) => {
+            this.state.post?.comments.map((comment, index) => {
               return (
                 <ItemComment
-                  content={comment.content}
-                  urlAvatar={comment.assignedUser.avatar}
-                  name={comment.assignedUser.displayName}
+                  comment={comment}
+                  paddingAvoidKeyboard={this.state.padding}
+                  key={index}
+                  currentUserId={this.props.currentUser!.id}
+                  onPressDelete={() => {
+                    this.getPost()
+                  }}
                 />
               )
             })}
@@ -192,7 +191,7 @@ class PostDetailScreen extends React.Component<
             alignItems: 'center',
           }}>
           <Image
-            source={images.AVT_BATMAN}
+            source={{ uri: this.props.currentUser?.avatar }}
             style={{ height: 60, width: 60, borderRadius: 100 }}
           />
           <TextInput

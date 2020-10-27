@@ -31,6 +31,20 @@ class CommentService extends BaseService<Comment> {
         return 'error'
       })
   }
+
+  updateComment(content: string, id: number): Promise<string> {
+    return Axios.patch(this.baseURL + `${id}/`, {
+      content,
+    })
+      .then((res) => {
+        console.log(res.data)
+        return 'success'
+      })
+      .catch((err) => {
+        console.log(err)
+        return 'error'
+      })
+  }
 }
 
 export const commentService = new CommentService()

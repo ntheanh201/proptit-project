@@ -7,9 +7,16 @@ import {
   Animated,
   Platform,
   Alert,
-  Modal,
+  SafeAreaView,
 } from 'react-native'
-import { Post, AppState, addReaction, deleteReaction, User } from '../core'
+import {
+  Post,
+  AppState,
+  addReaction,
+  deleteReaction,
+  User,
+  deletePost,
+} from '../core'
 import React, { Component } from 'react'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -26,7 +33,7 @@ import { RootStackParams } from '../navigations/AppNavigator'
 import { bindActionCreators, Dispatch, AnyAction } from 'redux'
 import { postsAction } from '../core/actions'
 import { connect } from 'react-redux'
-import { actionBottomMenuRef } from '../../App'
+import Modal from 'react-native-modal'
 
 interface ItemNewsFeedProps {
   post: Post
@@ -38,6 +45,7 @@ interface ItemNewsFeedProps {
   currentUser?: User
   addReaction: typeof addReaction
   deleteReaction: typeof deleteReaction
+  deletePost: typeof deletePost
 }
 
 interface ItemNewFeedState {
@@ -321,28 +329,64 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
           </TouchableOpacity> */}
         </View>
         <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.')
+          isVisible={this.state.modalVisible}
+          backdropOpacity={0.5}
+          style={{ margin: 0, justifyContent: 'flex-end' }}
+          onBackdropPress={() => {
+            this.setState({ modalVisible: false })
           }}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'black',
-              opacity: 0.5,
-            }}>
+          <SafeAreaView style={{ backgroundColor: 'white' }}>
             <View
               style={{
                 backgroundColor: 'white',
-                marginBottom: 0,
-                height: 30,
-                opacity: 1,
+                width: '100%',
               }}>
-              <Text>Testing Modal</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ modalVisible: false })
+                  this.props.navigation.navigate('CreatePost', {
+                    postId: post.id,
+                    groupId: post.assignedGroup.id,
+                    groupName: post.assignedGroup.name,
+                  })
+                }}
+                style={{ flexDirection: 'row', padding: 10 }}>
+                <AntDesign name="edit" size={20} />
+                <Text style={{ marginLeft: 10, fontSize: 20 }}>Edit Post</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ flexDirection: 'row', padding: 10 }}
+                onPress={() => {
+                  Alert.alert(
+                    'Delete Post?',
+                    'Do you really want to delete this post?',
+                    [
+                      {
+                        text: 'Delete',
+                        onPress: () => {
+                          this.setState({ modalVisible: false })
+                          this.props.deletePost(post.id, post.assignedGroup.id)
+                        },
+                        style: 'destructive',
+                      },
+                      {
+                        text: 'Cancel',
+                        onPress: () => {
+                          this.setState({ modalVisible: false })
+                        },
+                        style: 'cancel',
+                      },
+                    ],
+                    { cancelable: false },
+                  )
+                }}>
+                <AntDesign name="delete" style={{}} size={20} />
+                <Text style={{ marginLeft: 10, fontSize: 20 }}>
+                  Delete Post
+                </Text>
+              </TouchableOpacity>
             </View>
-          </View>
+          </SafeAreaView>
         </Modal>
       </View>
     )

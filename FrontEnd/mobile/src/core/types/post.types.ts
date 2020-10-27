@@ -63,6 +63,7 @@ export interface Reaction {
 }
 
 export interface Comment {
+  id: number
   content: string
   assignedUser: Pick<User, 'id' | 'avatar' | 'displayName'>
   postId: number
