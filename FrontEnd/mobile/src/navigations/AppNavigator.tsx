@@ -40,7 +40,7 @@ export type RootStackParams = {
   Group: { groupId: number }
   ImageView: { listImage: PostPhoto[] }
   UserList: { listUser?: MiniUser[]; postId?: number }
-  Target: { userId: number }
+  Target: { userId: number; adminMode: boolean }
 }
 
 export const navigationRef = React.createRef<NavigationContainerRef>()

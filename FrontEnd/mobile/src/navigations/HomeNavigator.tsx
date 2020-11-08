@@ -18,6 +18,7 @@ import { NavigationProp } from '@react-navigation/native'
 import { View, Text, Image } from 'react-native'
 import styles from '../values/styles'
 import ImageViewScreen from '../screens/ImageViewScreen'
+import RankingScreen from '../screens/RankingScreen'
 
 export type HomeTabParams = {
   Newsfeed: undefined
@@ -36,6 +37,9 @@ export const HomeNavigator = () => {
           switch (route.name) {
             case 'Newsfeed':
               iconName = 'ios-home'
+              break
+            case 'Ranking':
+              iconName = 'stats-chart'
               break
             case 'Notification':
               iconName = 'ios-notifications'
@@ -56,14 +60,19 @@ export const HomeNavigator = () => {
         options={{ tabBarColor: '#2962ff' }}
       />
       <Tab.Screen
+        name={'Ranking'}
+        component={RankingScreen}
+        options={{ tabBarColor: '#2a9d8f' }}
+      />
+      <Tab.Screen
         name={'Notification'}
         component={NotificationScreen}
-        options={{ tabBarColor: '#00796b' }}
+        options={{ tabBarColor: '#e9c46a' }}
       />
       <Tab.Screen
         name={'Menu'}
         component={MenuScreen}
-        options={{ tabBarColor: '#00796b' }}
+        options={{ tabBarColor: '#f4a261' }}
       />
     </Tab.Navigator>
   )

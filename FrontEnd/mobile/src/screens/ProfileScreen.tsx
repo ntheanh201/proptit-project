@@ -256,6 +256,7 @@ class ProfileScreen extends React.Component<
               onPress={() => {
                 this.props.navigation.navigate('Target', {
                   userId: this.props.signInState.currentUser!.id,
+                  adminMode: false,
                 })
               }}>
               <Text> Monthly Target</Text>

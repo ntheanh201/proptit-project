@@ -4,16 +4,19 @@ import React from 'react'
 import {
   ScrollView,
   StyleSheet,
+  Switch,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Target } from '../core'
+import { AppState, Target } from '../core'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { targetService } from '../services'
 import moment from 'moment'
 import colors from '../values/colors'
 import Modal from 'react-native-modal'
+import { connect } from 'react-redux'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 interface TargetScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -23,6 +26,7 @@ interface TargetScreenProps {
 interface TargetScreenState {
   targets: Target[]
   modalVisible: boolean
+  currentFocusedTarget?: Target
 }
 
 class TargetScreen extends React.Component<
@@ -37,18 +41,7 @@ class TargetScreen extends React.Component<
     }
     this.props.navigation.setOptions({
       headerBackTitleVisible: false,
-      headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 10 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              color: colors.mainBlue,
-              fontWeight: 'bold',
-            }}>
-            Add
-          </Text>
-        </TouchableOpacity>
-      ),
+      title: this.props.route.params.adminMode ? 'Target (Admin)' : 'Target',
     })
   }
 
@@ -59,20 +52,38 @@ class TargetScreen extends React.Component<
   getTargets = async () => {
     if (this.props.route.params.userId) {
     }
-    const targets = await targetService.getAll()
+    const targets = await targetService.getCurrentMonthTarget()
     if (targets) {
       this.setState({ targets })
     }
   }
 
   render() {
+    const { currentFocusedTarget, targets, modalVisible } = this.state
+    const { adminMode } = this.props.route.params
     return (
       <>
         <ScrollView>
-          {/* <Text>Tháng 11</Text> */}
-          {this.state.targets.map((target) => {
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 15,
+              marginTop: 10,
+              alignItems: 'center',
+            }}>
+            <Text style={styles.title}>Tháng 11</Text>
+          </View>
+          {targets.map((target) => {
             return (
-              <TouchableOpacity style={styles.cardWrapper}>
+              <TouchableOpacity
+                style={styles.cardWrapper}
+                onPress={() => {
+                  this.setState({
+                    modalVisible: true,
+                    currentFocusedTarget: target,
+                  })
+                }}>
                 <View>
                   <Text style={styles.title}>{target.name}</Text>
                   <Text style={styles.description}>
@@ -88,10 +99,66 @@ class TargetScreen extends React.Component<
               </TouchableOpacity>
             )
           })}
+          <TouchableOpacity style={styles.addButton}>
+            <AntDesign name="pluscircle" color="white" size={20} />
+            <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>
+              Add Target
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
-        <Modal isVisible={this.state.modalVisible}>
-          <View>
-            <Text>Modal</Text>
+        <Modal
+          isVisible={modalVisible}
+          onBackdropPress={() => {
+            this.setState({ modalVisible: false })
+          }}
+          animationIn={'zoomIn'}
+          animationOut={'zoomOut'}>
+          <View style={styles.modalWrapper}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.title}>{currentFocusedTarget?.name}</Text>
+              {currentFocusedTarget?.point && (
+                <View
+                  style={{
+                    borderRadius: 15,
+                    backgroundColor: '#00C853',
+                    padding: 5,
+                  }}>
+                  <Text style={styles.point}>
+                    {currentFocusedTarget?.point.score} pts
+                  </Text>
+                </View>
+              )}
+            </View>
+            <Text style={styles.description}>Pending</Text>
+            <Text style={styles.description}>
+              {moment(currentFocusedTarget?.createdTime)
+                .format('MMM DD')
+                .toString()}
+            </Text>
+            {adminMode ? (
+              <View style={styles.buttonWrapper}>
+                <TouchableOpacity style={styles.acceptButton}>
+                  <Text style={{ color: 'white' }}>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.dangerButton}>
+                  <Text style={{ color: 'red' }}>Reject</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.buttonWrapper}>
+                <TouchableOpacity style={styles.acceptButton}>
+                  <Text style={{ color: 'white' }}>Send Result</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.dangerButton}>
+                  <Text style={{ color: 'red' }}>Give up!</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </Modal>
       </>
@@ -116,7 +183,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   pointWrapper: {
-    backgroundColor: '#64a338',
+    backgroundColor: '#00C853',
     position: 'absolute',
     bottom: 0,
     right: 0,
@@ -124,8 +191,18 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     padding: 5,
   },
+  modalWrapper: {
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    borderRadius: 15,
+    padding: 15,
+  },
+  buttonWrapper: {
+    marginTop: 10,
+  },
   title: {
     fontWeight: 'bold',
+    fontSize: 16,
   },
   description: {
     color: 'gray',
@@ -133,6 +210,28 @@ const styles = StyleSheet.create({
   point: {
     color: 'white',
   },
+  dangerButton: {
+    alignItems: 'center',
+    padding: 10,
+  },
+  acceptButton: {
+    borderRadius: 10,
+    backgroundColor: '#00C853',
+    alignItems: 'center',
+    padding: 10,
+  },
+  addButton: {
+    backgroundColor: '#3865a3',
+    flexDirection: 'row',
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
 })
 
-export default TargetScreen
+const mapStateToProps = (state: AppState) => ({
+  signInState: state.signin,
+})
+export default connect(mapStateToProps)(TargetScreen)
