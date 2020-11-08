@@ -19,8 +19,8 @@ let initialState: PostsState = {
   isUpdatingPosts: false,
   isPostingPost: false,
   postingSuccess: false,
-  currentNewsfeed: [],
-  groupPosts: [],
+  currentNewsfeed: { count: 0, results: [] },
+  groupPosts: { count: 0, results: [] },
 }
 
 export default (

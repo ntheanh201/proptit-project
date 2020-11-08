@@ -19,6 +19,7 @@ import {
   User,
   ImageFormData,
   updateAvatarUser,
+  Newsfeed,
 } from '../core'
 import { connect } from 'react-redux'
 import { images } from '../assets'
@@ -28,7 +29,12 @@ import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import colors from '../values/colors'
-import { postService, authUserService, userService } from '../services'
+import {
+  postService,
+  authUserService,
+  userService,
+  newsfeedService,
+} from '../services'
 import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
 import Icon from 'react-native-vector-icons/Entypo'
 import { RouteProp } from '@react-navigation/native'
@@ -49,7 +55,8 @@ interface ProfileScreenState {
   isLoadingPost: boolean
   isLoadingUser: boolean
   isMyProfile: boolean
-  posts: Post[]
+  isLoadingMore: boolean
+  posts: Newsfeed
   user?: User
 }
 
@@ -63,8 +70,9 @@ class ProfileScreen extends React.Component<
       index: 0,
       isLoadingPost: true,
       isLoadingUser: true,
+      isLoadingMore: false,
       isMyProfile: true,
-      posts: [],
+      posts: { count: 0, results: [] },
     }
     this.props.navigation.setOptions({
       headerShown: false,
@@ -108,6 +116,17 @@ class ProfileScreen extends React.Component<
     this.setState({ posts, isLoadingPost: false })
   }
 
+  getMorePost = async () => {
+    this.setState({ isLoadingMore: true })
+    const newPosts = await newsfeedService.getPagingNewsfeed(
+      this.state.posts.next,
+    )
+    if (newPosts) {
+      newPosts.results.unshift(...this.state.posts.results)
+      this.setState({ posts: newPosts, isLoadingMore: false })
+    }
+  }
+
   render() {
     if (this.state.isLoadingUser) {
       return <ActivityIndicator animating={true} />
@@ -145,6 +164,13 @@ class ProfileScreen extends React.Component<
             this.props.navigation.setOptions({
               headerShown: false,
             })
+          }
+          if (
+            isCloseToBottom(e.nativeEvent) &&
+            this.state.posts.next &&
+            !this.state.isLoadingMore
+          ) {
+            this.getMorePost()
           }
         }}>
         <ImageBackground
@@ -225,7 +251,13 @@ class ProfileScreen extends React.Component<
             <TouchableOpacity style={styles.btnInfo}>
               <Text>Image</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnInfo}>
+            <TouchableOpacity
+              style={styles.btnInfo}
+              onPress={() => {
+                this.props.navigation.navigate('Target', {
+                  userId: this.props.signInState.currentUser!.id,
+                })
+              }}>
               <Text> Monthly Target</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnInfo}>
@@ -236,7 +268,7 @@ class ProfileScreen extends React.Component<
         {this.state.isLoadingPost ? (
           <ActivityIndicator animating={true} />
         ) : (
-          this.state.posts.map((post) => {
+          this.state.posts.results.map((post) => {
             return (
               <ItemNewsFeed
                 post={post}
@@ -251,6 +283,7 @@ class ProfileScreen extends React.Component<
             )
           })
         )}
+        {this.state.isLoadingMore && <ActivityIndicator animating={true} />}
       </ScrollView>
     )
   }
@@ -281,6 +314,18 @@ class ProfileScreen extends React.Component<
         console.log(reason)
       })
   }
+}
+
+const isCloseToBottom = ({
+  layoutMeasurement,
+  contentOffset,
+  contentSize,
+}: any) => {
+  const paddingToBottom = 20
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+  )
 }
 
 const styles = StyleSheet.create({

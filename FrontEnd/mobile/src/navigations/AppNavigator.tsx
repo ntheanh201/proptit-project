@@ -23,6 +23,7 @@ import ImageViewScreen from '../screens/ImageViewScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import UserListScreen from '../screens/UserListScreen'
 import SignUpScreen from '../screens/SignUpScreen'
+import TargetScreen from '../screens/TargetScreen'
 
 export type SubNavigator<T extends ParamListBase> = {
   [K in keyof T]: { screen: K; params?: T[K] }
@@ -39,6 +40,7 @@ export type RootStackParams = {
   Group: { groupId: number }
   ImageView: { listImage: PostPhoto[] }
   UserList: { listUser?: MiniUser[]; postId?: number }
+  Target: { userId: number }
 }
 
 export const navigationRef = React.createRef<NavigationContainerRef>()
@@ -73,6 +75,7 @@ const AppNavigator = ({ signInState }: { signInState: SignInState }) => {
         <RootStack.Screen name={'EditProfile'} component={EditProfileScreen} />
         <RootStack.Screen name={'Profile'} component={ProfileScreen} />
         <RootStack.Screen name={'UserList'} component={UserListScreen} />
+        <RootStack.Screen name={'Target'} component={TargetScreen} />
         <RootStack.Screen
           name={'ImageView'}
           component={ImageViewScreen}

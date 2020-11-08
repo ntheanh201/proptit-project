@@ -10,24 +10,30 @@ import {
   Modal,
   Dimensions,
   Alert,
+  FlatList,
 } from 'react-native'
 import React, { Component } from 'react'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { HomeTabParams } from '../navigations/HomeNavigator'
-import { AppState, getNewsFeed, PostsState, SignInState, Post } from '../core'
+import {
+  AppState,
+  getNewsFeed,
+  PostsState,
+  SignInState,
+  Post,
+  getMoreGroupPost,
+} from '../core'
 import { postsAction } from '../core/actions'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styles from '../values/styles'
 import BottomSheet from 'reanimated-bottom-sheet'
-import AIcon from 'react-native-vector-icons/AntDesign'
 import { postService } from '../services'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { FloatingButton } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { actionBottomMenuRef } from '../../App'
-import { FlatList } from 'react-native-gesture-handler'
 
 interface Item {
   key: string
@@ -36,7 +42,6 @@ interface Item {
 interface NewsFeedScreenState {
   refreshing: boolean
   isLoadingMore: boolean
-  haveMorePosts: boolean
   listItems: Item[]
   deleteDialogTrigger: boolean
 }
@@ -44,6 +49,7 @@ interface NewsFeedScreenState {
 interface NewsFeedScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   getNewsFeed: typeof getNewsFeed
+  getMoreGroupPost: typeof getMoreGroupPost
   newsfeedState: PostsState
   signInState: SignInState
 }
@@ -63,7 +69,6 @@ class NewsFeedScreen extends Component<
     this.state = {
       refreshing: false,
       isLoadingMore: false,
-      haveMorePosts: true,
       deleteDialogTrigger: false,
       listItems: [
         {
@@ -104,15 +109,16 @@ class NewsFeedScreen extends Component<
     this.setState({ refreshing: false })
   }
 
-  loadMore = () => {
+  loadMore = async () => {
     this.setState({
       isLoadingMore: true,
-      haveMorePosts: false,
     })
 
-    setTimeout(() => {
-      this.setState({ isLoadingMore: false })
-    }, 1000)
+    await this.props.getMoreGroupPost(1)
+
+    this.setState({
+      isLoadingMore: false,
+    })
   }
 
   render() {
@@ -131,7 +137,7 @@ class NewsFeedScreen extends Component<
           <FlatList
             // style={{ zIndex: 111 }}
             // contentContainerStyle={{ zIndex: 111 }}
-            data={this.props.newsfeedState.currentNewsfeed}
+            data={this.props.newsfeedState.currentNewsfeed.results}
             renderItem={({ item, index }) => {
               return (
                 <ItemNewsFeed
@@ -149,7 +155,11 @@ class NewsFeedScreen extends Component<
             onRefresh={this.onRefresh}
             refreshing={this.state.refreshing}
             onEndReachedThreshold={0.1}
-            onEndReached={this.state.haveMorePosts ? this.loadMore : null}
+            onEndReached={
+              this.props.newsfeedState.currentNewsfeed.next
+                ? this.loadMore
+                : null
+            }
             ListFooterComponent={
               this.state.isLoadingMore ? (
                 <ActivityIndicator

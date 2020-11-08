@@ -1,5 +1,5 @@
 import BaseService from './BaseService'
-import { Post, Reaction, Comment, ImageFormData, Poll } from '../core'
+import { Post, Reaction, Comment, ImageFormData, Poll, Newsfeed } from '../core'
 import Axios from 'axios'
 
 class PostService extends BaseService<Post> {
@@ -8,7 +8,7 @@ class PostService extends BaseService<Post> {
     this.baseURL += 'posts/'
   }
 
-  getAllwParams(type: 'group' | 'user', id: number): Promise<Post[]> {
+  getAllwParams(type: 'group' | 'user', id: number): Promise<Newsfeed> {
     const method = type === 'group' ? 'byGroup' : 'byUser'
     return Axios.get(this.baseURL + `?method=${method}&id=${id}`)
       .then((res) => {

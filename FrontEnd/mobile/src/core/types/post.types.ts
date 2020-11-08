@@ -21,13 +21,13 @@ export interface PostsState {
   isUpdatingPosts: boolean
   isPostingPost: boolean
   postingSuccess: boolean
-  currentNewsfeed: Post[]
-  groupPosts: Post[]
+  currentNewsfeed: Newsfeed
+  groupPosts: Newsfeed
 }
 
 export interface PostsAction extends Action<string> {
-  newsfeed?: Post[]
-  groupPosts?: Post[]
+  newsfeed?: Newsfeed
+  groupPosts?: Newsfeed
 }
 
 export interface Post {
@@ -43,6 +43,13 @@ export interface Post {
   polls: Poll[]
   reactionId: number
   comments?: Comment[]
+}
+
+export interface Newsfeed {
+  count: number
+  next?: string
+  previous?: string
+  results: Post[]
 }
 
 export interface PostPhoto {

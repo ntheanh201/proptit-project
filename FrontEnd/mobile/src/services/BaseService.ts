@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { Alert } from 'react-native'
 import { BASE_URL } from '../values/env'
 
 export default class BaseService<T> {
@@ -13,7 +14,10 @@ export default class BaseService<T> {
       .then((res) => {
         return res.data
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        Alert.alert('Check your Internet Connection!')
+      })
   }
 
   getById(id: number): Promise<T> {
@@ -22,7 +26,10 @@ export default class BaseService<T> {
         console.log(res.data)
         return res.data
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        Alert.alert('Check your Internet Connection!')
+      })
   }
 
   add(item: T): Promise<string> {
@@ -33,6 +40,7 @@ export default class BaseService<T> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }
@@ -45,6 +53,7 @@ export default class BaseService<T> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }
@@ -57,6 +66,7 @@ export default class BaseService<T> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }
