@@ -15,6 +15,7 @@ import colors from '../values/colors'
 import styles from '../values/styles'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
 import { signInAction } from '../core/actions'
 import { connect } from 'react-redux'
@@ -31,6 +32,7 @@ interface MenuScreenProps {
 interface MenuScreenState {
   isExpandedGroup: boolean
   isExpandedSetting: boolean
+  isExpandedManage: boolean
   listGroup?: MiniGroup[]
 }
 
@@ -41,6 +43,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
     this.state = {
       isExpandedGroup: false,
       isExpandedSetting: false,
+      isExpandedManage: false,
       listGroup: this.props.currentUser?.participatingGroup,
     }
   }
@@ -103,9 +106,11 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
                 ]}>
                 Group
               </Text>
-              <Ionicon
+              <MaterialIcon
                 name={
-                  this.state.isExpandedGroup ? 'ios-arrow-up' : 'ios-arrow-down'
+                  this.state.isExpandedGroup
+                    ? 'keyboard-arrow-up'
+                    : 'keyboard-arrow-down'
                 }
                 size={20}
               />
@@ -133,6 +138,58 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
           </View>
           <TouchableOpacity
             onPress={() => {
+              this.setState({ isExpandedManage: !this.state.isExpandedManage })
+            }}>
+            <View
+              style={{
+                borderBottomColor: 'gray',
+                borderBottomWidth: 0.3,
+                width: '100%',
+                height: 50,
+                paddingHorizontal: 20,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <MaterialIcon name="auto-fix-high" size={20} />
+              <Text
+                style={[
+                  styles.bold_text,
+                  { fontSize: 15, flex: 1, marginLeft: 20 },
+                ]}>
+                Manage
+              </Text>
+              <MaterialIcon
+                name={
+                  this.state.isExpandedManage
+                    ? 'keyboard-arrow-up'
+                    : 'keyboard-arrow-down'
+                }
+                size={20}
+              />
+            </View>
+          </TouchableOpacity>
+          <View style={{ paddingLeft: 30 }}>
+            {this.state.isExpandedManage && (
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.navigation.navigate('Target', {
+                    userId: this.props.currentUser.id,
+                    adminMode: true,
+                  })
+                }}
+                style={{
+                  width: '100%',
+                  height: 50,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <MaterialCommunityIcons name={'target'} size={20} />
+                <Text style={{ marginLeft: 10 }}>Target</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <TouchableOpacity
+            onPress={() => {
               this.onPressSetting()
             }}>
             <View
@@ -153,11 +210,11 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
                 ]}>
                 Setting
               </Text>
-              <Ionicon
+              <MaterialIcon
                 name={
                   this.state.isExpandedSetting
-                    ? 'ios-arrow-up'
-                    : 'ios-arrow-down'
+                    ? 'keyboard-arrow-up'
+                    : 'keyboard-arrow-down'
                 }
                 size={20}
               />

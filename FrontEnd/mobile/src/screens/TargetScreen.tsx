@@ -52,7 +52,9 @@ class TargetScreen extends React.Component<
   getTargets = async () => {
     if (this.props.route.params.userId) {
     }
-    const targets = await targetService.getCurrentMonthTarget()
+    const targets = this.props.route.params.adminMode
+      ? await targetService.getAll()
+      : await targetService.getCurrentMonthTarget()
     if (targets) {
       this.setState({ targets })
     }
@@ -99,12 +101,14 @@ class TargetScreen extends React.Component<
               </TouchableOpacity>
             )
           })}
-          <TouchableOpacity style={styles.addButton}>
-            <AntDesign name="pluscircle" color="white" size={20} />
-            <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>
-              Add Target
-            </Text>
-          </TouchableOpacity>
+          {!adminMode && (
+            <TouchableOpacity style={styles.addButton}>
+              <AntDesign name="pluscircle" color="white" size={20} />
+              <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>
+                Add Target
+              </Text>
+            </TouchableOpacity>
+          )}
         </ScrollView>
         <Modal
           isVisible={modalVisible}
