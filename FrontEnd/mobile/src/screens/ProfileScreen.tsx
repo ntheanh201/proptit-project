@@ -24,7 +24,12 @@ import {
 import { connect } from 'react-redux'
 import { images } from '../assets'
 import LinearGradient from 'react-native-linear-gradient'
-import { WIDTH, HEIGHT, getStatusBarHeight } from '../configs/Function'
+import {
+  WIDTH,
+  HEIGHT,
+  getStatusBarHeight,
+  isCloseToBottom,
+} from '../configs/Function'
 import { TabView, SceneMap, Route, TabBar } from 'react-native-tab-view'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
@@ -315,18 +320,6 @@ class ProfileScreen extends React.Component<
         console.log(reason)
       })
   }
-}
-
-const isCloseToBottom = ({
-  layoutMeasurement,
-  contentOffset,
-  contentSize,
-}: any) => {
-  const paddingToBottom = 20
-  return (
-    layoutMeasurement.height + contentOffset.y >=
-    contentSize.height - paddingToBottom
-  )
 }
 
 const styles = StyleSheet.create({

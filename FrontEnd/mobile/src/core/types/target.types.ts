@@ -15,3 +15,8 @@ export interface Point {
   score: number
   description: string
 }
+
+export interface Rank {
+  score: number
+  user: MiniUser
+}

@@ -1,9 +1,14 @@
 import * as React from 'react'
 import { MiniUser } from '../core'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native'
 import { RouteProp } from '@react-navigation/native'
 import { RootStackParams } from '../navigations/AppNavigator'
-import { ActivityIndicator } from 'react-native-paper'
 import colors from '../values/colors'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { reactionService } from '../services'

@@ -16,13 +16,22 @@ import colors from '../values/colors'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { images } from '../assets'
 import { RouteProp } from '@react-navigation/native'
-import { AppState, getGroupPosts, Group, Post, User } from '../core'
-import { postService, groupService } from '../services'
+import {
+  AppState,
+  getGroupPosts,
+  getMoreGroupPost,
+  Group,
+  Newsfeed,
+  Post,
+  User,
+} from '../core'
+import { postService, groupService, newsfeedService } from '../services'
 import { FloatingButton } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
 import { AnyAction, bindActionCreators, Dispatch } from 'redux'
 import { postsAction } from '../core/actions'
 import { connect } from 'react-redux'
+import { isCloseToBottom } from '../configs/Function'
 
 interface Item {
   key: string
@@ -36,7 +45,8 @@ interface GroupScreenProps {
   navigation: StackNavigationProp<RootStackParams>
   route: RouteProp<RootStackParams, 'Group'>
   getGroupPosts: typeof getGroupPosts
-  groupPosts: Post[]
+  getMoreGroupPost: typeof getMoreGroupPost
+  groupPosts: Newsfeed
   isLoadingPosts: boolean
   currentUser?: User
 }
@@ -92,16 +102,6 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
     }, 1000)
   }
 
-  loadMore = () => {
-    this.setState({
-      isLoadingMore: true,
-    })
-
-    setTimeout(() => {
-      this.setState({ isLoadingMore: false })
-    }, 1000)
-  }
-
   render() {
     if (this.state.isLoading) {
       return <ActivityIndicator animating={true} />
@@ -137,6 +137,13 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                 headerTitle: () => null,
               })
             }
+            if (
+              isCloseToBottom(e.nativeEvent) &&
+              this.props.groupPosts.next &&
+              !this.state.isLoadingMore
+            ) {
+              this.props.getMoreGroupPost(this.state.groupData!.id)
+            }
           }}
           style={{
             width: '100%',
@@ -160,7 +167,9 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
             <Text style={[styles.bold_text, { marginTop: 20 }]}>
               {this.state.groupData?.name}
             </Text>
-            <Text style={{ color: 'gray' }}>11 members</Text>
+            <Text style={{ color: 'gray' }}>
+              {this.state.groupData?.members.length} members
+            </Text>
             <View
               style={{
                 marginTop: 10,
@@ -171,7 +180,9 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
               }}>
               <TouchableOpacity
                 onPress={() => {
-                  this.navigateToMember()
+                  this.props.navigation.navigate('UserList', {
+                    listUser: this.state.groupData?.members,
+                  })
                 }}
                 style={{
                   flexDirection: 'row',
@@ -191,7 +202,7 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                     />
                   ))}
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => {}}
                 style={{
                   height: 40,
@@ -212,13 +223,13 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
                   }}>
                   Invite
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
           {this.props.isLoadingPosts ? (
             <ActivityIndicator animating={true} />
           ) : (
-            this.props.groupPosts.map((post) => (
+            this.props.groupPosts.results.map((post) => (
               <ItemNewsFeed
                 post={post}
                 currentGroup={post.assignedGroup.id}
@@ -245,11 +256,6 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
       </SafeAreaView>
     )
   }
-  navigateToInvite = () => {
-    throw new Error('Method not implemented.')
-  }
-
-  navigateToMember = () => {}
 }
 
 const mapStateToProps = (state: AppState) => ({

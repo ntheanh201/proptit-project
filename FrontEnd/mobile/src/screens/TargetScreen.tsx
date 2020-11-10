@@ -2,6 +2,7 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Switch,
@@ -9,14 +10,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { AppState, Target } from '../core'
+import { AppState, Point, Target } from '../core'
 import { RootStackParams } from '../navigations/AppNavigator'
-import { targetService } from '../services'
+import { pointService, targetService } from '../services'
 import moment from 'moment'
 import colors from '../values/colors'
 import Modal from 'react-native-modal'
 import { connect } from 'react-redux'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { Picker } from '@react-native-community/picker'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 interface TargetScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -27,6 +30,8 @@ interface TargetScreenState {
   targets: Target[]
   modalVisible: boolean
   currentFocusedTarget?: Target
+  pointChosing: boolean
+  pointList: Point[]
 }
 
 class TargetScreen extends React.Component<
@@ -38,6 +43,8 @@ class TargetScreen extends React.Component<
     this.state = {
       targets: [],
       modalVisible: false,
+      pointChosing: false,
+      pointList: [],
     }
     this.props.navigation.setOptions({
       headerBackTitleVisible: false,
@@ -58,10 +65,22 @@ class TargetScreen extends React.Component<
     if (targets) {
       this.setState({ targets })
     }
+    if (this.props.route.params.adminMode) {
+      const pointList = await pointService.getAll()
+      if (pointList) {
+        this.setState({ pointList })
+      }
+    }
   }
 
   render() {
-    const { currentFocusedTarget, targets, modalVisible } = this.state
+    const {
+      currentFocusedTarget,
+      targets,
+      modalVisible,
+      pointChosing,
+      pointList,
+    } = this.state
     const { adminMode } = this.props.route.params
     return (
       <>
@@ -84,6 +103,7 @@ class TargetScreen extends React.Component<
                   this.setState({
                     modalVisible: true,
                     currentFocusedTarget: target,
+                    pointChosing: false,
                   })
                 }}>
                 <View>
@@ -92,7 +112,7 @@ class TargetScreen extends React.Component<
                     {moment(target.createdTime).format('MMM DD').toString()}
                   </Text>
                 </View>
-                <Text>Pending</Text>
+                <Text>{this.convertStatus(target.status)}</Text>
                 {target.point && (
                   <View style={styles.pointWrapper}>
                     <Text style={styles.point}>{target.point.score} pts</Text>
@@ -138,21 +158,106 @@ class TargetScreen extends React.Component<
                 </View>
               )}
             </View>
-            <Text style={styles.description}>Pending</Text>
+            <Text style={styles.description}>
+              {this.convertStatus(currentFocusedTarget?.status)}
+            </Text>
             <Text style={styles.description}>
               {moment(currentFocusedTarget?.createdTime)
                 .format('MMM DD')
                 .toString()}
             </Text>
             {adminMode ? (
-              <View style={styles.buttonWrapper}>
-                <TouchableOpacity style={styles.acceptButton}>
-                  <Text style={{ color: 'white' }}>Accept</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.dangerButton}>
-                  <Text style={{ color: 'red' }}>Reject</Text>
-                </TouchableOpacity>
-              </View>
+              <>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text>Point: </Text>
+                  <TouchableOpacity
+                    style={{
+                      borderRadius: 10,
+                      padding: 10,
+                      backgroundColor: '#e0e0e0',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingRight: 5,
+                    }}
+                    onPress={() => {
+                      this.setState({ pointChosing: !pointChosing })
+                    }}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        alignContent: 'center',
+                      }}>
+                      {currentFocusedTarget?.point
+                        ? currentFocusedTarget.point.score + ' pts'
+                        : 'null'}
+                    </Text>
+                    <MaterialIcons name="arrow-drop-down" size={20} />
+                  </TouchableOpacity>
+                </View>
+                {pointChosing && (
+                  <Picker
+                    selectedValue={JSON.stringify(currentFocusedTarget?.point)}
+                    onValueChange={(value, index) => {
+                      const point: Point = JSON.parse(value.toString())
+                      this.setState((prevState) => {
+                        return {
+                          currentFocusedTarget: {
+                            ...prevState.currentFocusedTarget!,
+                            point,
+                          },
+                        }
+                      })
+                    }}>
+                    {pointList.map((point) => (
+                      <Picker.Item
+                        label={`${point.score} pts`}
+                        value={JSON.stringify(point)}
+                      />
+                    ))}
+                  </Picker>
+                )}
+                <View style={styles.buttonWrapper}>
+                  <TouchableOpacity
+                    style={styles.acceptButton}
+                    onPress={async () => {
+                      const response = await targetService.update(
+                        currentFocusedTarget!,
+                      )
+                      if (response === 'success') {
+                        this.setState({ modalVisible: false })
+                      }
+                    }}>
+                    <Text style={{ color: 'white' }}>Save</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.dangerButton}
+                    onPress={() => {
+                      Alert.alert(
+                        'Reject Target?',
+                        'Do you really want to reject this target?',
+                        [
+                          {
+                            text: 'Reject',
+                            onPress: () => {
+                              this.setState({ modalVisible: false })
+                            },
+                            style: 'destructive',
+                          },
+                          {
+                            text: 'Cancel',
+                            onPress: () => {
+                              this.setState({ modalVisible: false })
+                            },
+                            style: 'cancel',
+                          },
+                        ],
+                        { cancelable: false },
+                      )
+                    }}>
+                    <Text style={{ color: 'red' }}>Reject</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
             ) : (
               <View style={styles.buttonWrapper}>
                 <TouchableOpacity style={styles.acceptButton}>
@@ -167,6 +272,19 @@ class TargetScreen extends React.Component<
         </Modal>
       </>
     )
+  }
+
+  convertStatus(status?: number): string {
+    switch (status) {
+      case 0:
+        return 'Pending'
+      case 1:
+        return 'Doing'
+      case 2:
+        return 'Done'
+      default:
+        return 'Unknown'
+    }
   }
 }
 

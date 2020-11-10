@@ -46,7 +46,7 @@ export default class BaseService<T> {
   }
 
   update(item: T): Promise<string> {
-    return Axios.patch(this.baseURL, item)
+    return Axios.put(this.baseURL, item)
       .then((res) => {
         console.log(res.status)
         return 'success'
