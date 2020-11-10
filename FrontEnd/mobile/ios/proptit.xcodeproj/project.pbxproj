@@ -89,8 +89,6 @@
 		41A64CB3243EA59E00C7E968 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		41A64CB4243EA59E00C7E968 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		538DBA1A40B77D3834FDD918 /* Pods-proptit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proptit.release.xcconfig"; path = "Target Support Files/Pods-proptit/Pods-proptit.release.xcconfig"; sourceTree = "<group>"; };
-		55A0713AD8B05F45655A6BAA /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
-		5924932EB8C43A69BD1A5E42 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		5FCB39C318FB036D1041DD57 /* Pods-proptit-proptitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proptit-proptitTests.debug.xcconfig"; path = "Target Support Files/Pods-proptit-proptitTests/Pods-proptit-proptitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		658C33733C1101FF8B401E91 /* Pods-proptit-proptitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proptit-proptitTests.release.xcconfig"; path = "Target Support Files/Pods-proptit-proptitTests/Pods-proptit-proptitTests.release.xcconfig"; sourceTree = "<group>"; };
 		6AAD6313BF07C137A5004130 /* libPods-proptit-proptitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-proptit-proptitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,8 +196,6 @@
 				B18D90F7EF345AEE7DFFAA83 /* Pods-proptit-tvOS.release.xcconfig */,
 				9A44E629F4983682BD4B2705 /* Pods-proptit-tvOSTests.debug.xcconfig */,
 				BBA995F0931DE8C6DD5303C8 /* Pods-proptit-tvOSTests.release.xcconfig */,
-				5924932EB8C43A69BD1A5E42 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
-				55A0713AD8B05F45655A6BAA /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";

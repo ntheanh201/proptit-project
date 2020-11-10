@@ -1,4 +1,4 @@
-package com.proptit;
+package com.proptit.prosocial;
 
 import com.facebook.react.ReactActivity;
 

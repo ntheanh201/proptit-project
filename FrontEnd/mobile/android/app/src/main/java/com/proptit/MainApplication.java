@@ -1,4 +1,4 @@
-package com.proptit;
+package com.proptit.prosocial;
 
 import android.app.Application;
 import android.content.Context;

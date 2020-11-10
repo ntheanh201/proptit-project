@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "821458146339",
+    "firebase_url": "https://prosocial-e83d9.firebaseio.com",
+    "project_id": "prosocial-e83d9",
+    "storage_bucket": "prosocial-e83d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821458146339:android:ac2567e6307304fcd1cd96",
+        "android_client_info": {
+          "package_name": "com.proptit.prosocial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821458146339-t2el2js5s9hv0dattfgt36tf6k95pkc1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYMIASV2sK_LPt5XeA_5E_DxdkVI3cX8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821458146339-t2el2js5s9hv0dattfgt36tf6k95pkc1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "821458146339-a401v7u33pe80du0gusb4qfu9juoljbe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.proptit.prosocial"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -132,7 +132,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.proptit"
+        applicationId "com.proptit.prosocial"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
