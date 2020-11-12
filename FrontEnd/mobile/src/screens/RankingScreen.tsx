@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
   ActivityIndicator,
   Image,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -57,7 +58,16 @@ class RankingScreen extends React.Component<{}, RankingScreenState> {
           <Text style={{ fontWeight: 'bold' }}>Name</Text>
           <Text style={{ fontWeight: 'bold' }}>Score</Text>
         </View>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoadingRank}
+              onRefresh={async () => {
+                await this.getRankingData()
+                this.setState({ isLoadingRank: false })
+              }}
+            />
+          }>
           {rankingData.map((rank, index) => (
             <View style={styles.wrapper}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>

@@ -79,6 +79,7 @@ class SignInScreen extends React.Component<
             <Text style={styles.txtForgot}>Forgot your password?</Text>
           </TouchableOpacity> */}
           {this.state.signInClicked &&
+          !this.props.signInState.isLoading &&
           this.props.signInState.isSignIn === false ? (
             <Text style={{ color: 'red' }}>
               No active account found with the given credentials

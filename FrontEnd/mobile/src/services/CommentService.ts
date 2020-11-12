@@ -2,6 +2,7 @@ import React from 'react'
 import BaseService from './BaseService'
 import { Comment } from '../core'
 import Axios from 'axios'
+import { Alert } from 'react-native'
 
 class CommentService extends BaseService<Comment> {
   constructor() {
@@ -16,6 +17,7 @@ class CommentService extends BaseService<Comment> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return []
       })
   }
@@ -28,6 +30,7 @@ class CommentService extends BaseService<Comment> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }
@@ -42,6 +45,7 @@ class CommentService extends BaseService<Comment> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }

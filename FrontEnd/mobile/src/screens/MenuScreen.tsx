@@ -170,22 +170,40 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
           </TouchableOpacity>
           <View style={{ paddingLeft: 30 }}>
             {this.state.isExpandedManage && (
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate('Target', {
-                    userId: this.props.currentUser.id,
-                    adminMode: true,
-                  })
-                }}
-                style={{
-                  width: '100%',
-                  height: 50,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <MaterialCommunityIcons name={'target'} size={20} />
-                <Text style={{ marginLeft: 10 }}>Target</Text>
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('Target', {
+                      userId: this.props.currentUser.id,
+                      adminMode: true,
+                    })
+                  }}
+                  style={{
+                    width: '100%',
+                    height: 50,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <MaterialCommunityIcons name={'target'} size={20} />
+                  <Text style={{ marginLeft: 10 }}>Target</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('BonusPoint')
+                  }}
+                  style={{
+                    width: '100%',
+                    height: 50,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <MaterialCommunityIcons
+                    name={'format-annotation-plus'}
+                    size={20}
+                  />
+                  <Text style={{ marginLeft: 10 }}>Bonus Point</Text>
+                </TouchableOpacity>
+              </>
             )}
           </View>
           <TouchableOpacity

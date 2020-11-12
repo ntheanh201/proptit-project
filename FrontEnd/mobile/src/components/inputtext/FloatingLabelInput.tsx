@@ -8,6 +8,7 @@ import ReactNative, {
   Platform,
   ScrollView,
   KeyboardTypeOptions,
+  TextInputProps,
 } from 'react-native'
 import colors from '../../values/colors'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -21,7 +22,7 @@ export interface ScrollViewCustomProps {
   }
 }
 
-interface FloatingLabelInputProps {
+interface FloatingLabelInputProps extends TextInputProps {
   label?: string
   onTextChange?: (text: string) => void
   textInputColor?: string
@@ -29,8 +30,6 @@ interface FloatingLabelInputProps {
   isPassword?: boolean
   value?: string
   valid?: boolean
-  multiline?: boolean
-  keyboardType?: KeyboardTypeOptions
   onFocus?: () => void
   scrollView?: ScrollViewCustomProps
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters'
@@ -89,7 +88,6 @@ export class FloatingLabelInput extends React.Component<
       containerStyle,
       isPassword,
       value,
-      multiline,
       scrollView,
       onFocus,
       valid,
@@ -121,9 +119,9 @@ export class FloatingLabelInput extends React.Component<
             borderBottomWidth: 1,
             borderBottomColor: this.state.isFocused
               ? colors.mainBlue
-              : this.props.valid
-              ? '#aaa'
-              : 'red',
+              : valid !== null && valid === false
+              ? 'red'
+              : '#aaa',
             fontSize: 18,
             color: textInputColor,
           }}
@@ -132,7 +130,7 @@ export class FloatingLabelInput extends React.Component<
             this.setState({
               text: text,
             })
-            onTextChange ? onTextChange(text) : null
+            onTextChange && onTextChange(text)
           }}
           onFocus={(event) => {
             this.setState({
@@ -141,7 +139,6 @@ export class FloatingLabelInput extends React.Component<
           }}
           onBlur={this.handleBlur}
           secureTextEntry={isPassword}
-          multiline={multiline}
           onContentSizeChange={(event) => {
             const scrollHeight = event.nativeEvent.contentSize.height
             if (
@@ -158,7 +155,7 @@ export class FloatingLabelInput extends React.Component<
           }}
           autoCorrect={false}
         />
-        {!valid && (
+        {valid !== null && valid === false && (
           <MaterialIcons
             name="error-outline"
             color="red"

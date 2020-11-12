@@ -260,7 +260,7 @@ class ProfileScreen extends React.Component<
               style={styles.btnInfo}
               onPress={() => {
                 this.props.navigation.navigate('Target', {
-                  userId: this.props.signInState.currentUser!.id,
+                  userId: this.props.route.params.userId,
                   adminMode: false,
                 })
               }}>
