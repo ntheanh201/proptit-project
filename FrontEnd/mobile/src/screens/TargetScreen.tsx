@@ -4,6 +4,7 @@ import React from 'react'
 import {
   Alert,
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Switch,
@@ -113,14 +114,33 @@ class TargetScreen extends React.Component<
               alignItems: 'center',
             }}>
             <Text style={styles.title}>Tháng 11</Text>
-            <TouchableOpacity
-              style={{ flexDirection: 'row' }}
-              onPress={() => {
-                this.setState({ statusChosing: !statusChosing })
-              }}>
-              <Text>{this.convertStatus(status).title}</Text>
-              <MaterialIcons name="arrow-drop-down" size={20} />
-            </TouchableOpacity>
+            {Platform.OS === 'ios' ? (
+              <TouchableOpacity
+                style={{ width: 150, borderWidth: 1 }}
+                onPress={() => {
+                  this.setState({ statusChosing: !statusChosing })
+                }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text>{this.convertStatus(status).title}</Text>
+                  <MaterialIcons name="arrow-drop-down" size={20} />
+                </View>
+              </TouchableOpacity>
+            ) : (
+              <Picker
+                style={{ width: 130 }}
+                selectedValue={status}
+                onValueChange={(value, index) => {
+                  this.setState({ status: index })
+                }}
+                mode="dropdown">
+                {statusList.map((stt) => (
+                  <Picker.Item
+                    label={this.convertStatus(stt).title}
+                    value={stt}
+                  />
+                ))}
+              </Picker>
+            )}
           </View>
           {statusChosing && (
             <Picker

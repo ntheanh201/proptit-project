@@ -184,22 +184,22 @@ class EditProfileScreen extends React.Component<
                 {moment(this.state.birthday).format('DD/MM/YYYY').toString()}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                marginHorizontal: 10,
-                borderBottomWidth: 1,
-                borderColor: '#aaa',
-              }}
-              onPress={() => {
-                this.setState({
-                  isShowingGenderPicker: !this.state.isShowingGenderPicker,
-                })
-                this.state.isShowingDatePicker &&
-                  this.setState({ isShowingDatePicker: false })
-              }}>
-              <Text>Gender </Text>
-              {Platform.OS === 'ios' ? (
+            {Platform.OS === 'ios' ? (
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  marginHorizontal: 10,
+                  borderBottomWidth: 1,
+                  borderColor: '#aaa',
+                }}
+                onPress={() => {
+                  this.setState({
+                    isShowingGenderPicker: !this.state.isShowingGenderPicker,
+                  })
+                  this.state.isShowingDatePicker &&
+                    this.setState({ isShowingDatePicker: false })
+                }}>
+                <Text>Gender </Text>
                 <Text
                   style={{
                     fontSize: 18,
@@ -207,8 +207,18 @@ class EditProfileScreen extends React.Component<
                   }}>
                   {this.convertGenderType(this.state.gender)}
                 </Text>
-              ) : (
+              </TouchableOpacity>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  marginHorizontal: 10,
+                  borderBottomWidth: 1,
+                  borderColor: '#aaa',
+                }}>
+                <Text>Gender </Text>
                 <Picker
+                  mode={'dropdown'}
                   selectedValue={this.convertGenderType(this.state.gender)}
                   onValueChange={(value, index) => {
                     this.setState({ gender: index + 1 })
@@ -217,10 +227,10 @@ class EditProfileScreen extends React.Component<
                   <Picker.Item label={'Female'} value={'Female'} />
                   <Picker.Item label={'Other'} value={'Other'} />
                 </Picker>
-              )}
-            </TouchableOpacity>
+              </View>
+            )}
           </View>
-          {Platform.OS === 'ios' && this.state.isShowingDatePicker && (
+          {this.state.isShowingDatePicker && (
             <DateTimePicker
               value={this.state.birthday}
               mode={'date'}
@@ -231,7 +241,7 @@ class EditProfileScreen extends React.Component<
               }}
             />
           )}
-          {this.state.isShowingGenderPicker && (
+          {this.state.isShowingGenderPicker && Platform.OS === 'ios' && (
             <Picker
               selectedValue={this.convertGenderType(this.state.gender)}
               onValueChange={(value, index) => {
