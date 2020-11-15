@@ -5,6 +5,7 @@ import {
   Image,
   FlatList,
   SafeAreaView,
+  ActivityIndicator,
 } from 'react-native'
 import { AppState, Notification } from '../core'
 import { Dispatch, AnyAction, bindActionCreators } from 'redux'
@@ -15,7 +16,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { HomeTabParams } from '../navigations/HomeNavigator'
 import { RootStackParams } from '../navigations/AppNavigator'
-import { ActivityIndicator } from 'react-native-paper'
 import { notificationService } from '../services'
 import { ItemNotification } from '../components'
 

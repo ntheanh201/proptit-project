@@ -3,6 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <React/RCTLinkingManager.h>
 
 #import "RNSplashScreen.h"
 
@@ -53,6 +54,13 @@ static void InitializeFlipper(UIApplication *application) {
 //  [RNSplashScreen show];
   return YES;
 }
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+         {
+           return [RCTLinkingManager application:application openURL:url options:options];
+         }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {

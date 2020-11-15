@@ -131,7 +131,6 @@ class NewsFeedScreen extends Component<
           style={{
             width: '100%',
             height: '100%',
-            backgroundColor: 'white',
             flexDirection: 'column',
           }}>
           <FlatList

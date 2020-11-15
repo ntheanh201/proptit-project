@@ -14,16 +14,16 @@ export const ItemNotification = (props: ItemNotificationProps) => {
   let content = ''
   switch (props.noti.type) {
     case 0:
-      content = ' đã đăng bài trong '
+      content = ' posted in '
       break
     case 1:
-      content = ' đã thích bài viết của bạn.'
+      content = ' liked your post.'
       break
     case 2:
-      content = ' đã xác nhận bài viết.'
+      content = ' confirmed on your posted.'
       break
     case 3:
-      content = ' đã bầu chọn trong bài thăm dò ý kiến.'
+      content = ' voted in your poll.'
       break
   }
 

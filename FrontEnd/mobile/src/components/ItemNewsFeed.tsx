@@ -160,7 +160,7 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
         style={{
           width: '100%',
           backgroundColor: 'white',
-          paddingBottom: 15,
+          marginBottom: 5,
         }}>
         <TouchableWithoutFeedback
           onPress={() => {

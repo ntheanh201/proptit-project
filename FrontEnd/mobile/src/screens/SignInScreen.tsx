@@ -10,6 +10,8 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  Alert,
+  Linking,
 } from 'react-native'
 import { images } from '../assets'
 import colors from '../values/colors'
@@ -88,15 +90,15 @@ class SignInScreen extends React.Component<
           <TouchableOpacity
             style={styles.btnSignIn}
             onPress={() => {
-              // if (
-              //   this.state.username.length === 0 &&
-              //   this.state.password.length === 0
-              // ) {
-              //   this.setState({ valid: false })
-              // } else {
-              this.props.signIn('proptit', 'aiforce.proptit')
-              this.setState({ valid: true, signInClicked: true })
-              // }
+              if (
+                this.state.username.length === 0 &&
+                this.state.password.length === 0
+              ) {
+                this.setState({ valid: false })
+              } else {
+                this.props.signIn(this.state.username, this.state.password)
+                this.setState({ valid: true, signInClicked: true })
+              }
             }}>
             {this.props.signInState.isLoading ? (
               <ActivityIndicator
@@ -115,7 +117,21 @@ class SignInScreen extends React.Component<
             }}>
             <Text style={styles.txtSignUp}>Create New Account</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ marginTop: 10 }}>
+          <TouchableOpacity
+            style={{ marginTop: 10 }}
+            onPress={() => {
+              Alert.alert(
+                'Contact Admin',
+                'Please contact developer.proptit@gmail.com for more infomation!',
+                [
+                  {
+                    onPress: () => {
+                      Linking.openURL('mailto:developer.proptit@gmail.com')
+                    },
+                  },
+                ],
+              )
+            }}>
             <Text style={styles.txtForgot}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
