@@ -116,7 +116,6 @@ class TargetScreen extends React.Component<
             <Text style={styles.title}>Tháng 11</Text>
             {Platform.OS === 'ios' ? (
               <TouchableOpacity
-                style={{ width: 150, borderWidth: 1 }}
                 onPress={() => {
                   this.setState({ statusChosing: !statusChosing })
                 }}>
@@ -325,12 +324,13 @@ class TargetScreen extends React.Component<
                   <TouchableOpacity
                     style={styles.acceptButton}
                     onPress={async () => {
-                      const response = await targetService.update(
-                        currentFocusedTarget!,
-                      )
-                      if (response === 'success') {
-                        this.setState({ infoModalVisible: false })
-                      }
+                      this.changeStatusAfterSave()
+                      // const response = await targetService.update(
+                      //   currentFocusedTarget!,
+                      // )
+                      // if (response === 'success') {
+                      //   this.setState({ infoModalVisible: false })
+                      // }
                     }}>
                     <Text style={{ color: 'white' }}>
                       {currentFocusedTarget?.status === 0 ? 'Accept' : 'Save'}
@@ -429,7 +429,34 @@ class TargetScreen extends React.Component<
     }
   }
 
-  changeStatusAfterSave() {}
+  changeStatusAfterSave() {
+    const { adminMode } = this.props.route.params
+    const target: Target = JSON.parse(
+      JSON.stringify(this.state.currentFocusedTarget),
+    )
+    switch (target.status) {
+      case 0:
+        if (!target.point) {
+          Alert.alert('Point still null!')
+        } else {
+          target.status = 1
+        }
+        break
+      case 1:
+        if (!adminMode) {
+          target.status = 2
+        }
+        break
+      case 2:
+        if (adminMode) {
+          target.isDone = true
+        }
+        break
+      default:
+        break
+    }
+    this.setState({ currentFocusedTarget: target })
+  }
 }
 
 const styles = StyleSheet.create({

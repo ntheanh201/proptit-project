@@ -136,76 +136,82 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
                 })
               : null}
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ isExpandedManage: !this.state.isExpandedManage })
-            }}>
-            <View
-              style={{
-                borderBottomColor: 'gray',
-                borderBottomWidth: 0.3,
-                width: '100%',
-                height: 50,
-                paddingHorizontal: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <MaterialIcon name="auto-fix-high" size={20} />
-              <Text
-                style={[
-                  styles.bold_text,
-                  { fontSize: 15, flex: 1, marginLeft: 20 },
-                ]}>
-                Manage
-              </Text>
-              <MaterialIcon
-                name={
-                  this.state.isExpandedManage
-                    ? 'keyboard-arrow-up'
-                    : 'keyboard-arrow-down'
-                }
-                size={20}
-              />
-            </View>
-          </TouchableOpacity>
-          <View style={{ paddingLeft: 30 }}>
-            {this.state.isExpandedManage && (
-              <>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate('Target', {
-                      userId: this.props.currentUser.id,
-                      adminMode: true,
-                    })
-                  }}
+          {this.props.currentUser.role === 0 && (
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({
+                    isExpandedManage: !this.state.isExpandedManage,
+                  })
+                }}>
+                <View
                   style={{
+                    borderBottomColor: 'gray',
+                    borderBottomWidth: 0.3,
                     width: '100%',
                     height: 50,
+                    paddingHorizontal: 20,
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
-                  <MaterialCommunityIcons name={'target'} size={20} />
-                  <Text style={{ marginLeft: 10 }}>Target</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate('BonusPoint')
-                  }}
-                  style={{
-                    width: '100%',
-                    height: 50,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons
-                    name={'format-annotation-plus'}
+                  <MaterialIcon name="auto-fix-high" size={20} />
+                  <Text
+                    style={[
+                      styles.bold_text,
+                      { fontSize: 15, flex: 1, marginLeft: 20 },
+                    ]}>
+                    Manage
+                  </Text>
+                  <MaterialIcon
+                    name={
+                      this.state.isExpandedManage
+                        ? 'keyboard-arrow-up'
+                        : 'keyboard-arrow-down'
+                    }
                     size={20}
                   />
-                  <Text style={{ marginLeft: 10 }}>Bonus Point</Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
+                </View>
+              </TouchableOpacity>
+              <View style={{ paddingLeft: 30 }}>
+                {this.state.isExpandedManage && (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.props.navigation.navigate('Target', {
+                          userId: this.props.currentUser.id,
+                          adminMode: true,
+                        })
+                      }}
+                      style={{
+                        width: '100%',
+                        height: 50,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <MaterialCommunityIcons name={'target'} size={20} />
+                      <Text style={{ marginLeft: 10 }}>Target</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.props.navigation.navigate('BonusPoint')
+                      }}
+                      style={{
+                        width: '100%',
+                        height: 50,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <MaterialCommunityIcons
+                        name={'format-annotation-plus'}
+                        size={20}
+                      />
+                      <Text style={{ marginLeft: 10 }}>Bonus Point</Text>
+                    </TouchableOpacity>
+                  </>
+                )}
+              </View>
+            </>
+          )}
           <TouchableOpacity
             onPress={() => {
               this.onPressSetting()
