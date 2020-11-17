@@ -148,7 +148,6 @@ class GroupScreen extends React.Component<GroupScreenProps, GroupScreenState> {
           style={{
             width: '100%',
             height: '100%',
-            backgroundColor: 'gray',
             flexDirection: 'column',
           }}>
           <View

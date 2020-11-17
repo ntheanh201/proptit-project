@@ -33,7 +33,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { FloatingButton } from '../components'
 import ItemNewsFeed from '../components/ItemNewsFeed'
-import { actionBottomMenuRef } from '../../App'
 
 interface Item {
   key: string

@@ -73,7 +73,6 @@ export const updateAvatarUser = (userState: User, image: ImageFormData) => {
     const userData = await authUserService.updateAvatar(image)
     if (userData) {
       const newUserData = { ...userState, ...userData }
-      console.log(newUserData)
       await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
       dispatch({ type: UPDATE_USER_SUCCESS, currentUser: newUserData })
     } else {

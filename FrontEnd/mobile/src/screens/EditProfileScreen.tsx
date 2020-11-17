@@ -55,7 +55,9 @@ class EditProfileScreen extends React.Component<
       padding: 0,
       isShowingDatePicker: false,
       isShowingGenderPicker: false,
-      birthday: moment(this.props.currentUser?.dateOfBirth!).toDate(),
+      birthday: this.props.currentUser?.dateOfBirth
+        ? moment(this.props.currentUser?.dateOfBirth).toDate()
+        : moment().toDate(),
       gender: this.props.currentUser?.gender ?? 1,
       className: this.props.currentUser?.className ?? '',
       description: this.props.currentUser?.description ?? '',
@@ -169,20 +171,32 @@ class EditProfileScreen extends React.Component<
                 borderColor: '#aaa',
               }}
               onPress={() => {
-                this.setState({
-                  isShowingDatePicker: !this.state.isShowingDatePicker,
-                })
-                this.state.isShowingGenderPicker &&
-                  this.setState({ isShowingGenderPicker: false })
+                Platform.OS === 'android' &&
+                  this.setState({
+                    isShowingDatePicker: true,
+                  })
               }}>
               <Text>Birthday </Text>
-              <Text
-                style={{
-                  fontSize: 18,
-                  marginTop: 5,
-                }}>
-                {moment(this.state.birthday).format('DD/MM/YYYY').toString()}
-              </Text>
+              {Platform.OS === 'ios' ? (
+                <DateTimePicker
+                  value={this.state.birthday}
+                  mode={'date'}
+                  style={{ height: 30, backgroundColor: 'white' }}
+                  onChange={(event, date) => {
+                    Platform.OS === 'android' &&
+                      this.setState({ isShowingDatePicker: false })
+                    date && this.setState({ birthday: date })
+                  }}
+                />
+              ) : (
+                <Text
+                  style={{
+                    fontSize: 18,
+                    marginTop: 5,
+                  }}>
+                  {moment(this.state.birthday).format('DD/MM/YYYY').toString()}
+                </Text>
+              )}
             </TouchableOpacity>
             {Platform.OS === 'ios' ? (
               <TouchableOpacity
@@ -196,8 +210,6 @@ class EditProfileScreen extends React.Component<
                   this.setState({
                     isShowingGenderPicker: !this.state.isShowingGenderPicker,
                   })
-                  this.state.isShowingDatePicker &&
-                    this.setState({ isShowingDatePicker: false })
                 }}>
                 <Text>Gender </Text>
                 <Text

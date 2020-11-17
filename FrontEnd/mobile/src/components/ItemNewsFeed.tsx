@@ -8,6 +8,8 @@ import {
   Platform,
   Alert,
   SafeAreaView,
+  StyleProp,
+  ViewStyle,
 } from 'react-native'
 import {
   Post,
@@ -43,6 +45,7 @@ interface ItemNewsFeedProps {
   inPostDetail?: () => void
   navigation: StackNavigationProp<RootStackParams>
   currentUser?: User
+  containerStyle?: StyleProp<ViewStyle>
   addReaction: typeof addReaction
   deleteReaction: typeof deleteReaction
   deletePost: typeof deletePost
@@ -152,16 +155,19 @@ class ItemNewsFeed extends Component<ItemNewsFeedProps, ItemNewFeedState> {
   }
 
   render() {
-    const { post, currentGroup, inProfile } = this.props
+    const { post, currentGroup, inProfile, containerStyle } = this.props
     const timeago = moment(post.time).fromNow()
 
     return (
       <View
-        style={{
-          width: '100%',
-          backgroundColor: 'white',
-          marginBottom: 5,
-        }}>
+        style={[
+          {
+            width: '100%',
+            backgroundColor: 'white',
+            marginBottom: 5,
+          },
+          containerStyle,
+        ]}>
         <TouchableWithoutFeedback
           onPress={() => {
             this.props.navigation.navigate('PostDetail', {

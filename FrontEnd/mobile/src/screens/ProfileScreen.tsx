@@ -95,12 +95,13 @@ class ProfileScreen extends React.Component<
   //   }
   // }
 
-  componentDidUpdate(prevProps: ProfileScreenProps) {
+  async componentDidUpdate(prevProps: ProfileScreenProps) {
     if (
       !prevProps.signInState.updateUserSuccess &&
       this.props.signInState.updateUserSuccess
     ) {
-      this.getUserPost()
+      await this.getUserData()
+      await this.getUserPost()
     }
   }
 
@@ -138,7 +139,7 @@ class ProfileScreen extends React.Component<
     }
     return (
       <ScrollView
-        style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%' }}
         scrollEventThrottle={16}
         onScroll={(e) => {
           const y = e.nativeEvent.contentOffset.y
@@ -213,9 +214,7 @@ class ProfileScreen extends React.Component<
           <View style={styles.avatar}>
             <Image
               source={{
-                uri: this.state.isMyProfile
-                  ? this.props.signInState.currentUser?.avatar
-                  : this.state.user?.avatar,
+                uri: this.state.user?.avatar,
               }}
               style={styles.avatar}
             />
@@ -244,32 +243,27 @@ class ProfileScreen extends React.Component<
         </ImageBackground>
         <View
           style={{
-            backgroundColor: '#e0e0e0',
-            paddingVertical: 10,
+            flexDirection: 'row',
+            backgroundColor: 'white',
+            paddingVertical: 5,
+            marginBottom: 10,
           }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: 'white',
-              paddingVertical: 5,
+          <TouchableOpacity style={styles.btnInfo}>
+            <Text>Image</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.btnInfo}
+            onPress={() => {
+              this.props.navigation.navigate('Target', {
+                userId: this.props.route.params.userId,
+                adminMode: false,
+              })
             }}>
-            <TouchableOpacity style={styles.btnInfo}>
-              <Text>Image</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnInfo}
-              onPress={() => {
-                this.props.navigation.navigate('Target', {
-                  userId: this.props.route.params.userId,
-                  adminMode: false,
-                })
-              }}>
-              <Text> Monthly Target</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnInfo}>
-              <Text> More Info</Text>
-            </TouchableOpacity>
-          </View>
+            <Text> Monthly Target</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnInfo}>
+            <Text> More Info</Text>
+          </TouchableOpacity>
         </View>
         {this.state.isLoadingPost ? (
           <ActivityIndicator animating={true} />
@@ -285,6 +279,7 @@ class ProfileScreen extends React.Component<
                   post.assignedUser.id ===
                   this.props.signInState.currentUser?.id
                 }
+                containerStyle={{ marginBottom: 5 }}
               />
             )
           })
@@ -356,13 +351,13 @@ const styles = StyleSheet.create({
     height: WIDTH(130),
     borderRadius: WIDTH(130) / 2,
     position: 'absolute',
-    right: 20,
-    bottom: 0,
+    right: 5,
+    bottom: 5,
   },
   nameContainer: {
     position: 'absolute',
     left: 20,
-    bottom: 0,
+    bottom: 5,
     right: 170,
   },
   gridImage: {

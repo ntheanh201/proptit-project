@@ -229,6 +229,7 @@ export class ItemComment extends Component<ItemCommentProps, ItemCommentState> {
                         editModalVisible: false,
                         editingComment: false,
                       })
+                      this.props.onPressDelete()
                     } else {
                       Alert.alert('Check your Internet connection!')
                     }

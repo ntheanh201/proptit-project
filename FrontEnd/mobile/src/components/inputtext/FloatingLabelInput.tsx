@@ -98,7 +98,7 @@ export class FloatingLabelInput extends React.Component<
       left: 1,
       top: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
-        outputRange: Platform.OS === 'ios' ? [-5, -20] : [20, -10],
+        outputRange: Platform.OS === 'ios' ? [-5, -20] : [10, -10],
       }),
       fontSize: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
@@ -124,6 +124,7 @@ export class FloatingLabelInput extends React.Component<
               : '#aaa',
             fontSize: 18,
             color: textInputColor,
+            paddingBottom: Platform.OS === 'android' ? -5 : 0,
           }}
           defaultValue={value}
           onChangeText={(text) => {
@@ -140,18 +141,19 @@ export class FloatingLabelInput extends React.Component<
           onBlur={this.handleBlur}
           secureTextEntry={isPassword}
           onContentSizeChange={(event) => {
-            const scrollHeight = event.nativeEvent.contentSize.height
-            if (
-              (this.sizeCompanyT && scrollHeight > this.sizeCompanyT) ||
-              scrollHeight < this.sizeCompanyT
-            ) {
-              scrollView &&
-                scrollView.ref!.scrollToPosition(
-                  scrollView.position.x,
-                  scrollView.position.y + (scrollHeight - this.sizeCompanyT),
-                )
-            }
-            this.sizeCompanyT = scrollHeight
+            // const scrollHeight = event.nativeEvent.contentSize.height
+            // if (
+            //   (this.sizeCompanyT && scrollHeight > this.sizeCompanyT) ||
+            //   scrollHeight < this.sizeCompanyT
+            // ) {
+            //   Platform.OS === 'ios' &&
+            //     scrollView &&
+            //     scrollView.ref!.scrollToPosition(
+            //       scrollView.position.x,
+            //       scrollView.position.y + 2 * scrollHeight,
+            //     )
+            // }
+            // this.sizeCompanyT = scrollHeight
           }}
           autoCorrect={false}
         />

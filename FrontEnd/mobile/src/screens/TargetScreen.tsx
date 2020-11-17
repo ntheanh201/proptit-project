@@ -325,12 +325,13 @@ class TargetScreen extends React.Component<
                     style={styles.acceptButton}
                     onPress={async () => {
                       this.changeStatusAfterSave()
-                      // const response = await targetService.update(
-                      //   currentFocusedTarget!,
-                      // )
-                      // if (response === 'success') {
-                      //   this.setState({ infoModalVisible: false })
-                      // }
+                      const response = await targetService.update(
+                        currentFocusedTarget!,
+                      )
+                      if (response === 'success') {
+                        this.getTargets()
+                        this.setState({ infoModalVisible: false })
+                      }
                     }}>
                     <Text style={{ color: 'white' }}>
                       {currentFocusedTarget?.status === 0 ? 'Accept' : 'Save'}
