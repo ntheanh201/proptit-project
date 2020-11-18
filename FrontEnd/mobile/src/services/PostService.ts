@@ -1,6 +1,7 @@
 import BaseService from './BaseService'
 import { Post, Reaction, Comment, ImageFormData, Poll, Newsfeed } from '../core'
 import Axios from 'axios'
+import { Alert } from 'react-native'
 
 class PostService extends BaseService<Post> {
   constructor() {
@@ -16,6 +17,7 @@ class PostService extends BaseService<Post> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         throw err
       })
   }
@@ -25,7 +27,10 @@ class PostService extends BaseService<Post> {
       .then((res) => {
         return res.data
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        Alert.alert('Check your Internet Connection!')
+      })
   }
 
   addPost(
@@ -49,6 +54,7 @@ class PostService extends BaseService<Post> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return null
       })
   }
@@ -64,6 +70,7 @@ class PostService extends BaseService<Post> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }

@@ -2,6 +2,7 @@ import BaseService from './BaseService'
 import { User, SignUpData } from '../core'
 import Axios from 'axios'
 import { BASE_URL } from '../values/env'
+import { Alert } from 'react-native'
 
 class UserService extends BaseService<User> {
   constructor() {
@@ -19,6 +20,7 @@ class UserService extends BaseService<User> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return err
       })
   }

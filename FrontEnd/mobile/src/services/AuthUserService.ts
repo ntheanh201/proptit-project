@@ -1,6 +1,7 @@
 import BaseService from './BaseService'
 import { User, ImageFormData, UserInfo } from '../core'
 import Axios from 'axios'
+import { Alert } from 'react-native'
 
 class AuthUserService extends BaseService<User> {
   constructor() {
@@ -19,6 +20,7 @@ class AuthUserService extends BaseService<User> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         throw err
       })
   }
@@ -31,6 +33,7 @@ class AuthUserService extends BaseService<User> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }

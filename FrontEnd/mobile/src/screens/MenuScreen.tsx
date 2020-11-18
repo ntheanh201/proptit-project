@@ -191,7 +191,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
                       <MaterialCommunityIcons name={'target'} size={20} />
                       <Text style={{ marginLeft: 10 }}>Target</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() => {
                         this.props.navigation.navigate('BonusPoint')
                       }}
@@ -206,7 +206,7 @@ class MenuScreen extends Component<MenuScreenProps, MenuScreenState> {
                         size={20}
                       />
                       <Text style={{ marginLeft: 10 }}>Bonus Point</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </>
                 )}
               </View>

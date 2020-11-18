@@ -58,7 +58,7 @@ export const updateUser = (userState: User, userData: UserInfo) => {
     dispatch({ type: UPDATE_USER_PROGRESS })
     const status = await authUserService.updateUserInfo(userData)
     if (status === 'success') {
-      const newUserData = { ...userState, userData }
+      const newUserData = { ...userState, ...userData }
       await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
       dispatch({ type: UPDATE_USER_SUCCESS, currentUser: newUserData })
     } else {

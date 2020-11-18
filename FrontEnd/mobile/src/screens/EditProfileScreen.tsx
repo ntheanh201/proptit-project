@@ -154,7 +154,7 @@ class EditProfileScreen extends React.Component<
           ref={(ref) => (this.scrollViewRef.ref = ref!)}
           extraScrollHeight={15}>
           <FloatingLabelInput
-            label={'Name'}
+            label={'Display Name'}
             value={currentUser?.displayName}
             containerStyle={styles.textField}
             scrollView={this.scrollViewRef}
@@ -162,7 +162,7 @@ class EditProfileScreen extends React.Component<
               this.setState({ displayName: text })
             }}
           />
-          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+          {/* <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <TouchableOpacity
               style={{
                 flex: 1,
@@ -299,7 +299,7 @@ class EditProfileScreen extends React.Component<
             onTextChange={(text) => {
               this.setState({ facebook: text })
             }}
-          />
+          /> */}
           <FloatingLabelInput
             label={'Description'}
             value={currentUser?.description}

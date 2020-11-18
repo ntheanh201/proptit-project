@@ -5,9 +5,10 @@ export interface Target {
   assignedUser: MiniUser
   name: string
   isDone: boolean
-  point: Point
+  point?: Point
   status: number
   createdTime: Date
+  resultImage?: string
 }
 
 export interface Point {

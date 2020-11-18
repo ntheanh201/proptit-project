@@ -2,6 +2,7 @@ import React from 'react'
 import BaseService from './BaseService'
 import { MiniUser, Reaction } from '../core'
 import Axios from 'axios'
+import { Alert } from 'react-native'
 
 class ReactionService extends BaseService<Reaction> {
   constructor() {
@@ -16,6 +17,7 @@ class ReactionService extends BaseService<Reaction> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return null
       })
   }
@@ -27,6 +29,7 @@ class ReactionService extends BaseService<Reaction> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
       })
   }
 }

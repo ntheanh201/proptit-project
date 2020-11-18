@@ -71,11 +71,11 @@ class SignUpScreen extends React.Component<
 
   validateAll(): boolean {
     const passwordValid = this.validatePassword()
-    const emailValid = this.validateEmail()
+    // const emailValid = this.validateEmail()
     const rePassValid = this.state.password === this.state.rePassword
     const usernameValid = this.state.username.length !== 0
-    this.setState({ passwordValid, emailValid, rePassValid, usernameValid })
-    if (emailValid && rePassValid && passwordValid && usernameValid) {
+    this.setState({ passwordValid, rePassValid, usernameValid })
+    if (rePassValid && passwordValid && usernameValid) {
       return true
     } else {
       return false
@@ -135,7 +135,7 @@ class SignUpScreen extends React.Component<
             <Text style={{ color: 'red' }}>Password mismatch</Text>
           </View>
         )}
-        <FloatingLabelInput
+        {/* <FloatingLabelInput
           label="Email"
           containerStyle={styles.input}
           onTextChange={(text) => {
@@ -149,7 +149,7 @@ class SignUpScreen extends React.Component<
           <View style={{ alignSelf: 'flex-start', marginLeft: 15 }}>
             <Text style={{ color: 'red' }}>This is a required field</Text>
           </View>
-        )}
+        )} */}
         <TouchableOpacity
           style={styles.btnSignUp}
           onPress={async () => {
@@ -158,7 +158,8 @@ class SignUpScreen extends React.Component<
               const data: SignUpData = {
                 username: this.state.username,
                 password: this.state.password,
-                email: this.state.email,
+                email: '',
+                // email: this.state.email,
               }
               await this.props.signUp(data)
               if (this.props.signUpState.success) {

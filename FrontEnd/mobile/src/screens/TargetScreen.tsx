@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { AppState, Point, Target, User } from '../core'
+import { AppState, ImageFormData, Point, Target, User } from '../core'
 import { RootStackParams } from '../navigations/AppNavigator'
 import { pointService, targetService } from '../services'
 import moment from 'moment'
@@ -23,6 +23,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { Picker } from '@react-native-community/picker'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { FloatingLabelInput } from '../components'
+import ImagePicker, { Image as ImageP } from 'react-native-image-crop-picker'
+import { HEIGHT } from '../configs/Function'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 interface TargetScreenProps {
   navigation: StackNavigationProp<RootStackParams>
@@ -34,12 +37,21 @@ interface TargetScreenState {
   targets: Target[]
   infoModalVisible: boolean
   addModalVisible: boolean
-  currentFocusedTarget?: Target
+  currentFocusedTarget: Target
   pointChosing: boolean
   pointList: Point[]
   status: number
   statusChosing: boolean
   newTarget: string
+}
+
+const defaultTarget: Target = {
+  id: 0,
+  assignedUser: { avatar: '', displayName: '', id: 0 },
+  createdTime: new Date(),
+  isDone: false,
+  name: '',
+  status: 0,
 }
 
 class TargetScreen extends React.Component<
@@ -50,6 +62,7 @@ class TargetScreen extends React.Component<
     super(props)
     this.state = {
       targets: [],
+      currentFocusedTarget: defaultTarget,
       infoModalVisible: false,
       addModalVisible: false,
       pointChosing: false,
@@ -101,7 +114,7 @@ class TargetScreen extends React.Component<
     } = this.state
     const { adminMode, userId } = this.props.route.params
     const { currentUser } = this.props
-    const statusList = [0, 1, 2]
+    const statusList = [0, 1, 2, -1]
     return (
       <>
         <ScrollView>
@@ -120,7 +133,7 @@ class TargetScreen extends React.Component<
                   this.setState({ statusChosing: !statusChosing })
                 }}>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text>{this.convertStatus(status).title}</Text>
+                  <Text>{this.convertStatus(status, true).title}</Text>
                   <MaterialIcons name="arrow-drop-down" size={20} />
                 </View>
               </TouchableOpacity>
@@ -129,12 +142,12 @@ class TargetScreen extends React.Component<
                 style={{ width: 130 }}
                 selectedValue={status}
                 onValueChange={(value, index) => {
-                  this.setState({ status: index })
+                  this.setState({ status: index !== 3 ? index : -1 })
                 }}
                 mode="dropdown">
                 {statusList.map((stt) => (
                   <Picker.Item
-                    label={this.convertStatus(stt).title}
+                    label={this.convertStatus(stt, true).title}
                     value={stt}
                   />
                 ))}
@@ -145,11 +158,13 @@ class TargetScreen extends React.Component<
             <Picker
               selectedValue={status}
               onValueChange={(value, index) => {
-                this.setState({ status: index })
+                this.setState({
+                  status: index !== 3 ? index : -1,
+                })
               }}>
               {statusList.map((stt) => (
                 <Picker.Item
-                  label={this.convertStatus(stt).title}
+                  label={this.convertStatus(stt, true).title}
                   value={stt}
                 />
               ))}
@@ -162,7 +177,10 @@ class TargetScreen extends React.Component<
                   style={[
                     styles.cardWrapper,
                     {
-                      borderLeftColor: this.convertStatus(target.status).color,
+                      borderLeftColor: this.convertStatus(
+                        target.status,
+                        target.isDone,
+                      ).color,
                     },
                   ]}
                   onPress={() => {
@@ -191,10 +209,11 @@ class TargetScreen extends React.Component<
                   </View>
                   <Text
                     style={{
-                      color: this.convertStatus(target.status).color,
+                      color: this.convertStatus(target.status, target.isDone)
+                        .color,
                       fontWeight: 'bold',
                     }}>
-                    {this.convertStatus(target.status).title}
+                    {this.convertStatus(target.status, target.isDone).title}
                   </Text>
                   {target.point && (
                     <View style={styles.pointWrapper}>
@@ -225,155 +244,222 @@ class TargetScreen extends React.Component<
           }}
           animationIn={'zoomIn'}
           animationOut={'zoomOut'}>
-          <View style={styles.modalWrapper}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <Text style={styles.title}>{currentFocusedTarget?.name}</Text>
-              {currentFocusedTarget?.point && (
-                <View
+          <View
+            style={[styles.modalWrapper, { padding: 0, overflow: 'hidden' }]}>
+            {currentFocusedTarget.status === 2 && (
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  this.setState({ infoModalVisible: false })
+                  this.props.navigation.navigate('ImageView', {
+                    listImage: [
+                      { id: 0, imgUrl: currentFocusedTarget.resultImage! },
+                    ],
+                  })
+                }}>
+                <Image
+                  source={{ uri: currentFocusedTarget.resultImage }}
                   style={{
-                    borderRadius: 15,
-                    backgroundColor: '#34A853',
-                    padding: 5,
+                    width: '100%',
+                    height: HEIGHT(150),
+                  }}
+                  resizeMode={'cover'}
+                />
+              </TouchableWithoutFeedback>
+            )}
+            <View style={{ padding: 15 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <Text style={styles.title}>{currentFocusedTarget.name}</Text>
+                {currentFocusedTarget.point && (
+                  <View
+                    style={{
+                      borderRadius: 15,
+                      backgroundColor: '#34A853',
+                      padding: 5,
+                    }}>
+                    <Text style={styles.point}>
+                      {currentFocusedTarget.point.score} pts
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <Text style={styles.title}>
+                <Text>Status: </Text>
+                <Text
+                  style={{
+                    color: this.convertStatus(
+                      currentFocusedTarget.status,
+                      currentFocusedTarget.isDone,
+                    ).color,
                   }}>
-                  <Text style={styles.point}>
-                    {currentFocusedTarget?.point.score} pts
-                  </Text>
+                  {
+                    this.convertStatus(
+                      currentFocusedTarget.status,
+                      currentFocusedTarget.isDone,
+                    ).title
+                  }
+                </Text>
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={styles.description}>By: </Text>
+                <Image
+                  source={{ uri: currentFocusedTarget.assignedUser.avatar }}
+                  style={{ width: 20, height: 20 }}
+                />
+                <Text style={[styles.description, { marginLeft: 5 }]}>
+                  {currentFocusedTarget.assignedUser.displayName}
+                </Text>
+              </View>
+              <Text style={styles.description}>
+                {moment(currentFocusedTarget.createdTime)
+                  .format('MMM DD')
+                  .toString()}
+              </Text>
+              {adminMode ? (
+                <>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text>Point: </Text>
+                    <TouchableOpacity
+                      style={{
+                        borderRadius: 10,
+                        padding: 10,
+                        backgroundColor: '#e0e0e0',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingRight: 5,
+                      }}
+                      onPress={() => {
+                        this.setState((prevState) => {
+                          return {
+                            pointChosing: !pointChosing,
+                            currentFocusedTarget: {
+                              ...prevState.currentFocusedTarget,
+                              point: pointList[0],
+                            },
+                          }
+                        })
+                      }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          alignContent: 'center',
+                        }}>
+                        {currentFocusedTarget.point
+                          ? currentFocusedTarget.point.score + ' pts'
+                          : 'null'}
+                      </Text>
+                      <MaterialIcons name="arrow-drop-down" size={20} />
+                    </TouchableOpacity>
+                  </View>
+                  {pointChosing && (
+                    <Picker
+                      selectedValue={JSON.stringify(currentFocusedTarget.point)}
+                      onValueChange={(value, index) => {
+                        const point: Point = JSON.parse(value.toString())
+                        this.setState((prevState) => {
+                          return {
+                            currentFocusedTarget: {
+                              ...prevState.currentFocusedTarget,
+                              point,
+                            },
+                          }
+                        })
+                      }}>
+                      {pointList.map((point) => (
+                        <Picker.Item
+                          label={`${point.score} pts`}
+                          value={JSON.stringify(point)}
+                        />
+                      ))}
+                    </Picker>
+                  )}
+                  {currentFocusedTarget.status !== -1 &&
+                    !currentFocusedTarget.isDone && (
+                      <View style={styles.buttonWrapper}>
+                        <TouchableOpacity
+                          style={styles.acceptButton}
+                          onPress={async () => {
+                            const target = this.changeStatusAfterSave()
+                            if (target.point) {
+                              const response = await targetService.updateTarget(
+                                target,
+                              )
+                              if (response === 'success') {
+                                this.getTargets()
+                                this.setState({ infoModalVisible: false })
+                              }
+                            }
+                          }}>
+                          <Text style={{ color: 'white' }}>
+                            {currentFocusedTarget.status === 0 ||
+                            currentFocusedTarget.status === 2
+                              ? 'Accept'
+                              : 'Save'}
+                          </Text>
+                        </TouchableOpacity>
+                        {!currentFocusedTarget.isDone && (
+                          <TouchableOpacity
+                            style={styles.dangerButton}
+                            onPress={() => {
+                              Alert.alert(
+                                'Reject Target?',
+                                'Do you really want to reject this target?',
+                                [
+                                  {
+                                    text: 'Reject',
+                                    onPress: async () => {
+                                      const target: Target = JSON.parse(
+                                        JSON.stringify(currentFocusedTarget),
+                                      )
+                                      target.status = -1
+                                      const response = await targetService.updateTarget(
+                                        target,
+                                      )
+                                      if (response === 'success') {
+                                        this.getTargets()
+                                        this.setState({
+                                          infoModalVisible: false,
+                                        })
+                                      }
+                                    },
+                                    style: 'destructive',
+                                  },
+                                  {
+                                    text: 'Cancel',
+                                    onPress: () => {},
+                                    style: 'cancel',
+                                  },
+                                ],
+                                { cancelable: false },
+                              )
+                            }}>
+                            <Text style={{ color: 'red' }}>Reject</Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    )}
+                </>
+              ) : (
+                <View style={styles.buttonWrapper}>
+                  {currentFocusedTarget.status === 1 && (
+                    <TouchableOpacity
+                      style={styles.acceptButton}
+                      onPress={this.onPressSendResult}>
+                      <Text style={{ color: 'white' }}>Send Result</Text>
+                    </TouchableOpacity>
+                  )}
+                  {currentFocusedTarget.status !== 2 && (
+                    <TouchableOpacity style={styles.dangerButton}>
+                      <Text style={{ color: 'red' }}>Give up!</Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               )}
             </View>
-            <Text style={styles.title}>
-              <Text>Status: </Text>
-              <Text
-                style={{
-                  color: this.convertStatus(currentFocusedTarget?.status).color,
-                }}>
-                {this.convertStatus(currentFocusedTarget?.status).title}
-              </Text>
-            </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.description}>By: </Text>
-              <Image
-                source={{ uri: currentFocusedTarget?.assignedUser.avatar }}
-                style={{ width: 20, height: 20 }}
-              />
-              <Text style={[styles.description, { marginLeft: 5 }]}>
-                {currentFocusedTarget?.assignedUser.displayName}
-              </Text>
-            </View>
-            <Text style={styles.description}>
-              {moment(currentFocusedTarget?.createdTime)
-                .format('MMM DD')
-                .toString()}
-            </Text>
-            {adminMode ? (
-              <>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text>Point: </Text>
-                  <TouchableOpacity
-                    style={{
-                      borderRadius: 10,
-                      padding: 10,
-                      backgroundColor: '#e0e0e0',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      paddingRight: 5,
-                    }}
-                    onPress={() => {
-                      this.setState({ pointChosing: !pointChosing })
-                    }}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        alignContent: 'center',
-                      }}>
-                      {currentFocusedTarget?.point
-                        ? currentFocusedTarget.point.score + ' pts'
-                        : 'null'}
-                    </Text>
-                    <MaterialIcons name="arrow-drop-down" size={20} />
-                  </TouchableOpacity>
-                </View>
-                {pointChosing && (
-                  <Picker
-                    selectedValue={JSON.stringify(currentFocusedTarget?.point)}
-                    onValueChange={(value, index) => {
-                      const point: Point = JSON.parse(value.toString())
-                      this.setState((prevState) => {
-                        return {
-                          currentFocusedTarget: {
-                            ...prevState.currentFocusedTarget!,
-                            point,
-                          },
-                        }
-                      })
-                    }}>
-                    {pointList.map((point) => (
-                      <Picker.Item
-                        label={`${point.score} pts`}
-                        value={JSON.stringify(point)}
-                      />
-                    ))}
-                  </Picker>
-                )}
-                <View style={styles.buttonWrapper}>
-                  <TouchableOpacity
-                    style={styles.acceptButton}
-                    onPress={async () => {
-                      this.changeStatusAfterSave()
-                      const response = await targetService.update(
-                        currentFocusedTarget!,
-                      )
-                      if (response === 'success') {
-                        this.getTargets()
-                        this.setState({ infoModalVisible: false })
-                      }
-                    }}>
-                    <Text style={{ color: 'white' }}>
-                      {currentFocusedTarget?.status === 0 ? 'Accept' : 'Save'}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.dangerButton}
-                    onPress={() => {
-                      Alert.alert(
-                        'Reject Target?',
-                        'Do you really want to reject this target?',
-                        [
-                          {
-                            text: 'Reject',
-                            onPress: () => {
-                              this.setState({ infoModalVisible: false })
-                            },
-                            style: 'destructive',
-                          },
-                          {
-                            text: 'Cancel',
-                            onPress: () => {},
-                            style: 'cancel',
-                          },
-                        ],
-                        { cancelable: false },
-                      )
-                    }}>
-                    <Text style={{ color: 'red' }}>Reject</Text>
-                  </TouchableOpacity>
-                </View>
-              </>
-            ) : (
-              <View style={styles.buttonWrapper}>
-                <TouchableOpacity style={styles.acceptButton}>
-                  <Text style={{ color: 'white' }}>Send Result</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.dangerButton}>
-                  <Text style={{ color: 'red' }}>Give up!</Text>
-                </TouchableOpacity>
-              </View>
-            )}
           </View>
         </Modal>
         <Modal
@@ -417,20 +503,25 @@ class TargetScreen extends React.Component<
     )
   }
 
-  convertStatus(status?: number): { title: string; color: string } {
+  convertStatus(
+    status: number,
+    isDone: boolean,
+  ): { title: string; color: string } {
     switch (status) {
       case 0:
         return { title: 'Pending', color: '#FBBC05' }
       case 1:
         return { title: 'Doing', color: '#4285F4' }
       case 2:
-        return { title: 'Done', color: '#34A853' }
+        return { title: isDone ? 'Done' : 'Result Sent', color: '#34A853' }
+      case -1:
+        return { title: 'Rejected', color: '#EA4335' }
       default:
         return { title: 'Unknown', color: '#EA4335' }
     }
   }
 
-  changeStatusAfterSave() {
+  changeStatusAfterSave(): Target {
     const { adminMode } = this.props.route.params
     const target: Target = JSON.parse(
       JSON.stringify(this.state.currentFocusedTarget),
@@ -442,21 +533,48 @@ class TargetScreen extends React.Component<
         } else {
           target.status = 1
         }
-        break
+        return target
       case 1:
         if (!adminMode) {
           target.status = 2
         }
-        break
+        return target
       case 2:
         if (adminMode) {
           target.isDone = true
         }
-        break
+        return target
       default:
-        break
+        return target
     }
-    this.setState({ currentFocusedTarget: target })
+  }
+  onPressSendResult = () => {
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      writeTempFile: true,
+      includeExif: true,
+      multiple: false,
+      cropping: true,
+    })
+      .then(async (res) => {
+        const image = res as ImageP
+        const arr = image.path.split('/')
+        const name = arr[arr.length - 1]
+        const imageFormData: ImageFormData = {
+          name,
+          type: image.mime,
+          uri: image.path,
+        }
+        const target = this.changeStatusAfterSave()
+        const response = await targetService.updateTarget(target, imageFormData)
+        if (response === 'success') {
+          this.setState({ infoModalVisible: false })
+          this.getTargets()
+        }
+      })
+      .catch((reason) => {
+        console.log(reason)
+      })
   }
 }
 
@@ -486,7 +604,6 @@ const styles = StyleSheet.create({
   },
   modalWrapper: {
     backgroundColor: 'white',
-    marginHorizontal: 10,
     borderRadius: 15,
     padding: 15,
   },

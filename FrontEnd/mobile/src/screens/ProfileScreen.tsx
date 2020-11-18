@@ -111,7 +111,6 @@ class ProfileScreen extends React.Component<
       this.setState({ user: currentUser, isLoadingUser: false })
     } else {
       const user = await userService.getById(this.props.route.params.userId)
-      console.log('user', user)
       this.setState({ user, isLoadingUser: false, isMyProfile: false })
     }
   }

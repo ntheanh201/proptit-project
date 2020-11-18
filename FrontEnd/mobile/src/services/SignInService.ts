@@ -21,6 +21,7 @@ class SignInService {
       })
       .catch((err) => {
         console.log('ERR ON SIGN IN', err)
+        Alert.alert('Check your Internet Connection!')
         return null
       })
   }
@@ -43,6 +44,7 @@ class SignInService {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return null
       })
   }
@@ -66,6 +68,7 @@ class SignInService {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return null
       })
   }
