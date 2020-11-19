@@ -37,7 +37,7 @@ class TargetService extends BaseService<Target> {
     const data = new FormData()
     data.append('name', target.name)
     data.append('status', target.status)
-    data.append('isDone', target.isDone)
+    data.append('isDone', target.isDone ? 'True' : 'False')
     if (target.point) {
       data.append('point', JSON.stringify(target.point))
     }
@@ -54,6 +54,7 @@ class TargetService extends BaseService<Target> {
       })
       .catch((err) => {
         console.log(err)
+        Alert.alert('Check your Internet Connection!')
         return 'error'
       })
   }
